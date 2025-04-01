@@ -3,165 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Английские звуки</title>
     <style>
-        /* body { 
-            font-family: Arial, sans-serif; 
-            margin: 0; 
-            height: 100vh; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            background-color: #f4f4f4;
-        } */
+ /* Базовые стили */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        body {
-            display: flex;
-            flex-direction: column; /* Расположит заголовок и контейнер в колонку */
-            align-items: center; /* Центрирует оба элемента */
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-        .main-title {
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+.main-title {
+    font-size: 2rem;
+    margin: 20px 0;
+    text-align: center;
+}
 
+.container {
+    max-width: 800px;
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
 
-        .container { 
-            max-width: 600px;
-            width: 90%;
-            padding: 20px;
-            border-radius: 12px;
-            background: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            min-height: 550px;
+.sound {
+    margin: 20px 0;
+    text-align: center;
+}
 
-            display: flex;
-            flex-direction: column; /* Контейнер растягивается, кнопки остаются внизу */
-        }
+.examples-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    flex: 1;
+}
 
-        .content-wrapper {
-            flex-grow: 1; /* Контент растягивается */
-        }
+.example-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
 
+.example-image {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+}
 
+.example-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    background: #90bbe9;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
 
-        
+.example-button:hover {
+    background: #0056b3;
+}
 
-        .sound { 
-            font-size: 1.5em; 
-            margin-bottom: 15px;
-            margin-top: 50px;
-        }
-        .examples-container {
-            display: flex;
-            justify-content: space-around;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: flex-end; /* Выровняет все секции по нижнему краю */
-        }
+.nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
 
-        .example-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end; /* Выровняет элементы по нижнему краю */
-            flex-grow: 1; /* Заставит секции занимать одинаковую высоту */
-        }
+.listen-button {
+    width: 100%;
+    padding: 12px;
+    background: #4fe271;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin: 10px 0;
+}
 
-        .example-image {
-            width: 100%;
-            height: auto;
-            max-width: 150px;
-            border-radius: 15px; /* скругление */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Эффект размытия краев */
-            margin-bottom: 15px;
-        }
+.listen-button:hover {
+    background: #218838;
+}
 
+/* Адаптивность */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 1.5rem;
+    }
+    
+    .container {
+        padding: 15px;
+    }
+    
+    .example-image {
+        max-width: 120px;
+    }
+    
+    .example-button {
+        font-size: 0.9rem;
+    }
+    
+    .sound {
+        margin: 15px 0;
+    }
+}
 
-        .example-button {
-            width: 100%; /* Кнопка займет всю ширину родителя */
-            max-width: 200px; /* Ограничение ширины, как у изображения */
-            padding: 8px;
-            font-size: 1.5em;
-            cursor: pointer;
-            border: none;
-            border-radius: 6px;
-            background: #007BFF;
-            color: white;
-            transition: background 0.3s;
-            text-align: center;
-        }
+@media (max-width: 480px) {
+    .examples-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .example-image {
+        max-width: 100px;
+    }
+    
+    .listen-button {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+    
+    .nav-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .nav-buttons button {
+        width: 100%;
+        padding: 12px;
+    }
+}
 
+/* Текстовые стили */
+.phonetic-bold {
+    font-weight: bold;
+    color: #141516;
+}
 
-        .example-button:hover {
-            background: #0056b3;
-        }
-        .nav-buttons { 
-            display: flex; 
-            justify-content: space-between; 
-            margin-top: auto; /* Прижимает кнопки вниз */
-            margin-top:25px;
-        }
-        .listen-button {
-            flex: 1;
-            padding: 10px;
-            font-size: 1em;
-            cursor: pointer;
-            border: none;
-            border-radius: 6px;
-            background: #28a745;
-            color: white;
-            transition: background 0.3s;
-            margin: 5px;
-            margin-top: 15px;
-            margin-bottom: 50px;
-        }
+.word {
+    font-weight: bold;
+    color: #333;
+}
 
-        .nav-buttons { 
-            display: flex; 
-            justify-content: space-between; 
-            margin-top: auto; /* Прижимает кнопки вниз */
-            margin-top:25px;
-        }
-         
+.transcription {
+    color: #666;
+    font-size: 0.9em;
+}
 
-        .listen-button:hover {
-            background: #218838;
-            
-        }
-
-        .nav-buttons button:hover {
-            background: #303331;
-        }
-
-        .phonetic-bold {
-            font-weight: bold;
-            font-size: 1.4em;
-            
-        }
-
-        .word {
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-
-        .transcription {
-            color: #141516;
-            
-            font-size: 1em;
-        }
-
-        .translation {
-            color: #555;
-            font-size: 0.9em;
-            font-style: italic;
-        }
+.translation {
+    color: #777;
+    font-style: italic;
+    font-size: 0.8em;
+}
         
     </style>
 </head>
@@ -199,17 +215,35 @@
     </div>
     
     <audio id="audioPlayer"></audio>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
+
+        // Добавьте в начало скрипта (после объявления массива sounds)
+        let voicesLoaded = false;
+
+        function initializeVoices() {
+            const voices = speechSynthesis.getVoices();
+            if (voices.length > 0) {
+                voicesLoaded = true;
+            }
+        }
+
+        // Для браузеров с асинхронной загрузкой голосов
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = initializeVoices;
+        } else {
+            initializeVoices();
+        }
+        speechSynthesis.getVoices();
         const sounds = [
 
-        {
+            {
                 soundFile: "b.mp3", 
-                description: "близок русскому звуку [б], но энергичнее,\nс бо́льшим напряжением губ", 
+                description: "близок русскому звуку [б], но энергичнее,\nс бо́льшим напряжением губ ", 
                 phonetic: "буква <span class='phonetic-bold'>«Bb»</span> звук <span class='phonetic-bold'>[b]</span>",
-                example1: "baby", transcription1: "['beɪbɪ]", translation1: "малыш ", image1: "baby.jpg",
+                example1: "baby", transcription3: "['beɪbɪ]", translation1: "малыш ", image1: "baby.jpg",
                 example2: "bag", transcription2: "[bæg]", translation2: "сумка", image2: "bag.jpg",
-                example3: "bike", transcription3: "[baɪk]", translation3: "велосипед", image3: "bike.jpg",
+                example3: "bike", transcription1: "[baɪk]", translation3: "велосипед", image3: "bike.jpg",
             },
             {
                 soundFile: "p.mp3", 
@@ -220,7 +254,25 @@
                 example3: "plate", transcription3: "['pleɪt]", translation3: "тарелка ", image3: "plate.jpg"
             },
        
+
+            {
+                soundFile: "v.mp3", 
+                description: "близок русскому звуку [в], но энергичнее, с бо́льшим напряжением губ", 
+                phonetic: "буква <span class='phonetic-bold'>«Vv»</span> звук <span class='phonetic-bold'>[v]</span>",
+                example1: "visit", transcription1: "[vɪzɪt]", translation1: "визит", image1: "visit.jpg",
+                example2: "van", transcription2: "[væn]", translation2: "вагон", image2: "van.jpg",
+                example3: "vine", transcription3: "['vaɪn]", translation3: "лоза", image3: "vine.jpg"
+            },
             
+            {
+                soundFile: "f.mp3", 
+                description: "близок русскому звуку [ф], но энергичнее, с бо́льшим напряжением губ", 
+                phonetic: "буква <span class='phonetic-bold'>«Ff»</span> звук <span class='phonetic-bold'>[f]</span>",
+                example1: "flat", transcription1: "[flæt]", translation1: "квартира", image1: "flat.jpg",
+                example2: "face", transcription2: "[feɪs]", translation2: "лицо", image2: "face.jpg",
+                example3: "five", transcription3: "['faɪv]", translation3: "5 (пять)  ", image3: "five.jpg"
+            },
+
          
         ];
             
@@ -260,14 +312,50 @@
             const audio = document.getElementById("audioPlayer");
             audio.src = file;
             audio.play();
+     
         }
-        
-        function speak(text) {
-            const utterance = new SpeechSynthesisUtterance(text);
+// //
+
+
+    function speak(text) {
+        if (!text) return;
+
+        // Создаем utterance один раз
+       
+        const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = "en-US";
             utterance.voice = speechSynthesis.getVoices().find(voice => voice.name.includes("Male")) || speechSynthesis.getVoices()[0];
             speechSynthesis.speak(utterance);
+
+        // Функция выбора голоса
+        const selectVoice = () => {
+            const voices = speechSynthesis.getVoices();
+            return voices.find(voice => 
+                voice.lang.startsWith('en-US') && 
+                (voice.name.includes('Male') || voice.name.includes('male'))
+            ) || voices.find(v => v.lang.startsWith('en-US')) || voices[0];
+        };
+
+        // Обработчик готовности голосов
+        const speakWhenReady = () => {
+            const voices = speechSynthesis.getVoices();
+            if (voices.length === 0) {
+                setTimeout(speakWhenReady, 100);
+                return;
+            }
+            utterance.voice = selectVoice();
+            speechSynthesis.speak(utterance);
+        };
+
+        // Запуск процесса
+        if (speechSynthesis.onvoiceschanged !== undefined && 
+            speechSynthesis.getVoices().length === 0) {
+            speechSynthesis.onvoiceschanged = speakWhenReady;
+        } else {
+            speakWhenReady();
         }
+    }
+// //
         
         function prevSound() {
             if (currentIndex > 0) {
