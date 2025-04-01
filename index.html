@@ -317,15 +317,12 @@ body {
 // //
 
 
-    function speak(text) {
+     function speak(text) {
         if (!text) return;
 
         // Создаем utterance один раз
-       
         const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = "en-US";
-            utterance.voice = speechSynthesis.getVoices().find(voice => voice.name.includes("Male")) || speechSynthesis.getVoices()[0];
-            speechSynthesis.speak(utterance);
+        utterance.lang = "en-US";
 
         // Функция выбора голоса
         const selectVoice = () => {
@@ -355,6 +352,7 @@ body {
             speakWhenReady();
         }
     }
+// //
 // //
         
         function prevSound() {
