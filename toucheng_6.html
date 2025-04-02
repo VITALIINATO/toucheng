@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>English Sounds</title>
+    <style>
+ /* Базовые стили */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-title {
+    font-size: 2rem;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.sound {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.examples-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    flex: 1;
+}
+
+.example-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.example-image {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+}
+
+.example-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    background: #3d96f5;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.example-button:hover {
+    background: #0056b3;
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.listen-button {
+    width: 100%;
+    padding: 12px;
+    background: #1acf44;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin: 10px 0;
+    margin-bottom: 30px;
+}
+
+.listen-button:hover {
+    background: #1d8133;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 1.5rem;
+    }
+    
+    .container {
+        padding: 15px;
+    }
+    
+    .example-image {
+        max-width: 120px;
+    }
+    
+    .example-button {
+        font-size: 0.9rem;
+    }
+    
+    .sound {
+        margin: 15px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .examples-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .example-image {
+        max-width: 100px;
+    }
+    
+    .listen-button {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+    
+    .nav-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .nav-buttons button {
+        width: 100%;
+        padding: 12px;
+    }
+}
+
+/* Текстовые стили */
+.phonetic-bold {
+    font-weight: bold;
+    color: #141516;
+    font-size: 2.5em;
+}
+
+.word {
+    font-weight: bold;
+    color: #050505;
+    font-size: 1.5em;
+}
+
+.transcription {
+    color: #fcfafa;
+    font-size: 1.2em;
+}
+
+.translation {
+    color: #777;
+    font-style: italic;
+    font-size: 0.8em;
+}
+        
+    </style>
+</head>
+<body>
+    <h1 class="main-title">english sounds</h1>
+
+    <div class="container">
+        <!-- Секция звука -->
+        <div class="sound">
+            <button class="listen-button" onclick="playSound(sounds[currentIndex].soundFile)" id="listenButton"></button>
+            <div class="description" id="description">описание.</div>            
+        </div>
+        
+        <!-- Примеры слов -->
+        <div class="examples-container">
+            <div class="example-section">
+                <img class="example-image" id="image1" src="" alt="Изображение 1">
+                <button class="example-button" id="wordButton1" onclick="speak(sounds[currentIndex].example1)"></button>
+            </div>
+            <div class="example-section">
+                <img class="example-image" id="image2" src="" alt="Изображение 2">
+                <button class="example-button" id="wordButton2" onclick="speak(sounds[currentIndex].example2)"></button>
+            </div>
+            <div class="example-section">
+                <img class="example-image" id="image3" src="" alt="Изображение 3">
+                <button class="example-button" id="wordButton3" onclick="speak(sounds[currentIndex].example3)"></button>
+            </div>
+        </div>
+
+        <!-- Кнопки для навигации -->
+        <div class="nav-buttons">
+            <button onclick="prevSound()">Назад</button>
+            <button onclick="nextSound()">Вперед</button>
+        </div>
+    </div>
+    
+    <audio id="audioPlayer"></audio>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+
+        // Добавьте в начало скрипта (после объявления массива sounds)
+        let voicesLoaded = false;
+
+        function initializeVoices() {
+            const voices = speechSynthesis.getVoices();
+            if (voices.length > 0) {
+                voicesLoaded = true;
+            }
+        }
+
+        // Для браузеров с асинхронной загрузкой голосов
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = initializeVoices;
+        } else {
+            initializeVoices();
+        }
+        speechSynthesis.getVoices();
+        const sounds = [
+
+            {
+                soundFile: "b.mp3", 
+                description: "близок русскому звуку [б], но энергичнее,\nс бо́льшим напряжением губ ", 
+                phonetic: "буква <span class='phonetic-bold'>«Bb»</span> звук <span class='phonetic-bold'>[b]</span>",
+                example1: "baby", transcription1: "['beɪbɪ]", translation1: "малыш ", image1: "baby.jpg",
+                example2: "bag", transcription2: "[bæg]", translation2: "сумка", image2: "bag.jpg",
+                example3: "bike", transcription3: "[baɪk]", translation3: "велосипед", image3: "bike.jpg",
+            },
+            {
+                soundFile: "p.mp3", 
+                description: "близок русскому звуку [п], но энергичнее и с придыханием (губы сначала смыкаются, а потом резко размыкаются сильной струей воздуха)", 
+                phonetic: "буква <span class='phonetic-bold'>«Pp»</span> звук <span class='phonetic-bold'>[p]</span>",
+                example1: "pen", transcription1: "[pen]", translation1: "ручка", image1: "pen.jpg",
+                example2: "pet", transcription2: "[pet]", translation2: "питомец", image2: "pet.jpg",
+                example3: "plate", transcription3: "['pleɪt]", translation3: "тарелка ", image3: "plate.jpg"
+            },
+       
+
+            {
+                soundFile: "v.mp3", 
+                description: "близок русскому звуку [в], но энергичнее, с бо́льшим напряжением губ", 
+                phonetic: "буква <span class='phonetic-bold'>«Vv»</span> звук <span class='phonetic-bold'>[v]</span>",
+                example1: "visit", transcription1: "[vɪzɪt]", translation1: "визит", image1: "visit.jpg",
+                example2: "van", transcription2: "[væn]", translation2: "вагон", image2: "van.jpg",
+                example3: "vine", transcription3: "['vaɪn]", translation3: "лоза", image3: "vine.jpg"
+            },
+            
+            {
+                soundFile: "f.mp3", 
+                description: "близок русскому звуку [ф], но энергичнее, с бо́льшим напряжением губ", 
+                phonetic: "буква <span class='phonetic-bold'>«Ff»</span> звук <span class='phonetic-bold'>[f]</span>",
+                example1: "flat", transcription1: "[flæt]", translation1: "квартира", image1: "flat.jpg",
+                example2: "face", transcription2: "[feɪs]", translation2: "лицо", image2: "face.jpg",
+                example3: "five", transcription3: "['faɪv]", translation3: "5 (пять)  ", image3: "five.jpg"
+            },
+
+            {
+                soundFile: "m.mp3", 
+                description: "близок русскому звуку [м], но энергичнее, с бо́льшим напряжением губ", 
+                phonetic: "буква <span class='phonetic-bold'>«Mm»</span> звук <span class='phonetic-bold'>[m]</span>",
+                example1: "map", transcription1: "[mæp]", translation1: "карта", image1: "map.jpg",
+                example2: "mum", transcription2: "[mʌm]", translation2: "мама", image2: "mum.jpg",
+                example3: "milk", transcription3: "['mɪlk]", translation3: "молоко", image3: "milk.jpg"
+            },
+// SZ
+            {
+                soundFile: "s.mp3", 
+                description: "близок русскому звуку [с], но более энергично, с бо́льшим напряжением языка", 
+                phonetic: "буква <span class='phonetic-bold'>«Cc»</span> звук <span class='phonetic-bold'>[s]</span>",
+                example1: "cell", transcription1: "[sel]", translation1: "сот", image1: "cell.jpg",
+                example2: "mice", transcription2: "[maɪs]", translation2: "мыши", image2: "mice.jpg",
+                example3: "face", transcription3: "['feɪs]", translation3: "лицо", image3: "face.jpg"
+            },
+
+            {
+                soundFile: "s.mp3", 
+                description: "близок русскому звуку [с], но более энергично, с бо́льшим напряжением языка", 
+                phonetic: "буква <span class='phonetic-bold'>«Ss»</span> звук <span class='phonetic-bold'>[s]</span>",
+                example1: "sand", transcription1: "[sænd]", translation1: "песок", image1: "sand.jpg",
+                example2: "sun", transcription2: "[sʌn]", translation2: "солнце", image2: "sun.jpg",
+                example3: "smile", transcription3: "['smaɪl]", translation3: "улыбка", image3: "smile.jpg"
+            },
+
+            {
+                soundFile: "z.mp3", 
+                description: "близок русскому звуку [з], но более энергично, с бо́льшим напряжением языка", 
+                phonetic: "буква <span class='phonetic-bold'>«Ss»</span> звук <span class='phonetic-bold'>[z]</span>",
+                example1: "nose", transcription1: "[nouz]", translation1: "нос", image1: "nose.jpg",
+                example2: "legs", transcription2: "[legz]", translation2: "ноги", image2: "legs.jpg",
+                example3: "visit", transcription3: "['vɪzɪt]", translation3: "визит", image3: "visit.jpg"
+            },
+
+            {
+                soundFile: "z.mp3", 
+                description: "близок русскому звуку [з], но более энергично, с бо́льшим напряжением языка", 
+                phonetic: "буква <span class='phonetic-bold'>«Zz»</span> звук <span class='phonetic-bold'>[z]</span>",
+                example1: "zip", transcription1: "[zɪp]", translation1: "застежка", image1: "zip.jpg",
+                example2: "zone", transcription2: "[zoun]", translation2: "зона", image2: "zones.jpg",
+                example3: "blaze", transcription3: "['bleɪz]", translation3: "блеск", image3: "blaze.jpg"
+            },
+
+// KG
+            {
+                soundFile: "k.mp3", 
+                description: "близок русскому звуку [к], но более энергично и с придыханием (верхняя часть языка и нёбо смыкаются, а потом резко размыкаются сильной струей воздуха)", 
+                phonetic: "буква <span class='phonetic-bold'>«Kk»</span> звук <span class='phonetic-bold'>[k]</span>",
+                example1: "kiss", transcription1: "[kɪs]", translation1: "поцелуй", image1: "kiss.jpg",
+                example2: "kid", transcription2: "[kɪd]", translation2: "ребенок", image2: "kid.jpg",
+                example3: "kite", transcription3: "['kaɪt]", translation3: "змей", image3: "kite.jpg"
+            },
+
+            {
+                soundFile: "k.mp3", 
+                description: "близок русскому звуку [к], но более энергично и с придыханием (верхняя часть языка и нёбо смыкаются, а потом резко размыкаются сильной струей воздуха)", 
+                phonetic: "буква <span class='phonetic-bold'>«Cc»</span> звук <span class='phonetic-bold'>[k]</span>",
+                example1: "cup", transcription1: "[kʌp]", translation1: "чашка", image1: "cup.jpg",
+                example2: "candy", transcription2: "[kændɪ]", translation2: "конфета", image2: "candy.jpg",
+                example3: "cake", transcription3: "['keɪk]", translation3: "пироженное", image3: "cake.jpg"
+            },
+
+            {
+                soundFile: "g.mp3", 
+                description: "близок русскому звуку [г], но более энергично, с бо́льшим напряжением верхней части языка", 
+                phonetic: "буква <span class='phonetic-bold'>«Gg»</span> звук <span class='phonetic-bold'>[g]</span>",
+                example1: "game", transcription1: "[geɪm]", translation1: "игра", image1: "game.jpg",
+                example2: "gold", transcription2: "[gould]", translation2: "золото", image2: "gold.jpg",
+                example3: "gun", transcription3: "['gʌn]", translation3: "оружие", image3: "gun.jpg"
+            },
+//TDNL
+            {
+                soundFile: "t.mp3", 
+                description: "близок русскому звуку [к], но более энергично и с придыханием (верхняя часть языка и нёбо смыкаются, а потом резко размыкаются сильной струей воздуха)", 
+                phonetic: "буква <span class='phonetic-bold'>«Tt»</span> звук <span class='phonetic-bold'>[t]</span>",
+                example1: "table", transcription1: "[teɪbl]", translation1: "стол", image1: "table.jpg",
+                example2: "tube", transcription2: "[tju:b]", translation2: "труба", image2: "tube.jpg",
+                example3: "top", transcription3: "['tɒp]", translation3: "вершина", image3: "top.jpg"
+            },
+
+
+
+            {
+                soundFile: "d.mp3", 
+                description: "отличается от русского звука [д] тем, что кончик языка приподнят и касается альвеол – бугорков верхнего нёба, расположенных за верхними зубами", 
+                phonetic: "буква <span class='phonetic-bold'>«Dd»</span> звук <span class='phonetic-bold'>[d]</span>",
+                example1: "desk", transcription1: "[desk]", translation1: "доска", image1: "desk.jpg",
+                example2: "dog", transcription2: "[dɒg]", translation2: "собака", image2: "dog.jpg",
+                example3: "dad", transcription3: "['dæd]", translation3: "папа", image3: "dad.jpg"
+            },
+
+            {
+                soundFile: "n.mp3", 
+                description: "отличается от русского звука [н] тем, что кончик языка приподнят и касается альвеол – бугорков верхнего нёба, расположенных за верхними зубами", 
+                phonetic: "буква <span class='phonetic-bold'>«Nn»</span> звук <span class='phonetic-bold'>[n]</span>",
+                example1: "name", transcription1: "[neɪm]", translation1: "имя", image1: "name.jpg",
+                example2: "nest", transcription2: "[nest]", translation2: "гнездо", image2: "nest.jpg",
+                example3: "nine", transcription3: "['naɪn]", translation3: "девять (9)", image3: "nine.jpg"
+            },
+
+            {
+                soundFile: "l.mp3", 
+                description: "отличается от русского звука [л], тем, что кончик языка приподнят и касается альвеол – бугорков верхнего нёба, расположенных за верхними зубами", 
+                phonetic: "буква <span class='phonetic-bold'>«Ll»</span> звук <span class='phonetic-bold'>[l]</span>",
+                example1: "lips", transcription1: "[lɪps]", translation1: "губы", image1: "lips.jpg",
+                example2: "lamp", transcription2: "[læmp]", translation2: "лампа", image2: "lamp.jpg",
+                example3: "lake", transcription3: "['leɪk]", translation3: "озеро", image3: "lake.jpg"
+            },
+
+            
+            //------------------------------------------------ Aa
+            {
+                soundFile: "ei.mp3", 
+                description: "близок русскому звуку [эй]", 
+                phonetic: "буква <span class='phonetic-bold'>«Aa»</span> звук <span class='phonetic-bold'>[eɪ]</span>",
+                example1: "face", transcription1: "[feɪs]", translation1: "лицо ", image1: "face.jpg",
+                example2: "cake", transcription2: "[keɪk]", translation2: "торт", image2: "cake.jpg",
+                example3: "plate", transcription3: "['pleɪt]", translation3: "тарелка", image3: "plate.jpg",
+            },
+
+            {
+                soundFile: "ae.mp3", 
+                description: "длительный звук, средний между [и] и [ы]", 
+                phonetic: "буква <span class='phonetic-bold'>«Aa»</span> звук <span class='phonetic-bold'>[æ]</span>",
+                example1: "map", transcription1: "[mæp]", translation1: "карта ", image1: "map.jpg",
+                example2: "lamp", transcription2: "[læmp]", translation2: "лампа", image2: "lamp.jpg",
+                example3: "bag", transcription3: "['bæg]", translation3: "сумка", image3: "bag.jpg",
+            },
+
+            {//Ee
+                soundFile: "ii.mp3", 
+                description: "длительный звук, средний между [и] и [ы]", 
+                phonetic: "буква <span class='phonetic-bold'>«Ee»</span> звук <span class='phonetic-bold'>[i:]</span>",
+                example1: "be", transcription1: "[bi:]", translation1: "быть ", image1: "be.jpg",
+                example2: "leo", transcription2: "[li:ou]", translation2: "лев", image2: "leo.jpg",
+                example3: "me", transcription3: "['mi:]", translation3: "я", image3: "me.jpg",
+            },
+
+            {// Ee
+                soundFile: "e.mp3", 
+                description: "близок русскому звуку [э], но губы слегка растянуты, кончик языка касается нижних зубов", 
+                phonetic: "буква <span class='phonetic-bold'>«Ee»</span> звук <span class='phonetic-bold'>[e]</span>",
+                example1: "pet", transcription1: "[pet]", translation1: "питомец ", image1: "pet.jpg",
+                example2: "bed", transcription2: "[bed]", translation2: "кровать", image2: "bed.jpg",
+                example3: "pen", transcription3: "[pen]", translation3: "ручка", image3: "pen.jpg",
+            },
+
+             {// Ii
+                soundFile: "ai.mp3", 
+                description: "близок русскому звуку [ай]", 
+                phonetic: "буква <span class='phonetic-bold'>«Ii»</span> звук <span class='phonetic-bold'>[aɪ]</span>",
+                example1: "bike", transcription1: "[baɪk]", translation1: "велосипед ", image1: "bike.jpg",
+                example2: "five", transcription2: "[faɪv]", translation2: "пять (5)", image2: "five.jpg",
+                example3: "smile", transcription3: "['smaɪl]", translation3: "улыбка", image3: "smile.jpg",
+            },
+               {// Ii
+                soundFile: "i.mp3", 
+                description: "краткий, средний между [и] и [ы]", 
+                phonetic: "буква <span class='phonetic-bold'>«Ii»</span> звук <span class='phonetic-bold'>[ɪ]</span>",
+                example1: "milk", transcription1: "[mɪlk]", translation1: "молоко ", image1: "milk.jpg",
+                example2: "lips", transcription2: "[lɪps]", translation2: "губы", image2: "lips.jpg",
+                example3: "kid", transcription3: "['kɪd]", translation3: "ребенок", image3: "kid.jpg",
+            },
+
+             {// Oo
+                soundFile: "ou.mp3", 
+                description: "близок русскому звуку [оу]", 
+                phonetic: "буква <span class='phonetic-bold'>«Oo»</span> звук <span class='phonetic-bold'>[ou]</span>",
+                example1: "note", transcription1: "[nout]", translation1: "нота ", image1: "note.jpg",
+                example2: "nose", transcription2: "[nouz]", translation2: "нос", image2: "nose.jpg",
+                example3: "smoke", transcription3: "[smouk]", translation3: "дым", image3: "smoke.jpg",
+            },
+
+             {// Oo
+                soundFile: "o.mp3", 
+                description: "краткий русский звук [о]", 
+                phonetic: "буква <span class='phonetic-bold'>«Oo»</span> звук <span class='phonetic-bold'>[ɒ]</span>",
+                example1: "dog", transcription1: "[dɒg]", translation1: "пес ", image1: "dog.jpg",
+                example2: "pot", transcription2: "[pɒt]", translation2: "горшок", image2: "pot.jpg",
+                example3: "top", transcription3: "[tɒp]", translation3: "вершина", image3: "top.jpg",
+            },
+
+             {// Uu
+                soundFile: "ju.mp3", 
+                description: "[j] – русский [й],\n[u:] – закрытый долгий звук [у], но губы не вытянуты и не сужены]", 
+                phonetic: "буква <span class='phonetic-bold'>«Uu»</span> звук <span class='phonetic-bold'>[ju:]</span>",
+                example1: "tube", transcription1: "[tju:b]", translation1: "пес ", image1: "tube.jpg",
+                example2: "duty", transcription2: "[dju:tɪ]", translation2: "горшок", image2: "duty.jpg",
+                example3: "music", transcription3: "[mju:zik]", translation3: "вершина", image3: "music.jpg",
+            },
+             {// Uu
+                soundFile: "a.mp3", 
+                description: "очень краткое [а]", 
+                phonetic: "буква <span class='phonetic-bold'>«Uu»</span> звук <span class='phonetic-bold'>[ʌ]</span>",
+                example1: "cup", transcription1: "[kʌp]", translation1: "чашка ", image1: "cup.jpg",
+                example2: "sun", transcription2: "[sʌn]", translation2: "солнце", image2: "sun.jpg",
+                example3: "nut", transcription3: "[nʌt]", translation3: "орех", image3: "nut.jpg",
+            },
+
+             {// Yy
+                soundFile: "ai.mp3", 
+                description: "близок русскому звуку [ай]", 
+                phonetic: "буква <span class='phonetic-bold'>«Uu»</span> звук <span class='phonetic-bold'>[aɪ]</span>",
+                example1: "my", transcription1: "[maɪ]", translation1: "мое ", image1: "my.jpg",
+                example2: "fly", transcription2: "[flaɪ]", translation2: "муха", image2: "fly.jpg",
+                example3: "sky", transcription3: "[skaɪ]", translation3: "небо", image3: "sky.jpg",
+            },
+
+            {// Yy
+                soundFile: "i.mp3", 
+                description: "краткий, средний между [и] и [ы]", 
+                phonetic: "буква <span class='phonetic-bold'>«Yy»</span> звук <span class='phonetic-bold'>[ɪ]</span>",
+                example1: "baby", transcription1: "[beɪbɪ]", translation1: "малыш ", image1: "baby.jpg",
+                example2: "puppy", transcription2: "[pʌpɪ]", translation2: "щенок (5)", image2: "puppy.jpg",
+                example3: "lily", transcription3: "['lɪlɪ]", translation3: "лилия", image3: "lily.jpg",
+            },
+         
+        ];
+            
+        let currentIndex = 0;
+        
+        function updateContent() {
+            document.getElementById("description").innerText = sounds[currentIndex].description;
+
+            // Обновление изображений
+            document.getElementById("image1").src = sounds[currentIndex].image1;
+            document.getElementById("image2").src = sounds[currentIndex].image2;
+            document.getElementById("image3").src = sounds[currentIndex].image3;
+
+            document.getElementById("description").innerHTML = sounds[currentIndex].description.replace(/\n/g, "<br>");
+
+
+
+            // Обновление текста кнопок с примерами слов
+            document.getElementById("wordButton1").innerHTML = `
+                <span class="word">${sounds[currentIndex].example1}</span><br>
+                <span class="transcription">${sounds[currentIndex].transcription1}</span><br>
+                <span class="translation">${sounds[currentIndex].translation1}</span>`;
+            document.getElementById("wordButton2").innerHTML = `
+                <span class="word">${sounds[currentIndex].example2}</span><br>
+                <span class="transcription">${sounds[currentIndex].transcription2}</span><br>
+                <span class="translation">${sounds[currentIndex].translation2}</span>`;
+            document.getElementById("wordButton3").innerHTML = `
+                <span class="word">${sounds[currentIndex].example3}</span><br>
+                <span class="transcription">${sounds[currentIndex].transcription3}</span><br>
+                <span class="translation">${sounds[currentIndex].translation3}</span>`;
+
+            // Обновление текста кнопки прослушивания звука
+            document.getElementById("listenButton").innerHTML = sounds[currentIndex].phonetic;
+        }
+        
+        function playSound(file) {
+            const audio = document.getElementById("audioPlayer");
+            audio.src = file;
+            audio.play();
+     
+        }
+// //
+
+
+function speak(text) {
+    const audio = new Audio(`${text}.mp3`);
+    audio.play().catch(error => console.error("Ошибка воспроизведения:", error));
+}
+
+
+// //
+        
+        function prevSound() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateContent();
+            }
+        }
+        
+        function nextSound() {
+            if (currentIndex < sounds.length - 1) {
+                currentIndex++;
+                updateContent();
+            }
+        }
+        
+        window.speechSynthesis.onvoiceschanged = function() {
+            updateContent();
+        };
+        
+        // Инициализация контента при загрузке страницы
+        updateContent();
+    </script>
+</body>
+</html>
