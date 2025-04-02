@@ -181,12 +181,37 @@ body {
     font-style: italic;
     font-size: 0.8em;
 }
+
+.full-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.nav-item {
+    padding: 10px 15px;
+    background-color: #3d96f5;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 0.9rem;
+}
+
+.nav-item:hover {
+    background-color: #0056b3;
+}
+
+.nav-item.active {
+    background-color: #1acf44;
+}
         
     </style>
 </head>
 <body>
-    <h1 class="main-title">english sounds</h1>
-
+    
     <div class="container">
         <!-- Секция звука -->
         <div class="sound">
@@ -215,6 +240,12 @@ body {
             <button onclick="prevSound()">Назад</button>
             <button onclick="nextSound()">Вперед</button>
         </div>
+
+                <!-- Новая навигация -->
+        <div class="full-nav">
+            <!-- Кнопки будут генерироваться автоматически -->
+        </div>
+
     </div>
     
     <audio id="audioPlayer"></audio>
@@ -564,8 +595,84 @@ function speak(text) {
             updateContent();
         };
         
+        // Функция для создания полной навигации
+function createFullNavigation() {
+    const navContainer = document.querySelector('.full-nav');
+    navContainer.innerHTML = ''; // Очищаем контейнер
+    
+    sounds.forEach((sound, index) => {
+        const button = document.createElement('div');
+        button.classList.add('nav-item');
+        button.textContent = sound.phonetic.match(/\[(.*?)\]/)[1]; // Извлекаем фонетический символ
+        
+        if (index === currentIndex) {
+            button.classList.add('active');
+        }
+        
+        button.addEventListener('click', () => {
+            currentIndex = index;
+            updateContent();
+            updateActiveNav();
+        });
+        
+        navContainer.appendChild(button);
+    });
+}
+
+        // Функция для обновления активного состояния в навигации
+        function updateActiveNav() {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach((item, index) => {
+                if (index === currentIndex) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        
+
+        // При загрузке страницы создаем навигацию
+        window.onload = function() {
+            updateContent();
+            createFullNavigation();
+        };
+
+
         // Инициализация контента при загрузке страницы
-        updateContent();
+        // Обновляем функцию updateContent
+        function updateContent() {
+    // Описание звука
+    document.getElementById("description").innerHTML = sounds[currentIndex].description.replace(/\n/g, "<br>");
+    
+    // Кнопка прослушивания
+    document.getElementById("listenButton").innerHTML = sounds[currentIndex].phonetic;
+    
+    // Первый пример
+    document.getElementById("image1").src = sounds[currentIndex].image1;
+    document.getElementById("wordButton1").innerHTML = `
+        <span class="word">${sounds[currentIndex].example1}</span><br>
+        <span class="transcription">${sounds[currentIndex].transcription1}</span><br>
+        <span class="translation">${sounds[currentIndex].translation1}</span>`;
+    
+    // Второй пример
+    document.getElementById("image2").src = sounds[currentIndex].image2;
+    document.getElementById("wordButton2").innerHTML = `
+        <span class="word">${sounds[currentIndex].example2}</span><br>
+        <span class="transcription">${sounds[currentIndex].transcription2}</span><br>
+        <span class="translation">${sounds[currentIndex].translation2}</span>`;
+    
+    // Третий пример
+    document.getElementById("image3").src = sounds[currentIndex].image3;
+    document.getElementById("wordButton3").innerHTML = `
+        <span class="word">${sounds[currentIndex].example3}</span><br>
+        <span class="transcription">${sounds[currentIndex].transcription3}</span><br>
+        <span class="translation">${sounds[currentIndex].translation3}</span>`;
+    
+    // Обновляем активный элемент навигации
+    updateActiveNav();
+}
     </script>
 </body>
 </html>
