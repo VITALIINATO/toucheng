@@ -95,7 +95,12 @@ body {
 .listen-button:hover {
     background: #1d8133;
 }
-
+@media (max-width: 768px) {
+    .example-image {
+        transform: scale(2); /* Увеличиваем масштаб в 2 раза */
+        transform-origin: center; /* Центрируем масштабирование */
+    }
+}
 /* Адаптивность */
 @media (max-width: 768px) {
     .main-title {
