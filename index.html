@@ -183,11 +183,16 @@ body {
 }
 
 .full-nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    
+    grid-template-columns: repeat(13, 1fr); /* 13 кнопок в первой строке */
+    grid-template-rows: auto auto; /* Две строки */
     gap: 10px;
     margin-top: 20px;
+}
+
+.full-nav .nav-item:nth-child(n+14) {
+    grid-column: span 1; /* Кнопки второй строки */
 }
 
 .nav-item {
@@ -205,7 +210,32 @@ body {
 }
 
 .nav-item.active {
-   background-color: #790596;
+    background-color: #790596;
+}
+
+
+@media (max-width: 1200px) {
+    .full-nav {
+        grid-template-columns: repeat(10, 1fr); /* Меньше кнопок в строке на меньших экранах */
+    }
+}
+
+@media (max-width: 800px) {
+    .full-nav {
+        grid-template-columns: repeat(6, 1fr); /* Еще меньше кнопок */
+    }
+}
+
+@media (max-width: 500px) {
+    .full-nav {
+        grid-template-columns: repeat(4, 1fr); /* Для мобильных устройств */
+    }
+}
+
+.full-nav::after {
+    content: '';
+    display: block;
+    height: 20px; /* Расстояние между строками */
 }
         
     </style>
@@ -353,14 +383,14 @@ body {
             },
 
 // KG
-            {
-                soundFile: "k.mp3", 
-                description: "близок русскому звуку [к], но более энергично и с придыханием (верхняя часть языка и нёбо смыкаются, а потом резко размыкаются сильной струей воздуха)", 
-                phonetic: "буква <span class='phonetic-bold'>«Kk»</span> звук <span class='phonetic-bold'>[k]</span>",
-                example1: "kiss", transcription1: "[kɪs]", translation1: "поцелуй", image1: "kiss.jpg",
-                example2: "kid", transcription2: "[kɪd]", translation2: "ребенок", image2: "kid.jpg",
-                example3: "kite", transcription3: "['kaɪt]", translation3: "змей", image3: "kite.jpg"
-            },
+            // {
+            //     soundFile: "k.mp3", 
+            //     description: "близок русскому звуку [к], но более энергично и с придыханием (верхняя часть языка и нёбо смыкаются, а потом резко размыкаются сильной струей воздуха)", 
+            //     phonetic: "буква <span class='phonetic-bold'>«Kk»</span> звук <span class='phonetic-bold'>[k]</span>",
+            //     example1: "kiss", transcription1: "[kɪs]", translation1: "поцелуй", image1: "kiss.jpg",
+            //     example2: "kid", transcription2: "[kɪd]", translation2: "ребенок", image2: "kid.jpg",
+            //     example3: "kite", transcription3: "['kaɪt]", translation3: "змей", image3: "kite.jpg"
+            // },
 
             {
                 soundFile: "k.mp3", 
@@ -464,7 +494,7 @@ body {
                 example2: "five", transcription2: "[faɪv]", translation2: "пять (5)", image2: "five.jpg",
                 example3: "smile", transcription3: "['smaɪl]", translation3: "улыбка", image3: "smile.jpg",
             },
-
+            
              {// Yy
                 soundFile: "ai.mp3", 
                 description: "близок русскому звуку [ай]", 
@@ -491,7 +521,6 @@ body {
                 example2: "puppy", transcription2: "[pʌpɪ]", translation2: "щенок", image2: "puppy.jpg",
                 example3: "lily", transcription3: "['lɪlɪ]", translation3: "лилия", image3: "lily.jpg",
             },
-              
 
              {// Oo
                 soundFile: "ou.mp3", 
@@ -519,8 +548,6 @@ body {
             //     example2: "duty", transcription2: "[dju:tɪ]", translation2: "долг", image2: "duty.jpg",
             //     example3: "music", transcription3: "[mju:zik]", translation3: "музыка", image3: "music.jpg",
             // },
-
-             
              {// Uu
                 soundFile: "a.mp3", 
                 description: "очень краткое [а]", 
@@ -530,7 +557,7 @@ body {
                 example3: "nut", transcription3: "[nʌt]", translation3: "орех", image3: "nut.jpg",
             },
 
-        
+            
          
         ];
             
@@ -602,14 +629,21 @@ function speak(text) {
         };
         
         // Функция для создания полной навигации
-function createFullNavigation() {
+        function createFullNavigation() {
     const navContainer = document.querySelector('.full-nav');
-    navContainer.innerHTML = ''; // Очищаем контейнер
+    navContainer.innerHTML = '';
     
     sounds.forEach((sound, index) => {
         const button = document.createElement('div');
         button.classList.add('nav-item');
-        button.textContent = sound.phonetic.match(/\[(.*?)\]/)[1]; // Извлекаем фонетический символ
+        
+        // Извлекаем только звук из квадратных скобок
+        const soundSymbolMatch = sound.phonetic.match(/\[(.*?)\]/);
+        if (soundSymbolMatch) {
+            button.textContent = soundSymbolMatch[1];
+        } else {
+            button.textContent = sound.phonetic; // Если не найден символ в []
+        }
         
         if (index === currentIndex) {
             button.classList.add('active');
@@ -624,7 +658,6 @@ function createFullNavigation() {
         navContainer.appendChild(button);
     });
 }
-
         // Функция для обновления активного состояния в навигации
         function updateActiveNav() {
             const navItems = document.querySelectorAll('.nav-item');
