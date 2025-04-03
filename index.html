@@ -165,17 +165,11 @@ body {
     font-style: italic;
     font-size: 0.8em;
 }
-
-
-
-
-        
-
 .full-nav {
     display: grid;
-    grid-template-columns: repeat(13, 1fr); /* Для больших экранов */
-    gap: 10px;
-    margin-top: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); /* Адаптивная сетка */
+    gap: 10px; /* Расстояние между кнопками */
+    margin-top: 20px; /* Отступ сверху */
 }
 
 .nav-item {
@@ -184,9 +178,9 @@ body {
     color: white;
     border-radius: 6px;
     cursor: pointer;
-    transition: background 0.3s;
-    font-size: 0.9rem;
     text-align: center; /* Центрирование текста */
+    font-size: 0.9rem;
+    transition: background 0.3s;
 }
 
 .nav-item:hover {
@@ -234,6 +228,38 @@ body {
     display: block;
     height: 20px; /* Добавляем отступ после последней строки */
 }
+.nav-item:hover {
+    background-color: #9b0e65;
+}
+
+.nav-item.active {
+    background-color: #790596;
+}
+
+
+@media (max-width: 1200px) {
+    .full-nav {
+        grid-template-columns: repeat(10, 1fr); /* Меньше кнопок в строке на меньших экранах */
+    }
+}
+
+@media (max-width: 800px) {
+    .full-nav {
+        grid-template-columns: repeat(6, 1fr); /* Еще меньше кнопок */
+    }
+}
+
+@media (max-width: 500px) {
+    .full-nav {
+        grid-template-columns: repeat(4, 1fr); /* Для мобильных устройств */
+    }
+}
+
+.full-nav::after {
+    content: '';
+    display: block;
+    height: 20px; /* Расстояние между строками */
+}
         
     </style>
 </head>
@@ -279,33 +305,7 @@ body {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Phonetic Sounds</title>
-        <style>
-            .full-nav {
-                display: grid;
-                grid-template-columns: repeat(13, minmax(auto, 1fr));
-                gap: 10px;
-                margin-top: 20px;
-            }
-            .nav-item {
-                padding: 10px 15px;
-                background-color: #f374de;
-                color: white;
-                border-radius: 6px;
-                cursor: pointer;
-                text-align: center;
-            }
-            .nav-item.active {
-                background-color: #790596;
-            }
-            .example-section {
-                text-align: center;
-            }
-            .example-image {
-                width: 100%;
-                height: auto;
-                border-radius: 10px;
-            }
-        </style>
+        
     </head>
     <body>
         <div class="sound">
