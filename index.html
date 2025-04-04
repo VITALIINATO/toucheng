@@ -58,9 +58,9 @@
  ================================ */
  .examples-container {
      display: grid;
-     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
      gap: 20px;
-     flex: 1;
+    
      margin: 10px;
  }
  
@@ -174,20 +174,6 @@
      font-size: 1.2em;
  }
 
- .example-section {
-        
-        display: flex; /* Flexbox для управления расположением */
-        flex-direction: column; /* Элементы располагаются вертикально */
-        align-items: center; /* Центрируем содержимое по центру */
-        justify-content: space-between; /* Распределяем пространство между элементами */
-        height: auto; /* 
-        padding: 0; /* Убираем внутренние отступы */
-        margin: 0; /* Убираем внешние отступы */
-        border-radius: 10px; /* Закругленные углы */
-        background-color: transparent; /* Прозрачный фон */
-        overflow: hidden; /* Обрезаем всё, что выходит за пределы контейнера */
-    }
- 
  
  /* ================================
     Адаптивность
@@ -236,19 +222,10 @@
         </div>
     
         <!-- Примеры с изображениями -->
-        <div class="examples-container">
-            <div class="example-section">
+        <div class="examples-container">            
                 <img class="example-image" id="image1" src="" alt="Изображение 1" onclick="playExampleSound(sounds[currentIndex].example1)">
-                <button id="wordButton1"></button>
-            </div>
-            <div class="example-section">
                 <img class="example-image" id="image2" src="" alt="Изображение 2" onclick="playExampleSound(sounds[currentIndex].example2)">
-                <button id="wordButton2"></button>
-            </div>
-            <div class="example-section">
                 <img class="example-image" id="image3" src="" alt="Изображение 3" onclick="playExampleSound(sounds[currentIndex].example3)">
-                <button id="wordButton3"></button>
-            </div>
         </div>  
        
     
@@ -603,23 +580,9 @@
                 const image1Element = document.getElementById("image1");
                 const image2Element = document.getElementById("image2");
                 const image3Element = document.getElementById("image3");
-                const wordButton1Element = document.getElementById("wordButton1");
-                const wordButton2Element = document.getElementById("wordButton2");
-                const wordButton3Element = document.getElementById("wordButton3");
+              
     
-                if (
-                    !listenButton ||
-                    !image1Element ||
-                    !image2Element ||
-                    !image3Element ||
-                    !wordButton1Element ||
-                    !wordButton2Element ||
-                    !wordButton3Element
-                ) {
-                    console.error("Один или несколько элементов не найдены в DOM!");
-                    return;
-                }
-    
+               
                 listenButton.innerHTML = sounds[currentIndex].phonetic;
                 image1Element.src = sounds[currentIndex].image1 || 'placeholder.jpg';
                 image2Element.src = sounds[currentIndex].image2 || 'placeholder.jpg';
