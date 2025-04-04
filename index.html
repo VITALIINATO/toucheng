@@ -52,13 +52,12 @@
      text-align: center;
      margin: 5px 0;
  }
-        .example-section {
+ .example-section {
     display: flex; /* Используем Flexbox */
     flex-direction: column; /* Элементы располагаются вертикально */
     align-items: center; /* Центрируем по горизонтали */
     justify-content: center; /* Центрируем по вертикали */
 }
- 
  /* ================================
     Примеры и кнопки
  ================================ */
@@ -69,6 +68,8 @@
     
      margin: 10px;
  }
+
+ 
  
  .example-image {
      width: 100%;
@@ -184,38 +185,56 @@
  /* ================================
     Адаптивность
  ================================ */
- @media (max-width: 500px) {
-
+ /* ================================
+    Адаптивность
+ ================================ */
+@media (max-width: 500px) {
     .main-title {
-         font-size: 1.5rem;
-     }
- 
-     .container {
-         padding: 5px;
-     }
-     .full-nav {
-         grid-template-columns: repeat(8, 1fr);
-     }
+        font-size: 1.5rem;
+    }
 
-     .example-image {
-         transform: scale(1.3);
-         transform-origin: center;
-         max-width: 120px;
-         margin: 20px;
-     }
- 
-     .nav-item {
-         font-size: 0.7rem;
-         padding: 6px 10px;
-     }
+    .container {
+        padding: 5px;
+    }
 
-     .full-nav {
-         grid-template-columns: repeat(6, 1fr);
-     }
+    .full-nav {
+        grid-template-columns: repeat(8, 1fr);
+    }
 
-   
+    /* Настройки для контейнера с изображениями */
+    .examples-container {
+        display: flex; /* Меняем на Flexbox */
+        flex-direction: column; /* Элементы располагаются вертикально */
+        align-items: center; /* Центрируем элементы по горизонтали */
+        gap: 20px; /* Расстояние между элементами */
+        margin: 10px;
+    }
+
+    /* Настройки для секции с изображением */
+    .example-section {
+        display: flex; /* Flexbox для управления расположением */
+        flex-direction: column; /* Элементы располагаются вертикально */
+        align-items: center; /* Центрируем содержимое по горизонтали */
+        justify-content: center; /* Центрируем содержимое по вертикали */
+    }
+
+    /* Настройки для изображений */
+    .example-image {
+        transform: scale(1.3);
+        transform-origin: center;
+        max-width: 150px;
+        margin: 20px;
+    }
+
+    .nav-item {
+        font-size: 0.7rem;
+        padding: 6px 10px;
+    }
+
+    .full-nav {
+        grid-template-columns: repeat(6, 1fr);
+    }
 }
- 
 </style> 
 </head>
 <body>
