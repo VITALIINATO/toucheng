@@ -173,6 +173,20 @@
      color: #fcfafa;
      font-size: 1.2em;
  }
+
+ .example-section {
+        
+        display: flex; /* Flexbox для управления расположением */
+        flex-direction: column; /* Элементы располагаются вертикально */
+        align-items: center; /* Центрируем содержимое по центру */
+        justify-content: space-between; /* Распределяем пространство между элементами */
+        height: auto; /* 
+        padding: 0; /* Убираем внутренние отступы */
+        margin: 0; /* Убираем внешние отступы */
+        border-radius: 10px; /* Закругленные углы */
+        background-color: transparent; /* Прозрачный фон */
+        overflow: hidden; /* Обрезаем всё, что выходит за пределы контейнера */
+    }
  
  
  /* ================================
@@ -207,19 +221,7 @@
          grid-template-columns: repeat(6, 1fr);
      }
 
-    .example-section {
-        
-        display: flex; /* Flexbox для управления расположением */
-        flex-direction: column; /* Элементы располагаются вертикально */
-        align-items: center; /* Центрируем содержимое по центру */
-        justify-content: space-between; /* Распределяем пространство между элементами */
-        height: 243px; /* Фиксированная высота, равная высоте изображения */
-        padding: 0; /* Убираем внутренние отступы */
-        margin: 0; /* Убираем внешние отступы */
-        border-radius: 10px; /* Закругленные углы */
-        background-color: transparent; /* Прозрачный фон */
-        overflow: hidden; /* Обрезаем всё, что выходит за пределы контейнера */
-    }
+   
 }
  
 </style> 
