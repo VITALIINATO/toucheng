@@ -36,7 +36,7 @@
  }
  
  .container {
-     max-width: 800px;
+     max-width: 1200px;
      width: 100%;
      background: white;
      border-radius: 12px;
@@ -96,9 +96,9 @@
  ================================ */
  .full-nav {
      display: grid;
-     grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+     grid-template-columns: repeat(13, minmax(50px, 1fr));
      gap: 10px;
-     margin-top: 20px;
+     margin-top: 0px;
      justify-content: center;       /* Центрирует содержимое */
      max-width: 100%;               /* Ограничение по ширине */
  }
@@ -128,6 +128,31 @@
  .nav-item.active {
      background-color: #790596;
  }
+
+
+
+ .nav-buttons {
+    display: flex;
+    justify-content: center;     /* Центрирование кнопок */
+    gap: 20px;                   /* Расстояние между кнопками */
+    margin: 15px 0;
+}
+
+.nav-buttons button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #6c63ff;   /* Фиолетовая кнопка */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.nav-buttons button:hover {
+    background-color: #4b42d1;
+}
+
  
  /* ================================
     Текстовые стили
@@ -181,73 +206,66 @@
      .full-nav {
          grid-template-columns: repeat(6, 1fr);
      }
- }
+
+    .example-section {
+        
+        display: flex; /* Flexbox для управления расположением */
+        flex-direction: column; /* Элементы располагаются вертикально */
+        align-items: center; /* Центрируем содержимое по центру */
+        justify-content: space-between; /* Распределяем пространство между элементами */
+        height: 243px; /* Фиксированная высота, равная высоте изображения */
+        padding: 0; /* Убираем внутренние отступы */
+        margin: 0; /* Убираем внешние отступы */
+        border-radius: 10px; /* Закругленные углы */
+        background-color: transparent; /* Прозрачный фон */
+        overflow: hidden; /* Обрезаем всё, что выходит за пределы контейнера */
+    }
+}
+ 
 </style> 
 </head>
 <body>
     
     <div class="container">
+
         <!-- Секция звука -->
         <div class="sound">
             <button class="listen-button" onclick="playSound(sounds[currentIndex].soundFile)" id="listenButton"></button>
-                     
         </div>
-        
+    
+        <!-- Примеры с изображениями -->
         <div class="examples-container">
             <div class="example-section">
                 <img class="example-image" id="image1" src="" alt="Изображение 1" onclick="playExampleSound(sounds[currentIndex].example1)">
+                <button id="wordButton1"></button>
             </div>
             <div class="example-section">
                 <img class="example-image" id="image2" src="" alt="Изображение 2" onclick="playExampleSound(sounds[currentIndex].example2)">
+                <button id="wordButton2"></button>
             </div>
             <div class="example-section">
                 <img class="example-image" id="image3" src="" alt="Изображение 3" onclick="playExampleSound(sounds[currentIndex].example3)">
+                <button id="wordButton3"></button>
             </div>
-        </div>
-
+        </div>  
+       
+    
         <!-- Кнопки для навигации -->
         <div class="nav-buttons">
             <button onclick="prevSound()">Назад</button>
             <button onclick="nextSound()">Вперед</button>
         </div>
-
-                <!-- Новая навигация -->
+    
+        <!-- Новая навигация -->
         <div class="full-nav">
             <!-- Кнопки будут генерироваться автоматически -->
         </div>
-
+    
     </div>
     
+    <!-- Аудиоплеер -->
     <audio id="audioPlayer"></audio>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Phonetic Sounds</title>
-        
-    </head>
-    <body>
-        <div class="sound">
-            <button id="listenButton"></button>
-        </div>
-        <div class="examples-container">
-            <div class="example-section">
-             
-                <button id="wordButton1"></button>
-            </div>
-            <div class="example-section">
-               
-                <button id="wordButton2"></button>
-            </div>
-            <div class="example-section">
-               
-                <button id="wordButton3"></button>
-            </div>
-        </div>
-        <div class="full-nav"></div>
-        <audio id="audioPlayer"></audio>
+    
     
         <script>
             let voicesLoaded = false;
@@ -612,8 +630,6 @@
                 updateContent();
                 createFullNavigation();
             };
-        </script>
-    </body>
-    </html>
+        </script> 
 </body>
 </html>
