@@ -94,7 +94,7 @@
       { en: "vine", ru: "лоза", threshold: 0.8 },
       { en: "flat", ru: "квартира", threshold: 0.8 },
       { en: "face", ru: "лицо", threshold: 0.8 },
-      { en: "mum", ru: "мама", threshold: 0.5 },
+      { en: "mum", ru: "мама", threshold: 0.3 },
       { en: "milk", ru: "молоко", threshold: 0.8 },
       { en: "sand", ru: "песок", threshold: 0.8 },
       { en: "sun", ru: "солнце", threshold: 0.8 },
@@ -121,8 +121,8 @@
       { en: "lily", ru: "лилия", threshold: 0.8 },
       { en: "note", ru: "нота", threshold: 0.8 },
       { en: "smoke", ru: "дым", threshold: 0.8 },
-      { en: "pot", ru: "горшок", threshold: 0.8 },
-      { en: "nut", ru: "орех", threshold: 0.8 },
+      { en: "pot", ru: "горшок", threshold: 0.5 },
+      { en: "nut", ru: "орех", threshold: 0.5 },
       { en: "cell", ru: "сот", threshold: 0.8 },
       { en: "mice", ru: "мыши", threshold: 0.8 },
       { en: "zip", ru: "застежка", threshold: 0.8 },
@@ -130,9 +130,9 @@
       { en: "blaze", ru: "блеск", threshold: 0.8 },
       { en: "my", ru: "мой", threshold: 0.8 },
       { en: "fly", ru: "муха", threshold: 0.8 },
-      { en: "sky", ru: "небо", threshold: 0.8 }, // Уменьшен порог для "sky"
+      { en: "sky", ru: "небо", threshold: 0.6 }, // Уменьшен порог для "sky"
       { en: "bed", ru: "кровать", threshold: 0.8 },
-      { en: "be", ru: "быть", threshold: 0.7 },
+      { en: "be", ru: "быть", threshold: 0.6 },
     ];
 
     // Функция для перемешивания массива
@@ -232,7 +232,7 @@
         resultElement.style.color = "green";
         score++;
       } else {
-        resultElement.textContent = `Неправильно! Вы сказали: "${spokenWord}". Попробуйте снова.`;
+        resultElement.textContent = `Неправильно! Вы сказали: "${spokenWord}"`;
         resultElement.style.color = "red";
       }
     };
