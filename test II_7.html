@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test 2</title>
+  <style>
+    /* Базовые стили */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      text-align: center;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      min-height: 300px;
+      min-width: 400px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    #word {
+      font-size: 36px;
+      font: bold;
+      font-weight: bold;
+      color: #f34c92;
+    }
+
+    #finalResult {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: green;
+    }
+
+    #attempts {
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="testTitle">Тест на произношение</h1>
+    <p id="instruction">Произнеси слово:</p>
+    <div id="word">Нажми кнопку</div>
+    <div id="attempts">Попыток: 0</div>
+    <button id="actionButton">Начать</button>
+    <div id="result"></div>
+    <div id="finalResult"></div>
+  </div>
+
+  <script>
+    const words = [
+      { en: "plate", ru: "тарелка" },
+      { en: "map", ru: "карта" },
+      { en: "bed", ru: "кровать" },
+      { en: "five", ru: "пять" },
+      { en: "lips", ru: "губы" },
+      { en: "nose", ru: "нос" },
+      { en: "dog", ru: "собака" },
+      { en: "cup", ru: "чашка" }
+    ];
+
+    let currentWordIndex = 0;
+    let score = 0;
+    let attempts = 0; // Счетчик попыток
+    const wordElement = document.getElementById("word");
+    const resultElement = document.getElementById("result");
+    const finalResultElement = document.getElementById("finalResult");
+    const attemptsElement = document.getElementById("attempts"); // Элемент для отображения попыток
+    const actionButton = document.getElementById("actionButton");
+    const testTitle = document.getElementById("testTitle"); // Заголовок "Обратный тест"
+    const instruction = document.getElementById("instruction"); // Подсказка "Произнесите слово:"
+
+    // Создаем глобальный объект распознавания речи
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.continuous = true; // Включаем непрерывный режим
+
+    // Флаг для отслеживания первого запуска
+    let isRecognitionStarted = false;
+
+    // Функция для начала теста
+    function startTest() {
+      if (!isRecognitionStarted) {
+        // Запрашиваем доступ к микрофону только один раз
+        recognition.start();
+        isRecognitionStarted = true;
+      }
+
+      // Сбрасываем состояние
+      currentWordIndex = 0;
+      score = 0;
+      attempts = 0; // Сбрасываем счетчик попыток
+      wordElement.textContent = words[currentWordIndex].ru; // Показываем русский перевод
+      resultElement.textContent = "";
+      finalResultElement.textContent = "";
+      attemptsElement.textContent = `Попыток: ${attempts}`; // Обновляем счетчик попыток
+
+      // Меняем текст и обработчик кнопки
+      actionButton.textContent = "Продолжить";
+      actionButton.onclick = handleNextWord;
+
+      // Показываем все элементы интерфейса
+      testTitle.style.display = "block"; // Показываем заголовок
+      instruction.style.display = "block"; // Показываем подсказку
+      wordElement.style.display = "block";
+      attemptsElement.style.display = "block";
+      actionButton.style.display = "inline-block";
+      resultElement.style.display = "block";
+      finalResultElement.style.display = "none";
+    }
+
+    // Функция для обработки следующего слова
+    function handleNextWord() {
+      if (currentWordIndex < words.length - 1) {
+        currentWordIndex++;
+        wordElement.textContent = words[currentWordIndex].ru; // Показываем русский перевод
+        resultElement.textContent = "";
+        attempts = 0; // Сбрасываем счетчик попыток для нового слова
+        attemptsElement.textContent = `Попыток: ${attempts}`; // Обновляем счетчик попыток
+      } else {
+        showFinalResult();
+      }
+    }
+
+    // Настройка обработчиков событий для распознавания речи
+    recognition.onresult = (event) => {
+      const spokenWord = event.results[event.resultIndex][0].transcript.toLowerCase().trim();
+      const currentWord = words[currentWordIndex].en; // Правильное английское слово
+
+      attempts++; // Увеличиваем счетчик попыток
+      attemptsElement.textContent = `Попыток: ${attempts}`; // Обновляем счетчик попыток на экране
+
+      if (spokenWord === currentWord) {
+        resultElement.textContent = "Правильно!";
+        resultElement.style.color = "green";
+        score++;
+      } else {
+        resultElement.textContent = `Неправильно! Ты произнесла: "${spokenWord}". Попробуйте снова.`;
+        resultElement.style.color = "red";
+      }
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Ошибка распознавания речи:", event.error);
+      resultElement.textContent = "Произошла ошибка. Попробуйте снова.";
+      resultElement.style.color = "red";
+    };
+
+    recognition.onend = () => {
+      console.log("Распознавание завершено.");
+      // Если распознавание завершилось, можно перезапустить его
+      if (isRecognitionStarted && currentWordIndex < words.length) {
+        recognition.start();
+      }
+    };
+
+    // Функция для показа итогового результата
+    function showFinalResult() {
+      // Скрываем все элементы интерфейса, кроме финального результата
+      testTitle.style.display = "none"; // Скрываем заголовок
+      instruction.style.display = "none"; // Скрываем подсказку
+      wordElement.style.display = "none";
+      attemptsElement.style.display = "none";
+      actionButton.style.display = "none";
+      resultElement.style.display = "none";
+
+      // Показываем финальный результат
+      finalResultElement.style.display = "block";
+      wordElement.textContent = "Тест завершен!";
+      finalResultElement.textContent = `Ты правильно произнесла ${score} из ${words.length} слов.`;
+      finalResultElement.style.color = "green";
+
+      // Меняем текст и обработчик кнопки на "Начать заново"
+      actionButton.textContent = "Начать заново";
+      actionButton.onclick = startTest;
+
+      // Показываем кнопку "Начать заново"
+      actionButton.style.display = "inline-block";
+    }
+
+    // Обработчик кнопки "Начать"
+    actionButton.addEventListener("click", () => {
+      if (!isRecognitionStarted) {
+        startTest();
+      }
+    });
+  </script>
+</body>
+</html>
