@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Тест на произношение</title>
   <style>
+    /* Базовые стили */
     body {
       font-family: Arial, sans-serif;
       display: flex;
@@ -81,67 +82,58 @@
   <script src="fuzzyset.js"></script>
   <script>
     const words = [
-      { en: "plate", ru: "тарелка", threshold: 0.8 },
-      { en: "lips", ru: "губы", threshold: 0.8 },
-      { en: "nose", ru: "нос", threshold: 0.8 },
-      { en: "dog", ru: "собака", threshold: 0.8 },
-      { en: "baby", ru: "малыш", threshold: 0.8 },
-      { en: "bag", ru: "сумка", threshold: 0.8 },
-      { en: "bike", ru: "велосипед", threshold: 0.8 },
-      { en: "pen", ru: "ручка", threshold: 0.8 },
-      { en: "visit", ru: "визит", threshold: 0.8 },
-      { en: "van", ru: "вагон", threshold: 0.8 },
-      { en: "vine", ru: "лоза", threshold: 0.8 },
-      { en: "flat", ru: "квартира", threshold: 0.8 },
-      { en: "face", ru: "лицо", threshold: 0.8 },
-      { en: "mum", ru: "мама", threshold: 0.3 },
-      { en: "milk", ru: "молоко", threshold: 0.8 },
-      { en: "sand", ru: "песок", threshold: 0.8 },
-      { en: "sun", ru: "солнце", threshold: 0.8 },
-      { en: "smile", ru: "улыбка", threshold: 0.8 },
-      { en: "legs", ru: "ноги", threshold: 0.8 },
-      { en: "kiss", ru: "поцелуй", threshold: 0.8 },
-      { en: "kid", ru: "ребенок", threshold: 0.8 },
-      { en: "kite", ru: "змей", threshold: 0.8 },
-      { en: "game", ru: "игра", threshold: 0.8 },
-      { en: "gold", ru: "золото", threshold: 0.8 },
-      { en: "gun", ru: "оружие", threshold: 0.8 },
-      { en: "desk", ru: "парта", threshold: 0.8 },
-      { en: "tap", ru: "кран", threshold: 0.8 },
-      { en: "dad", ru: "папа", threshold: 0.8 },
-      { en: "name", ru: "имя", threshold: 0.8 },
-      { en: "nest", ru: "гнездо", threshold: 0.8 },
-      { en: "nine", ru: "9", threshold: 0.8 },
-      { en: "lamp", ru: "лампа", threshold: 0.8 },
-      { en: "lake", ru: "озеро", threshold: 0.8 },
-      { en: "cake", ru: "торт", threshold: 0.8 },
-      { en: "me", ru: "я", threshold: 0.8 },
-      { en: "leo", ru: "лев", threshold: 0.8 },
-      { en: "puppy", ru: "щенок", threshold: 0.8 },
-      { en: "lily", ru: "лилия", threshold: 0.8 },
-      { en: "note", ru: "нота", threshold: 0.8 },
-      { en: "smoke", ru: "дым", threshold: 0.8 },
-      { en: "pot", ru: "горшок", threshold: 0.5 },
-      { en: "nut", ru: "орех", threshold: 0.5 },
-      { en: "cell", ru: "сот", threshold: 0.8 },
-      { en: "mice", ru: "мыши", threshold: 0.8 },
-      { en: "zip", ru: "застежка", threshold: 0.8 },
-      { en: "zone", ru: "зона", threshold: 0.8 },
-      { en: "blaze", ru: "блеск", threshold: 0.8 },
-      { en: "my", ru: "мой", threshold: 0.8 },
-      { en: "fly", ru: "муха", threshold: 0.8 },
-      { en: "sky", ru: "небо", threshold: 0.6 }, // Уменьшен порог для "sky"
-      { en: "bed", ru: "кровать", threshold: 0.8 },
-      { en: "be", ru: "быть", threshold: 0.6 },
+      { en: "plate", ru: "тарелка" },
+      { en: "lips", ru: "губы" },
+      { en: "nose", ru: "нос" },
+      { en: "dog", ru: "собака" },
+      { en: "baby", ru: "малыш" },
+      { en: "bag", ru: "сумка" },
+      { en: "bike", ru: "велосипед" },
+      { en: "pen", ru: "ручка" },
+      { en: "visit", ru: "визит" },
+      { en: "van", ru: "вагон" },
+      { en: "vine", ru: "лоза" },
+      { en: "flat", ru: "квартира" },
+      { en: "face", ru: "лицо" },
+      { en: "mum", ru: "мама" },
+      { en: "milk", ru: "молоко" },
+      { en: "sand", ru: "песок" },
+      { en: "sun", ru: "солнце" },
+      { en: "smile", ru: "улыбка" },
+      { en: "legs", ru: "ноги" },
+      { en: "kiss", ru: "поцелуй" },
+      { en: "kid", ru: "ребенок" },
+      { en: "kite", ru: "змей" },
+      { en: "game", ru: "игра" },
+      { en: "gold", ru: "золото" },
+      { en: "gun", ru: "оружие" },
+      { en: "desk", ru: "парта" },
+      { en: "tap", ru: "кран" },
+      { en: "dad", ru: "папа" },
+      { en: "name", ru: "имя" },
+      { en: "nest", ru: "гнездо" },
+      { en: "nine", ru: "9" },
+      { en: "lamp", ru: "лампа" },
+      { en: "lake", ru: "озеро" },
+      { en: "cake", ru: "торт" },
+      { en: "me", ru: "я" },
+      { en: "leo", ru: "лев" },
+      { en: "puppy", ru: "щенок" },
+      { en: "lily", ru: "лилия" },
+      { en: "note", ru: "нота" },
+      { en: "smoke", ru: "дым" },
+      { en: "pot", ru: "горшок" },
+      { en: "nut", ru: "орех" },
+      { en: "cell", ru: "сот" },
+      { en: "mice", ru: "мыши" },
+      { en: "zip", ru: "застежка" },
+      { en: "zone", ru: "зона" },
+      { en: "blaze", ru: "блеск" },
+      { en: "my", ru: "мой" },
+      { en: "fly", ru: "муха" },
+      { en: "sky", ru: "небо" },
+      { en: "bed", ru: "кровать" },
     ];
-
-    // Функция для перемешивания массива
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1)); // Генерация случайного индекса
-        [array[i], array[j]] = [array[j], array[i]]; // Меняем местами элементы
-      }
-    }
 
     let currentWordIndex = 0;
     let score = 0;
@@ -162,11 +154,8 @@
     // Флаг для отслеживания первого запуска
     let isRecognitionStarted = false;
 
-    // Создаем общий экземпляр FuzzySet
+    // Создаем экземпляр FuzzySet
     const fuzzySet = FuzzySet();
-
-    // Добавляем все слова в FuzzySet при инициализации
-    words.forEach(word => fuzzySet.add(word.en));
 
     // Функция для начала теста
     function startTest() {
@@ -176,32 +165,25 @@
         isRecognitionStarted = true;
       }
 
-      // Создаем копию массива и перемешиваем её
-      const shuffledWords = [...words]; // Копия массива
-      shuffleArray(shuffledWords); // Перемешиваем копию
-
-      // Отладочный вывод: покажем перемешанный массив в консоли
-      console.log("Перемешанные слова:", shuffledWords);
-
       // Сбрасываем состояние
       currentWordIndex = 0;
       score = 0;
       attempts = 0; // Сбрасываем счетчик попыток
-      wordElement.textContent = shuffledWords[currentWordIndex].ru; // Показываем русский перевод
+      wordElement.textContent = words[currentWordIndex].ru; // Показываем русский перевод
       resultElement.textContent = "";
       finalResultElement.textContent = "";
       attemptsElement.textContent = `Попыток: ${attempts}`; // Обновляем счетчик попыток
 
       // Меняем текст и обработчик кнопки
       actionButton.textContent = "Продолжить";
-      actionButton.onclick = () => handleNextWord(shuffledWords);
+      actionButton.onclick = handleNextWord;
     }
 
     // Функция для обработки следующего слова
-    function handleNextWord(shuffledWords) {
-      if (currentWordIndex < shuffledWords.length - 1) {
+    function handleNextWord() {
+      if (currentWordIndex < words.length - 1) {
         currentWordIndex++;
-        wordElement.textContent = shuffledWords[currentWordIndex].ru; // Показываем русский перевод
+        wordElement.textContent = words[currentWordIndex].ru; // Показываем русский перевод
         resultElement.textContent = "";
         attempts = 0; // Сбрасываем счетчик попыток для нового слова
         attemptsElement.textContent = `Попыток: ${attempts}`; // Обновляем счетчик попыток
@@ -212,27 +194,25 @@
 
     // Настройка обработчиков событий для распознавания речи
     recognition.onresult = (event) => {
-      const spokenWord = event.results[event.resultIndex][0].transcript.toLowerCase().trim().replace(/[^a-z]/g, '');
+      const spokenWord = event.results[event.resultIndex][0].transcript.toLowerCase().trim();
       const currentWord = words[currentWordIndex].en; // Правильное английское слово
-      const threshold = words[currentWordIndex].threshold; // Порог для текущего слова
-
-      console.log("Распознанное слово:", `"${spokenWord}"`);
-      console.log("Ожидаемое слово:", `"${currentWord}"`);
 
       attempts++; // Увеличиваем счетчик попыток
       attemptsElement.textContent = `Попыток: ${attempts}`; // Обновляем счетчик попыток на экране
 
+      // Инициализируем FuzzySet с текущим словом
+      fuzzySet.add(currentWord);
+
       // Получаем результаты нечеткого поиска
       const fuzzyResults = fuzzySet.get(spokenWord);
-      console.log("Результаты FuzzySet:", fuzzyResults);
 
-      if (fuzzyResults && fuzzyResults[0] && fuzzyResults[0][0] >= threshold) {
-        // Если совпадение больше или равно заданному порогу
+      if (fuzzyResults && fuzzyResults[0] && fuzzyResults[0][0] >= 0.7) {
+        // Если совпадение больше или равно 80%
         resultElement.textContent = "Правильно!";
         resultElement.style.color = "green";
         score++;
       } else {
-        resultElement.textContent = `Неправильно! Вы сказали: "${spokenWord}"`;
+        resultElement.textContent = `Неправильно! Вы сказали: "${spokenWord}". Попробуйте снова.`;
         resultElement.style.color = "red";
       }
     };
