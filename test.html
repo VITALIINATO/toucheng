@@ -206,7 +206,7 @@ let questions = [
 
 ];
 
-// Перемешиваем массив вопросов
+// Определение функции shuffleArray
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -216,6 +216,15 @@ function shuffleArray(array) {
 
 // Перемешиваем вопросы перед началом теста
 shuffleArray(questions);
+
+// Ограничиваем количество вопросов до 12
+questions = questions.slice(0, 12);
+
+// Перемешиваем вопросы перед началом теста
+shuffleArray(questions);
+
+// Ограничиваем количество вопросов до 12
+questions = questions.slice(0, 12);
 
 let currentQuestionIndex = 0;
 let score = 0;
