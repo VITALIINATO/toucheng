@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test 2</title>
+  <title>Тест на произношение</title>
   <style>
-    /* Базовые стили */
     body {
       font-family: Arial, sans-serif;
       display: flex;
@@ -47,10 +46,9 @@
     }
 
     #word {
-      font-size: 36px;
-      font: bold;
+      font-size: 44px;
       font-weight: bold;
-      color: #f34c92;
+      color: #f710bd;
     }
 
     #finalResult {
@@ -70,70 +68,80 @@
 </head>
 <body>
   <div class="container">
-    <h1 id="testTitle">Тест на произношение</h1>
-    <p id="instruction">Произнеси слово:</p>
-    <div id="word">Нажми кнопку</div>
+    <h1>Тест на произношение</h1>
+    <p>Произнеси слово:</p>
+    <div id="word">Нажмите кнопку</div>
     <div id="attempts">Попыток: 0</div>
     <button id="actionButton">Начать</button>
     <div id="result"></div>
     <div id="finalResult"></div>
   </div>
 
+  <!-- Подключение библиотеки fuzzyset.js -->
+  <script src="fuzzyset.js"></script>
   <script>
     const words = [
- 
-  { en: "bed", ru: "кровать" },
-  { en: "plate", ru: "тарелка" },
-  { en: "lips", ru: "губы" },
-  { en: "nose", ru: "нос" },
-  { en: "dog", ru: "собака" },
-  { en: "baby", ru: "малыш" },
-  { en: "bag", ru: "сумка" },
-  { en: "bike", ru: "велосипед" },
-  { en: "pen", ru: "ручка" },
-  { en: "visit", ru: "визит" },
-  { en: "van", ru: "вагон" },
-  { en: "vine", ru: "лоза" },
-  { en: "flat", ru: "квартира" },
-  { en: "face", ru: "лицо" },
-  { en: "mum", ru: "мама" },
-  { en: "milk", ru: "молоко" },
-  { en: "sand", ru: "песок" },
-  { en: "sun", ru: "солнце" },
-  { en: "smile", ru: "улыбка" },
-  { en: "legs", ru: "ноги" },
-  { en: "kiss", ru: "поцелуй" },
-  { en: "kid", ru: "ребенок" },
-  { en: "kite", ru: "змей" },
-  { en: "game", ru: "игра" },
-  { en: "gold", ru: "золото" },
-  { en: "gun", ru: "оружие" },
-  { en: "desk", ru: "парта" },
-  { en: "tap", ru: "кран" },
-  { en: "dad", ru: "папа" },
-  { en: "name", ru: "имя" },
-  { en: "nest", ru: "гнездо" },
-  { en: "nine", ru: "9" },
-  { en: "lamp", ru: "лампа" },
-  { en: "lake", ru: "озеро" },
-  { en: "cake", ru: "торт" },
-  { en: "me", ru: "я" },
-  { en: "leo", ru: "лев" },
-  { en: "puppy", ru: "щенок" },
-  { en: "lily", ru: "лилия" },
-  { en: "note", ru: "нота" },
-  { en: "smoke", ru: "дым" },
-  { en: "pot", ru: "горшок" },
-  { en: "nut", ru: "орех" },
-  { en: "cell", ru: "сот" },
-  { en: "mice", ru: "мыши" },
-  { en: "zip", ru: "застежка" },
-  { en: "zone", ru: "зона" },
-  { en: "blaze", ru: "блеск" },
-  { en: "my", ru: "мой" },
-  { en: "fly", ru: "муха" },
-  { en: "sky", ru: "небо" }
-];
+      { en: "plate", ru: "тарелка", threshold: 0.8 },
+      { en: "lips", ru: "губы", threshold: 0.8 },
+      { en: "nose", ru: "нос", threshold: 0.8 },
+      { en: "dog", ru: "собака", threshold: 0.8 },
+      { en: "baby", ru: "малыш", threshold: 0.8 },
+      { en: "bag", ru: "сумка", threshold: 0.8 },
+      { en: "bike", ru: "велосипед", threshold: 0.8 },
+      { en: "pen", ru: "ручка", threshold: 0.8 },
+      { en: "visit", ru: "визит", threshold: 0.8 },
+      { en: "van", ru: "вагон", threshold: 0.8 },
+      { en: "vine", ru: "лоза", threshold: 0.8 },
+      { en: "flat", ru: "квартира", threshold: 0.8 },
+      { en: "face", ru: "лицо", threshold: 0.8 },
+      { en: "mum", ru: "мама", threshold: 0.5 },
+      { en: "milk", ru: "молоко", threshold: 0.8 },
+      { en: "sand", ru: "песок", threshold: 0.8 },
+      { en: "sun", ru: "солнце", threshold: 0.8 },
+      { en: "smile", ru: "улыбка", threshold: 0.8 },
+      { en: "legs", ru: "ноги", threshold: 0.8 },
+      { en: "kiss", ru: "поцелуй", threshold: 0.8 },
+      { en: "kid", ru: "ребенок", threshold: 0.8 },
+      { en: "kite", ru: "змей", threshold: 0.8 },
+      { en: "game", ru: "игра", threshold: 0.8 },
+      { en: "gold", ru: "золото", threshold: 0.8 },
+      { en: "gun", ru: "оружие", threshold: 0.8 },
+      { en: "desk", ru: "парта", threshold: 0.8 },
+      { en: "tap", ru: "кран", threshold: 0.8 },
+      { en: "dad", ru: "папа", threshold: 0.8 },
+      { en: "name", ru: "имя", threshold: 0.8 },
+      { en: "nest", ru: "гнездо", threshold: 0.8 },
+      { en: "nine", ru: "9", threshold: 0.8 },
+      { en: "lamp", ru: "лампа", threshold: 0.8 },
+      { en: "lake", ru: "озеро", threshold: 0.8 },
+      { en: "cake", ru: "торт", threshold: 0.8 },
+      { en: "me", ru: "я", threshold: 0.8 },
+      { en: "leo", ru: "лев", threshold: 0.8 },
+      { en: "puppy", ru: "щенок", threshold: 0.8 },
+      { en: "lily", ru: "лилия", threshold: 0.8 },
+      { en: "note", ru: "нота", threshold: 0.8 },
+      { en: "smoke", ru: "дым", threshold: 0.8 },
+      { en: "pot", ru: "горшок", threshold: 0.8 },
+      { en: "nut", ru: "орех", threshold: 0.8 },
+      { en: "cell", ru: "сот", threshold: 0.8 },
+      { en: "mice", ru: "мыши", threshold: 0.8 },
+      { en: "zip", ru: "застежка", threshold: 0.8 },
+      { en: "zone", ru: "зона", threshold: 0.8 },
+      { en: "blaze", ru: "блеск", threshold: 0.8 },
+      { en: "my", ru: "мой", threshold: 0.8 },
+      { en: "fly", ru: "муха", threshold: 0.8 },
+      { en: "sky", ru: "небо", threshold: 0.8 }, // Уменьшен порог для "sky"
+      { en: "bed", ru: "кровать", threshold: 0.8 },
+      { en: "be", ru: "быть", threshold: 0.7 },
+    ];
+
+    // Функция для перемешивания массива
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1)); // Генерация случайного индекса
+        [array[i], array[j]] = [array[j], array[i]]; // Меняем местами элементы
+      }
+    }
 
     let currentWordIndex = 0;
     let score = 0;
@@ -143,18 +151,22 @@
     const finalResultElement = document.getElementById("finalResult");
     const attemptsElement = document.getElementById("attempts"); // Элемент для отображения попыток
     const actionButton = document.getElementById("actionButton");
-    const testTitle = document.getElementById("testTitle"); // Заголовок "Обратный тест"
-    const instruction = document.getElementById("instruction"); // Подсказка "Произнесите слово:"
 
     // Создаем глобальный объект распознавания речи
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = "en-US";
+    recognition.lang = 'en-GB,en-US'; // Поддержка британского и американского английского
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
     recognition.continuous = true; // Включаем непрерывный режим
 
     // Флаг для отслеживания первого запуска
     let isRecognitionStarted = false;
+
+    // Создаем общий экземпляр FuzzySet
+    const fuzzySet = FuzzySet();
+
+    // Добавляем все слова в FuzzySet при инициализации
+    words.forEach(word => fuzzySet.add(word.en));
 
     // Функция для начала теста
     function startTest() {
@@ -164,34 +176,32 @@
         isRecognitionStarted = true;
       }
 
+      // Создаем копию массива и перемешиваем её
+      const shuffledWords = [...words]; // Копия массива
+      shuffleArray(shuffledWords); // Перемешиваем копию
+
+      // Отладочный вывод: покажем перемешанный массив в консоли
+      console.log("Перемешанные слова:", shuffledWords);
+
       // Сбрасываем состояние
       currentWordIndex = 0;
       score = 0;
       attempts = 0; // Сбрасываем счетчик попыток
-      wordElement.textContent = words[currentWordIndex].ru; // Показываем русский перевод
+      wordElement.textContent = shuffledWords[currentWordIndex].ru; // Показываем русский перевод
       resultElement.textContent = "";
       finalResultElement.textContent = "";
       attemptsElement.textContent = `Попыток: ${attempts}`; // Обновляем счетчик попыток
 
       // Меняем текст и обработчик кнопки
       actionButton.textContent = "Продолжить";
-      actionButton.onclick = handleNextWord;
-
-      // Показываем все элементы интерфейса
-      testTitle.style.display = "block"; // Показываем заголовок
-      instruction.style.display = "block"; // Показываем подсказку
-      wordElement.style.display = "block";
-      attemptsElement.style.display = "block";
-      actionButton.style.display = "inline-block";
-      resultElement.style.display = "block";
-      finalResultElement.style.display = "none";
+      actionButton.onclick = () => handleNextWord(shuffledWords);
     }
 
     // Функция для обработки следующего слова
-    function handleNextWord() {
-      if (currentWordIndex < words.length - 1) {
+    function handleNextWord(shuffledWords) {
+      if (currentWordIndex < shuffledWords.length - 1) {
         currentWordIndex++;
-        wordElement.textContent = words[currentWordIndex].ru; // Показываем русский перевод
+        wordElement.textContent = shuffledWords[currentWordIndex].ru; // Показываем русский перевод
         resultElement.textContent = "";
         attempts = 0; // Сбрасываем счетчик попыток для нового слова
         attemptsElement.textContent = `Попыток: ${attempts}`; // Обновляем счетчик попыток
@@ -202,18 +212,27 @@
 
     // Настройка обработчиков событий для распознавания речи
     recognition.onresult = (event) => {
-      const spokenWord = event.results[event.resultIndex][0].transcript.toLowerCase().trim();
+      const spokenWord = event.results[event.resultIndex][0].transcript.toLowerCase().trim().replace(/[^a-z]/g, '');
       const currentWord = words[currentWordIndex].en; // Правильное английское слово
+      const threshold = words[currentWordIndex].threshold; // Порог для текущего слова
+
+      console.log("Распознанное слово:", `"${spokenWord}"`);
+      console.log("Ожидаемое слово:", `"${currentWord}"`);
 
       attempts++; // Увеличиваем счетчик попыток
       attemptsElement.textContent = `Попыток: ${attempts}`; // Обновляем счетчик попыток на экране
 
-      if (spokenWord === currentWord) {
+      // Получаем результаты нечеткого поиска
+      const fuzzyResults = fuzzySet.get(spokenWord);
+      console.log("Результаты FuzzySet:", fuzzyResults);
+
+      if (fuzzyResults && fuzzyResults[0] && fuzzyResults[0][0] >= threshold) {
+        // Если совпадение больше или равно заданному порогу
         resultElement.textContent = "Правильно!";
         resultElement.style.color = "green";
         score++;
       } else {
-        resultElement.textContent = `Неправильно! Ты произнесла: "${spokenWord}". Попробуйте снова.`;
+        resultElement.textContent = `Неправильно! Вы сказали: "${spokenWord}". Попробуйте снова.`;
         resultElement.style.color = "red";
       }
     };
@@ -234,26 +253,14 @@
 
     // Функция для показа итогового результата
     function showFinalResult() {
-      // Скрываем все элементы интерфейса, кроме финального результата
-      testTitle.style.display = "none"; // Скрываем заголовок
-      instruction.style.display = "none"; // Скрываем подсказку
-      wordElement.style.display = "none";
-      attemptsElement.style.display = "none";
-      actionButton.style.display = "none";
-      resultElement.style.display = "none";
-
-      // Показываем финальный результат
-      finalResultElement.style.display = "block";
       wordElement.textContent = "Тест завершен!";
-      finalResultElement.textContent = `Ты правильно произнесла ${score} из ${words.length} слов.`;
+      resultElement.textContent = "";
+      finalResultElement.textContent = `Вы правильно произнесли ${score} из ${words.length} слов.`;
       finalResultElement.style.color = "green";
 
       // Меняем текст и обработчик кнопки на "Начать заново"
       actionButton.textContent = "Начать заново";
       actionButton.onclick = startTest;
-
-      // Показываем кнопку "Начать заново"
-      actionButton.style.display = "inline-block";
     }
 
     // Обработчик кнопки "Начать"
