@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test</title>
+  <title>Слуховой тест</title>
   <style>
     /* Базовые стили */
     body {
@@ -12,12 +12,18 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #f4f4f9;
+      background-image: url('fontest.jpg'); 
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-color: #685962;
+        
     }
 
     .container {
       text-align: center;
-      background: #fff;
+      background: #eea4de;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -72,8 +78,8 @@
 </head>
 <body>
   <div class="container">
-    <h1>Test</h1>
-    <button id="playButton">Слово 1 из 9</button>
+    <h1>Тест на слух</h1>
+    <button id="playButton">Вопрос 1 из 9</button>
     <div class="options">
       <button class="option-btn" data-index="0"></button>
       <button class="option-btn" data-index="1"></button>
@@ -85,13 +91,11 @@
   </div>
   <div id="finalResult" class="hidden"></div>
   <script>
-// Один общий массив options для всех вопросов
-const options = [
-   "быть", "кровать", "тарелка", "карта", "5", "губы", "нос", "собака", "чашка", "малыш", "сумка", "велосипед", "ручка", "собака", "тарелка", "визит", "вагон", "лоза", 
-   "квартира", "лицо", "5", "карта", "мама", "молоко", "песок", "солнце", "улыбка", 
 
-   "ноги", "поцелуй", "ребенок", "змей", "игра", "золото", "оружие", "парта", "кран", "папа", "имя", "гнездо", "9", "лампа", "озеро", "торт", 
-   "я", "лев", "щенок", "лилия", "нота", "дым", "горшок", "чашка", "солнце", "орех", 
+const options = [
+   "быть", "кровать", "тарелка", "губы", "нос", "собака", "малыш", "сумка", "велосипед", "ручка", "визит", "вагон", "лоза", 
+   "квартира", "лицо", "5", "карта", "мама", "молоко", "песок", "солнце", "улыбка", "ноги", "поцелуй", "ребенок", "змей", "игра", "золото", "оружие", "парта", "кран", "папа", "имя", "гнездо", "9", "лампа", "озеро", "торт", 
+   "я", "лев", "щенок", "лилия", "нота", "дым", "горшок", "чашка", "орех", 
 
 ];
 
@@ -100,19 +104,17 @@ let questions = [
     { word: "beT", correct: "быть" },
   { word: "bedT", correct: "кровать" },
   { word: "plateT", correct: "тарелка" },
-  { word: "mapT", correct: "карта" },
-  { word: "fiveT", correct: "5" },
+ 
   { word: "lipsT", correct: "губы" },
   { word: "noseT", correct: "нос" },
   { word: "dogT", correct: "собака" },
-  { word: "cupT", correct: "чашка" },
+
 
   { word: "baby", correct: "малыш" },
   { word: "bag", correct: "сумка" },
   { word: "bike", correct: "велосипед" },
-  { word: "pen", correct: "ручка" },
-  { word: "dog", correct: "собака" },
-  { word: "plate", correct: "тарелка" },
+  { word: "pen", correct: "ручка" },  
+  
   { word: "visit", correct: "визит" },
   { word: "van", correct: "вагон" },
   { word: "vine", correct: "лоза" },
@@ -153,7 +155,6 @@ let questions = [
   { word: "smoke", correct: "дым" },
   { word: "pot", correct: "горшок" },
   { word: "cup", correct: "чашка" },
-  { word: "sun", correct: "солнце" },
   { word: "nut", correct: "орех" },
 
 
