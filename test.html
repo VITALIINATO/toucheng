@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Слуховой тест</title>
+  <style>
+    /* Базовые стили */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f9;
+    }
+
+    .container {
+      text-align: center;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    #finalResult {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: black;
+      background-color: yellow; /* Для отладки */
+      padding: 20px;
+      border: 2px solid red; /* Для отладки */
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #playButton {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .option-btn {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .option-btn.correct {
+      background-color: #28a745;
+    }
+
+    .option-btn.wrong {
+      background-color: #dc3545;
+    }
+
+    #nextButton {
+      background-color: #ffc107;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Тест на слух</h1>
+    <button id="playButton">Вопрос 1 из 9</button>
+    <div class="options">
+      <button class="option-btn" data-index="0"></button>
+      <button class="option-btn" data-index="1"></button>
+      <button class="option-btn" data-index="2"></button>
+      <button class="option-btn" data-index="3"></button>
+    </div>
+    <div id="result"></div>
+    <button id="nextButton" disabled>Далее</button>
+  </div>
+  <div id="finalResult" class="hidden"></div>
+  <script>
+// Один общий массив options для всех вопросов
+const options = [
+  "быть", "кровать", "тарелка", "карта", "5", "губы", "нос", "собака", "чашка"
+];
+
+// Данные для теста
+let questions = [
+  { word: "beT", correct: "быть" },
+  { word: "bedT", correct: "кровать" },
+  { word: "plateT", correct: "тарелка" },
+  { word: "mapT", correct: "карта" },
+  { word: "fiveT", correct: "5" },
+  { word: "lipsT", correct: "губы" },
+  { word: "noseT", correct: "нос" },
+  { word: "dogT", correct: "собака" },
+  { word: "cupT", correct: "чашка" }
+];
+
+// Перемешиваем массив вопросов
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]; // Меняем элементы местами
+  }
+}
+
+// Перемешиваем вопросы перед началом теста
+shuffleArray(questions);
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+const playButton = document.getElementById("playButton");
+const optionButtons = document.querySelectorAll(".option-btn");
+const resultDiv = document.getElementById("result");
+const nextButton = document.getElementById("nextButton");
+const finalResultDiv = document.getElementById("finalResult");
+
+function getRandomOptions(options, correct) {
+  const wrongOptions = options.filter(option => option !== correct);
+  const shuffledWrongOptions = wrongOptions.sort(() => Math.random() - 0.5).slice(0, 3);
+  const selectedOptions = [...shuffledWrongOptions, correct];
+  return selectedOptions.sort(() => Math.random() - 0.5);
+}
+
+function loadQuestion() {
+  const currentQuestion = questions[currentQuestionIndex];
+  const randomOptions = getRandomOptions(options, currentQuestion.correct);
+
+  playButton.textContent = `Вопрос ${currentQuestionIndex + 1} из ${questions.length}`;
+  optionButtons.forEach((btn, index) => {
+    btn.textContent = randomOptions[index];
+    btn.classList.remove("correct", "wrong");
+    btn.disabled = false;
+  });
+  resultDiv.textContent = "";
+  nextButton.disabled = true;
+}
+
+function playAudio(word) {
+  const audio = new Audio(`${word}.mp3`);
+  audio.play();
+}
+
+playButton.addEventListener("click", () => {
+  const currentQuestion = questions[currentQuestionIndex];
+  playAudio(currentQuestion.word);
+});
+
+optionButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const currentQuestion = questions[currentQuestionIndex];
+    const selectedOption = btn.textContent;
+
+    if (selectedOption === currentQuestion.correct) {
+      btn.classList.add("correct");
+      resultDiv.textContent = "Правильно!";
+      score++;
+    } else {
+      btn.classList.add("wrong");
+      resultDiv.textContent = "Неправильно!";
+    }
+
+    optionButtons.forEach((btn) => (btn.disabled = true));
+    nextButton.disabled = false;
+  });
+});
+
+nextButton.addEventListener("click", () => {
+  currentQuestionIndex++;
+
+  if (currentQuestionIndex < questions.length) {
+    loadQuestion();
+  } else {
+    showFinalResult();
+  }
+});
+
+function showFinalResult() {
+  console.log("Показываем итоговый результат...");
+
+  // Скрываем основной контейнер
+  document.querySelector(".container").classList.add("hidden");
+
+  // Показываем блок с итоговым результатом
+  finalResultDiv.classList.remove("hidden");
+  finalResultDiv.textContent = `Тест завершен! Ваш результат: ${score} из ${questions.length}`;
+
+  console.log("Класс 'hidden' убран с #finalResult");
+}
+
+// Загрузка первого вопроса
+loadQuestion();
+  </script>
+</body>
+</html>
