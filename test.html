@@ -27,6 +27,7 @@
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      min-height: 300px;
     }
 
     
@@ -100,7 +101,7 @@ button {
 </head>
 <body>
   <div class="container">
-   <h1>22 звука</h1>
+    <h1>22 звука</h1>
     <button id="playButton">Word 1 из 9</button>
     <div class="options">
       <button class="option-btn" data-index="0"></button>
@@ -109,76 +110,77 @@ button {
       <button class="option-btn" data-index="3"></button>
     </div>
    
-    <div id="result"></div>
+    
     <button id="nextButton" disabled>Далее</button>
+    <div id="result"></div>
   </div>
   <div id="finalResult" class="hidden"></div>
   <script>
 
 const options = [
-    "сот", "мыши", "застежка", "зона", "блеск", "мой", "муха", "небо", 
+   "быть", "кровать", "тарелка", "губы", "нос", "собака", "малыш", "сумка", "велосипед", "ручка", "визит", "вагон", "лоза", 
+   "квартира", "лицо", "5", "карта", "мама", "молоко", "песок", "солнце", "улыбка", "ноги", "поцелуй", "ребенок", "змей", "игра", "золото", "оружие", "парта", "кран", "папа", "имя", "гнездо", "9", "лампа", "озеро", "торт", 
+   "я", "лев", "щенок", "лилия", "нота", "дым", "горшок", "чашка", "орех", "сот", "мыши", "застежка", "зона", "блеск", "мой", "муха", "небо", 
 
 ];
-// "быть", "кровать", "тарелка", "губы", "нос", "собака", "малыш", "сумка", "велосипед", "ручка", "визит", "вагон", "лоза", 
-//    "квартира", "лицо", "5", "карта", "мама", "молоко", "песок", "солнце", "улыбка", "ноги", "поцелуй", "ребенок", "змей", "игра", "золото", "оружие", "парта", "кран", "папа", "имя", "гнездо", "9", "лампа", "озеро", "торт", 
-//    "я", "лев", "щенок", "лилия", "нота", "дым", "горшок", "чашка", "орех",
+
 // Данные для теста
 let questions = [
-  //   { word: "beT", correct: "быть" },
-  // { word: "bedT", correct: "кровать" },
-  // { word: "plateT", correct: "тарелка" },
+    { word: "beT", correct: "быть" },
+  { word: "bedT", correct: "кровать" },
+  { word: "plateT", correct: "тарелка" },
  
-  // { word: "lipsT", correct: "губы" },
-  // { word: "noseT", correct: "нос" },
-  // { word: "dogT", correct: "собака" },
+  { word: "lipsT", correct: "губы" },
+  { word: "noseT", correct: "нос" },
+  { word: "dogT", correct: "собака" },
 
 
-  // { word: "baby", correct: "малыш" },
-  // { word: "bag", correct: "сумка" },
-  // { word: "bike", correct: "велосипед" },
-  // { word: "pen", correct: "ручка" },  
+  { word: "baby", correct: "малыш" },
+  { word: "bag", correct: "сумка" },
+  { word: "bike", correct: "велосипед" },
+  { word: "pen", correct: "ручка" },  
   
-  // { word: "visit", correct: "визит" },
-  // { word: "van", correct: "вагон" },
-  // { word: "vine", correct: "лоза" },
+  { word: "visit", correct: "визит" },
+  { word: "van", correct: "вагон" },
+  { word: "vine", correct: "лоза" },
   
-  // { word: "flat", correct: "квартира" },
-  // { word: "face", correct: "лицо" },
-  // { word: "five", correct: "5" },
-  // { word: "map", correct: "карта" },
-  // { word: "mum", correct: "мама" },
-  // { word: "milk", correct: "молоко" },
-  // { word: "sand", correct: "песок" },
-  // { word: "sun", correct: "солнце" },
-  // { word: "smile", correct: "улыбка" },
+  { word: "flat", correct: "квартира" },
+  { word: "face", correct: "лицо" },
+  { word: "five", correct: "5" },
+  { word: "map", correct: "карта" },
+  { word: "mum", correct: "мама" },
+  { word: "milk", correct: "молоко" },
+  { word: "sand", correct: "песок" },
+  { word: "sun", correct: "солнце" },
+  { word: "smile", correct: "улыбка" },
 
-  // { word: "legs", correct: "ноги" },
-  // { word: "kiss", correct: "поцелуй" },
-  // { word: "kid", correct: "ребенок" },
-  // { word: "kite", correct: "змей" },
-  // { word: "game", correct: "игра" },
-  // { word: "gold", correct: "золото" },
-  // { word: "gun", correct: "оружие" },
-  // { word: "desk", correct: "парта" },
-  // { word: "tap", correct: "кран" },
+  { word: "legs", correct: "ноги" },
+  { word: "kiss", correct: "поцелуй" },
+  { word: "kid", correct: "ребенок" },
+  { word: "kite", correct: "змей" },
+  { word: "game", correct: "игра" },
+  { word: "gold", correct: "золото" },
+  { word: "gun", correct: "оружие" },
+  { word: "desk", correct: "парта" },
+  { word: "tap", correct: "кран" },
 
-  // { word: "dad", correct: "папа" },
-  // { word: "name", correct: "имя" },
-  // { word: "nest", correct: "гнездо" },
-  // { word: "nine", correct: "9" },
-  // { word: "lamp", correct: "лампа" },
-  // { word: "lake", correct: "озеро" },
-  // { word: "cake", correct: "торт" },
-  // { word: "me", correct: "я" },
-  // { word: "leo", correct: "лев" },
+  { word: "dad", correct: "папа" },
+  { word: "name", correct: "имя" },
+  { word: "nest", correct: "гнездо" },
+  { word: "nine", correct: "9" },
+  { word: "lamp", correct: "лампа" },
+  { word: "lake", correct: "озеро" },
+  { word: "cake", correct: "торт" },
+  { word: "me", correct: "я" },
+  { word: "leo", correct: "лев" },
 
-  // { word: "puppy", correct: "щенок" },
-  // { word: "lily", correct: "лилия" },
-  // { word: "note", correct: "нота" },
-  // { word: "smoke", correct: "дым" },
-  // { word: "pot", correct: "горшок" },
-  // { word: "cup", correct: "чашка" },
-  // { word: "nut", correct: "орех" },
+  { word: "puppy", correct: "щенок" },
+  { word: "lily", correct: "лилия" },
+  { word: "note", correct: "нота" },
+  { word: "smoke", correct: "дым" },
+  { word: "pot", correct: "горшок" },
+  { word: "cup", correct: "чашка" },
+  { word: "nut", correct: "орех" },
 
   { word: "cell", correct: "сот" },
   { word: "mice", correct: "мыши" },
