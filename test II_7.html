@@ -94,50 +94,52 @@
       { en: "van", ru: "вагон" },
       { en: "vine", ru: "лоза" },
       { en: "flat", ru: "квартира" },
-    //   { en: "face", ru: "лицо" },
-    //   { en: "mum", ru: "мама" },
-    //   { en: "milk", ru: "молоко" },
-    //   { en: "sand", ru: "песок" },
-    //   { en: "sun", ru: "солнце" },
-    //   { en: "smile", ru: "улыбка" },
-    //   { en: "legs", ru: "ноги" },
-    //   { en: "kiss", ru: "поцелуй" },
-    //   { en: "kid", ru: "ребенок" },
-    //   { en: "kite", ru: "змей" },
-    //   { en: "game", ru: "игра" },
-    //   { en: "gold", ru: "золото" },
-    //   { en: "gun", ru: "оружие" },
-    //   { en: "desk", ru: "парта" },
-    //   { en: "tap", ru: "кран" },
-    //   { en: "dad", ru: "папа" },
-    //   { en: "name", ru: "имя" },
-    //   { en: "nest", ru: "гнездо" },
-    //   { en: "nine", ru: "9" },
-    //   { en: "lamp", ru: "лампа" },
-    //   { en: "lake", ru: "озеро" },
-    //   { en: "cake", ru: "торт" },
-    //   { en: "me", ru: "я" },
-    //   { en: "leo", ru: "лев" },
-    //   { en: "puppy", ru: "щенок" },
-    //   { en: "lily", ru: "лилия" },
-    //   { en: "note", ru: "нота" },
-    //   { en: "smoke", ru: "дым" },
-    //   { en: "pot", ru: "горшок" },
-    //   { en: "nut", ru: "орех" },
-    //   { en: "cell", ru: "сот" },
-    //   { en: "mice", ru: "мыши" },
-    //   { en: "zip", ru: "застежка" },
-    //   { en: "zone", ru: "зона" },
-    //   { en: "blaze", ru: "блеск" },
-    //   { en: "my", ru: "мой" },
-    //   { en: "fly", ru: "муха" },
-    //   { en: "sky", ru: "небо" },
-    //   { en: "bed", ru: "кровать" },
-    // ];
+      { en: "face", ru: "лицо" },
+      { en: "mum", ru: "мама" },
+      { en: "milk", ru: "молоко" },
+      { en: "sand", ru: "песок" },
+      { en: "sun", ru: "солнце" },
+      { en: "smile", ru: "улыбка" },
+      { en: "legs", ru: "ноги" },
+      { en: "kiss", ru: "поцелуй" },
+      { en: "kid", ru: "ребенок" },
+      { en: "kite", ru: "змей" },
+      { en: "game", ru: "игра" },
+      { en: "gold", ru: "золото" },
+      { en: "gun", ru: "оружие" },
+      { en: "desk", ru: "парта" },
+      { en: "tap", ru: "кран" },
+      { en: "dad", ru: "папа" },
+      { en: "name", ru: "имя" },
+      { en: "nest", ru: "гнездо" },
+      { en: "nine", ru: "9" },
+      { en: "lamp", ru: "лампа" },
+      { en: "lake", ru: "озеро" },
+      { en: "cake", ru: "торт" },
+      { en: "me", ru: "я" },
+      { en: "leo", ru: "лев" },
+      { en: "puppy", ru: "щенок" },
+      { en: "lily", ru: "лилия" },
+      { en: "note", ru: "нота" },
+      { en: "smoke", ru: "дым" },
+      { en: "pot", ru: "горшок" },
+      { en: "nut", ru: "орех" },
+      { en: "cell", ru: "сот" },
+      { en: "mice", ru: "мыши" },
+      { en: "zip", ru: "застежка" },
+      { en: "zone", ru: "зона" },
+      { en: "blaze", ru: "блеск" },
+      { en: "my", ru: "мой" },
+      { en: "fly", ru: "муха" },
+      { en: "sky", ru: "небо" },
+      { en: "bed", ru: "кровать" },
+    ];
 
     let currentWordIndex = 0;
     let score = 0;
     let attempts = 0; // Счетчик попыток
+    let testWords = []; // Массив для хранения выбранных слов
+
     const wordElement = document.getElementById("word");
     const resultElement = document.getElementById("result");
     const finalResultElement = document.getElementById("finalResult");
@@ -157,6 +159,12 @@
     // Создаем экземпляр FuzzySet
     const fuzzySet = FuzzySet();
 
+    // Функция для выбора 12 случайных слов
+    function getRandomWords() {
+      const shuffledWords = [...words].sort(() => Math.random() - 0.5); // Перемешиваем массив
+      return shuffledWords.slice(0, 12); // Берем первые 12 слов
+    }
+
     // Функция для начала теста
     function startTest() {
       if (!isRecognitionStarted) {
@@ -165,11 +173,14 @@
         isRecognitionStarted = true;
       }
 
+      // Выбираем 12 случайных слов
+      testWords = getRandomWords();
+
       // Сбрасываем состояние
       currentWordIndex = 0;
       score = 0;
       attempts = 0; // Сбрасываем счетчик попыток
-      wordElement.textContent = words[currentWordIndex].ru; // Показываем русский перевод
+      wordElement.textContent = testWords[currentWordIndex].ru; // Показываем русский перевод
       resultElement.textContent = "";
       finalResultElement.textContent = "";
       attemptsElement.textContent = `Попыток: ${attempts}`; // Обновляем счетчик попыток
@@ -181,9 +192,9 @@
 
     // Функция для обработки следующего слова
     function handleNextWord() {
-      if (currentWordIndex < words.length - 1) {
+      if (currentWordIndex < testWords.length - 1) {
         currentWordIndex++;
-        wordElement.textContent = words[currentWordIndex].ru; // Показываем русский перевод
+        wordElement.textContent = testWords[currentWordIndex].ru; // Показываем русский перевод
         resultElement.textContent = "";
         attempts = 0; // Сбрасываем счетчик попыток для нового слова
         attemptsElement.textContent = `Попыток: ${attempts}`; // Обновляем счетчик попыток
@@ -195,7 +206,7 @@
     // Настройка обработчиков событий для распознавания речи
     recognition.onresult = (event) => {
       const spokenWord = event.results[event.resultIndex][0].transcript.toLowerCase().trim();
-      const currentWord = words[currentWordIndex].en; // Правильное английское слово
+      const currentWord = testWords[currentWordIndex].en; // Правильное английское слово
 
       attempts++; // Увеличиваем счетчик попыток
       attemptsElement.textContent = `Попыток: ${attempts}`; // Обновляем счетчик попыток на экране
@@ -207,7 +218,7 @@
       const fuzzyResults = fuzzySet.get(spokenWord);
 
       if (fuzzyResults && fuzzyResults[0] && fuzzyResults[0][0] >= 0.7) {
-        // Если совпадение больше или равно 80%
+        // Если совпадение больше или равно 70%
         resultElement.textContent = "Правильно!";
         resultElement.style.color = "green";
         score++;
@@ -226,7 +237,7 @@
     recognition.onend = () => {
       console.log("Распознавание завершено.");
       // Если распознавание завершилось, можно перезапустить его
-      if (isRecognitionStarted && currentWordIndex < words.length) {
+      if (isRecognitionStarted && currentWordIndex < testWords.length) {
         recognition.start();
       }
     };
@@ -235,7 +246,7 @@
     function showFinalResult() {
       wordElement.textContent = "Тест завершен!";
       resultElement.textContent = "";
-      finalResultElement.textContent = `Вы правильно произнесли ${score} из ${words.length} слов.`;
+      finalResultElement.textContent = `Вы правильно произнесли ${score} из ${testWords.length} слов.`;
       finalResultElement.style.color = "green";
 
       // Меняем текст и обработчик кнопки на "Начать заново"
