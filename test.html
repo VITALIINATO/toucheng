@@ -29,57 +29,78 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    .hidden {
-      display: none !important;
-    }
+    
 
-    #finalResult {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-      color: black;
-      background-color: yellow; /* Для отладки */
-      padding: 20px;
-      border: 2px solid red; /* Для отладки */
-    }
 
-    button {
-      padding: 10px 20px;
-      margin: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
 
-    #playButton {
-      background-color: #007bff;
-      color: white;
-    }
 
-    .option-btn {
-      background-color: #28a745;
-      color: white;
-    }
 
-    .option-btn.correct {
-      background-color: #28a745;
-    }
+.hidden {
+  display: none !important;
+}
 
-    .option-btn.wrong {
-      background-color: #dc3545;
-    }
+#finalResult {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  background-color: yellow; /* Для отладки */
+  padding: 20px;
+  border: 2px solid red; /* Для отладки */
+  border-radius: 10px;
+}
 
-    #nextButton {
-      background-color: #ffc107;
-      color: black;
-    }
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#playButton {
+  background-color: #007bff;
+  color: white;
+}
+#playButton:hover {
+  background-color: #0864c7;
+
+}
+
+.option-btn {
+  background-color: #28a745;
+  color: white;
+  transition: all 0.3s ease; /* Плавный переход для эффектов */
+}
+
+.option-btn:hover {
+  background-color: #218838; /* Темно-зеленый при наведении */
+  transform: scale(1.05); /* Небольшое увеличение кнопки */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Тень для эффекта "выпуклости" */
+}
+
+.option-btn.correct {
+  background-color: #28a745;
+}
+
+.option-btn.wrong {
+  background-color: #dc3545;
+}
+
+#nextButton {
+  background-color: #ffc107;
+  color: black;
+}
+#nextButton:hover {
+    background-color: #c99a02;
+}
+
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Sound test</h1>
-      <button id="playButton">Word 1 из 9</button>
    
     <div class="options">
       <button class="option-btn" data-index="0"></button>
@@ -87,7 +108,7 @@
       <button class="option-btn" data-index="2"></button>
       <button class="option-btn" data-index="3"></button>
     </div>
-   
+    <button id="playButton">Word 1 из 9</button>
     <div id="result"></div>
     <button id="nextButton" disabled>Далее</button>
   </div>
