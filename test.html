@@ -191,7 +191,7 @@ function loadQuestion() {
   const currentQuestion = questions[currentQuestionIndex];
   const randomOptions = getRandomOptions(options, currentQuestion.correct);
 
-  playButton.textContent = `Вопрос ${currentQuestionIndex + 1} из ${questions.length}`;
+  playButton.textContent = `Слово ${currentQuestionIndex + 1} из ${questions.length}`;
   optionButtons.forEach((btn, index) => {
     btn.textContent = randomOptions[index];
     btn.classList.remove("correct", "wrong");
