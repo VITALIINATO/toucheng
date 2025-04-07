@@ -23,14 +23,12 @@
 
         .container {
             text-align: center;
-           /*  background-color: rgba(255, 255, 255, 0.2); Полупрозрачный фон для текста */
             padding: 30px;
-            /* border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);*/
         }
 
         h1 {
             font-size: 3rem;
+            text-decoration: underline;
             margin-bottom: 20px;
             color: #f6f7f6;
         }
@@ -45,35 +43,83 @@
             margin: 20px 0;
         }
 
+        /* Общий стиль для всех ссылок */
         a {
             text-decoration: none;
-            color: #030303;
-            font-size: 50px;
+            font-size: 2rem;
             font-weight: bold;
             transition: color 0.3s, transform 0.2s;
-            font-size: 2rem;
         }
 
-        a:hover {
-            color: #0056b3;
+        /* Стиль для первой ссылки (Звуки-1) */
+        a.sound {
+            color: #050505; /* Оранжевый цвет */
+            background-color: #14bb05;
+            border-radius: 10px;
+            padding: 10px 20px;
+        }
+
+        a.sound:hover {
+            color: #252523; /* Ярко-оранжевый при наведении */
+            transform: scale(1.1);
+        }
+
+        /* Стиль для второй ссылки (Слушать) */
+        a.listen {
+            color: #33ff57; /* Зеленый цвет */
+        }
+
+        a.listen:hover {
+            color: #1cff9f; /* Ярко-зеленый при наведении */
+            transform: scale(1.1);
+        }
+
+        /* Стиль для третьей ссылки (Произносить) */
+        a.speak {
+            color: #3357ff; /* Синий цвет */
+        }
+
+        a.speak:hover {
+            color: #9f1cff; /* Фиолетовый при наведении */
+            transform: scale(1.1);
+        }
+
+        /* Стиль для четвертой ссылки (Читать) */
+        a.read {
+            color: #ff33a6; /* Розовый цвет */
+            color: #050505; /* Оранжевый цвет */
+            background-color: #14bb05;
+            border-radius: 10px;
+            padding: 10px 20px;
+        }
+
+        a.read:hover {
+            color: #252523; /* Ярко-оранжевый при наведении */
+            transform: scale(1.1);
+        }
+
+        /* Стиль для пятой ссылки (Писать) */
+        a.write {
+            color: #33fff6; /* Голубой цвет */
+        }
+
+        a.write:hover {
+            color: #9ffff6; /* Светло-голубой при наведении */
             transform: scale(1.1);
         }
     </style>
 </head>
 <body>
     <div class="container">
-       
-      
-            <h1><href="1part.html">ЧАСТЬ-1</h1>
-            <ul>
-<!--             <li><a href="9words.html">9 слов</a></li> -->
-             <li><a href="1part.html">Звуки-1</a></li>
-             <li><a href="test.html">Слушать</a></li>
-              <li><a href="test II_7.html">Произносить</a></li>
-               <li></li>
-            <li><a href="Letters_4.html">Читать</a></li>
-            <li><a href="write.html">Писать</a></li>
-           
+        <h1>ЧАСТЬ 1.</h1>
+        <ul>
+            <li><a href="1part.html" class="sound">Тема: ЗВУКИ</a></li>
+            <li><a href="test.html" class="listen">Тест на Слух</a></li>
+            <li><a href="test II_7.html" class="speak">Тест на Произношение</a></li>
+
+            <li><a href="Letters_4.html" class="read">Тема: ЧТЕНИЕ</a></li>
+            <li><a href="write.html" class="write">Тест на Написание</a></li>
+            <li><a href="read.html" class="write">Тест на Чтение</a></li>
         </ul>
     </div>
 </body>
