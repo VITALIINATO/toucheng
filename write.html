@@ -164,7 +164,7 @@
 
     // Показ текущего слова с порядковым номером
     function showCurrentWord() {
-      wordNumberElement.textContent = `Слово ${currentWordIndex + 1} из ${words.length}:`;
+      wordNumberElement.textContent = `${currentWordIndex + 1} из ${words.length}:`;
       wordTextElement.textContent = russianWords[currentWordIndex];
       userInput.value = "";
       userInput.focus();
