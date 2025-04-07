@@ -13,11 +13,18 @@
       height: 100vh;
       background-color: #f0f0f0;
       margin: 0;
+      background-image: url('writefon.jpg'); 
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-color: #685962;
+       
     }
 
     .container {
       text-align: center;
-      background: #fff;
+      background: #07f1e6;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -54,9 +61,9 @@
     }
 
     .word-text {
-      font-size: 40px;
+      font-size: 44px;
       font-weight: bold;
-      color: #cc06a1;
+      color: #d30495;
       margin: 10px 0;
     }
 
@@ -89,8 +96,12 @@
 </head>
 <body>
   <div class="container">
-   
-    <div id="testContent">
+
+    
+    <!-- Кнопка старта -->
+    <button id="startButton" class="start-btn">Let's GO</button>
+
+    <div id="testContent" class="hidden">
       <div id="word">
         <div class="word-number"></div>
         <div class="word-text"></div>
@@ -98,17 +109,18 @@
       <input type="text" id="userInput" placeholder="Введите слово на английском" />
       <div class="buttons">
         <button id="submitButton">Подтвердить</button>
-        <button id="continueButton" class="hidden">Продолжить</button>
+        <button id="continueButton">Продолжить</button>
       </div>
       <div id="result"></div>
     </div>
+    
     <div id="finalResult" class="hidden"></div>
   </div>
 
   <script>
     // Исходные данные (12 пар слов)
     const wordPairs = [
-      { eng: "plate", rus: "тарелка" },
+    { eng: "plate", rus: "тарелка" },
       { eng: "face", rus: "лицо" },
       { eng: "game", rus: "игра" },
       { eng: "cake", rus: "торт" },
@@ -128,18 +140,16 @@
       { eng: "desk", rus: "стол" },
       { eng: "nest", rus: "гнездо" },
 
-      { eng: "be", rus: "ручка" },
-      { eng: "leo", rus: "питомец" },
-      { eng: "me", rus: "сот" },
-      { eng: "Steve", rus: "нони" },
-      { eng: "meme", rus: "стол" },
-     
-
+      { eng: "be", rus: "быть" },
+      { eng: "leo", rus: "Лев" },
+      { eng: "me", rus: "я, мне" },
+      { eng: "Steve", rus: "Стив" },
+      { eng: "meme", rus: "мэм" },
     ];
 
     // Перемешиваем массив
     wordPairs.sort(() => Math.random() - 0.5);
-    const words = wordPairs.map(pair => pair.eng);
+    const words = wordPairs.map(pair => pair.eng.trim().toLowerCase());
     const russianWords = wordPairs.map(pair => pair.rus);
 
     let currentWordIndex = 0;
@@ -152,40 +162,41 @@
     const submitButton = document.getElementById("submitButton");
     const continueButton = document.getElementById("continueButton");
     const userInput = document.getElementById("userInput");
+    const startButton = document.getElementById("startButton");
 
     // Инициализация теста
     function startTest() {
+      testContent.classList.remove("hidden");
+      startButton.classList.add("hidden");
       showCurrentWord();
       resultElement.textContent = "";
       finalResultElement.classList.add("hidden");
-      testContent.style.display = "block";
       userInput.focus();
     }
 
     // Показ текущего слова с порядковым номером
     function showCurrentWord() {
-      wordNumberElement.textContent = `${currentWordIndex + 1} из ${words.length}:`;
+      wordNumberElement.textContent = `${currentWordIndex + 1} из ${words.length}`;
       wordTextElement.textContent = russianWords[currentWordIndex];
       userInput.value = "";
       userInput.focus();
+      resultElement.textContent = "";
     }
 
     // Проверка ответа
     function checkAnswer() {
       const userAnswer = userInput.value.trim().toLowerCase();
       const correctAnswer = words[currentWordIndex];
-
+      
       if (userAnswer === correctAnswer) {
         resultElement.textContent = "Правильно!";
         resultElement.style.color = "green";
         score++;
-        continueButton.classList.remove("hidden"); // Показываем кнопку продолжения
       } else {
         resultElement.textContent = "Неправильно!";
         resultElement.style.color = "red";
       }
 
-      // Очистка поля ввода
       userInput.value = "";
       userInput.focus();
     }
@@ -195,8 +206,6 @@
       currentWordIndex++;
       if (currentWordIndex < words.length) {
         showCurrentWord();
-        resultElement.textContent = "";
-        continueButton.classList.add("hidden"); // Скрываем кнопку продолжения
       } else {
         showFinalResult();
       }
@@ -204,28 +213,22 @@
 
     // Показ итогового результата
     function showFinalResult() {
-      testContent.style.display = "none";
+      testContent.classList.add("hidden");
       finalResultElement.textContent = `Результат: ${score}/${words.length} правильных ответов`;
       finalResultElement.classList.remove("hidden");
     }
 
     // Обработчики событий
+    startButton.addEventListener("click", startTest);
     submitButton.addEventListener("click", checkAnswer);
     continueButton.addEventListener("click", nextWord);
     
     userInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
-        if (!continueButton.classList.contains("hidden")) {
-          nextWord();
-        } else {
-          checkAnswer();
-        }
+        checkAnswer();
       }
     });
-
-    // Запуск теста при загрузке
-    startTest();
   </script>
 </body>
 </html>
