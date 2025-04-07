@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Sounds</title>
+    <style>
+        /* Базовые стили */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1300px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 0 auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .sound {
+            display: flex; /* Используем flexbox */
+            align-items: center; /* Выравниваем элементы по вертикали */
+            justify-content: center; /* Выравниваем элементы по горизонтали */
+            gap: 10px; /* Расстояние между кнопками */
+            margin-bottom: 20px; /* Отступ снизу */
+        }
+
+        .alphabet-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px; /* Расстояние между словом и символом */
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffee00;
+            color: rgb(7, 7, 7);
+            text-align: center;
+            width: 150px;
+            height: 70px;
+        }
+
+.alphabet-label {
+    font-size: 20px; /* Размер шрифта для слова "буква" */
+    font-weight: normal; /* Обычный шрифт */
+    color: #080808; /* Цвет текста */
+}
+
+.alphabet-symbol {
+    font-size: 40px; /* Размер шрифта для символа "Bb" */
+    font-weight: bold; /* Жирный шрифт */
+    color: #020202; /* Цвет текста */
+}
+.alphabet-button:hover {
+    background-color: #a3a106;
+}
+
+.transcription-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px; /* Расстояние между словом и символом */
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #0abd0a;
+    color: white;
+    text-align: center;
+    width: 150px;
+    height: 70px;
+}
+.transcription-button:hover {
+    background-color: #2c8005;
+}
+
+.transcription-label {
+    font-size: 20px; /* Размер шрифта для слова "транскрипция" */
+    font-weight: normal; /* Обычный шрифт */
+    color: #f0f0f0; /* Цвет текста */
+}
+
+.transcription-symbol {
+    font-size: 40px; /* Размер шрифта для символа транскрипции */
+    font-weight: bold; /* Жирный шрифт */
+    color: #ffffff; /* Цвет текста */
+}  
+        .examples-container {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(150px, 1fr));
+            gap: 15px;
+            flex: 1;
+            max-height: 400px;
+        }
+        .example-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            
+        }
+        .example-image {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+
+        .example-button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            background: #97a8bb;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-align: center; /* Выравнивание текста по центру */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Центрирование текста внутри кнопки */
+            
+        }
+
+.word {
+    font-weight: bold;
+    color: #080808; /* Белый цвет для слова */
+    font-size: 1.7em; /* Размер шрифта для слова */
+    margin-bottom: 4px; /* Отступ между строками */
+}
+
+.transcription {
+    color: #fcfafa; /* Светлый серый цвет для транскрипции */
+    font-size: 1.5em; /* Размер шрифта для транскрипции */
+    margin-bottom: 5px; /* Отступ между строками */
+}
+
+.translation {
+    color: #3b2c2c; /* Серый цвет для перевода */
+    font-style: italic; /* Курсив для перевода */
+    font-size: 0.9em; /* Размер шрифта для перевода */
+}
+
+
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .full-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .nav-item {
+     padding: 10px 15px;
+     background-color: #f374de;
+     color: white;
+     border-radius: 6px;
+     cursor: pointer;
+     text-align: center;
+     font-size: 0.9rem;
+     transition: background 0.3s;
+     justify-self: center;          /* Центрирует каждую кнопку */
+ }
+ 
+ .nav-item:hover {
+     background-color: #9b0e65;
+ }
+ 
+ .nav-item.active {
+     background-color: #790596;
+ }
+
+
+
+ .nav-buttons {
+    display: flex;
+    justify-content: center;     /* Центрирование кнопок */
+    gap: 180px;                   /* Расстояние между кнопками */
+    margin: 10px 0;
+}
+
+.nav-buttons button {
+    padding: 10px 10px;
+    font-size: 0.9rem;
+    background-color: #696e69;   /* Фиолетовая кнопка */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.nav-buttons button:hover {
+    background-color: #4b42d1;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Секция звука -->
+        <div class="sound">
+            <!-- Кнопка для воспроизведения звука буквы -->
+            <button class="alphabet-button" onclick="playAlphabetSound(sounds[currentIndex].alphabetSoundFile)" id="alphabetButton"></button>
+            
+            <!-- Кнопка для воспроизведения звука транскрипции -->
+            <button class="transcription-button" onclick="playSound(sounds[currentIndex].soundFile)" id="transcriptionButton"></button>
+            
+                
+        </div>
+        <!-- Примеры слов -->
+        <div class="examples-container">
+            <div class="example-section">
+                <img class="example-image" id="image1" src="" alt="Изображение 1">
+                <button class="example-button" id="wordButton1" onclick="speak(sounds[currentIndex].example1)">
+                    <span class="word">${sounds[currentIndex].example1}</span><br>
+                    <span class="transcription">${sounds[currentIndex].transcription1}</span><br>
+                    <span class="translation">${sounds[currentIndex].translation1}</span>
+                </button>
+            </div>
+            <div class="example-section">
+                <img class="example-image" id="image2" src="" alt="Изображение 2">
+                <button class="example-button" id="wordButton2" onclick="speak(sounds[currentIndex].example2)">
+                    <span class="word">${sounds[currentIndex].example2}</span><br>
+                    <span class="transcription">${sounds[currentIndex].transcription2}</span><br>
+                    <span class="translation">${sounds[currentIndex].translation2}</span>
+                </button>
+            </div>
+            <div class="example-section">
+                <img class="example-image" id="image3" src="" alt="Изображение 3">
+                <button class="example-button" id="wordButton3" onclick="speak(sounds[currentIndex].example3)">
+                    <span class="word">${sounds[currentIndex].example3}</span><br>
+                    <span class="transcription">${sounds[currentIndex].transcription3}</span><br>
+                    <span class="translation">${sounds[currentIndex].translation3}</span>
+                </button>
+            </div>
+            <div class="example-section">
+                <img class="example-image" id="image4" src="" alt="Изображение 4">
+                <button class="example-button" id="wordButton4" onclick="speak(sounds[currentIndex].example4)">
+                    <span class="word">${sounds[currentIndex].example4}</span><br>
+                    <span class="transcription">${sounds[currentIndex].transcription4}</span><br>
+                    <span class="translation">${sounds[currentIndex].translation4}</span>
+                </button>
+            </div>
+            <div class="example-section">
+                <img class="example-image" id="image5" src="" alt="Изображение 5">
+                <button class="example-button" id="wordButton5" onclick="speak(sounds[currentIndex].example5)">
+                    <span class="word">${sounds[currentIndex].example5}</span><br>
+                    <span class="transcription">${sounds[currentIndex].transcription5}</span><br>
+                    <span class="translation">${sounds[currentIndex].translation5}</span>
+                </button>
+            </div>
+            <div class="example-section">
+                <img class="example-image" id="image6" src="" alt="Изображение 6">
+                <button class="example-button" id="wordButton6" onclick="speak(sounds[currentIndex].example6)">
+                    <span class="word">${sounds[currentIndex].example6}</span><br>
+                    <span class="transcription">${sounds[currentIndex].transcription6}</span><br>
+                    <span class="translation">${sounds[currentIndex].translation6}</span>
+                </button>
+            </div>
+        </div>
+        <!-- Кнопки для навигации -->
+        <div class="nav-buttons">
+            <button onclick="prevSound()">Назад</button>
+            <button onclick="nextSound()">Вперед</button>
+        </div>
+        <!-- Новая навигация -->
+        <div class="full-nav" id="fullNav"></div>
+    </div>
+    <audio id="audioPlayer"></audio>
+    <script>
+        // Данные
+        const sounds = [
+            {
+                soundFile: "ei.mp3", 
+                alphabetSoundFile: "A-a.mp3", // Файл для алфавита
+             
+                alphabetButton: "Aa ", // Название буквы
+                transcriptionButton: "[eɪ]", // Транскрипция
+                example1: "lake", transcription1: "[leɪk]", translation1: "озеро", image1: "lake.jpg",
+                example2: "game", transcription2: "[geɪm]", translation2: "игра", image2: "game.jpg",
+                example3: "bike", transcription3: "[baɪk]", translation3: "велосипед", image3: "bike.jpg",
+                example4: "face", transcription4: "[feɪs]", translation4: "лицо ", image4: "face.jpg",
+                example5: "cake", transcription5: "[keɪk]", translation5: "торт", image5: "cake.jpg",
+                example6: "plate", transcription6: "[pleɪt]", translation6: "тарелка", image6: "plate.jpg",
+            },
+            {
+                soundFile: "ae.mp3", 
+                alphabetSoundFile: "A-a.mp3", // Файл для алфавита
+              
+                alphabetButton: "Aa", // Название буквы
+                transcriptionButton: "[æ]", // Транскрипция
+                example1: "dad", transcription1: "[dæd]", translation1: "папа", image1: "dad.jpg",
+                example2: "lamp", transcription2: "[læmp]", translation2: "лампа", image2: "lamp.jpg",
+                example3: "map", transcription3: "[mæp]", translation3: "карта", image3: "map.jpg",
+                example4: "sand", transcription4: "[sænd]", translation4: "песок", image4: "sand.jpg",
+                example5: "flat", transcription5: "[flæt]", translation5: "квартира", image5: "flat.jpg",
+                example6: "bag", transcription6: "[bæg]", translation6: "сумка", image6: "bag.jpg",
+            },
+
+            {
+                soundFile: "ii.mp3", 
+                alphabetSoundFile: "E-e.mp3", // Файл для алфавита
+             
+                alphabetButton: "Ee ", // Название буквы
+                transcriptionButton: "[e]", // Транскрипция
+                example1: "cell", transcription1: "['sel]", translation1: "сот", image1: "cell.jpg",
+                example2: "pen", transcription2: "[pen]", translation2: "ручка", image2: "pen.jpg",
+                example3: "pet", transcription3: "[pet]", translation3: "питомец", image3: "pet.jpg",
+                example4: "legs", transcription4: "[legz]", translation4: "ноги ", image4: "legs.jpg",
+                example5: "nest", transcription5: "[nest]", translation5: "гнездо", image5: "nest.jpg",
+                example6: "desk", transcription6: "['desk]", translation6: "доска", image6: "desk.jpg",
+            },
+
+       
+            {
+                soundFile: "e.mp3", 
+                alphabetSoundFile: "E-e.mp3", // Файл для алфавита
+              
+                alphabetButton: "Ee", // Название буквы
+                transcriptionButton: "[i:]", // Транскрипция
+                example1: "be", transcription1: "[bi:]", translation1: "быть ", image1: "be.jpg",
+                example2: "leo", transcription2: "[li:ou]", translation2: "лев", image2: "leo.jpg",
+                example3: "me", transcription3: "['mi:]", translation3: "я", image3: "me.jpg",
+                example1: "we", transcription1: "[wi:]", translation1: "мы ", image1: "we.jpg",
+                example2: "gene", transcription2: "[li:ou]", translation2: "лев", image2: "gene.jpg",
+                example3: "meme", transcription3: "['mi:]", translation3: "я", image3: "meme.jpg",
+            },
+        ];
+        let currentIndex = 0;
+
+        // Воспроизведение звука для алфавита
+        function playAlphabetSound(file) {
+            const audio = document.getElementById("audioPlayer");
+            audio.src = file;
+            audio.play().catch(error => console.error("Ошибка воспроизведения:", error));
+        }
+
+        // Воспроизведение основного звука
+        function playSound(file) {
+            const audio = document.getElementById("audioPlayer");
+            audio.src = file;
+            audio.play().catch(error => console.error("Ошибка воспроизведения:", error));
+        }
+
+        // Генерация текстового произношения
+        // function speak(text) {
+        //     const utterance = new SpeechSynthesisUtterance(text);
+        //     utterance.lang = 'en-US'; // Устанавливаем язык на американский английский
+        //     speechSynthesis.speak(utterance);
+        // }
+
+
+        // function speak(text) {
+        //     const utterance = new SpeechSynthesisUtterance(text);
+        //     utterance.lang = 'en-US'; // Американский английский
+        //     utterance.rate = 0.9; // Скорость речи (1.0 - нормальная скорость)
+        //     utterance.pitch = 0.8; // Высота тона (1.0 - нормальная высота)
+        //     utterance.volume = 1.0; // Громкость (1.0 - максимальная громкость)
+
+        //     // Выбор конкретного голоса (опционально)
+        //     const voices = speechSynthesis.getVoices();
+        //     const englishVoice = voices.find(voice => voice.lang === 'en-US');
+        //     if (englishVoice) {
+        //         utterance.voice = englishVoice;
+        //     }
+
+        //     speechSynthesis.speak(utterance);
+        // }
+
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = "en-US";
+            utterance.voice = speechSynthesis.getVoices().find(voice => voice.name.includes("Male")) || speechSynthesis.getVoices()[0];
+            speechSynthesis.speak(utterance);
+        }
+
+
+        // Переключение на предыдущий звук
+        function prevSound() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateContent();
+            }
+        }
+
+        // Переключение на следующий звук
+        function nextSound() {
+            if (currentIndex < sounds.length - 1) {
+                currentIndex++;
+                updateContent();
+            }
+        }
+
+        // Создание полной навигации
+        function createFullNavigation() {
+            const navContainer = document.getElementById("fullNav");
+            navContainer.innerHTML = "";
+            sounds.forEach((sound, index) => {
+                const button = document.createElement("div");
+                button.classList.add("nav-item");
+                button.textContent = sound.alphabetButton;
+                if (index === currentIndex) {
+                    button.classList.add("active");
+                }
+                button.addEventListener("click", () => {
+                    currentIndex = index;
+                    updateContent();
+                });
+                navContainer.appendChild(button);
+            });
+        }
+
+        // Обновление активного состояния в навигации
+        function updateActiveNav() {
+            const navItems = document.querySelectorAll(".nav-item");
+            navItems.forEach((item, index) => {
+                if (index === currentIndex) {
+                    item.classList.add("active");
+                } else {
+                    item.classList.remove("active");
+                }
+            });
+        }
+
+        // Обновление контента
+       
+
+       
+        function updateContent() {
+   
+
+    // Установка текста для кнопки с буквой алфавита
+    document.getElementById("alphabetButton").innerHTML = `
+        <span class="alphabet-label">буква</span>  
+        <span class="alphabet-symbol">${sounds[currentIndex].alphabetButton}</span>`;
+
+    // Установка текста для кнопки с транскрипцией
+    document.getElementById("transcriptionButton").innerHTML = `
+        <span class="transcription-label">звук</span> 
+        <span class="transcription-symbol">${sounds[currentIndex].transcriptionButton}</span>`;
+
+    // Примеры слов
+    document.getElementById("image1").src = sounds[currentIndex].image1;
+    document.getElementById("wordButton1").innerHTML = `
+        <span class="word">${sounds[currentIndex].example1}</span><br>
+        <span class="transcription">${sounds[currentIndex].transcription1}</span><br>
+        <span class="translation">${sounds[currentIndex].translation1}</span>`;
+    document.getElementById("image2").src = sounds[currentIndex].image2;
+    document.getElementById("wordButton2").innerHTML = `
+        <span class="word">${sounds[currentIndex].example2}</span><br>
+        <span class="transcription">${sounds[currentIndex].transcription2}</span><br>
+        <span class="translation">${sounds[currentIndex].translation2}</span>`;
+    document.getElementById("image3").src = sounds[currentIndex].image3;
+    document.getElementById("wordButton3").innerHTML = `
+        <span class="word">${sounds[currentIndex].example3}</span><br>
+        <span class="transcription">${sounds[currentIndex].transcription3}</span><br>
+        <span class="translation">${sounds[currentIndex].translation3}</span>`;
+    document.getElementById("image4").src = sounds[currentIndex].image4;
+    document.getElementById("wordButton4").innerHTML = `
+        <span class="word">${sounds[currentIndex].example4}</span><br>
+        <span class="transcription">${sounds[currentIndex].transcription4}</span><br>
+        <span class="translation">${sounds[currentIndex].translation4}</span>`;
+    document.getElementById("image5").src = sounds[currentIndex].image5;
+    document.getElementById("wordButton5").innerHTML = `
+        <span class="word">${sounds[currentIndex].example5}</span><br>
+        <span class="transcription">${sounds[currentIndex].transcription5}</span><br>
+        <span class="translation">${sounds[currentIndex].translation5}</span>`;
+        document.getElementById("image6").src = sounds[currentIndex].image6;
+    document.getElementById("wordButton6").innerHTML = `
+        <span class="word">${sounds[currentIndex].example6}</span><br>
+        <span class="transcription">${sounds[currentIndex].transcription6}</span><br>
+        <span class="translation">${sounds[currentIndex].translation6}</span>`;       
+    // Обновляем активный элемент навигации
+    updateActiveNav();
+}
+
+
+function prevSound() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        updateContent();
+    } else {
+        console.warn("Вы уже на первом элементе.");
+    }
+}
+
+function nextSound() {
+    if (currentIndex < sounds.length - 1) {
+        currentIndex++;
+        updateContent();
+    } else {
+        console.warn("Вы уже на последнем элементе.");
+    }
+}
+
+
+        // Инициализация при загрузке страницы
+        window.onload = function () {
+            updateContent();
+            createFullNavigation();
+        };
+    </script>
+</body>
+</html>
