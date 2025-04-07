@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Писать</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      margin: 0;
+    }
+
+    .container {
+      text-align: center;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      min-width: 400px;
+      transition: all 0.3s;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .word-number {
+      font-size: 16px;
+      color: #666;
+      margin: 10px 0;
+    }
+
+    .word-text {
+      font-size: 44px;
+      font-weight: bold;
+      color: #ec23b0;
+      margin: 10px 0;
+    }
+
+    #finalResult {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: green;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Зай, напиши:</h2>
+    <div id="testContent">
+      <div id="word">
+        <div class="word-number"></div>
+        <div class="word-text"></div>
+      </div>
+      <input type="text" id="userInput" placeholder="Ви, введи слово на английском" class="hidden" />
+      <div class="buttons">
+        <button id="submitButton" class="hidden">Подтвердить</button>
+        <button id="continueButton" class="hidden">Продолжить</button>
+      </div>
+      <div id="result"></div>
+    </div>
+    <div id="finalResult" class="hidden"></div>
+  </div>
+
+  <script>
+    // Исходные данные (12 пар слов)
+    const wordPairs = [
+      { eng: "plate", rus: "тарелка" },
+      { eng: "face", rus: "лицо" },
+      { eng: "game", rus: "игра" },
+      { eng: "cake", rus: "торт" },
+      { eng: "lake", rus: "озеро" },
+      { eng: "blaze", rus: "блеск" },
+      { eng: "bag", rus: "сумка" },
+      { eng: "flat", rus: "квартира" },
+      { eng: "map", rus: "карта" },
+      { eng: "sand", rus: "песок" },
+      { eng: "dad", rus: "папа" },
+      { eng: "lamp", rus: "лампа" }
+    ];
+
+    // Перемешиваем массив
+    wordPairs.sort(() => Math.random() - 0.5);
+    const words = wordPairs.map(pair => pair.eng);
+    const russianWords = wordPairs.map(pair => pair.rus);
+
+    let currentWordIndex = 0;
+    let score = 0;
+    const testContent = document.getElementById("testContent");
+    const wordNumberElement = document.querySelector(".word-number");
+    const wordTextElement = document.querySelector(".word-text");
+    const resultElement = document.getElementById("result");
+    const finalResultElement = document.getElementById("finalResult");
+    const submitButton = document.getElementById("submitButton");
+    const continueButton = document.getElementById("continueButton");
+    const userInput = document.getElementById("userInput");
+
+    // Инициализация теста
+    function startTest() {
+      showCurrentWord();
+      userInput.classList.remove("hidden");
+      submitButton.classList.remove("hidden");
+      continueButton.classList.add("hidden");
+      resultElement.textContent = "";
+      finalResultElement.classList.add("hidden");
+      testContent.style.display = "block";
+    }
+
+    // Показ текущего слова с порядковым номером
+    function showCurrentWord() {
+      wordNumberElement.textContent = `${currentWordIndex + 1} из ${words.length}:`;
+      wordTextElement.textContent = russianWords[currentWordIndex];
+      userInput.value = "";
+      userInput.focus();
+    }
+
+    // Проверка ответа
+    function checkAnswer() {
+      const userAnswer = userInput.value.trim().toLowerCase();
+      const correctAnswer = words[currentWordIndex];
+
+      if (userAnswer === correctAnswer) {
+        resultElement.textContent = "Правильно!";
+        resultElement.style.color = "green";
+        score++;
+      } else {
+        resultElement.textContent = "Неправильно!";
+        resultElement.style.color = "red";
+      }
+
+      submitButton.classList.add("hidden");
+      continueButton.classList.remove("hidden");
+    }
+
+    // Переход к следующему заданию
+    function nextWord() {
+      currentWordIndex++;
+      if (currentWordIndex < words.length) {
+        showCurrentWord();
+        resultElement.textContent = "";
+        submitButton.classList.remove("hidden");
+        continueButton.classList.add("hidden");
+      } else {
+        showFinalResult();
+      }
+    }
+
+    // Показ итогового результата
+    function showFinalResult() {
+      testContent.style.display = "none";
+      finalResultElement.textContent = `Результат: ${score}/${words.length} правильных ответов`;
+      finalResultElement.classList.remove("hidden");
+    }
+
+    // Обработчики событий
+    submitButton.addEventListener("click", checkAnswer);
+    continueButton.addEventListener("click", nextWord);
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        if (!submitButton.classList.contains("hidden")) checkAnswer();
+        else if (!continueButton.classList.contains("hidden")) nextWord();
+      }
+    });
+
+    // Запуск теста при загрузке
+    startTest();
+  </script>
+</body>
+</html>
