@@ -1,213 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Read</title>
-  <style>
-    /* Базовые стили */
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f0f0f0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('fon.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: #685962;
+        }
 
-    .container {
-      text-align: center;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      min-height: 300px;
-      min-width: 400px;
-    }
+        .container {
+            text-align: center;
+            padding: 30px;
+        }
 
-    button {
-      padding: 10px 20px;
-      margin: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      color: white;
-    }
+        h1 {
+            font-size: 3rem;
+            text-decoration: underline;
+            margin-bottom: 60px;
+            color: #f6f7f6;
+        }
 
-    #correctButton {
-      background-color: #28a745; /* Зеленый цвет для кнопки "Правильно" */
-    }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
-    #incorrectButton {
-      background-color: #dc3545; /* Красный цвет для кнопки "Неправильно" */
-    }
+        li {
+            margin: 20px 0;
+        }
 
-    button:hover {
-      opacity: 0.9;
-    }
+        /* Общий стиль для всех ссылок */
+        a {
+            text-decoration: none;
+            font-size: 2rem;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.2s;
+        }
 
-    #result {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-    }
+        /* Стиль для первой ссылки (Звуки-1) */
+        a.sound {
+            color: #050505; /* Оранжевый цвет */
+            background-color: #14bb05;
+            border-radius: 10px;
+            padding: 10px 20px;
+          
+        }
 
-    #word {
-      margin: 30px;
-      font-size: 44px;
-      font-weight: bold;
-      color: #f710bd;
-    }
+        a.sound:hover {
+            color: #252523; /* Ярко-оранжевый при наведении */
+            transform: scale(1.1);
+        }
 
-    #finalResult {
-      margin-top: 20px;
-      margin-bottom: 75px;
-      font-size: 20px;
-      font-weight: bold;
-      color: green;
-    }
+        /* Стиль для второй ссылки (Слушать) */
+        a.listen {
+            color: #404640; /* Зеленый цвет */
+        }
 
-    /* Стиль для скрытия элементов */
-    .hidden {
-      display: none;
-    }
-  </style>
+        a.listen:hover {
+            color: #3f4e48; /* Ярко-зеленый при наведении */
+            transform: scale(1.1);
+        }
+
+        /* Стиль для третьей ссылки (Произносить) */
+        a.speak {
+            color: #262936; /* Синий цвет */
+        }
+
+        a.speak:hover {
+            color: #493b53; /* Фиолетовый при наведении */
+            transform: scale(1.1);
+        }
+
+        /* Стиль для четвертой ссылки (Читать) */
+        a.read {
+            color: #ff33a6; /* Розовый цвет */
+            color: #050505; /* Оранжевый цвет */
+            background-color: #14bb05;
+            border-radius: 10px;
+            padding: 10px 20px;
+            gap: 50px;
+        }
+
+        a.read:hover {
+            color: #252523; /* Ярко-оранжевый при наведении */
+            transform: scale(1.1);
+        }
+
+        /* Стиль для пятой ссылки (Писать) */
+        a.write {
+            color: #33fff6; /* Голубой цвет */
+        }
+
+        a.write:hover {
+            color: #9ffff6; /* Светло-голубой при наведении */
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div id="wordNumber">1 из 12</div> <!-- Новый элемент -->
-    <div id="word">Нажми кнопку</div>
-    <button id="correctButton" class="hidden">Правильно</button>
-    <button id="incorrectButton" class="hidden">Неправильно</button>
-    <div id="result"></div>
-    <div id="finalResult"></div>
-  </div>
-
-  <script>
-    const wordNumberElement = document.getElementById("wordNumber");
-    const words = [
-      { en: "plate", ru: "тарелка" },
-      { en: "face", ru: "лицо" },
-      { en: "game", ru: "игра" },
-      { en: "cake", ru: "торт" },
-      { en: "lake", ru: "озеро" },
-      { en: "blaze", ru: "блеск" },
-      { en: "bag", ru: "сумка" },
-      { en: "flat", ru: "квартира" },
-      { en: "map", ru: "карта" },
-      { en: "sand", ru: "песок" },
-      { en: "dad", ru: "папа" },
-      { en: "lamp", ru: "лампа" },
-    ];
-    let currentWordIndex = 0;
-    let score = 0;
-    let testWords = []; // Массив для хранения выбранных слов
-
-    const wordElement = document.getElementById("word");
-    const resultElement = document.getElementById("result");
-    const finalResultElement = document.getElementById("finalResult");
-    const correctButton = document.getElementById("correctButton");
-    const incorrectButton = document.getElementById("incorrectButton");
-
-    let restartButton = null; // Переменная для кнопки "Начать заново"
-
-    // Функция для выбора 12 случайных слов
-    function getRandomWords() {
-      const shuffledWords = [...words].sort(() => Math.random() - 0.5); // Перемешиваем массив
-      return shuffledWords.slice(0, 12); // Берем первые 12 слов
-    }
-
-    // Функция для начала теста
-    function startTest() {
-      testWords = getRandomWords();
-
-      currentWordIndex = 0;
-      score = 0;
-
-      wordElement.textContent = testWords[currentWordIndex].en; // Показываем английское слово
-      wordNumberElement.textContent = `${currentWordIndex + 1} из ${testWords.length}`; // Обновляем номер слова
-      resultElement.textContent = "";
-      finalResultElement.textContent = "";
-
-      // Скрываем кнопку "Начать заново", если она существует
-      if (restartButton) {
-        restartButton.classList.add("hidden");
-      }
-
-      correctButton.classList.remove("hidden");
-      incorrectButton.classList.remove("hidden");
-
-      correctButton.onclick = handleCorrectAnswer;
-      incorrectButton.onclick = handleIncorrectAnswer;
-    }
-
-    // Обработчик для кнопки "Правильно"
-    function handleCorrectAnswer() {
-      score++;
-      nextWord();
-    }
-
-    // Обработчик для кнопки "Неправильно"
-    function handleIncorrectAnswer() {
-      nextWord();
-    }
-
-    // Функция для перехода к следующему слову
-    function nextWord() {
-      if (currentWordIndex < testWords.length - 1) {
-        currentWordIndex++;
-        wordElement.textContent = testWords[currentWordIndex].en; // Показываем английское слово
-        wordNumberElement.textContent = `${currentWordIndex + 1} из ${testWords.length}`; // Обновляем номер слова
-        resultElement.textContent = "";
-      } else {
-        showFinalResult();
-      }
-    }
-
-    // Функция для показа итогового результата
-    function showFinalResult() {
-      // Скрываем все элементы, кроме итогового результата и кнопки "Начать заново"
-      wordElement.classList.add("hidden");
-      wordNumberElement.classList.add("hidden");
-      correctButton.classList.add("hidden");
-      incorrectButton.classList.add("hidden");
-
-      finalResultElement.textContent = `Вы правильно прочитали ${score} из ${testWords.length} слов.`;
-      finalResultElement.style.color = "green";
-
-      // Если кнопка "Начать заново" ещё не создана, создаем её
-      if (!restartButton) {
-        restartButton = document.createElement("button");
-        restartButton.id = "restartButton";
-        restartButton.textContent = "Начать заново";
-        restartButton.style.backgroundColor = "#007bff";
-        restartButton.style.color = "white";
-        restartButton.style.padding = "10px 20px";
-        restartButton.style.border = "none";
-        restartButton.style.borderRadius = "5px";
-        restartButton.style.cursor = "pointer";
-        restartButton.style.fontSize = "16px";
-        document.querySelector(".container").appendChild(restartButton);
-
-        // Добавляем обработчик события для кнопки "Начать заново"
-        restartButton.onclick = () => {
-          // Сброс всех элементов
-          wordElement.classList.remove("hidden");
-          wordNumberElement.classList.remove("hidden");
-          correctButton.classList.remove("hidden");
-          incorrectButton.classList.remove("hidden");
-          finalResultElement.textContent = "";
-          startTest();
-        };
-      }
-
-      // Показываем кнопку "Начать заново"
-      restartButton.classList.remove("hidden");
-    }
-
-    // Автоматический старт теста при загрузке страницы
-    window.onload = startTest;
-  </script>
+    <div class="container">
+        <h1>ЧАСТЬ 1.</h1>
+        <ul>
+            <li><a href="1part.html" class="sound">Тема: ЗВУКИ</a></li>
+            <li><a href="test.html" class="listen">Тест на Слух</a></li>
+            <li><a href="test II_7.html" class="speak">Тест на Произношение</a></li>
+           
+            <li><br></li>
+            <li><a href="Letters_4.html" class="read">Тема: ЧТЕНИЕ</a></li>
+            <li><a href="write.html" class="write">Тест на Написание</a></li>
+            <li><a href="read.html" class="write">Тест на Чтение</a></li>
+        </ul>
+    </div>
 </body>
 </html>
