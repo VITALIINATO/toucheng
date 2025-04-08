@@ -121,7 +121,7 @@ button {
 
     
     <!-- Кнопка старта -->
-    <button id="startButton" class="start-btn">ВИ лучшая</button>
+    <button id="startButton" class="start-btn">Let's GO</button>
 
     <div id="testContent" class="hidden">
       <div id="word">
@@ -142,6 +142,7 @@ button {
   <script>
    // Исходные данные (массив слов)
 const wordPairs = [
+
   { en: "lake", ru: "озеро" },
   { en: "game", ru: "игра" },
   { en: "blaze", ru: "блеск" },
@@ -155,28 +156,69 @@ const wordPairs = [
   { en: "flat", ru: "квартира" },
   { en: "bag", ru: "сумка" },
   { en: "be", ru: "быть" },
-  { en: "leo", ru: "Лев" },
+  { en: "leo", ru: "лев" },
   { en: "me", ru: "я" },
   { en: "Steve", ru: "Стив" },
   { en: "meme", ru: "мем" },
-  { en: "cell", ru: "клетка" },
+  { en: "cell", ru: "сот" },
   { en: "pen", ru: "ручка" },
   { en: "pet", ru: "питомец" },
   { en: "legs", ru: "ноги" },
   { en: "nest", ru: "гнездо" },
-  { en: "desk", ru: "стол" },
+  { en: "desk", ru: "доска" },
   { en: "bike", ru: "велосипед" },
-  { en: "five", ru: "пять" },
+  { en: "five", ru: "5" },
   { en: "smile", ru: "улыбка" },
   { en: "kite", ru: "змей" },
-  { en: "nine", ru: "девять" },
+  { en: "nine", ru: "9" },
   { en: "mice", ru: "мыши" },
   { en: "lips", ru: "губы" },
   { en: "milk", ru: "молоко" },
   { en: "kiss", ru: "поцелуй" },
   { en: "kid", ru: "ребенок" },
-  { en: "zip", ru: "молния" },
-  { en: "pig", ru: "свинья" }
+  { en: "zip", ru: "застежка" },
+  { en: "pig", ru: "свинка" },
+  { en: "my", ru: "мое" },
+  { en: "fly", ru: "муха" },
+  { en: "sky", ru: "небо" },
+  { en: "ply", ru: "слой" },
+  { en: "spy", ru: "шпион" },
+  { en: "baby", ru: "малыш" },
+  { en: "puppy", ru: "щенок" },
+  { en: "lily", ru: "лилия" },
+  { en: "city", ru: "город" },
+  { en: "fantasy", ru: "фантазия" },
+  { en: "enemy", ru: "враг" },
+  { en: "note", ru: "нота" },
+  { en: "nose", ru: "нос" },
+  { en: "smoke", ru: "дым" },
+  { en: "gold", ru: "золото" },
+  { en: "zone", ru: "зона" },
+  { en: "dog", ru: "пес" },
+  { en: "pot", ru: "горшок" },
+  { en: "top", ru: "вершина" },
+  { en: "slot", ru: "щель" },
+  { en: "fog", ru: "туман" },
+  { en: "log", ru: "бревно" },
+  { en: "tube", ru: "труба" },
+  { en: "duty", ru: "долг" },
+  { en: "music", ru: "музыка" },
+  { en: "cute", ru: "милый" },
+  { en: "student", ru: "студент" },
+  { en: "dune", ru: "дюна" },
+  { en: "cup", ru: "чашка" },
+  { en: "sun", ru: "солнце" },
+  { en: "nut", ru: "орех" },
+  { en: "mum", ru: "мама" },
+  { en: "gun", ru: "оружие" },
+  { en: "bus", ru: "автобус" },
+  { en: "cent", ru: "цент" },
+  { en: "citizen", ru: "гражданин" },
+  { en: "candy", ru: "конфета" },
+  { en: "cat", ru: "кот" },
+  { en: "pose", ru: "поза" },
+  { en: "vase", ru: "ваза" },
+  { en: "wise", ru: "мудрец" }
 ];
 
 // Перемешиваем массив
