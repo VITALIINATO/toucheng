@@ -31,25 +31,44 @@
       min-width: 400px;
       transition: all 0.3s;
       width: 600px;
-      height: 250px;
+      height: 290px;
     }
 
-    button {
-      padding: 10px 20px;
-      margin: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      background-color: #007bff;
-      color: white;
-      transition: background-color 0.3s;
-    }
+    .buttons {
+  display: flex;
+  flex-direction: column; /* Располагаем кнопки вертикально */
+  align-items: center; /* Центрируем кнопки по горизонтали */
+  gap: 10px; /* Добавляем отступ между кнопками */
+}
 
-    button:hover {
-      background-color: #0056b3;
-    }
+button {
+  padding: 10px 20px;
+  margin: 0; /* Убираем отступы, чтобы кнопки были ближе друг к другу */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
 
+#submitButton {
+  margin-top: 20px;
+  background-color: #007bff; /* Синий цвет для кнопки "Подтвердить" */
+  color: white;
+}
+
+#submitButton:hover {
+  background-color: #0056b3; /* Темно-синий при наведении */
+}
+
+#continueButton {
+  background-color: #28a745; /* Зеленый цвет для кнопки "Продолжить" */
+  color: white;
+}
+
+#continueButton:hover {
+  background-color: #1e7e34; /* Темно-зеленый при наведении */
+}
     #result {
       margin-top: 20px;
       font-size: 18px;
@@ -112,7 +131,7 @@
       <input type="text" id="userInput" placeholder="Введите слово на английском" />
       <div class="buttons">
         <button id="submitButton">Подтвердить</button>
-        <button id="continueButton">Продолжить</button>
+        <button id="continueButton">Дальше</button>
       </div>
       <div id="result"></div>
     </div>
@@ -121,11 +140,11 @@
   </div>
 
   <script>
-    // Исходные данные (12 пар слов)
-    const wordPairs = [
+   // Исходные данные (массив слов)
+const wordPairs = [
   { en: "lake", ru: "озеро" },
   { en: "game", ru: "игра" },
-  { en: "blaze", ru: "пламя" },
+  { en: "blaze", ru: "блеск" },
   { en: "face", ru: "лицо" },
   { en: "cake", ru: "торт" },
   { en: "plate", ru: "тарелка" },
@@ -137,7 +156,7 @@
   { en: "bag", ru: "сумка" },
   { en: "be", ru: "быть" },
   { en: "leo", ru: "Лев" },
-  { en: "me", ru: "меня" },
+  { en: "me", ru: "я" },
   { en: "Steve", ru: "Стив" },
   { en: "meme", ru: "мем" },
   { en: "cell", ru: "клетка" },
@@ -149,7 +168,7 @@
   { en: "bike", ru: "велосипед" },
   { en: "five", ru: "пять" },
   { en: "smile", ru: "улыбка" },
-  { en: "kite", ru: "воздушный змей" },
+  { en: "kite", ru: "змей" },
   { en: "nine", ru: "девять" },
   { en: "mice", ru: "мыши" },
   { en: "lips", ru: "губы" },
@@ -160,88 +179,93 @@
   { en: "pig", ru: "свинья" }
 ];
 
-    // Перемешиваем массив
-    wordPairs.sort(() => Math.random() - 0.5);
-    const words = wordPairs.map(pair => pair.en.trim().toLowerCase());
-    const russianWords = wordPairs.map(pair => pair.rs);
+// Перемешиваем массив
+wordPairs.sort(() => Math.random() - 0.5);
 
-    let currentWordIndex = 0;
-    let score = 0;
-    const testContent = document.getElementById("testContent");
-    const wordNumberElement = document.querySelector(".word-number");
-    const wordTextElement = document.querySelector(".word-text");
-    const resultElement = document.getElementById("result");
-    const finalResultElement = document.getElementById("finalResult");
-    const submitButton = document.getElementById("submitButton");
-    const continueButton = document.getElementById("continueButton");
-    const userInput = document.getElementById("userInput");
-    const startButton = document.getElementById("startButton");
+// Выбираем только 20 случайных слов
+const selectedPairs = wordPairs.slice(0, 20);
 
-    // Инициализация теста
-    function startTest() {
-      testContent.classList.remove("hidden");
-      startButton.classList.add("hidden");
-      showCurrentWord();
-      resultElement.textContent = "";
-      finalResultElement.classList.add("hidden");
-      userInput.focus();
-    }
+// Создаем массивы для английских и русских слов
+const words = selectedPairs.map(pair => pair.en.trim().toLowerCase());
+const russianWords = selectedPairs.map(pair => pair.ru);
 
-    // Показ текущего слова с порядковым номером
-    function showCurrentWord() {
-      wordNumberElement.textContent = `${currentWordIndex + 1} из ${words.length}`;
-      wordTextElement.textContent = russianWords[currentWordIndex];
-      userInput.value = "";
-      userInput.focus();
-      resultElement.textContent = "";
-    }
+let currentWordIndex = 0;
+let score = 0;
+const testContent = document.getElementById("testContent");
+const wordNumberElement = document.querySelector(".word-number");
+const wordTextElement = document.querySelector(".word-text");
+const resultElement = document.getElementById("result");
+const finalResultElement = document.getElementById("finalResult");
+const submitButton = document.getElementById("submitButton");
+const continueButton = document.getElementById("continueButton");
+const userInput = document.getElementById("userInput");
+const startButton = document.getElementById("startButton");
 
-    // Проверка ответа
-    function checkAnswer() {
-      const userAnswer = userInput.value.trim().toLowerCase();
-      const correctAnswer = words[currentWordIndex];
-      
-      if (userAnswer === correctAnswer) {
-        resultElement.textContent = "Правильно!";
-        resultElement.style.color = "green";
-        score++;
-      } else {
-        resultElement.textContent = "Неправильно!";
-        resultElement.style.color = "red";
-      }
+// Инициализация теста
+function startTest() {
+  testContent.classList.remove("hidden");
+  startButton.classList.add("hidden");
+  showCurrentWord();
+  resultElement.textContent = "";
+  finalResultElement.classList.add("hidden");
+  userInput.focus();
+}
 
-      userInput.value = "";
-      userInput.focus();
-    }
+// Показ текущего слова с порядковым номером
+function showCurrentWord() {
+  wordNumberElement.textContent = `${currentWordIndex + 1} из ${words.length}`;
+  wordTextElement.textContent = russianWords[currentWordIndex];
+  userInput.value = "";
+  userInput.focus();
+  resultElement.textContent = "";
+}
 
-    // Переход к следующему заданию
-    function nextWord() {
-      currentWordIndex++;
-      if (currentWordIndex < words.length) {
-        showCurrentWord();
-      } else {
-        showFinalResult();
-      }
-    }
+// Проверка ответа
+function checkAnswer() {
+  const userAnswer = userInput.value.trim().toLowerCase();
+  const correctAnswer = words[currentWordIndex];
+  
+  if (userAnswer === correctAnswer) {
+    resultElement.textContent = "Правильно!";
+    resultElement.style.color = "green";
+    score++;
+  } else {
+    resultElement.textContent = "Неправильно!";
+    resultElement.style.color = "red";
+  }
 
-    // Показ итогового результата
-    function showFinalResult() {
-      testContent.classList.add("hidden");
-      finalResultElement.textContent = `Результат: ${score}/${words.length} правильных ответов`;
-      finalResultElement.classList.remove("hidden");
-    }
+  userInput.value = "";
+  userInput.focus();
+}
 
-    // Обработчики событий
-    startButton.addEventListener("click", startTest);
-    submitButton.addEventListener("click", checkAnswer);
-    continueButton.addEventListener("click", nextWord);
-    
-    userInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        checkAnswer();
-      }
-    });
+// Переход к следующему заданию
+function nextWord() {
+  currentWordIndex++;
+  if (currentWordIndex < words.length) {
+    showCurrentWord();
+  } else {
+    showFinalResult();
+  }
+}
+
+// Показ итогового результата
+function showFinalResult() {
+  testContent.classList.add("hidden");
+  finalResultElement.textContent = `Результат: ${score}/${words.length} правильных ответов`;
+  finalResultElement.classList.remove("hidden");
+}
+
+// Обработчики событий
+startButton.addEventListener("click", startTest);
+submitButton.addEventListener("click", checkAnswer);
+continueButton.addEventListener("click", nextWord);
+
+userInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    checkAnswer();
+  }
+});
   </script>
 </body>
 </html>
