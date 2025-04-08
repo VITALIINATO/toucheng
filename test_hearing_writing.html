@@ -99,7 +99,7 @@
     <input type="text" id="userInput" placeholder="Enter your answer here">
     <button id="submitButton">Submit</button>
     <div id="result"></div>
-    <button id="nextButton" disabled>Next</button>
+    <button id="nextButton">Next</button>
   </div>
   <div id="finalResult" class="hidden"></div>
   <script>
@@ -190,7 +190,6 @@ function loadQuestion() {
   userInput.value = "";
   resultDiv.textContent = "";
   submitButton.disabled = false;
-  nextButton.disabled = true;
 }
 
 function playAudio(word) {
@@ -217,7 +216,6 @@ submitButton.addEventListener("click", () => {
   }
 
   submitButton.disabled = true;
-  nextButton.disabled = false;
 });
 
 userInput.addEventListener("keypress", (event) => {
