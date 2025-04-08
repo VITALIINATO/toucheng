@@ -112,7 +112,7 @@
       <input type="text" id="userInput" placeholder="Введите слово на английском" />
       <div class="buttons">
         <button id="submitButton">Подтвердить</button>
-        <button id="continueButton">Следующее</button>
+        <button id="continueButton">Продолжить</button>
       </div>
       <div id="result"></div>
     </div>
@@ -123,37 +123,47 @@
   <script>
     // Исходные данные (12 пар слов)
     const wordPairs = [
-    { eng: "plate", rus: "тарелка" },
-      { eng: "face", rus: "лицо" },
-      { eng: "game", rus: "игра" },
-      { eng: "cake", rus: "торт" },
-      { eng: "lake", rus: "озеро" },
-      { eng: "blaze", rus: "блеск" },
-      { eng: "bag", rus: "сумка" },
-      { eng: "flat", rus: "квартира" },
-      { eng: "map", rus: "карта" },
-      { eng: "sand", rus: "песок" },
-      { eng: "dad", rus: "папа" },
-      { eng: "lamp", rus: "лампа" },
-
-      { eng: "pen", rus: "ручка" },
-      { eng: "pet", rus: "питомец" },
-      { eng: "cell", rus: "сот" },
-      { eng: "legs", rus: "ноги" },
-      { eng: "desk", rus: "стол" },
-      { eng: "nest", rus: "гнездо" },
-
-      { eng: "be", rus: "быть" },
-      { eng: "leo", rus: "Лев" },
-      { eng: "me", rus: "я, мне" },
-      { eng: "Steve", rus: "Стив" },
-      { eng: "meme", rus: "мэм" },
-    ];
+  { en: "lake", ru: "озеро" },
+  { en: "game", ru: "игра" },
+  { en: "blaze", ru: "пламя" },
+  { en: "face", ru: "лицо" },
+  { en: "cake", ru: "торт" },
+  { en: "plate", ru: "тарелка" },
+  { en: "dad", ru: "папа" },
+  { en: "lamp", ru: "лампа" },
+  { en: "map", ru: "карта" },
+  { en: "sand", ru: "песок" },
+  { en: "flat", ru: "квартира" },
+  { en: "bag", ru: "сумка" },
+  { en: "be", ru: "быть" },
+  { en: "leo", ru: "Лев" },
+  { en: "me", ru: "меня" },
+  { en: "Steve", ru: "Стив" },
+  { en: "meme", ru: "мем" },
+  { en: "cell", ru: "клетка" },
+  { en: "pen", ru: "ручка" },
+  { en: "pet", ru: "питомец" },
+  { en: "legs", ru: "ноги" },
+  { en: "nest", ru: "гнездо" },
+  { en: "desk", ru: "стол" },
+  { en: "bike", ru: "велосипед" },
+  { en: "five", ru: "пять" },
+  { en: "smile", ru: "улыбка" },
+  { en: "kite", ru: "воздушный змей" },
+  { en: "nine", ru: "девять" },
+  { en: "mice", ru: "мыши" },
+  { en: "lips", ru: "губы" },
+  { en: "milk", ru: "молоко" },
+  { en: "kiss", ru: "поцелуй" },
+  { en: "kid", ru: "ребенок" },
+  { en: "zip", ru: "молния" },
+  { en: "pig", ru: "свинья" }
+];
 
     // Перемешиваем массив
     wordPairs.sort(() => Math.random() - 0.5);
-    const words = wordPairs.map(pair => pair.eng.trim().toLowerCase());
-    const russianWords = wordPairs.map(pair => pair.rus);
+    const words = wordPairs.map(pair => pair.en.trim().toLowerCase());
+    const russianWords = wordPairs.map(pair => pair.rs);
 
     let currentWordIndex = 0;
     let score = 0;
