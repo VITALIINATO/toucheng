@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test</title>
+  <style>
+    /* Базовые стили */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('fontest.jpg'); 
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-color: #685962;
+    }
+
+    .container {
+      text-align: center;
+      background: #eea4de;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      min-height: 300px;
+      min-width: 600px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    #finalResult {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: black;
+      background-color: yellow; /* Для отладки */
+      padding: 20px;
+      border: 2px solid red; /* Для отладки */
+      border-radius: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #playButton {
+      background-color: #007bff;
+      color: white;
+      border-radius: 15px;
+    }
+    #playButton:hover {
+      background-color: #0864c7;
+    }
+
+    #submitButton {
+      background-color: #28a745;
+      color: white;
+      transition: all 0.3s ease;
+    }
+    #submitButton:hover {
+      background-color: #023d0f;
+      transform: scale(1.05);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    #nextButton {
+      background-color: #ffc107;
+      color: black;
+    }
+    #nextButton:hover {
+      background-color: #c99a02;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Listen and Type</h1>
+    <button id="playButton">Word 1 of 9</button>
+    <input type="text" id="userInput" placeholder="Enter your answer here">
+    <button id="submitButton">Submit</button>
+    <div id="result"></div>
+    <button id="nextButton" disabled>Next</button>
+  </div>
+  <div id="finalResult" class="hidden"></div>
+  <script>
+// Данные для теста
+let questions = [
+    { word: "be", correct: "be" },
+    { word: "bed", correct: "bed" },
+    { word: "plate", correct: "plate" },
+    { word: "lips", correct: "lips" },
+    { word: "nose", correct: "nose" },
+    { word: "dog", correct: "dog" },
+    { word: "baby", correct: "baby" },
+    { word: "bag", correct: "bag" },
+    { word: "bike", correct: "bike" },
+    { word: "pen", correct: "pen" },  
+    { word: "visit", correct: "visit" },
+    { word: "van", correct: "van" },
+    { word: "vine", correct: "vine" },
+    { word: "flat", correct: "flat" },
+    { word: "face", correct: "face" },
+    { word: "five", correct: "five" },
+    { word: "map", correct: "map" },
+    { word: "mum", correct: "mum" },
+    { word: "milk", correct: "milk" },
+    { word: "sand", correct: "sand" },
+    { word: "sun", correct: "sun" },
+    { word: "smile", correct: "smile" },
+    { word: "legs", correct: "legs" },
+    { word: "kiss", correct: "kiss" },
+    { word: "kid", correct: "kid" },
+    { word: "kite", correct: "kite" },
+    { word: "game", correct: "game" },
+    { word: "gold", correct: "gold" },
+    { word: "gun", correct: "gun" },
+    { word: "desk", correct: "desk" },
+    { word: "tap", correct: "tap" },
+    { word: "dad", correct: "dad" },
+    { word: "name", correct: "name" },
+    { word: "nest", correct: "nest" },
+    { word: "nine", correct: "nine" },
+    { word: "lamp", correct: "lamp" },
+    { word: "lake", correct: "lake" },
+    { word: "cake", correct: "cake" },
+    { word: "me", correct: "me" },
+    { word: "leo", correct: "leo" },
+    { word: "puppy", correct: "puppy" },
+    { word: "lily", correct: "lily" },
+    { word: "note", correct: "note" },
+    { word: "smoke", correct: "smoke" },
+    { word: "pot", correct: "pot" },
+    { word: "cup", correct: "cup" },
+    { word: "nut", correct: "nut" },
+    { word: "cell", correct: "cell" },
+    { word: "mice", correct: "mice" },
+    { word: "zip", correct: "zip" },
+    { word: "zone", correct: "zone" },
+    { word: "blaze", correct: "blaze" },
+    { word: "my", correct: "my" },
+    { word: "fly", correct: "fly" },
+    { word: "sky", correct: "sky" },
+    { word: "meme", correct: "meme" },
+];
+
+// Перемешиваем вопросы перед началом теста
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+shuffleArray(questions);
+questions = questions.slice(0, 12);
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+const playButton = document.getElementById("playButton");
+const userInput = document.getElementById("userInput");
+const resultDiv = document.getElementById("result");
+const submitButton = document.getElementById("submitButton");
+const nextButton = document.getElementById("nextButton");
+const finalResultDiv = document.getElementById("finalResult");
+
+function loadQuestion() {
+  const currentQuestion = questions[currentQuestionIndex];
+  playButton.textContent = `Word ${currentQuestionIndex + 1} of ${questions.length}`;
+  userInput.value = "";
+  resultDiv.textContent = "";
+  submitButton.disabled = false;
+  nextButton.disabled = true;
+}
+
+function playAudio(word) {
+  const audio = new Audio(`${word}.mp3`);
+  audio.play();
+}
+
+playButton.addEventListener("click", () => {
+  const currentQuestion = questions[currentQuestionIndex];
+  playAudio(currentQuestion.word);
+});
+
+submitButton.addEventListener("click", () => {
+  const currentQuestion = questions[currentQuestionIndex];
+  const userAnswer = userInput.value.trim();
+
+  if (userAnswer.toLowerCase() === currentQuestion.correct.toLowerCase()) {
+    resultDiv.textContent = "Correct!";
+    resultDiv.style.color = "green";
+    score++;
+  } else {
+    resultDiv.textContent = `Wrong! The correct answer is: ${currentQuestion.correct}`;
+    resultDiv.style.color = "red";
+  }
+
+  submitButton.disabled = true;
+  nextButton.disabled = false;
+});
+
+userInput.addEventListener("keypress", (event) => {
+  if (event.key === "Enter") {
+    submitButton.click();
+  }
+});
+
+nextButton.addEventListener("click", () => {
+  currentQuestionIndex++;
+
+  if (currentQuestionIndex < questions.length) {
+    loadQuestion();
+  } else {
+    showFinalResult();
+  }
+});
+
+function showFinalResult() {
+  document.querySelector(".container").classList.add("hidden");
+  finalResultDiv.classList.remove("hidden");
+  finalResultDiv.textContent = `Test completed! Your score: ${score} out of ${questions.length}`;
+}
+
+// Загрузка первого вопроса
+loadQuestion();
+  </script>
+</body>
+</html>
