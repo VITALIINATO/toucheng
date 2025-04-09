@@ -162,6 +162,42 @@
             transition: width 0.3s ease;
 
         }
+
+        /* Медиа-запрос для iPhone */
+        @media only screen and (max-width: 510px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                min-width: 90%;
+                padding: 15px;
+            }
+
+            button {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            #playButton {
+                width: 100%;
+            }
+
+            input[type="text"] {
+                width: 100%;
+                font-size: 14px;
+            }
+
+            .translation-buttons button {
+                width: 48%;
+                font-size: 16px;
+            }
+
+            #finalResult {
+                font-size: 16px;
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 
