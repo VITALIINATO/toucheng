@@ -27,8 +27,8 @@
             padding: 20px;
             border-radius: 30px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            min-height: 340px;
-            min-width: 600px;
+            min-height: 500px;
+            min-width: 700px;
         }
 
         .hidden {
@@ -100,7 +100,6 @@
 
         }
 
-
         .translation-buttons {
             display: flex;
             justify-content: center;
@@ -126,13 +125,14 @@
 
         #translationResult {
             justify-content: center;
-            font-size: 24px;        
-           
+            font-size: 24px;
+
         }
+
         #result {
             justify-content: center;
-            font-size: 24px;        
-           
+            font-size: 24px;
+
         }
 
 
@@ -140,11 +140,35 @@
         .hidden {
             display: none;
         }
+
+        /* Контейнер для полосы прогресса */
+        #progressBarContainer {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-top: 10px;
+            height: 10px;
+            overflow: hidden;
+            margin-bottom: 25px;
+
+        }
+
+        /* Сама полоса прогресса */
+        #progressBar {
+            width: 0%;
+            height: 100%;
+            background-color: #4caf50;
+            transition: width 0.3s ease;
+
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
+        <div id="progressBarContainer">
+            <div id="progressBar"></div>
+        </div>
         <!-- В начале контейнера, сразу после открывающего тега <div class="container"> -->
         <!-- Добавляем ссылку в верхний правый угол -->
         <!-- Добавляем ссылку в верхний правый угол -->
@@ -154,12 +178,11 @@
                 Перейти к ТЕМЕ
             </a>
         </div>
-        <h1>Прослушай, напиши, переведи</h1>
-
-
+        <h1>Прослушай, напиши, переведи, произнеси</h1>
         <div id="counter"></div>
         <button id="playButton">Прослушай ♫</button>
         <input type="text" id="userInput" placeholder="Напиши ✎">
+
         <br>
         <button id="submitButton">Подтвердить</button>
         <br>
@@ -167,6 +190,7 @@
         <div id="result"></div>
         <div id="translationButtons" class="translation-buttons hidden"></div>
         <div id="translationResult"></div>
+
     </div>
     <div id="finalResult" class="hidden"></div>
     <script>
@@ -275,15 +299,22 @@
         const translationResultDiv = document.getElementById("translationResult");
         const finalResultDiv = document.getElementById("finalResult");
 
+        // Найдите новый элемент счетчика
+        const counterDiv = document.getElementById("counter");
+
         function loadQuestion() {
             const currentQuestion = questions[currentQuestionIndex];
-            playButton.textContent = `Прослушай ♫ ${currentQuestionIndex + 1} из ${questions.length}`;
+            counterDiv.textContent = `${currentQuestionIndex + 1} из ${questions.length}`;
+            playButton.textContent = `Прослушай ♫`;
             userInput.value = "";
             resultDiv.textContent = "";
-            translationButtonsDiv.innerHTML = ""; // Очищаем кнопки переводов
-            translationButtonsDiv.classList.add("hidden"); // Скрываем кнопки переводов
-            translationResultDiv.textContent = ""; // Очищаем результат выбора перевода
+            translationButtonsDiv.innerHTML = "";
+            translationButtonsDiv.classList.add("hidden");
+            translationResultDiv.textContent = "";
             submitButton.disabled = false;
+
+            // Обновляем полосу прогресса
+            updateProgressBar();
         }
 
         function speak(text) {
@@ -303,9 +334,6 @@
             const userAnswer = userInput.value.trim();
 
             if (userAnswer.toLowerCase() === currentQuestion.correct.toLowerCase()) {
-                // Проигрывание звука right.mp3
-                const audio = new Audio('right.mp3');
-                audio.play();
                 resultDiv.textContent = "Правильно! Теперь переведи:";
                 resultDiv.style.color = "green";
                 score++;
@@ -352,22 +380,10 @@
                 button.textContent = translation;
                 button.addEventListener("click", () => {
                     if (translation === correctTranslation) {
-                        // Проигрывание звука right.mp3
-                        const audio = new Audio('right.mp3');
-                        audio.play();
-                        translationResultDiv.textContent = "Правильный перевод!";
+                        translationResultDiv.textContent = "Правильный перевод! Теперь произнесите это слово:";
                         translationResultDiv.style.color = "green";
-
-                        // Добавляем автоматический переход
-                        setTimeout(() => {
-                            currentQuestionIndex++;
-                            if (currentQuestionIndex < questions.length) {
-                                loadQuestion();
-                            } else {
-                                showFinalResult();
-                            }
-                        }, 1000); // 1000 миллисекунд = 1 секунда
-
+                        // Запускаем функцию распознавания речи
+                        recognizeSpeech(question.word);
                     } else {
                         translationResultDiv.textContent = `Не то...`;
                         translationResultDiv.style.color = "red";
@@ -376,6 +392,103 @@
                 translationButtonsDiv.appendChild(button);
             });
         }
+
+        function recognizeSpeech(correctWord) {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = "en-US";
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            let attemptCount = 0;
+            const maxAttempts = 3;
+
+            function startRecognition() {
+                if (attemptCount >= maxAttempts) {
+                    translationResultDiv.textContent = `Превышено количество попыток. Правильное слово: "${correctWord}".`;
+                    translationResultDiv.style.color = "red";
+                    const errorAudio = new Audio('error.mp3');
+                    errorAudio.play();
+                    setTimeout(() => {
+                        currentQuestionIndex++;
+                        if (currentQuestionIndex < questions.length) {
+                            loadQuestion();
+                        } else {
+                            showFinalResult();
+                        }
+                    }, 2000);
+                    return;
+                }
+
+                attemptCount++;
+                recognition.start();
+            }
+
+            recognition.onresult = (event) => {
+                const spokenWord = event.results[0][0].transcript.trim().toLowerCase();
+                if (spokenWord === correctWord.toLowerCase()) {
+                    const successAudio = new Audio('right.mp3');
+                    successAudio.play();
+                    translationResultDiv.textContent = "Правильно произнесено! Переход к следующему заданию...";
+                    translationResultDiv.style.color = "green";
+                    setTimeout(() => {
+                        currentQuestionIndex++;
+                        if (currentQuestionIndex < questions.length) {
+                            loadQuestion();
+                        } else {
+                            showFinalResult();
+                        }
+                    }, 1000);
+                } else {
+                    translationResultDiv.textContent = `Вы сказали: "${spokenWord}". Это неверно. Попробуйте снова (${attemptCount}/${maxAttempts}).`;
+                    translationResultDiv.style.color = "red";
+                    const errorAudio = new Audio('error.mp3');
+                    errorAudio.play();
+                    startRecognition();
+                }
+            };
+
+            recognition.onerror = (event) => {
+                console.error("Ошибка распознавания:", event.error);
+
+                let errorMessage = "";
+                switch (event.error) {
+                    case "no-speech":
+                        errorMessage = "Речь не обнаружена. Убедитесь, что микрофон работает.";
+                        break;
+                    case "audio-capture":
+                        errorMessage = "Ошибка захвата аудио. Проверьте подключение микрофона.";
+                        break;
+                    case "not-allowed":
+                        errorMessage = "Доступ к микрофону запрещён. Разрешите доступ в настройках браузера.";
+                        break;
+                    default:
+                        errorMessage = "Произошла ошибка при распознавании речи. Попробуйте снова.";
+                }
+
+                translationResultDiv.textContent = errorMessage;
+                translationResultDiv.style.color = "red";
+
+                const errorAudio = new Audio('error.mp3');
+                errorAudio.play();
+
+                if (attemptCount < maxAttempts) {
+                    setTimeout(() => {
+                        startRecognition();
+                    }, 1000);
+                }
+            };
+
+            recognition.onend = () => {
+                if (attemptCount < maxAttempts) {
+                    setTimeout(() => {
+                        startRecognition();
+                    }, 500);
+                }
+            };
+
+            startRecognition();
+        }
+
 
         userInput.addEventListener("keypress", (event) => {
             if (event.key === "Enter") {
@@ -430,26 +543,14 @@
             finalResultDiv.appendChild(restartButton);
         }
 
-        // Загрузка первого вопроса
-        // Найдите новый элемент счетчика
-        const counterDiv = document.getElementById("counter");
-
-        function loadQuestion() {
-            const currentQuestion = questions[currentQuestionIndex];
-
-            // Обновите текст счетчика
-            counterDiv.textContent = `${currentQuestionIndex + 1} из ${questions.length}`;
-
-            // Оставьте только "Прослушай" на кнопке
-            playButton.textContent = `Прослушай ♫`;
-
-            userInput.value = "";
-            resultDiv.textContent = "";
-            translationButtonsDiv.innerHTML = "";
-            translationButtonsDiv.classList.add("hidden");
-            translationResultDiv.textContent = "";
-            submitButton.disabled = false;
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progressBar");
+            const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
         }
+
+        // Загрузка первого вопроса
+        loadQuestion();
     </script>
 </body>
 
