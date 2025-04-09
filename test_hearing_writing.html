@@ -336,16 +336,18 @@
             const userAnswer = userInput.value.trim();
 
             if (userAnswer.toLowerCase() === currentQuestion.correct.toLowerCase()) {
-                // Проигрывание звука right.mp3
+                // Создание и настройка аудио right.mp3
                 const audio = new Audio('right.mp3');
+                audio.volume = 0.5; // Устанавливаем громкость на 50%
                 audio.play();
                 resultDiv.textContent = "Правильно! Теперь переведи:";
                 resultDiv.style.color = "green";
                 score++;
                 showTranslationButtons(currentQuestion); // Показываем кнопки с переводами
             } else {
-                // Проигрывание звука right.mp3
+                // Создание и настройка аудио wrong.mp3
                 const audio = new Audio('wrong.mp3');
+                audio.volume = 0.5; // Устанавливаем громкость на 50%
                 audio.play();
                 resultDiv.textContent = `Что-то не то...`;
                 resultDiv.style.color = "red";
