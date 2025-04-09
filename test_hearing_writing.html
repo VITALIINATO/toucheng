@@ -396,61 +396,77 @@
                 translationButtonsDiv.appendChild(button);
             });
         }
+
         function recognizeSpeech(correctWord) {
             const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
             recognition.lang = "en-US";
             recognition.interimResults = false;
             recognition.maxAlternatives = 1;
 
-            let attemptCount = 0; // Счетчик попыток
-            const maxAttempts = 5; // Максимальное количество попыток
-            let isRecognitionActive = false; // Флаг активности
+            let attemptCount = 0;
+            const maxAttempts = 5;
+            let isRecognitionActive = false;
+            let userSuccess = false;
 
             function startRecognition() {
-                if (attemptCount >= maxAttempts || isRecognitionActive) return;
-
-                isRecognitionActive = true; // Устанавливаем флаг активности
-                attemptCount++; // Увеличиваем счетчик только при реальной попытке
-
-                recognition.start(); // Запускаем распознавание
+                if (attemptCount >= maxAttempts || isRecognitionActive || userSuccess) return;
+                isRecognitionActive = true;
+                attemptCount++;
+                recognition.start();
+                translationResultDiv.textContent = `Попытка ${attemptCount} из ${maxAttempts}`;
+                translationResultDiv.style.color = "#333";
             }
 
             recognition.onresult = (event) => {
-                isRecognitionActive = false; // Сбрасываем флаг
+                isRecognitionActive = false;
                 const spokenWord = event.results[0][0].transcript.trim().toLowerCase();
+
                 if (spokenWord === correctWord.toLowerCase()) {
-                    // Логика при правильном ответе
+                    translationResultDiv.textContent = "✅ Верно! Произношение правильное";
+                    translationResultDiv.style.color = "green";
+                    userSuccess = true;
+                    nextButton.disabled = false;
                 } else {
-                    // Логика при неправильном ответе
-                    translationResultDiv.textContent = `Вы сказали: "${spokenWord}". Это неверно. Попробуйте снова (${attemptCount}/${maxAttempts}).`;
-                    startRecognition(); // Повторная попытка
+                    translationResultDiv.textContent = `❌ Вы сказали: "${spokenWord}". Попробуйте еще раз (${attemptCount}/${maxAttempts})`;
+                    translationResultDiv.style.color = "red";
+                    setTimeout(startRecognition, 500); // Задержка для предотвращения циклов
                 }
             };
 
             recognition.onerror = (event) => {
-                isRecognitionActive = false; // Сбрасываем флаг
+                isRecognitionActive = false;
                 if (event.error === "no-speech") {
-                    // Игнорируем тишину и перезапускаем без увеличения счетчика
+                    translationResultDiv.textContent = "⚠️ Тишина. Повторите попытку";
                     startRecognition();
-                    return;
-                }
-                // Обработка других ошибок
-                if (attemptCount < maxAttempts) {
-                    startRecognition();
+                } else {
+                    attemptCount--; // Не засчитываем технические ошибки
+                    translationResultDiv.textContent = `❌ Ошибка: ${event.error}. Попробуйте снова`;
+                    setTimeout(startRecognition, 500);
                 }
             };
 
             recognition.onend = () => {
-                isRecognitionActive = false; // Сбрасываем флаг
-                if (attemptCount < maxAttempts) {
+                isRecognitionActive = false;
+                if (!userSuccess && attemptCount < maxAttempts) {
                     startRecognition();
+                } else if (!userSuccess) {
+                    translationResultDiv.textContent = "❌ Все попытки исчерпаны";
+                    translationResultDiv.style.color = "red";
+                    nextButton.disabled = false;
                 }
             };
 
+            // Кнопка для ручного повтора
+            const repeatButton = document.createElement("button");
+            repeatButton.textContent = "Повторить попытку";
+            repeatButton.style.marginTop = "10px";
+            repeatButton.addEventListener("click", () => {
+                if (!userSuccess) startRecognition();
+            });
+            translationResultDiv.appendChild(repeatButton);
+
             startRecognition(); // Начальная попытка
         }
-
-
 
 
         userInput.addEventListener("keypress", (event) => {
