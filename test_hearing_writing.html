@@ -252,7 +252,7 @@
 
         function loadQuestion() {
             const currentQuestion = questions[currentQuestionIndex];
-            playButton.textContent = `Прослушай ${currentQuestionIndex + 1} из ${questions.length}`;
+            playButton.textContent = `Прослушай ♫ ${currentQuestionIndex + 1} из ${questions.length}`;
             userInput.value = "";
             resultDiv.textContent = "";
             translationButtonsDiv.innerHTML = ""; // Очищаем кнопки переводов
@@ -283,7 +283,7 @@
                 score++;
                 showTranslationButtons(currentQuestion); // Показываем кнопки с переводами
             } else {
-                resultDiv.textContent = `Что-то не то... Попробуй снова.`;
+                resultDiv.textContent = `Что-то не то...`;
                 resultDiv.style.color = "red";
                 submitButton.disabled = false; // Разрешаем повторную попытку
             }
