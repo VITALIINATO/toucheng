@@ -169,15 +169,13 @@
         <div id="progressBarContainer">
             <div id="progressBar"></div>
         </div>
-        <!-- В начале контейнера, сразу после открывающего тега <div class="container"> -->
-        <!-- Добавляем ссылку в верхний правый угол -->
-        <!-- Добавляем ссылку в верхний правый угол -->
-        <div style="text-align: center; margin-bottom: 10px;">
+       
+        <!-- <div style="text-align: center; margin-bottom: 10px;">
             <a href="topic_letters.html" target="_blank"
                 style="font-size: 16px; color: white; text-decoration: underline;">
                 Перейти к ТЕМЕ
             </a>
-        </div>
+        </div> -->
         <h1>Прослушай, напиши, переведи, произнеси</h1>
         <div id="counter"></div>
         <button id="playButton">Прослушай ♫</button>
@@ -420,7 +418,10 @@
                 }
 
                 attemptCount++;
-                recognition.start();
+                setTimeout(() => {
+                    recognition.start();
+                }, 500); // 0.5 секунды
+
             }
 
             recognition.onresult = (event) => {
@@ -542,6 +543,8 @@
             // Добавляем кнопку в финальный результат
             finalResultDiv.appendChild(restartButton);
         }
+
+
 
         function updateProgressBar() {
             const progressBar = document.getElementById("progressBar");
