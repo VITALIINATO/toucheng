@@ -169,7 +169,7 @@
         <div id="progressBarContainer">
             <div id="progressBar"></div>
         </div>
-       
+
         <!-- <div style="text-align: center; margin-bottom: 10px;">
             <a href="topic_letters.html" target="_blank"
                 style="font-size: 16px; color: white; text-decoration: underline;">
@@ -310,9 +310,13 @@
             translationButtonsDiv.classList.add("hidden");
             translationResultDiv.textContent = "";
             submitButton.disabled = false;
-
             // Обновляем полосу прогресса
             updateProgressBar();
+
+            // Автоматическое воспроизведение слова через 1 секунду
+            setTimeout(() => {
+                speak(currentQuestion.word);
+            }, 700);
         }
 
         function speak(text) {
@@ -332,6 +336,8 @@
             const userAnswer = userInput.value.trim();
 
             if (userAnswer.toLowerCase() === currentQuestion.correct.toLowerCase()) {
+                const successAudio = new Audio('right.mp3');
+                successAudio.play();
                 resultDiv.textContent = "Правильно! Теперь переведи:";
                 resultDiv.style.color = "green";
                 score++;
@@ -390,105 +396,61 @@
                 translationButtonsDiv.appendChild(button);
             });
         }
-
         function recognizeSpeech(correctWord) {
             const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
             recognition.lang = "en-US";
             recognition.interimResults = false;
             recognition.maxAlternatives = 1;
 
-            let attemptCount = 0;
-            const maxAttempts = 3;
+            let attemptCount = 0; // Счетчик попыток
+            const maxAttempts = 5; // Максимальное количество попыток
+            let isRecognitionActive = false; // Флаг активности
 
             function startRecognition() {
-                if (attemptCount >= maxAttempts) {
-                    translationResultDiv.textContent = `Превышено количество попыток. Правильное слово: "${correctWord}".`;
-                    translationResultDiv.style.color = "red";
-                    const errorAudio = new Audio('error.mp3');
-                    errorAudio.play();
-                    setTimeout(() => {
-                        currentQuestionIndex++;
-                        if (currentQuestionIndex < questions.length) {
-                            loadQuestion();
-                        } else {
-                            showFinalResult();
-                        }
-                    }, 2000);
-                    return;
-                }
+                if (attemptCount >= maxAttempts || isRecognitionActive) return;
 
-                attemptCount++;
-                setTimeout(() => {
-                    recognition.start();
-                }, 500); // 0.5 секунды
+                isRecognitionActive = true; // Устанавливаем флаг активности
+                attemptCount++; // Увеличиваем счетчик только при реальной попытке
 
+                recognition.start(); // Запускаем распознавание
             }
 
             recognition.onresult = (event) => {
+                isRecognitionActive = false; // Сбрасываем флаг
                 const spokenWord = event.results[0][0].transcript.trim().toLowerCase();
                 if (spokenWord === correctWord.toLowerCase()) {
-                    const successAudio = new Audio('right.mp3');
-                    successAudio.play();
-                    translationResultDiv.textContent = "Правильно произнесено! Переход к следующему заданию...";
-                    translationResultDiv.style.color = "green";
-                    setTimeout(() => {
-                        currentQuestionIndex++;
-                        if (currentQuestionIndex < questions.length) {
-                            loadQuestion();
-                        } else {
-                            showFinalResult();
-                        }
-                    }, 1000);
+                    // Логика при правильном ответе
                 } else {
+                    // Логика при неправильном ответе
                     translationResultDiv.textContent = `Вы сказали: "${spokenWord}". Это неверно. Попробуйте снова (${attemptCount}/${maxAttempts}).`;
-                    translationResultDiv.style.color = "red";
-                    const errorAudio = new Audio('error.mp3');
-                    errorAudio.play();
-                    startRecognition();
+                    startRecognition(); // Повторная попытка
                 }
             };
 
             recognition.onerror = (event) => {
-                console.error("Ошибка распознавания:", event.error);
-
-                let errorMessage = "";
-                switch (event.error) {
-                    case "no-speech":
-                        errorMessage = "Речь не обнаружена. Убедитесь, что микрофон работает.";
-                        break;
-                    case "audio-capture":
-                        errorMessage = "Ошибка захвата аудио. Проверьте подключение микрофона.";
-                        break;
-                    case "not-allowed":
-                        errorMessage = "Доступ к микрофону запрещён. Разрешите доступ в настройках браузера.";
-                        break;
-                    default:
-                        errorMessage = "Произошла ошибка при распознавании речи. Попробуйте снова.";
+                isRecognitionActive = false; // Сбрасываем флаг
+                if (event.error === "no-speech") {
+                    // Игнорируем тишину и перезапускаем без увеличения счетчика
+                    startRecognition();
+                    return;
                 }
-
-                translationResultDiv.textContent = errorMessage;
-                translationResultDiv.style.color = "red";
-
-                const errorAudio = new Audio('error.mp3');
-                errorAudio.play();
-
+                // Обработка других ошибок
                 if (attemptCount < maxAttempts) {
-                    setTimeout(() => {
-                        startRecognition();
-                    }, 1000);
+                    startRecognition();
                 }
             };
 
             recognition.onend = () => {
+                isRecognitionActive = false; // Сбрасываем флаг
                 if (attemptCount < maxAttempts) {
-                    setTimeout(() => {
-                        startRecognition();
-                    }, 500);
+                    startRecognition();
                 }
             };
 
-            startRecognition();
+            startRecognition(); // Начальная попытка
         }
+
+
 
 
         userInput.addEventListener("keypress", (event) => {
