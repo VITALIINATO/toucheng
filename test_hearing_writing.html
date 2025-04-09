@@ -402,7 +402,6 @@
             recognition.lang = "en-US";
             recognition.interimResults = false;
             recognition.maxAlternatives = 1;
-
             let attemptCount = 0;
             const maxAttempts = 5;
             let isRecognitionActive = false;
@@ -425,7 +424,16 @@
                     translationResultDiv.textContent = "✅ Верно! Произношение правильное";
                     translationResultDiv.style.color = "green";
                     userSuccess = true;
-                    nextButton.disabled = false;
+
+                    // Автоматический переход к следующему вопросу
+                    setTimeout(() => {
+                        currentQuestionIndex++;
+                        if (currentQuestionIndex < questions.length) {
+                            loadQuestion();
+                        } else {
+                            showFinalResult();
+                        }
+                    }, 500); // Задержка в 1 секунду для отображения сообщения о правильном ответе
                 } else {
                     translationResultDiv.textContent = `❌ Вы сказали: "${spokenWord}". Попробуйте еще раз (${attemptCount}/${maxAttempts})`;
                     translationResultDiv.style.color = "red";
@@ -452,7 +460,16 @@
                 } else if (!userSuccess) {
                     translationResultDiv.textContent = "❌ Все попытки исчерпаны";
                     translationResultDiv.style.color = "red";
-                    nextButton.disabled = false;
+
+                    // Автоматический переход к следующему вопросу
+                    setTimeout(() => {
+                        currentQuestionIndex++;
+                        if (currentQuestionIndex < questions.length) {
+                            loadQuestion();
+                        } else {
+                            showFinalResult();
+                        }
+                    }, 500); // Задержка в 1 секунду для отображения сообщения о конце попыток
                 }
             };
 
