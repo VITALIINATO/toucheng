@@ -341,6 +341,9 @@
                 score++;
                 showTranslationButtons(currentQuestion); // Показываем кнопки с переводами
             } else {
+                // Проигрывание звука right.mp3
+                const audio = new Audio('wrong.mp3');
+                audio.play();
                 resultDiv.textContent = `Что-то не то...`;
                 resultDiv.style.color = "red";
                 submitButton.disabled = false; // Разрешаем повторную попытку
@@ -383,7 +386,7 @@
                 button.addEventListener("click", () => {
                     if (translation === correctTranslation) {
                         // Проигрывание звука right.mp3
-                        const audio = new Audio('right.mp3');
+                        const audio = new Audio('right2.mp3');
                         audio.play();
                         translationResultDiv.textContent = "Правильный перевод!";
                         translationResultDiv.style.color = "green";
@@ -399,6 +402,9 @@
                         }, 1000); // 1000 миллисекунд = 1 секунда
 
                     } else {
+                        // Проигрывание звука right.mp3
+                        const audio = new Audio('wrong.mp3');
+                        audio.play();
                         translationResultDiv.textContent = `Не то...`;
                         translationResultDiv.style.color = "red";
                     }
@@ -464,7 +470,7 @@
         // Найдите новый элемент счетчика
         const counterDiv = document.getElementById("counter");
 
-       
+
         function updateProgressBar() {
             const progressBar = document.getElementById("progressBar");
             const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
