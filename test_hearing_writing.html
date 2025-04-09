@@ -109,6 +109,7 @@
             /* Расстояние между кнопками */
             margin-top: 10px;
             /* Отступ сверху */
+
         }
 
         .translation-buttons button {
@@ -128,7 +129,8 @@
         <!-- Добавляем ссылку в верхний правый угол -->
         <!-- Добавляем ссылку в верхний правый угол -->
         <div style="text-align: center; margin-bottom: 10px;">
-            <a href="topic_letters.html" target="_blank" style="font-size: 16px; color: white; text-decoration: underline;">
+            <a href="topic_letters.html" target="_blank"
+                style="font-size: 16px; color: white; text-decoration: underline;">
                 Перейти к ТЕМЕ
             </a>
         </div>
@@ -324,19 +326,10 @@
                 button.textContent = translation;
                 button.addEventListener("click", () => {
                     if (translation === correctTranslation) {
-                        translationResultDiv.textContent = "Правильный перевод!";
+                        translationResultDiv.textContent = "Правильный перевод! Теперь произнесите это слово:";
                         translationResultDiv.style.color = "green";
-
-                        // Добавляем автоматический переход
-                        setTimeout(() => {
-                            currentQuestionIndex++;
-                            if (currentQuestionIndex < questions.length) {
-                                loadQuestion();
-                            } else {
-                                showFinalResult();
-                            }
-                        }, 1000); // 1000 миллисекунд = 1 секунда
-
+                        // Запускаем функцию распознавания речи
+                        recognizeSpeech(question.word);
                     } else {
                         translationResultDiv.textContent = `Не то...`;
                         translationResultDiv.style.color = "red";
@@ -345,6 +338,49 @@
                 translationButtonsDiv.appendChild(button);
             });
         }
+
+        function recognizeSpeech(correctWord) {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = "en-US";
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            recognition.start();
+
+            recognition.onresult = (event) => {
+                const spokenWord = event.results[0][0].transcript.trim().toLowerCase();
+                if (spokenWord === correctWord.toLowerCase()) {
+                    // Проигрывание звука right.mp3
+                    const audio = new Audio('right.mp3');
+                    audio.play();
+
+                    translationResultDiv.textContent = "Правильно произнесено! Переход к следующему заданию...";
+                    translationResultDiv.style.color = "green";
+                    setTimeout(() => {
+                        currentQuestionIndex++;
+                        if (currentQuestionIndex < questions.length) {
+                            loadQuestion();
+                        } else {
+                            showFinalResult();
+                        }
+                    }, 1000); // 1 секунда перед переходом
+                } else {
+                    translationResultDiv.textContent = `Вы сказали: "${spokenWord}". Это неверно. Попробуйте снова.`;
+                    translationResultDiv.style.color = "red";
+                    // Повторный запуск распознавания
+                    recognizeSpeech(correctWord);
+                }
+            };
+
+            recognition.onerror = (event) => {
+                translationResultDiv.textContent = "Ошибка при распознавании речи. Попробуйте снова.";
+                translationResultDiv.style.color = "red";
+                // Повторный запуск распознавания
+                recognizeSpeech(correctWord);
+            };
+        }
+
+       
 
         userInput.addEventListener("keypress", (event) => {
             if (event.key === "Enter") {
