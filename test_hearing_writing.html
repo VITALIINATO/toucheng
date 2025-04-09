@@ -22,11 +22,11 @@
 
     .container {
       text-align: center;
-      background: #eea4de;
+      background: #be91b5;
       padding: 20px;
-      border-radius: 10px;
+      border-radius: 30px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      min-height: 300px;
+      min-height: 340px;
       min-width: 600px;
     }
 
@@ -52,54 +52,59 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 16px;
+      margin-bottom: 20px;
     }
 
     #playButton {
-      background-color: #007bff;
+      background-color: #5c8dc2;
       color: white;
-      border-radius: 15px;
+      border-radius: 10px;
+      width: 190px;
     }
     #playButton:hover {
       background-color: #0864c7;
     }
 
     #submitButton {
-      background-color: #28a745;
+      background-color: #34a162;
       color: white;
       transition: all 0.3s ease;
     }
     #submitButton:hover {
-      background-color: #023d0f;
+      background-color: #248f3b;
       transform: scale(1.05);
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
 
     #nextButton {
-      background-color: #ffc107;
+      background-color: #e0bf2b;
       color: black;
     }
     #nextButton:hover {
-      background-color: #c99a02;
+      background-color: #bd9a28;
     }
 
     input[type="text"] {
       padding: 10px;
       font-size: 16px;
-      width: 80%;
+      width: 190px;
       margin-bottom: 10px;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius:10px;
+     
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Listen and Type</h1>
-    <button id="playButton">Word 1 of 9</button>
-    <input type="text" id="userInput" placeholder="Enter your answer here">
-    <button id="submitButton">Submit</button>
+    <h1>Прослушай и напиши</h1>
+    <button id="playButton">Word<br>1 of 9</button>
+    <input type="text" id="userInput" placeholder="Напиши">
+    <br>  
+    <button id="submitButton">Подтвердить</button> 
+    <br>  
+    <button id="nextButton">Дальше</button>
     <div id="result"></div>
-    <button id="nextButton">Next</button>
   </div>
   <div id="finalResult" class="hidden"></div>
   <script>
@@ -186,7 +191,7 @@ const finalResultDiv = document.getElementById("finalResult");
 
 function loadQuestion() {
   const currentQuestion = questions[currentQuestionIndex];
-  playButton.textContent = `Word ${currentQuestionIndex + 1} of ${questions.length}`;
+  playButton.textContent = `Прослушай ${currentQuestionIndex + 1} из ${questions.length}`;
   userInput.value = "";
   resultDiv.textContent = "";
   submitButton.disabled = false;
@@ -207,11 +212,11 @@ submitButton.addEventListener("click", () => {
   const userAnswer = userInput.value.trim();
 
   if (userAnswer.toLowerCase() === currentQuestion.correct.toLowerCase()) {
-    resultDiv.textContent = "Correct!";
+    resultDiv.textContent = "Правильно!";
     resultDiv.style.color = "green";
     score++;
   } else {
-    resultDiv.textContent = `Wrong! The correct answer is: ${currentQuestion.correct}`;
+    resultDiv.textContent = `Что-то не то...`;
     resultDiv.style.color = "red";
   }
 
@@ -237,7 +242,7 @@ nextButton.addEventListener("click", () => {
 function showFinalResult() {
   document.querySelector(".container").classList.add("hidden");
   finalResultDiv.classList.remove("hidden");
-  finalResultDiv.textContent = `Test completed! Your score: ${score} out of ${questions.length}`;
+  finalResultDiv.textContent = `Результат теста ${score} из ${questions.length}`;
 }
 
 // Загрузка первого вопроса
