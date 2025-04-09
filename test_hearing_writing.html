@@ -338,7 +338,7 @@
             if (userAnswer.toLowerCase() === currentQuestion.correct.toLowerCase()) {
                 // Создание и настройка аудио right.mp3
                 const audio = new Audio('right.mp3');
-                audio.volume = 0.5; // Устанавливаем громкость на 50%
+                audio.volume = 0.2; // Устанавливаем громкость на 50%
                 audio.play();
                 resultDiv.textContent = "Правильно! Теперь переведи:";
                 resultDiv.style.color = "green";
@@ -347,7 +347,7 @@
             } else {
                 // Создание и настройка аудио wrong.mp3
                 const audio = new Audio('wrong.mp3');
-                audio.volume = 0.5; // Устанавливаем громкость на 50%
+                audio.volume = 0.2; // Устанавливаем громкость на 50%
                 audio.play();
                 resultDiv.textContent = `Что-то не то...`;
                 resultDiv.style.color = "red";
@@ -392,6 +392,7 @@
                     if (translation === correctTranslation) {
                         // Проигрывание звука right.mp3
                         const audio = new Audio('right2.mp3');
+                        audio.volume = 0.2; // Устанавливаем громкость на 50%
                         audio.play();
                         translationResultDiv.textContent = "Правильный перевод!";
                         translationResultDiv.style.color = "green";
@@ -409,6 +410,7 @@
                     } else {
                         // Проигрывание звука right.mp3
                         const audio = new Audio('wrong.mp3');
+                        audio.volume = 0.2; // Устанавливаем громкость на 50%
                         audio.play();
                         translationResultDiv.textContent = `Не то...`;
                         translationResultDiv.style.color = "red";
