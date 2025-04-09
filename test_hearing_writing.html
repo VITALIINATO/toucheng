@@ -217,14 +217,16 @@ function loadQuestion() {
   submitButton.disabled = false;
 }
 
-function playAudio(word) {
-  const audio = new Audio(`${word}.mp3`);
-  audio.play();
+function speak(text) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "en-US";
+  utterance.voice = speechSynthesis.getVoices().find(voice => voice.name.includes("Male")) || speechSynthesis.getVoices()[0];
+  speechSynthesis.speak(utterance);
 }
 
 playButton.addEventListener("click", () => {
   const currentQuestion = questions[currentQuestionIndex];
-  playAudio(currentQuestion.word);
+  speak(currentQuestion.word); // Вызываем функцию speak для озвучки слова
 });
 
 submitButton.addEventListener("click", () => {
