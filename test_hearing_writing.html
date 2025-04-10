@@ -357,9 +357,8 @@
 
         function speak(text) {
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = "en-US";
-            utterance.voice = speechSynthesis.getVoices().find(voice => voice.name.includes("Male")) || speechSynthesis.getVoices()[0];
-            speechSynthesis.speak(utterance);
+            utterance.lang = "en-US"; // Устанавливаем язык текста
+            speechSynthesis.speak(utterance); // Голос берется из системных настроек по умолчанию
         }
 
         playButton.addEventListener("click", () => {
