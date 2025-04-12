@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <style>
+        /* Базовые стили */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('fontest.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: #685962;
+        }
+
+        .container {
+            text-align: center;
+            background: #be91b5;
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            min-height: 340px;
+            min-width: 600px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        #finalResult {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+            background-color: yellow;
+            /* Для отладки */
+            padding: 20px;
+            border: 2px solid red;
+            /* Для отладки */
+            border-radius: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        #playButton {
+            background-color: #5c8dc2;
+            color: white;
+            border-radius: 10px;
+            width: 200px;
+        }
+
+        #playButton:hover {
+            background-color: #0864c7;
+        }
+
+        #submitButton {
+            background-color: #34a162;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        #submitButton:hover {
+            background-color: #248f3b;
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        #nextButton {
+            background-color: #e0bf2b;
+            color: black;
+        }
+
+        #nextButton:hover {
+            background-color: #bd9a28;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+
+        }
+
+
+        .translation-buttons {
+            display: flex;
+            justify-content: center;
+            /* Центрируем кнопки по горизонтали */
+            gap: 10px;
+            /* Расстояние между кнопками */
+            margin-top: 10px;
+            /* Отступ сверху */
+        }
+
+        .translation-buttons button {
+            padding: 5px 10px;
+            font-size: 20px;
+            font: bold;
+            cursor: pointer;
+            background-color: #ce1553;
+            width: 120px;
+        }
+
+        .translation-buttons button:hover {
+            background-color: #0f971a;
+        }
+
+        #translationResult {
+            justify-content: center;
+            font-size: 24px;
+
+        }
+
+        #result {
+            justify-content: center;
+            font-size: 24px;
+
+        }
+
+
+
+        .hidden {
+            display: none;
+        }
+
+        /* Контейнер для полосы прогресса */
+        #progressBarContainer {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-top: 10px;
+            height: 10px;
+            overflow: hidden;
+            margin-bottom: 25px;
+
+        }
+
+        /* Сама полоса прогресса */
+        #progressBar {
+            width: 0%;
+            height: 100%;
+            background-color: #4caf50;
+            transition: width 0.3s ease;
+
+        }
+
+        /* Медиа-запрос для iPhone */
+        @media only screen and (max-width: 510px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                min-width: 90%;
+                padding: 15px;
+            }
+
+            button {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            #playButton {
+                width: 100%;
+            }
+
+            input[type="text"] {
+                width: 100%;
+                font-size: 14px;
+            }
+
+            .translation-buttons button {
+                width: 48%;
+                font-size: 16px;
+            }
+
+            #finalResult {
+                font-size: 16px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="progressBarContainer">
+            <div id="progressBar"></div>
+        </div>
+
+        <!-- В начале контейнера, сразу после открывающего тега <div class="container"> -->
+        <!-- Добавляем ссылку в верхний правый угол -->
+        <!-- Добавляем ссылку в верхний правый угол -->
+
+        <h1>Прослушай, напиши, переведи</h1>
+
+
+        <div id="counter"></div>
+        <button id="playButton">Прослушай ♫</button>
+        <input type="text" id="userInput" placeholder="Напиши ✎">
+        <br>
+        <button id="submitButton">Подтвердить</button>
+        <br>
+        <button id="nextButton">Дальше</button>
+        <div id="result"></div>
+        <div id="translationButtons" class="translation-buttons hidden"></div>
+        <div id="translationResult"></div>
+    </div>
+    <div id="finalResult" class="hidden"></div>
+    <script>
+        // Данные для теста
+        let questions = [
+
+            { word: "lake", correct: "lake", translation: "озеро" },
+            { word: "game", correct: "game", translation: "игра" },
+            { word: "blaze", correct: "blaze", translation: "блеск" },
+            { word: "face", correct: "face", translation: "лицо" },
+            { word: "cake", correct: "cake", translation: "торт" },
+            { word: "plate", correct: "plate", translation: "тарелка" },
+            { word: "dad", correct: "dad", translation: "папа" },
+            { word: "lamp", correct: "lamp", translation: "лампа" },
+            { word: "map", correct: "map", translation: "карта" },
+            { word: "sand", correct: "sand", translation: "песок" },
+            { word: "flat", correct: "flat", translation: "квартира" },
+            { word: "bag", correct: "bag", translation: "сумка" },
+            { word: "be", correct: "be", translation: "быть" },
+            { word: "leo", correct: "leo", translation: "Лев" },
+            { word: "me", correct: "me", translation: "меня" },
+            { word: "Steve", correct: "Steve", translation: "Стив" },
+            { word: "meme", correct: "meme", translation: "мем" },
+            { word: "cell", correct: "cell", translation: "сот" },
+            { word: "pen", correct: "pen", translation: "ручка" },
+            { word: "pet", correct: "pet", translation: "питомец" },
+            { word: "legs", correct: "legs", translation: "ноги" },
+            { word: "nest", correct: "nest", translation: "гнездо" },
+            { word: "desk", correct: "desk", translation: "стол" },
+            { word: "bike", correct: "bike", translation: "велосипед" },
+            { word: "five", correct: "five", translation: "пять" },
+            { word: "smile", correct: "smile", translation: "улыбка" },
+            { word: "kite", correct: "kite", translation: "возд. змей" },
+            { word: "nine", correct: "nine", translation: "девять" },
+            { word: "mice", correct: "mice", translation: "мыши" },
+            { word: "lips", correct: "lips", translation: "губы" },
+            { word: "milk", correct: "milk", translation: "молоко" },
+            { word: "kiss", correct: "kiss", translation: "поцелуй" },
+            { word: "kid", correct: "kid", translation: "ребёнок" },
+            { word: "zip", correct: "zip", translation: "молния" },
+            { word: "pig", correct: "pig", translation: "свинья" },
+            { word: "my", correct: "my", translation: "мой" },
+            { word: "fly", correct: "fly", translation: "муха" },
+            { word: "sky", correct: "sky", translation: "небо" },
+            { word: "ply", correct: "ply", translation: "слой" },
+            { word: "spy", correct: "spy", translation: "шпион" },
+            { word: "baby", correct: "baby", translation: "малыш" },
+            { word: "puppy", correct: "puppy", translation: "щенок" },
+            { word: "lily", correct: "lily", translation: "лилия" },
+            { word: "city", correct: "city", translation: "город" },
+            { word: "fantasy", correct: "fantasy", translation: "фантазия" },
+            { word: "enemy", correct: "enemy", translation: "враг" },
+            { word: "note", correct: "note", translation: "заметка" },
+            { word: "nose", correct: "nose", translation: "нос" },
+            { word: "smoke", correct: "smoke", translation: "дым" },
+            { word: "gold", correct: "gold", translation: "золото" },
+            { word: "zone", correct: "zone", translation: "зона" },
+            { word: "dog", correct: "dog", translation: "собака" },
+            { word: "pot", correct: "pot", translation: "горшок" },
+            { word: "top", correct: "top", translation: "вершина" },
+            { word: "slot", correct: "slot", translation: "щель" },
+            { word: "fog", correct: "fog", translation: "туман" },
+            { word: "log", correct: "log", translation: "бревно" },
+            { word: "tube", correct: "tube", translation: "труба" },
+            { word: "duty", correct: "duty", translation: "обязанность" },
+            { word: "music", correct: "music", translation: "музыка" },
+            { word: "cute", correct: "cute", translation: "милый" },
+            { word: "student", correct: "student", translation: "студент" },
+            { word: "dune", correct: "dune", translation: "дюна" },
+            { word: "cup", correct: "cup", translation: "чашка" },
+            { word: "sun", correct: "sun", translation: "солнце" },
+            { word: "nut", correct: "nut", translation: "орех" },
+            { word: "mum", correct: "mum", translation: "мама" },
+            { word: "gun", correct: "gun", translation: "пистолет" },
+            { word: "bus", correct: "bus", translation: "автобус" },
+            { word: "cent", correct: "cent", translation: "цент" },
+            { word: "citizen", correct: "citizen", translation: "гражданин" },
+            { word: "candy", correct: "candy", translation: "конфета" },
+            { word: "cat", correct: "cat", translation: "кошка" },
+            { word: "pose", correct: "pose", translation: "поза" },
+            { word: "vase", correct: "vase", translation: "ваза" },
+            { word: "wise", correct: "wise", translation: "мудрец" },
+            { word: "gym", correct: "gym", translation: "спортзал" },
+            { word: "general", correct: "general", translation: "генерал" },
+            { word: "gel", correct: "gel", translation: "гель" }
+
+
+
+
+        ];
+
+        // Перемешиваем вопросы перед началом теста
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        shuffleArray(questions);
+        questions = questions.slice(0, 12);
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const playButton = document.getElementById("playButton");
+        const userInput = document.getElementById("userInput");
+        const resultDiv = document.getElementById("result");
+        const submitButton = document.getElementById("submitButton");
+        const nextButton = document.getElementById("nextButton");
+        const translationButtonsDiv = document.getElementById("translationButtons");
+        const translationResultDiv = document.getElementById("translationResult");
+        const finalResultDiv = document.getElementById("finalResult");
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            counterDiv.textContent = `${currentQuestionIndex + 1} из ${questions.length}`;
+            playButton.textContent = `Прослушай ♫`;
+            userInput.value = "";
+            resultDiv.textContent = "";
+            translationButtonsDiv.innerHTML = "";
+            translationButtonsDiv.classList.add("hidden");
+            translationResultDiv.textContent = "";
+            submitButton.disabled = false;
+            // Обновляем полосу прогресса
+            updateProgressBar();
+
+            // Автоматическое воспроизведение слова через 1 секунду
+            setTimeout(() => {
+                speak(currentQuestion.word);
+            }, 700);
+
+            // Добавьте эту строку в конце функции
+            userInput.focus(); // Устанавливаем фокус при загрузке нового вопроса
+        }
+
+
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = "en-US"; // Устанавливаем язык текста
+            speechSynthesis.speak(utterance); // Голос берется из системных настроек по умолчанию
+        }
+
+        playButton.addEventListener("click", () => {
+            const currentQuestion = questions[currentQuestionIndex];
+            speak(currentQuestion.word); // Вызываем функцию speak для озвучки слова
+        });
+
+        submitButton.addEventListener("click", () => {
+            const currentQuestion = questions[currentQuestionIndex];
+            const userAnswer = userInput.value.trim();
+
+            if (userAnswer.toLowerCase() === currentQuestion.correct.toLowerCase()) {
+                // Создание и настройка аудио right.mp3
+                const audio = new Audio('right.mp3');
+                audio.volume = 0.2; // Устанавливаем громкость на 50%
+                audio.play();
+                resultDiv.textContent = "Правильно! Теперь переведи:";
+                resultDiv.style.color = "green";
+                score++;
+                showTranslationButtons(currentQuestion); // Показываем кнопки с переводами
+            } else {
+                // Создание и настройка аудио wrong.mp3
+                const audio = new Audio('wrong.mp3');
+                audio.volume = 0.2; // Устанавливаем громкость на 50%
+                audio.play();
+                resultDiv.textContent = `Что-то не то...`;
+                resultDiv.style.color = "red";
+                submitButton.disabled = false; // Разрешаем повторную попытку
+            }
+        });
+
+        function getTranslationOptions(question) {
+            const correctTranslation = question.translation;
+            const allTranslations = questions.map(q => q.translation); // Все возможные переводы
+            const otherTranslations = allTranslations.filter(t => t !== correctTranslation); // Исключаем правильный перевод
+
+            // Выбираем три случайных неправильных перевода
+            const randomTranslations = [];
+            while (randomTranslations.length < 3) {
+                const randomIndex = Math.floor(Math.random() * otherTranslations.length);
+                const randomTranslation = otherTranslations[randomIndex];
+                if (!randomTranslations.includes(randomTranslation)) {
+                    randomTranslations.push(randomTranslation);
+                }
+            }
+
+            // Добавляем правильный перевод и перемешиваем
+            const options = [correctTranslation, ...randomTranslations];
+            shuffleArray(options);
+            return options;
+        }
+
+
+
+        function showTranslationButtons(question) {
+            const translations = getTranslationOptions(question);
+            const correctTranslation = question.translation;
+            // Очищаем предыдущие кнопки
+            translationButtonsDiv.innerHTML = "";
+            translationButtonsDiv.classList.remove("hidden");
+            // Создаём кнопки для каждого варианта перевода
+            translations.forEach(translation => {
+                const button = document.createElement("button");
+                button.textContent = translation;
+                button.addEventListener("click", () => {
+                    if (translation === correctTranslation) {
+                        // Проигрывание звука right.mp3
+                        const audio = new Audio('right2.mp3');
+                        audio.volume = 0.2; // Устанавливаем громкость на 50%
+                        audio.play();
+                        translationResultDiv.textContent = "Правильный перевод!";
+                        translationResultDiv.style.color = "green";
+
+                        // Добавляем автоматический переход
+                        setTimeout(() => {
+                            currentQuestionIndex++;
+                            if (currentQuestionIndex < questions.length) {
+                                loadQuestion();
+                            } else {
+                                showFinalResult();
+                            }
+                        }, 1000); // 1000 миллисекунд = 1 секунда
+
+                    } else {
+                        // Проигрывание звука right.mp3
+                        const audio = new Audio('wrong.mp3');
+                        audio.volume = 0.2; // Устанавливаем громкость на 50%
+                        audio.play();
+                        translationResultDiv.textContent = `Не то...`;
+                        translationResultDiv.style.color = "red";
+                    }
+                });
+                translationButtonsDiv.appendChild(button);
+            });
+        }
+
+        userInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                submitButton.click();
+            }
+        });
+
+        nextButton.addEventListener("click", () => {
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showFinalResult();
+            }
+        });
+
+        // Обновленная функция showFinalResult()
+        function showFinalResult() {
+            document.querySelector(".container").classList.add("hidden");
+            finalResultDiv.classList.remove("hidden");
+            finalResultDiv.textContent = `Результат теста ${score} из ${questions.length}`;
+
+            // Создаем кнопку "Начать заново"
+            const restartButton = document.createElement("button");
+            restartButton.textContent = "Начать заново";
+            restartButton.style.display = "block";
+            restartButton.style.margin = "20px auto";
+            restartButton.style.padding = "10px 20px";
+            restartButton.style.fontSize = "16px";
+            restartButton.style.backgroundColor = "#5c8dc2";
+            restartButton.style.color = "#fff";
+            restartButton.style.border = "none";
+            restartButton.style.borderRadius = "5px";
+            restartButton.style.cursor = "pointer";
+
+            // Добавляем обработчик события для кнопки
+            restartButton.addEventListener("click", () => {
+                // Сбрасываем параметры
+                shuffleArray(questions);
+                questions = questions.slice(0, 12);
+                currentQuestionIndex = 0;
+                score = 0;
+
+                // Показываем контейнер с вопросами и загружаем первый вопрос
+                document.querySelector(".container").classList.remove("hidden");
+                finalResultDiv.classList.add("hidden");
+                loadQuestion();
+            });
+
+            // Добавляем кнопку в финальный результат
+            finalResultDiv.appendChild(restartButton);
+        }
+
+        // Загрузка первого вопроса
+        // Найдите новый элемент счетчика
+        const counterDiv = document.getElementById("counter");
+
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progressBar");
+            const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+        }
+
+        // В конце скрипта, после всех определений функций, добавьте:
+        window.onload = function () {
+            userInput.focus(); // Устанавливаем фокус при загрузке страницы
+        };
+
+    </script>
+</body>
+
+</html>
