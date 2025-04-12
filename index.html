@@ -79,7 +79,7 @@
 
         /* Стиль для четвертой ссылки (Читать) */
         a.letters {
-            color: #ff33a6;
+          
             /* Розовый цвет */
             color: #050505;
             /* Оранжевый цвет */
@@ -104,14 +104,35 @@
         }
 
         /* Стиль для ссылк */
-        a.hearing_writing {
-            color: #21588b;
+        a.test1 {
+            color: #094277;
             /* Голубой цвет */
             gap: 50px;
             margin-top: 90px;
+            background-color: #7991a5;
+            border-radius: 10px;
+            padding: 10px 20px;
+           
         }
 
-        a.hearing_writing:hover {
+        a.test1:hover {
+            color: #0c0c0c;
+            /* Светло-голубой при наведении */
+            transform: scale(1.5);
+        }
+
+         /* Стиль для ссылк */
+         a.test2 {
+            color: #08065c;
+            /* Голубой цвет */
+            gap: 50px;
+            margin-top: 90px;
+            background-color: #7991a5;
+            border-radius: 10px;
+            padding: 10px 20px;
+        }
+
+        a.test2:hover {
             color: #0c0c0c;
             /* Светло-голубой при наведении */
             transform: scale(1.1);
@@ -121,28 +142,21 @@
 
 <body>
     <div class="container">
-     
+
         <ul>
-<!--             <li><a href="topic_sounds.html" class="sounds">Тема: ЗВУКИ</a></li> -->
 
             <li><a href="allsounds/english_sounds_4.html" class="sounds">ЗВУКИ</a></li>
-            <!-- <li><a href="test_hearing.html" class="listen">Тест на Слух</a></li>
-            <li><a href="test_speaking.html" class="listen">Тест на Произношение</a></li> -->
 
             <li><br></li>
             <li><a href="topic_letters.html" class="letters">БУКВЫ-1</a></li>
             <br>
-               <li><a href="topic_letters_part2.html" class="letters">БУКВЫ-2</a></li>
-            <!-- <li><a href="test_writing.html" class="write">Тест на Написание</a></li>
-            <li><a href="test_reading.html" class="write">Тест на Чтение</a></li> -->
+            <li><a href="topic_letters_part2.html" class="letters">БУКВЫ-2</a></li>
+
             <br>
-            <li><a href="test_hearing_writing.html" class="hearing_writing">Тест-1</a></li>
-          
-<!--             <li><a href="topic_sounds_part2.html" class="sounds">Тема: ЗВУКИ (2)</a></li> -->
-<!--             <br> -->
-         
+            <li><a href="test_hearing_writing.html" class="test1">  Тест-1  </a></li>
+
             <br>
-            <li><a href="test_part2.html" class="hearing_writing">Тест-2</a></li>
+            <li><a href="test_part2.html" class="test2">Тест-2</a></li>
         </ul>
     </div>
 </body>
