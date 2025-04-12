@@ -36,7 +36,7 @@
  }
  
  .container {
-     max-width: 1200px;
+     max-width: 790px;
      width: 100%;
      /* background: white; */
      /* border-radius: 12px; */
@@ -65,7 +65,8 @@
      display: grid;
      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
      gap: 20px;
-     height: 395px; /* Фиксированная высота */
+     height: 300px; /* Фиксированная высота */
+
      /* margin: 10px; */
  }
 
@@ -104,13 +105,54 @@
  ================================ */
  .full-nav {
      display: grid;
-     grid-template-columns: repeat(13, minmax(50px, 1fr));
+     grid-template-columns: repeat(14, minmax(50px, 1fr));
      gap: 10px;
      margin-top: 0px;
      justify-content: center;       /* Центрирует содержимое */
      max-width: 100%;               /* Ограничение по ширине */
  }
- 
+ .full-nav {
+    display: grid;
+    grid-template-areas:
+        "a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14"
+        "b1 b2 b3 b4 b5 b6 b7 b8 b9 . . . . ."
+        "c1 c2 c3 c4 c5 . . . . . . . . .";
+    gap: 10px;
+    margin-top: 0px;
+    justify-content: center;
+    max-width: 100%;
+}
+
+.nav-item:nth-child(1) { grid-area: a1; }
+.nav-item:nth-child(2) { grid-area: a2; }
+.nav-item:nth-child(3) { grid-area: a3; }
+.nav-item:nth-child(4) { grid-area: a4; }
+.nav-item:nth-child(5) { grid-area: a5; }
+.nav-item:nth-child(6) { grid-area: a6; }
+.nav-item:nth-child(7) { grid-area: a7; }
+.nav-item:nth-child(8) { grid-area: a8; }
+.nav-item:nth-child(9) { grid-area: a9; }
+.nav-item:nth-child(10) { grid-area: a10; }
+.nav-item:nth-child(11) { grid-area: a11; }
+.nav-item:nth-child(12) { grid-area: a12; }
+.nav-item:nth-child(13) { grid-area: a13; }
+.nav-item:nth-child(14) { grid-area: a14; }
+
+.nav-item:nth-child(15) { grid-area: b1; }
+.nav-item:nth-child(16) { grid-area: b2; }
+.nav-item:nth-child(17) { grid-area: b3; }
+.nav-item:nth-child(18) { grid-area: b4; }
+.nav-item:nth-child(19) { grid-area: b5; }
+.nav-item:nth-child(20) { grid-area: b6; }
+.nav-item:nth-child(21) { grid-area: b7; }
+.nav-item:nth-child(22) { grid-area: b8; }
+.nav-item:nth-child(23) { grid-area: b9; }
+
+.nav-item:nth-child(24) { grid-area: c1; }
+.nav-item:nth-child(25) { grid-area: c2; }
+.nav-item:nth-child(26) { grid-area: c3; }
+/* .nav-item:nth-child(24) { grid-area: c1; }
+.nav-item:nth-child(25) { grid-area: c2; } */
  .full-nav::after {
      content: '';
      display: block;
@@ -393,6 +435,14 @@
                     example2: "gold", transcription2: "[gould]", translation2: "золото", image2: "gold.jpg",
                     example3: "gun", transcription3: "['gʌn]", translation3: "оружие", image3: "gun.jpg"
                 },
+
+                {
+                    soundFile: "dj.mp3", 
+                    phonetic: "<span class='phonetic-bold'>[dʒ]</span><br><br>русский звук [дж] ",
+                    example1: "gym", transcription1: "[dʒɪm]", translation1: "тренажерный зал", image1: "gym.jpg",
+                    example2: "general", transcription2: "[dʒenərəl]", translation2: "генерал", image2: "general.jpg",
+                    example3: "gel", transcription3: "['dʒel]", translation3: "гель", image3: "gel.jpg"
+                },
     //TDNL
                 {
                     soundFile: "t.mp3", 
@@ -526,6 +576,49 @@
                     example2: "sun", transcription2: "[sʌn]", translation2: "солнце", image2: "sun.jpg",
                     example3: "nut", transcription3: "[nʌt]", translation3: "орех", image3: "nut.jpg",
                 },
+
+                // Hh
+                 {
+                    soundFile: "h.mp3", 
+                    phonetic: "<span class='phonetic-bold'>[h]</span><br><br>близок русскому звуку [х], но почти беззвучен, как легкий выдох[а]",
+                    example1: "hand", transcription1: "[hænd]", translation1: "рука ", image1: "hand.jpg",
+                    example2: "home", transcription2: "[houm]", translation2: "дом", image2: "home.jpg",
+                    example3: "hat", transcription3: "[hæt]", translation3: "шапка", image3: "hat.jpg",
+                },
+  // Ww
+  {
+                    soundFile: "w.mp3", 
+                    phonetic: "<span class='phonetic-bold'>[w]</span><br><br>губы округлены и слегка вытянуты вперед, как перед произнесением русского [у], а затем быстро и энергично произносится следующий гласный звук в слове после [w]",
+                    example1: "we", transcription1: "[wi:]", translation1: "мы ", image1: "we.jpg",
+                    example2: "way", transcription2: "[wæɪ]", translation2: "путь", image2: "way.jpg",
+                    example3: "wine", transcription3: "[waɪn]", translation3: "вино", image3: "wine.jpg",
+                },
+                 // Rr
+                 {
+                    soundFile: "r.mp3", 
+                    phonetic: "<span class='phonetic-bold'>[h]</span><br><br>отличается от русского звука [р] тем, что лишен вибрации, а кончик языка заострен, поднят к нёбу, не касается его и остается неподвижным]",
+                    example1: "red", transcription1: "[red]", translation1: "красный ", image1: "red.jpg",
+                    example2: "rose", transcription2: "[rouz]", translation2: "роза", image2: "rose.jpg",
+                    example3: "rabbit", transcription3: "[ræbɪt]", translation3: "кролик", image3: "rabbit.jpg",
+                },
+
+                // //Jj
+                // {
+                //     soundFile: "dj.mp3", 
+                //     phonetic: "<span class='phonetic-bold'>[dʒ]</span><br><br>русский звук [дж]]",
+                  
+                // },
+                
+
+
+
+
+
+
+
+
+
+
     
                 
              
