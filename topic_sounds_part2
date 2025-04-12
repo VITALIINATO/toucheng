@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>English Sounds</title>
+    <style>
+    /* ================================
+    Глобальные стили
+ ================================ */
+ * {
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+ }
+ 
+ body {
+     font-family: Arial, sans-serif;
+     line-height: 1.6;
+     min-height: 100vh;
+     padding: 0px;
+     background-color: #f4f4f4;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+ }
+ 
+ /* ================================
+    Основные блоки
+ ================================ */
+ .main-title {
+     font-size: 2rem;
+     margin: 5px 0;
+     text-align: center;
+ }
+ 
+ .container {
+    margin-top: 10px;
+     max-width: 790px;
+     width: 100%;
+     /* background: white; */
+     /* border-radius: 12px; */
+     /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
+     /* padding: 0px;
+     margin: 0 auto; */
+     flex: 1;
+     display: flex;
+     flex-direction: column;
+ }
+ 
+ .sound {
+     text-align: center;
+     margin-bottom: 5px;
+ }
+ .example-section {
+    display: flex; /* Используем Flexbox */
+    flex-direction: column; /* Элементы располагаются вертикально */
+    align-items: center; /* Центрируем по горизонтали */
+    justify-content: center; /* Центрируем по вертикали */
+}
+ /* ================================
+    Примеры и кнопки
+ ================================ */
+ .examples-container {
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+     gap: 20px;
+     height: 300px; /* Фиксированная высота */
+
+     /* margin: 10px; */
+ }
+
+ 
+ 
+ .example-image {
+     width: 100%;
+     height: auto;
+     border-radius: 15px;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+ }
+ 
+ /* ================================
+    Кнопка звука
+ ================================ */
+ .listen-button {
+     height: 150px; /* Фиксированная высота */
+     width: 100%;
+     background: #1acf44;
+     border: none;
+     border-radius: 10px;
+     color: white;
+     font-size: 1rem;
+     cursor: pointer;
+     transition: background 0.3s;
+     margin: 0px 0;
+     padding: 0px;
+ }
+ 
+ .listen-button:hover {
+     background: #1d8133;
+ }
+ 
+ /* ================================
+    Навигация
+ ================================ */
+ .full-nav {
+     display: grid;
+     grid-template-columns: repeat(14, minmax(50px, 1fr));
+     gap: 10px;
+     margin-top: 0px;
+     justify-content: center;       /* Центрирует содержимое */
+     max-width: 100%;               /* Ограничение по ширине */
+ }
+ .full-nav {
+    display: grid;
+    grid-template-areas:
+        "a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14"
+        "b1 b2 b3 b4 b5 b6 b7 b8 b9 . . . . ."
+        "c1 c2 c3 c4 c5 . . . . . . . . .";
+    gap: 10px;
+    margin-top: 0px;
+    justify-content: center;
+    max-width: 100%;
+}
+
+.nav-item:nth-child(1) { grid-area: a1; }
+.nav-item:nth-child(2) { grid-area: a2; }
+.nav-item:nth-child(3) { grid-area: a3; }
+.nav-item:nth-child(4) { grid-area: a4; }
+.nav-item:nth-child(5) { grid-area: a5; }
+.nav-item:nth-child(6) { grid-area: a6; }
+.nav-item:nth-child(7) { grid-area: a7; }
+.nav-item:nth-child(8) { grid-area: a8; }
+.nav-item:nth-child(9) { grid-area: a9; }
+.nav-item:nth-child(10) { grid-area: a10; }
+.nav-item:nth-child(11) { grid-area: a11; }
+.nav-item:nth-child(12) { grid-area: a12; }
+.nav-item:nth-child(13) { grid-area: a13; }
+.nav-item:nth-child(14) { grid-area: a14; }
+
+.nav-item:nth-child(15) { grid-area: b1; }
+.nav-item:nth-child(16) { grid-area: b2; }
+.nav-item:nth-child(17) { grid-area: b3; }
+.nav-item:nth-child(18) { grid-area: b4; }
+.nav-item:nth-child(19) { grid-area: b5; }
+.nav-item:nth-child(20) { grid-area: b6; }
+.nav-item:nth-child(21) { grid-area: b7; }
+.nav-item:nth-child(22) { grid-area: b8; }
+.nav-item:nth-child(23) { grid-area: b9; }
+
+.nav-item:nth-child(24) { grid-area: c1; }
+.nav-item:nth-child(25) { grid-area: c2; }
+.nav-item:nth-child(26) { grid-area: c3; }
+/* .nav-item:nth-child(24) { grid-area: c1; }
+.nav-item:nth-child(25) { grid-area: c2; } */
+ .full-nav::after {
+     content: '';
+     display: block;
+     height: 20px;
+ }
+ 
+ .nav-item {
+    margin-top: 20px;
+     padding: 10px 15px;
+     background-color: #f374de;
+     color: white;
+     border-radius: 6px;
+     cursor: pointer;
+     text-align: center;
+     font-size: 0.9rem;
+     transition: background 0.3s;
+     justify-self: center;          /* Центрирует каждую кнопку */
+ }
+ 
+ .nav-item:hover {
+     background-color: #9b0e65;
+ }
+ 
+ .nav-item.active {
+     background-color: #790596;
+ }
+
+
+
+ .nav-buttons {
+    display: flex;
+    justify-content: center;     /* Центрирование кнопок */
+    gap: 180px;                   /* Расстояние между кнопками */
+    margin: 10px 0;
+}
+
+.nav-buttons button {
+    padding: 10px 10px;
+    font-size: 0.9rem;
+    background-color: #6c63ff;   /* Фиолетовая кнопка */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.nav-buttons button:hover {
+    background-color: #4b42d1;
+}
+
+ 
+ /* ================================
+    Текстовые стили
+ ================================ */
+ .phonetic-bold {
+     font-weight: bold;
+     color: #141516;
+     font-size: 2.5em;
+ }
+ 
+ .word {
+     font-weight: bold;
+     color: #050505;
+     font-size: 1.5em;
+ }
+ 
+ .transcription {
+     color: #fcfafa;
+     font-size: 1.2em;
+ }
+
+ 
+ /* ================================
+    Адаптивность
+ ================================ */
+ /* ================================
+    Адаптивность
+ ================================ */
+@media (max-width: 500px) {
+    .main-title {
+        font-size: 1.5rem;
+    }
+
+    .container {
+        padding: 5px;
+    }
+
+   
+    .full-nav {
+        grid-template-columns: repeat(8, 1fr);
+    }
+
+    /* Настройки для контейнера с изображениями */
+    .examples-container {
+        display: flex; /* Меняем на Flexbox */
+        flex-direction: column; /* Элементы располагаются вертикально */
+        align-items: center; /* Центрируем элементы по горизонтали */
+        gap: 5px; /* Расстояние между элементами */
+        margin: 10px;
+    }
+
+    /* Настройки для секции с изображением */
+    .example-section {
+        display: flex; /* Flexbox для управления расположением */
+        flex-direction: column; /* Элементы располагаются вертикально */
+        align-items: center; /* Центрируем содержимое по горизонтали */
+        justify-content: center; /* Центрируем содержимое по вертикали */
+    }
+
+    /* Настройки для изображений */
+    .example-image {
+        /* transform: scale(1.3); */
+        transform-origin: center;
+        max-width: 140px;
+        margin: 5px;
+    }
+
+    .nav-item {
+        font-size: 0.7rem;
+        padding: 6px 10px;
+    }
+
+    .full-nav {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+</style> 
+</head>
+<body>
+    
+    <div class="container">
+
+        <!-- Секция звука -->
+        <div class="sound">
+            <button class="listen-button" onclick="playSound(sounds[currentIndex].soundFile)" id="listenButton"></button>
+        </div>
+    
+        <!-- Примеры с изображениями -->
+        <div class="examples-container">            
+                <img class="example-image" id="image1" src="" alt="Изображение 1" onclick="playExampleSound(sounds[currentIndex].example1)">
+                <img class="example-image" id="image2" src="" alt="Изображение 2" onclick="playExampleSound(sounds[currentIndex].example2)">
+                <img class="example-image" id="image3" src="" alt="Изображение 3" onclick="playExampleSound(sounds[currentIndex].example3)">
+        </div>  
+       
+    
+        <!-- Кнопки для навигации -->
+        <div class="nav-buttons">
+            <button onclick="prevSound()">Назад</button>
+            <a href="index.html">home</a> 
+            <button onclick="nextSound()">Вперед</button>
+        </div>
+    
+        <!-- Новая навигация -->
+        <div class="full-nav">
+            <!-- Кнопки будут генерироваться автоматически -->
+        </div>
+    
+    </div>
+    
+    <!-- Аудиоплеер -->
+    <audio id="audioPlayer"></audio>
+    
+    
+        <script>
+            let voicesLoaded = false;
+    
+            function initializeVoices() {
+                const voices = speechSynthesis.getVoices();
+                if (voices.length > 0) {
+                    voicesLoaded = true;
+                }
+            }
+    
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = initializeVoices;
+            } else {
+                initializeVoices();
+            }
+            speechSynthesis.getVoices();
+    
+    const sounds = [
+    
+        
+
+                // Hh
+                 {
+                    soundFile: "h.mp3", 
+                    phonetic: "<span class='phonetic-bold'>[h]</span><br><br>близок русскому звуку [х], но почти беззвучен, как легкий выдох[а]",
+                    example1: "hand", transcription1: "[hænd]", translation1: "рука ", image1: "hand.jpg",
+                    example2: "home", transcription2: "[houm]", translation2: "дом", image2: "home.jpg",
+                    example3: "hat", transcription3: "[hæt]", translation3: "шапка", image3: "hat.jpg",
+                },
+  // Ww
+  {
+                    soundFile: "w.mp3", 
+                    phonetic: "<span class='phonetic-bold'>[w]</span><br><br>губы округлены и слегка вытянуты вперед, как перед произнесением русского [у], а затем быстро и энергично произносится следующий гласный звук в слове после [w]",
+                    example1: "we", transcription1: "[wi:]", translation1: "мы ", image1: "we.jpg",
+                    example2: "way", transcription2: "[wæɪ]", translation2: "путь", image2: "way.jpg",
+                    example3: "wine", transcription3: "[waɪn]", translation3: "вино", image3: "wine.jpg",
+                },
+                 // Rr
+                 {
+                    soundFile: "r.mp3", 
+                    phonetic: "<span class='phonetic-bold'>[r]</span><br><br>отличается от русского звука [р] тем, что лишен вибрации, а кончик языка заострен, поднят к нёбу, не касается его и остается неподвижным]",
+                    example1: "red", transcription1: "[red]", translation1: "красный ", image1: "red.jpg",
+                    example2: "rose", transcription2: "[rouz]", translation2: "роза", image2: "rose.jpg",
+                    example3: "rabbit", transcription3: "[ræbɪt]", translation3: "кролик", image3: "rabbit.jpg",
+                },
+
+                // //Jj
+                // {
+                //     soundFile: "dj.mp3", 
+                //     phonetic: "<span class='phonetic-bold'>[dʒ]</span><br><br>русский звук [дж]]",
+                  
+                // },
+                
+
+
+
+
+
+
+
+
+
+
+    
+                
+             
+            ];
+    
+            let currentIndex = 0;
+    
+            function playSound(file) {
+                const audio = document.getElementById("audioPlayer");
+                audio.src = file;
+                audio.play().catch(error => console.error("Ошибка воспроизведения:", error));
+            }
+    
+            function playExampleSound(word) {
+                const audio = new Audio(`${word}.mp3`);
+                audio.play().catch(error => console.error("Ошибка воспроизведения:", error));
+            }
+    
+            function prevSound() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateContent();
+                }
+            }
+    
+            function nextSound() {
+                if (currentIndex < sounds.length - 1) {
+                    currentIndex++;
+                    updateContent();
+                }
+            }
+    
+            function updateActiveNav() {
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach((item, index) => {
+                    if (index === currentIndex) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+    
+            function createFullNavigation() {
+                const navContainer = document.querySelector('.full-nav');
+                if (!navContainer) {
+                    console.error("Контейнер .full-nav не найден!");
+                    return;
+                }
+    
+                navContainer.innerHTML = '';
+    
+                sounds.forEach((sound, index) => {
+                    const button = document.createElement('div');
+                    button.classList.add('nav-item');
+    
+                    const soundSymbolMatch = sound.phonetic.match(/\[(.*?)\]/);
+                    if (soundSymbolMatch) {
+                        button.textContent = `[${soundSymbolMatch[1]}]`;
+                    } else {
+                        button.textContent = "N/A";
+                    }
+    
+                    if (index === currentIndex) {
+                        button.classList.add('active');
+                    }
+    
+                    button.addEventListener('click', () => {
+                        currentIndex = index;
+                        updateContent();
+                    });
+    
+                    navContainer.appendChild(button);
+                });
+            }
+    
+            function updateContent() {
+                const listenButton = document.getElementById("listenButton");
+                const image1Element = document.getElementById("image1");
+                const image2Element = document.getElementById("image2");
+                const image3Element = document.getElementById("image3");
+              
+    
+               
+                listenButton.innerHTML = sounds[currentIndex].phonetic;
+                image1Element.src = sounds[currentIndex].image1 || 'placeholder.jpg';
+                image2Element.src = sounds[currentIndex].image2 || 'placeholder.jpg';
+                image3Element.src = sounds[currentIndex].image3 || 'placeholder.jpg';
+    
+                updateActiveNav();
+            }
+    
+            window.onload = function () {
+                updateContent();
+                createFullNavigation();
+            };
+        </script> 
+</body>
+</html>
