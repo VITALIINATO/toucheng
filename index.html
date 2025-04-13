@@ -26,8 +26,8 @@
 
         .container {
             display: flex;
-            width: 90%;
-            max-width: 1200px;
+            width: 95%;
+            max-width: 1900px;
             justify-content: space-between;
             align-items: flex-start;
             align-items: stretch;
@@ -48,7 +48,17 @@
 
 
 
-        .left-column,
+        .left-column {
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* background-color: transparent; */
+            /* Делает фон прозрачным */
+        }
+
+
         .right-column {
             display: flex;
             flex-direction: column;
@@ -120,7 +130,7 @@
             border: none;
             border-radius: 10px;
             background-color: #03a9f4;
-            background: linear-gradient(360deg, #cc9cce, #6b8cf7 );
+            background: linear-gradient(360deg, #cc9cce, #6b8cf7);
             font-weight: 600;
             /* Голубой цвет для кнопки "Детский" */
             color: rgb(7, 7, 7);
@@ -147,7 +157,7 @@
             margin-top: 20px;
         }
 
-       
+
         a {
             text-decoration: none;
             font-size: 1.5rem;
@@ -195,13 +205,13 @@
         }
 
         a.letters {
-            background: linear-gradient(360deg, rgb(144, 110, 174), #4163d4 );
+            background: linear-gradient(360deg, rgb(144, 110, 174), #4163d4);
             color: #050505;
             background-color: #7e18dd;
             border-radius: 15px;
             padding: 15px 10px;
             font-size: 22px;
-           
+
         }
 
         a.letters:hover {
@@ -224,7 +234,7 @@
         a.test1,
         a.test2 {
             color: #094277;
-            background: linear-gradient(10deg, rgb(144, 110, 174), #4163d4 );
+            background: linear-gradient(10deg, rgb(144, 110, 174), #4163d4);
             border-radius: 15px;
             color: #f8f4f4;
             padding: 15px 25px;
@@ -238,6 +248,123 @@
             color: #0c0c0c;
             transform: scale(1.1);
         }
+
+
+        /* --------------------------------------впр */
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 10px;
+
+
+        }
+
+        .row2 {
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 10px;
+
+        }
+
+        .row3 {
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 10px;
+
+        }
+
+        .sound-btn {
+            position: relative;
+            padding: 7px 7px;
+            background-color: #109217;
+            color: rgb(10, 10, 10);
+            border: none;
+            border-radius: 100px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            gap: 200px;
+            width: 50px;
+            height: 50px;
+        }
+
+
+        .row2 .sound-btn {
+            color: rgb(255, 250, 250);
+
+            margin-top: 20px;
+            background-color: #0b6116;
+
+        }
+
+        .row2 .sound-btn:hover {
+
+            background-color: #024629;
+
+        }
+
+        .row3 .sound-btn {
+            color: rgb(170, 163, 163);
+
+            margin-top: 20px;
+            background-color: #0b6139;
+
+        }
+
+        .row3 .sound-btn:hover {
+
+            background-color: #074128;
+
+        }
+
+
+
+        .sound-btn:hover {
+            background-color: #1e8526;
+        }
+
+        .tooltip {
+            font-size: 18px;
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 8px;
+            border-radius: 7px;
+            white-space: normal;
+            /* !!! */
+            width: 500px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            border: 3px solid red;
+            /* Для визуализации */
+        }
+
+        .sound-btn:hover .tooltip {
+            opacity: 1;
+        }
+
+        .sound-btn:hover .tooltip {
+            opacity: 1;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        audio {
+            display: none;
+        }
     </style>
 </head>
 
@@ -245,13 +372,113 @@
     <div class="container">
         <!-- Левая колонка -->
         <div class="column left-column">
-            <a href="allsounds/english_sounds_4.html" class="sounds">🎵 <br>ЗВУКИ</a>
+            <h2>🎵 Звуки:</h2>
+            <div class="row">
+                <!-- Первая строка (14 кнопок) -->
+                <button class="sound-btn" data-sound="allsounds/"p.mp3"
+                    data-description="близок русскому звуку [ п ], но энергичнее и с придыханием (губы сначала смыкаются, а потом резко размыкаются сильной струей воздуха)">[
+                    p ]</button>
+                <button class="sound-btn" data-sound="allsounds/"b.mp3"
+                    data-description="близок русскому звуку [ б ], но энергичнее, с бо́льшим напряжением губ">[ b
+                    ]</button>
+                <button class="sound-btn" data-sound="allsounds/"f.mp3"
+                    data-description="близок русскому звуку [ ф ], но энергичнее, с бо́льшим напряжением губ">[ f
+                    ]</button>
+                <button class="sound-btn" data-sound="allsounds/"v.mp3"
+                    data-description="близок русскому звуку [ в ], но энергичнее, с бо́льшим напряжением губ">[ v
+                    ]</button>
+                <button class="sound-btn" data-sound="allsounds/"s.mp3"
+                    data-description="близок русскому звуку [ с ], но более энергично, с бо́льшим напряжением языка">[ s
+                    ]</button>
+                <button class="sound-btn" data-sound="allsounds/"z.mp3"
+                    data-description="близок русскому звуку [ з ], но более энергично, с бо́льшим напряжением языка">[ z
+                    ]</button>
+                <button class="sound-btn" data-sound="allsounds/"k.mp3"
+                    data-description="близок русскому звуку [ к ], но более энергично и с придыханием (верхняя часть языка и нёбо смыкаются, а потом резко размыкаются сильной струей воздуха)">[
+                    k ]</button>
+                <button class="sound-btn" data-sound="allsounds/"g.mp3"
+                    data-description="близок русскому звуку [ г ], но более энергично, с бо́льшим напряжением верхней части языка">[
+                    g ]</button>
+                <button class="sound-btn" data-sound="allsounds/"dj.mp3" data-description="русский звук [ дж ], [ ж ] - мягкий">[
+                    dʒ
+                    ]</button>
+                <button class="sound-btn" data-sound="allsounds/"m.mp3"
+                    data-description="близок русскому звуку [ м ], но энергичнее, с бо́льшим напряжением губ">[ m
+                    ]</button>
+                <button class="sound-btn" data-sound="allsounds/"t.mp3"
+                    data-description="отличается от русского звука [ т ], тем, что кончик языка приподнят, смыкается с альвеолами (бугорками верхнего нёба, расположенными за верхними зубами), а потом резко размыкается сильной струей воздуха">[
+                    t ]</button>
+                <button class="sound-btn" data-sound="allsounds/"d.mp3"
+                    data-description="отличается от русского звука [ д ], тем, что кончик языка приподнят и касается альвеол – бугорков верхнего нёба, расположенных за верхними зубами ">[
+                    d ]</button>
+                <button class="sound-btn" data-sound="allsounds/"n.mp3"
+                    data-description="отличается от русского звука [ н ], тем, что кончик языка приподнят и касается альвеол – бугорков верхнего нёба, расположенных за верхними зубами ">[
+                    n ]</button>
+                <button class="sound-btn" data-sound="allsounds/"l.mp3"
+                    data-description="отличается от русского звука [ л ], тем, что кончик языка приподнят и касается альвеол – бугорков верхнего нёба, расположенных за верхними зубами ">[
+                    l ]</button>
+            </div>
+            <div class="row2">
+                <button class="sound-btn" data-sound="allsounds/"ei.mp3" data-description="близок русскому звуку [ эй ]">[ eɪ
+                    ]</button>
+                <button class="sound-btn" data-sound="allsounds/"ae.mp3"
+                    data-description="между русскими звуками [ а ] и [ э ], нижняя челюсть значительно опущена, губы растянуты, кончик языка находится у основания нижних зубов">[
+                    æ ]</button>
+                <button class="sound-btn" data-sound="allsounds/"ii.mp3"
+                    data-description="длительный звук, средний между [ и ] и [ ы ]">[
+                    iː ]</button>
+                <button class="sound-btn" data-sound="allsounds/"e.mp3"
+                    data-description="близок русскому звуку [ э ], но губы слегка растянуты, кончик языка касается нижних зубов">[
+                    e ]</button>
+                <button class="sound-btn" data-sound="allsounds/"ai.mp3" data-description="близок русскму звуку [ ай ]">[ aɪ
+                    ]</button>
+                <button class="sound-btn" data-sound="allsounds/"i.mp3"
+                    data-description="средний звук между русскими звуками [ и ] и [ ы ]">[ ɪ ]</button>
+                <button class="sound-btn" data-sound="allsounds/"ou.mp3"
+                    data-description="близок русскому звуку [ оу ] протяжно и с ударением на первом звуке">[ əʊ
+                    ]</button>
+                <button class="sound-btn" data-sound="allsounds/"o.mp3" data-description="краткий русский звук [ о ]">[ ɒ
+                    ]</button>
+                <button class="sound-btn" data-sound="allsounds/"a.mp3" data-description="очень краткое [ а ]">[ ʌ ]</button>
+            </div>
+
+            <div class="row3">
+                <button class="sound-btn" data-sound="allsounds/"h.mp3"
+                    data-description="близок русскому звуку [ х ], но почти беззвучен, как легкий выдох">[ h ]</button>
+                <button class="sound-btn" data-sound="allsounds/"w.mp3"
+                    data-description="губы округлены и слегка вытянуты вперед, как перед произнесением русского [ у ], а затем быстро и энергично произносится следующий гласный звук в слове после [ w ]">[
+                    w ]</button>
+                <button class="sound-btn" data-sound="allsounds/"r.mp3"
+                    data-description="отличается от русского звука [ р ] тем, что лишен вибрации, а кончик языка заострен, поднят к нёбу, не касается его и остается неподвижным">[
+                    r ]</button>
+                <button class="sound-btn" data-sound="allsounds/"j.mp3" data-description="русский звук [ й ]">[ j ]</button>
+
+
+                <button class="sound-btn" data-sound="allsounds/"th1.mp3"
+                    data-description="глухой звук отличный от русского [с] тем, что образуется струей воздуха, проходящей между кончиком языка, находящимся между зубами при слегка выдвинутой нижней челюсти">[ θ ]</button>
+                
+                <button class="sound-btn" data-sound="allsounds/"th2.mp3"
+                    data-description="звонкий звук отличный от русского [з] тем, что образуется струей воздуха, проходящей между кончиком языка, находящимся между зубами при слегка выдвинутой нижней челюсти">[ ð ]</button>
+
+                <button class="sound-btn" data-sound="allsounds/"sh.mp3" data-description="глухой мягкий русский звук [ш]">[ ʃ ]</button>
+
+                <button class="sound-btn" data-sound="allsounds/"zch.mp3" data-description="звонкий мягкий русский [ж]">[ ʒ ]</button>
+
+                <button class="sound-btn" data-sound="allsounds/"tch.mp3" data-description="русский звук [ч]">[ tʃ ]</button>
+
+
+
+                <button class="sound-btn" data-sound="allsounds/"ng.mp3"
+                    data-description="носовой звук [н] – задняя часть языка поднята к опущенному мягкому нёбу, и струя воздуха протяжно проходит через полость носа">[ ŋ ]</button>
+
+              
+
+            </div>
         </div>
 
         <!-- Центральная колонка -->
         <div class="column center-column">
             <div class="two">
-
                 <h1>😎</h1>
                 <h2>Название букв:</h2>
             </div>
@@ -302,50 +529,72 @@
         </div>
     </div>
 
+
+
+
     <!-- JavaScript для воспроизведения звуков -->
     <script>
-        // Создаем объекты для хранения аудио и их состояний
+        document.querySelectorAll('.sound-btn').forEach(btn => {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            const description = btn.dataset.description.replace(/\n/g, '<br>');
+            tooltip.innerHTML = description;
+            btn.appendChild(tooltip);
+
+            // Проверка видимости подсказки
+            btn.addEventListener('mouseenter', () => {
+                const rect = tooltip.getBoundingClientRect(); // Получаем размеры и позицию подсказки
+
+                if (rect.left < 0) {
+                    // Если подсказка выходит за левый край, сдвигаем ее вправо
+                    tooltip.style.left = `${Math.abs(rect.left) + 30}px`; // Добавляем небольшой отступ
+                } else {
+                    // Возвращаем стандартное позиционирование
+                    tooltip.style.left = '50%';
+                }
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                // Возвращаем стандартное позиционирование при уходе курсора
+                tooltip.style.left = '50%';
+            });
+        });
+        // Existing JavaScript for the central column
         const audioFiles = {
             adult: new Audio('abc26.mp3'),
             child: new Audio('child.mp3')
         };
 
-        let isPlaying = {
+        let isPlayingAudio = {
             adult: false,
             child: false
         };
 
-        // Функция для управления воспроизведением
         function toggleAudio(buttonId) {
             const audioType = buttonId === 'adultButton' ? 'adult' : 'child';
             const audio = audioFiles[audioType];
 
-            if (isPlaying[audioType]) {
-                // Если звук уже играет, останавливаем его
+            if (isPlayingAudio[audioType]) {
                 audio.pause();
-                audio.currentTime = 0; // Возвращаем позицию в начало
-                isPlaying[audioType] = false;
+                audio.currentTime = 0;
+                isPlayingAudio[audioType] = false;
             } else {
-                // Если звук не играет, начинаем воспроизведение
                 audio.play();
-                isPlaying[audioType] = true;
+                isPlayingAudio[audioType] = true;
 
-                // Останавливаем другой звук, если он играет
                 for (const type in audioFiles) {
-                    if (type !== audioType && isPlaying[type]) {
+                    if (type !== audioType && isPlayingAudio[type]) {
                         audioFiles[type].pause();
                         audioFiles[type].currentTime = 0;
-                        isPlaying[type] = false;
+                        isPlayingAudio[type] = false;
                     }
                 }
             }
         }
 
-        // Привязываем события к кнопкам
         document.getElementById('adultButton').addEventListener('click', () => toggleAudio('adultButton'));
         document.getElementById('childButton').addEventListener('click', () => toggleAudio('childButton'));
 
-        // Функция для воспроизведения звуков алфавита
         function playSound(filename) {
             const audio = new Audio(filename);
             audio.play();
