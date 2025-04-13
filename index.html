@@ -77,6 +77,27 @@
 
         }
 
+        .center-column button {
+            font-size: 1.3rem;
+            padding: 10px;
+            border: none;
+            border-radius: 15px;
+            background-color: #f7de04;
+            background: linear-gradient(270deg, #a19f18, #eed024);
+            /* Градиентная заливка */
+            color: rgb(67, 4, 241);
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        .center-column button:hover {
+            transform: scale(1.1);
+            background-color: #66bfcf;
+        }
+
+
+
         .center-buttons-container button.adult-button {
             font-size: 1rem;
             padding: 10px 15px;
@@ -84,6 +105,8 @@
             border: none;
             border-radius: 10px;
             background-color: #d853ab;
+            background: linear-gradient(170deg, #736188, #b982a9);
+            /* Градиентная заливка */
             /* Зеленый цвет для кнопки "Взрослый" */
             color: rgb(17, 17, 17);
             cursor: pointer;
@@ -96,6 +119,7 @@
             border: none;
             border-radius: 10px;
             background-color: #03a9f4;
+            background: linear-gradient(360deg, #f5abdf, #8ea6f5 );
             font-weight: 400;
             /* Голубой цвет для кнопки "Детский" */
             color: rgb(7, 7, 7);
@@ -122,23 +146,7 @@
             margin-top: 20px;
         }
 
-        .center-column button {
-            font-size: 1.3rem;
-            padding: 10px;
-            border: none;
-            border-radius: 15px;
-            background-color: #f7de04;
-            color: rgb(67, 4, 241);
-            font-weight: 800;
-            cursor: pointer;
-            transition: transform 0.2s, background-color 0.3s;
-        }
-
-        .center-column button:hover {
-            transform: scale(1.1);
-            background-color: #66bfcf;
-        }
-
+       
         a {
             text-decoration: none;
             font-size: 1.5rem;
@@ -186,10 +194,20 @@
         }
 
         a.letters {
+            background: linear-gradient(360deg, #0a74a5, #4163d4 );
             color: #050505;
             background-color: #7e18dd;
             border-radius: 15px;
             padding: 10px 20px;
+           
+        }
+
+        a.letters:hover {
+            color: #faf8f8;
+            background-color: #581299;
+            border-radius: 15px;
+            padding: 10px 20px;
+            transform: scale(1.1);
         }
 
         a.write {
