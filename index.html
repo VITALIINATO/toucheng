@@ -20,7 +20,7 @@
             background-attachment: fixed;
             background-repeat: no-repeat;
             background-color: #685962;
-      
+
 
         }
 
@@ -150,9 +150,30 @@
 
         a.sounds {
             color: #050505;
-            background-color: #14bb05;
+            /* Цвет текста */
+            background: linear-gradient(270deg, #098a83, #03d9f5);
+            /* Градиентная заливка */
             border-radius: 300px;
+            /* Скругление углов */
             padding: 85px 80px;
+            /* Внутренние отступы */
+            text-decoration: none;
+            /* Убираем подчеркивание */
+            font-size: 1.5rem;
+            /* Размер шрифта */
+            font-weight: bold;
+            /* Жирный текст */
+            display: inline-block;
+            /* Для корректного отображения */
+            transition: transform 0.2s, background 0.3s;
+            /* Плавные переходы */
+        }
+
+        a.sounds:hover {
+            transform: scale(1.1);
+            /* Увеличиваем кнопку при наведении */
+            background: linear-gradient(180deg, #156f75, #06ad97);
+            /* Изменяем градиент при наведении */
         }
 
         a.listen {
