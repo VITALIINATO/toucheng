@@ -361,16 +361,22 @@
         }
 
 
-        function speak(text, lang = "en") {
-            // Создаем URL для Google Translate TTS
-            const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=tw-ob`;
-
-            // Создаем аудиоэлемент
-            const audio = new Audio(url);
-
-            // Воспроизводим звук
-            audio.play();
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = "en-US"; // Устанавливаем язык текста
+            speechSynthesis.speak(utterance); // Голос берется из системных настроек по умолчанию
         }
+
+        // function speak(text, lang = "en") {
+        //     // Создаем URL для Google Translate TTS
+        //     const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=tw-ob`;
+
+        //     // Создаем аудиоэлемент
+        //     const audio = new Audio(url);
+
+        //     // Воспроизводим звук
+        //     audio.play();
+        // }
 
         playButton.addEventListener("click", () => {
             const currentQuestion = questions[currentQuestionIndex];
