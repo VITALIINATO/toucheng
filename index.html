@@ -419,7 +419,7 @@
                     l ]</button>
             </div>
             <div class="row2">
-                <button class="sound-btn" data-sound="2ei.mp3" data-description="близок русскому звуку [ эй ]">[ eɪ
+                <button class="sound-btn" data-sound="ei.mp3" data-description="близок русскому звуку [ эй ]">[ eɪ
                     ]</button>
                 <button class="sound-btn" data-sound="2ae.mp3"
                     data-description="между русскими звуками [ а ] и [ э ], нижняя челюсть значительно опущена, губы растянуты, кончик языка находится у основания нижних зубов">[
@@ -455,23 +455,28 @@
 
 
                 <button class="sound-btn" data-sound="2th1.mp3"
-                    data-description="глухой звук отличный от русского [с] тем, что образуется струей воздуха, проходящей между кончиком языка, находящимся между зубами при слегка выдвинутой нижней челюсти">[ θ ]</button>
-                
+                    data-description="глухой звук отличный от русского [с] тем, что образуется струей воздуха, проходящей между кончиком языка, находящимся между зубами при слегка выдвинутой нижней челюсти">[
+                    θ ]</button>
+
                 <button class="sound-btn" data-sound="2th2.mp3"
-                    data-description="звонкий звук отличный от русского [з] тем, что образуется струей воздуха, проходящей между кончиком языка, находящимся между зубами при слегка выдвинутой нижней челюсти">[ ð ]</button>
+                    data-description="звонкий звук отличный от русского [з] тем, что образуется струей воздуха, проходящей между кончиком языка, находящимся между зубами при слегка выдвинутой нижней челюсти">[
+                    ð ]</button>
 
-                <button class="sound-btn" data-sound="2sh.mp3" data-description="глухой мягкий русский звук [ш]">[ ʃ ]</button>
+                <button class="sound-btn" data-sound="2sh.mp3" data-description="глухой мягкий русский звук [ш]">[ ʃ
+                    ]</button>
 
-                <button class="sound-btn" data-sound="2zch.mp3" data-description="звонкий мягкий русский [ж]">[ ʒ ]</button>
+                <button class="sound-btn" data-sound="2zch.mp3" data-description="звонкий мягкий русский [ж]">[ ʒ
+                    ]</button>
 
                 <button class="sound-btn" data-sound="2tch.mp3" data-description="русский звук [ч]">[ tʃ ]</button>
 
 
 
                 <button class="sound-btn" data-sound="2ng.mp3"
-                    data-description="носовой звук [н] – задняя часть языка поднята к опущенному мягкому нёбу, и струя воздуха протяжно проходит через полость носа">[ ŋ ]</button>
+                    data-description="носовой звук [н] – задняя часть языка поднята к опущенному мягкому нёбу, и струя воздуха протяжно проходит через полость носа">[
+                    ŋ ]</button>
 
-              
+
 
             </div>
         </div>
@@ -543,32 +548,41 @@
 
             // Проверка видимости подсказки
             btn.addEventListener('mouseenter', () => {
-                const rect = tooltip.getBoundingClientRect(); // Получаем размеры и позицию подсказки
-
+                const rect = tooltip.getBoundingClientRect();
                 if (rect.left < 0) {
-                    // Если подсказка выходит за левый край, сдвигаем ее вправо
-                    tooltip.style.left = `${Math.abs(rect.left) + 30}px`; // Добавляем небольшой отступ
+                    tooltip.style.left = `${Math.abs(rect.left) + 30}px`;
                 } else {
-                    // Возвращаем стандартное позиционирование
                     tooltip.style.left = '50%';
                 }
             });
 
             btn.addEventListener('mouseleave', () => {
-                // Возвращаем стандартное позиционирование при уходе курсора
                 tooltip.style.left = '50%';
             });
-        });
-        // Existing JavaScript for the central column
-        const audioFiles = {
-            adult: new Audio('abc26.mp3'),
-            child: new Audio('child.mp3')
-        };
 
-        let isPlayingAudio = {
-            adult: false,
-            child: false
-        };
+            // Добавляем обработчик кликов для воспроизведения звука
+            let audio = null;
+            let isPlaying = false;
+
+            btn.addEventListener('click', () => {
+                if (isPlaying) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                    isPlaying = false;
+                } else {
+                    const soundPath = btn.dataset.sound;
+                    audio = new Audio(soundPath);
+                    audio.play().catch(error => {
+                        console.error(`Ошибка при воспроизведении файла ${soundPath}:`, error);
+                    });
+                    isPlaying = true;
+
+                    audio.addEventListener('ended', () => {
+                        isPlaying = false;
+                    });
+                }
+            });
+        });
 
         function toggleAudio(buttonId) {
             const audioType = buttonId === 'adultButton' ? 'adult' : 'child';
