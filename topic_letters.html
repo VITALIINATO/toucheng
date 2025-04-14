@@ -26,7 +26,7 @@
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
-          
+
         }
 
         .container {
@@ -167,6 +167,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            border: 3px solid #2c353f;
+            /* Толщина: 2px, стиль: сплошная линия, цвет: черный */
         }
 
         .word {
@@ -217,14 +219,14 @@
             gap: 10px;
             margin-top: 20px;
 
-            max-width: 1800px;
+            /* max-width: 1000px; */
             /* Максимальная ширина */
             margin-left: auto;
             /* Автоматические отступы для центрирования */
             margin-right: auto;
             /* Автоматические отступы для центрирования */
         }
-      
+
         .nav-item {
             padding: 10px 15px;
             background-color: #667a92;
@@ -234,9 +236,12 @@
             border-radius: 6px;
             cursor: pointer;
             text-align: center;
-          
+
             transition: background 0.3s;
             justify-items: center;
+            /* Добавляем границу */
+            border: 3px solid #262f38;
+            /* Толщина: 2px, стиль: сплошная линия, цвет: черный */
         }
 
         .nav-item:hover {
@@ -463,7 +468,7 @@
 
             // с
 
-            
+
             {
                 alphabetButton: "Gg",
                 alphabetSoundFile: "G-g.mp3", // Файл для алфавита
@@ -478,7 +483,7 @@
                     { word: "game", transcription: "[geɪm]", translation: "игра", image: "game.jpg" },
                     { word: "gold", transcription: "[gould]", translation: "золото", image: "gold.jpg" },
                     { word: "gun", transcription: "['gʌn]", translation: "оружие", image: "gun.jpg" },
-                    
+
                 ]
             },
 
@@ -496,10 +501,10 @@
                     { word: "exotic ", transcription: "[ɪɡˈzɒtɪk]", translation: "экзотика", image: "exotic.jpg" },
                     { word: "examine", transcription: "[ɪɡˈzæmɪn]", translation: "экзамен", image: "examine.jpg" },
                     { word: "example ", transcription: "[ɪɡˈzæmpəl]", translation: "пример", image: "example.jpg" },
-                    
+
                 ]
             },
-            
+
 
 
             // Добавьте другие звуки сюда
