@@ -213,6 +213,7 @@
             padding: 15px 10px;
             font-size: 22px;
             width: 135px;
+            margin-bottom: 50px;
 
         }
 
@@ -222,7 +223,32 @@
             border-radius: 15px;
             padding: 15px 10px;
             transform: scale(1.1);
+
         }
+
+        a.letters2 {
+            background: linear-gradient(360deg, rgb(144, 110, 174), #4163d4);
+            color: #050505;
+            background-color: #7e18dd;
+            border-radius: 15px;
+            padding: 15px 10px;
+            font-size: 22px;
+            width: 175px;
+            margin-bottom: 50px;
+
+        }
+
+        a.letters2:hover {
+            color: #faf8f8;
+            background-color: #581299;
+            border-radius: 15px;
+            padding: 15px 10px;
+            transform: scale(1.1);
+
+        }
+
+
+
 
         a.write {
             color: #18559b;
@@ -233,20 +259,34 @@
             transform: scale(1.1);
         }
 
-        a.test1,
-        a.test2 {
+        a.test {
             color: #094277;
-            background: linear-gradient(10deg, rgb(144, 110, 174), #4163d4);
+            background: linear-gradient(10deg, rgb(147, 132, 161), #8a96c2);
             border-radius: 15px;
             color: #f8f4f4;
-            padding: 15px 25px;
+            padding: 10px 15px;
             margin-top: 20px;
             font-size: 22px;
             font-weight: 100;
         }
 
-        a.test1:hover,
-        a.test2:hover {
+        a.test:hover {
+            color: #0c0c0c;
+            transform: scale(1.1);
+        }
+
+        a.test3 {
+            color: #094277;
+            background: linear-gradient(10deg, rgb(147, 132, 161), #8a96c2);
+            border-radius: 15px;
+            color: #f8f4f4;
+            padding: 10px 15px;
+            margin-top: 50px;
+            font-size: 22px;
+            font-weight: 100;
+        }
+
+        a.test3:hover {
             color: #0c0c0c;
             transform: scale(1.1);
         }
@@ -389,6 +429,32 @@
 
         audio {
             display: none;
+        }
+
+
+        .links-row {
+            display: flex;
+            gap: 30px;
+            /* Увеличиваем расстояние между ссылками */
+            justify-content: center;
+            /* Выравниваем по центру */
+        }
+
+
+        .links-row2 {
+
+            width: 200px;
+
+
+        }
+
+
+        .links-row3 {
+            display: flex;
+            gap: 30px;
+            /* Увеличиваем расстояние между ссылками */
+            justify-content: center;
+            /* Выравниваем по центру */
         }
     </style>
 </head>
@@ -593,15 +659,33 @@
 
         <!-- Правая колонка -->
         <div class="column right-column">
-          
             <h2>🎤<br><br>Чтение букв</h2>
-            <a href="topic_letters.html" class="letters">20 букв</a>
-            <br>
-            <a href="topic_letters_part2.html" class="letters">6 букв </a>
-            <br>
-            <a href="test_hearing_writing.html" class="test1"> 🏆 Тест-1 </a>
-            <br>
-            <a href="test_part2.html" class="test2">🏆 Тест-2</a>
+
+            <!-- Объединенные ссылки для "20 букв" и "6 букв" -->
+            <div class="links-row">
+                <a href="topic_letters.html" class="letters">20 букв</a>
+                <a href="topic_letters_part2.html" class="letters">6 букв</a>
+
+            </div>
+
+            <div class="links-row2">
+                <a href="topic_letters_part3.html" class="letters2">Буквосочетания</a>
+
+            </div>
+
+
+            <!-- Объединенные ссылки для тестов -->
+            <div class="links-row3">
+                <a href="test_hearing_writing.html" class="test">🏆 Тест-1</a>
+                <a href="test_part2.html" class="test">🏆 Тест-2</a>
+                
+            </div>
+
+            <div class="links-row4">
+             
+                <a href="test3.html" class="test3">🏆 Тест-3</a>
+                
+            </div>
         </div>
     </div>
 
