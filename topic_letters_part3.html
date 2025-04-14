@@ -323,6 +323,19 @@
                 example3: "fish", transcription3: "[fɪʃ]", translation3: "рыба", image3: "fish.jpg",
 
             },
+
+            {
+                soundFile: "ch.mp3",
+                // alphabetSoundFile: "J-j.mp3", // Файл для алфавита
+
+                alphabetButton: "Ch", // Название буквы
+                transcriptionButton: "[tʃ]", // Транскрипция
+                example1: "child", transcription1: "[tʃaɪld]", translation1: "ребенок", image1: "child.jpg",
+                example2: "bench", transcription2: "[bentʃ]", translation2: "лавочка", image2: "bench.jpg",
+                example3: "cherry", transcription3: "[ˈtʃeri]", translation3: "вишня", image3: "cherry.jpg",
+
+            },
+            
             
 
         ];
@@ -408,7 +421,7 @@
 
             // Установка текста для кнопки с буквой алфавита
             document.getElementById("alphabetButton").innerHTML = `
-        <span class="alphabet-label">буква</span>  
+        <span class="alphabet-label"></span>  
         <span class="alphabet-symbol">${sounds[currentIndex].alphabetButton}</span>`;
 
             // Установка текста для кнопки с транскрипцией
