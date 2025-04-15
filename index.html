@@ -11,7 +11,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            
+
         }
 
         body {
@@ -135,8 +135,8 @@
         .tooltip {
             z-index: 10;
             /* Гарантируем, что тултип выше всех элементов */
-          
-          
+
+
 
             position: absolute;
             bottom: 120%;
@@ -156,7 +156,8 @@
             text-align: center;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease 0.4s, visibility 0.3s ease 0.4s; /* Задержка 1с */
+            transition: opacity 0.3s ease 0.4s, visibility 0.3s ease 0.4s;
+            /* Задержка 1с */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             z-index: 10;
             /* Убедимся, что тултип поверх других элементов */
@@ -359,7 +360,7 @@
         <div class="column left-column">
             <h1>🎵</h1>
             <h1>Звуки:</h1>
-            
+
             <div class="row1">
                 <button class="sound-btn" data-sound="2p.mp3"
                     data-description="близок русскому звуку [ п ], но энергичнее и с придыханием (губы сначала смыкаются, а потом резко размыкаются сильной струей воздуха)">[
@@ -622,7 +623,9 @@
             adult: new Audio('abc26.mp3'),
             child: new Audio('child.mp3')
         };
-
+        // Устанавливаем скорость воспроизведения для обоих аудиофайлов
+        // audioFiles.adult.playbackRate = 1.1; // Ускорение на 10%
+        audioFiles.child.playbackRate = 1.5; // Ускорение на 10%
         const isPlayingAudio = { adult: false, child: false };
 
         function toggleAudio(buttonId) {
