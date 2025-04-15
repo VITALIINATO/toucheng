@@ -6,198 +6,206 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test</title>
     <style>
-        /* Базовые стили */
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-image: url('fontest.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            background-color: #685962;
-        }
+/* Базовые стили */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        .container {
-            text-align: center;
-            background: #3bca9f;
-            padding: 20px;
-            border-radius: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            min-height: 340px;
-            min-width: 600px;
-        }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('fontest.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-color: #685962;
+    transition: background 0.5s ease;
+}
 
-        .hidden {
-            display: none !important;
-        }
+.container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    min-height: 340px;
+    min-width: 600px;
+    animation: fadeInContainer 1s ease-in-out;
+}
 
-        #finalResult {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: black;
-            background-color: yellow;
-            /* Для отладки */
-            padding: 20px;
-            border: 2px solid red;
-            /* Для отладки */
-            border-radius: 10px;
-        }
+@keyframes fadeInContainer {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
 
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
+.hidden {
+    display: none !important;
+}
 
-        #playButton {
-            background-color: #5c8dc2;
-            color: white;
-            border-radius: 10px;
-            width: 200px;
-        }
+#finalResult {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(135deg, #ffab91, #ffccbc);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-        #playButton:hover {
-            background-color: #0864c7;
-        }
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-        #submitButton {
-            background-color: #34a162;
-            color: white;
-            transition: all 0.3s ease;
-        }
+#playButton {
+    background: linear-gradient(135deg, #b3e5fc, #81d4fa);
+    color: #0277bd;
+}
 
-        #submitButton:hover {
-            background-color: #248f3b;
-            transform: scale(1.05);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
+#playButton:hover {
+    background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+    transform: scale(1.05);
+}
 
-        #nextButton {
-            background-color: #e0bf2b;
-            color: black;
-        }
+#submitButton {
+    background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+    color: #1b5e20;
+}
 
-        #nextButton:hover {
-            background-color: #bd9a28;
-        }
+#submitButton:hover {
+    background: linear-gradient(135deg, #81c784, #66bb6a);
+    transform: scale(1.05);
+}
 
-        input[type="text"] {
-            padding: 10px;
-            font-size: 16px;
-            width: 200px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
+#nextButton {
+    background: linear-gradient(135deg, #ffe0b2, #ffcc80);
+    color: #8d6e63;
+}
 
-        }
+#nextButton:hover {
+    background: linear-gradient(135deg, #ffb74d, #ffa726);
+    transform: scale(1.05);
+}
 
+input[type="text"] {
+    padding: 12px;
+    font-size: 16px;
+    width: 200px;
+    margin-bottom: 15px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    transition: border-color 0.3s ease;
+}
 
-        .translation-buttons {
-            display: flex;
-            justify-content: center;
-            /* Центрируем кнопки по горизонтали */
-            gap: 10px;
-            /* Расстояние между кнопками */
-            margin-top: 10px;
-            /* Отступ сверху */
-        }
+input[type="text"]:focus {
+    border-color: #4caf50;
+    outline: none;
+}
 
-        .translation-buttons button {
-            padding: 5px 10px;
-            font-size: 20px;
-            font: bold;
-            cursor: pointer;
-            background-color: #ce1553;
-            width: 120px;
-        }
+.translation-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
 
-        .translation-buttons button:hover {
-            background-color: #0f971a;
-        }
+.translation-buttons button {
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(135deg, #e1bee7, #ce93d8);
+    color: #4a148c;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    width: 120px;
+}
 
-        #translationResult {
-            justify-content: center;
-            font-size: 24px;
+.translation-buttons button:hover {
+    background: linear-gradient(135deg, #ba68c8, #9c27b0);
+    transform: scale(1.05);
+}
 
-        }
+#translationResult,
+#result {
+    font-size: 24px;
+    margin-top: 20px;
+    color: #333;
+}
 
-        #result {
-            justify-content: center;
-            font-size: 24px;
+#progressBarContainer {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    margin: 20px 0;
+    height: 10px;
+    overflow: hidden;
+    position: relative;
+}
 
-        }
+#progressBar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #00ff55, #03b80c);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
 
+/* Медиа-запрос для мобильных устройств */
+@media only screen and (max-width: 510px) {
+    body {
+        padding: 10px;
+    }
 
+    .container {
+        min-width: 90%;
+        padding: 20px;
+    }
 
-        .hidden {
-            display: none;
-        }
+    button {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
 
-        /* Контейнер для полосы прогресса */
-        #progressBarContainer {
-            width: 100%;
-            background-color: #e0e0e0;
-            border-radius: 10px;
-            margin-top: 10px;
-            height: 10px;
-            overflow: hidden;
-            margin-bottom: 25px;
+    #playButton {
+        width: 100%;
+    }
 
-        }
+    input[type="text"] {
+        width: 100%;
+        font-size: 14px;
+    }
 
-        /* Сама полоса прогресса */
-        #progressBar {
-            width: 0%;
-            height: 100%;
-            background-color: #4caf50;
-            transition: width 0.3s ease;
+    .translation-buttons button {
+        width: 48%;
+        font-size: 16px;
+    }
 
-        }
-
-        /* Медиа-запрос для iPhone */
-        @media only screen and (max-width: 510px) {
-            body {
-                padding: 10px;
-            }
-
-            .container {
-                min-width: 90%;
-                padding: 15px;
-            }
-
-            button {
-                padding: 8px 15px;
-                font-size: 14px;
-            }
-
-            #playButton {
-                width: 100%;
-            }
-
-            input[type="text"] {
-                width: 100%;
-                font-size: 14px;
-            }
-
-            .translation-buttons button {
-                width: 48%;
-                font-size: 16px;
-            }
-
-            #finalResult {
-                font-size: 16px;
-                padding: 15px;
-            }
-        }
+    #finalResult {
+        font-size: 16px;
+        padding: 15px;
+    }
+}
     </style>
 </head>
 
@@ -227,17 +235,51 @@
     </div>
     <div id="finalResult" class="hidden"></div>
     <script>
+        // Добавляем функцию для логирования
+        function logEvent(message) {
+            const timestamp = new Date().toISOString();
+            const logMessage = `${timestamp} - ${message}`;
+
+            // Получаем текущие логи из localStorage
+            let logs = localStorage.getItem('testLogs') || '';
+
+            // Добавляем новое сообщение
+            logs += logMessage + '\n';
+
+            // Сохраняем обновленные логи
+            localStorage.setItem('testLogs', logs);
+        }
+
+        // Функция для просмотра логов
+        function viewLogs() {
+            const logs = localStorage.getItem('testLogs');
+            if (logs) {
+                console.log(logs);
+            } else {
+                console.log('Логи отсутствуют');
+            }
+        }
+
         // Данные для теста
         let questions = [
-           
+
             { word: "shop", correct: "shop", translation: "магазин" },
             { word: "she", correct: "she", translation: "она" },
             { word: "fish", correct: "fish", translation: "рыба" },
             { word: "child", correct: "child", translation: "ребенок" },
             { word: "bench", correct: "bench", translation: "лавочка" },
             { word: "cherry", correct: "cherry", translation: "вишня" },
-         
-          
+            { word: "thin", correct: "shop", translation: "thin" },
+            { word: "moth", correct: "she", translation: "moth" },
+            { word: "smith", correct: "fish", translation: "smith" },
+            { word: "this", correct: "child", translation: "this" },
+            { word: "that", correct: "bench", translation: "that" },
+            { word: "they", correct: "cherry", translation: "they" },
+            { word: "photo", correct: "child", translation: "photo" },
+            { word: "alphabet", correct: "bench", translation: "alphabet" },
+            { word: "phone", correct: "cherry", translation: "phone" },
+
+
         ];
 
         // Перемешиваем вопросы перед началом теста
@@ -265,6 +307,10 @@
 
         function loadQuestion() {
             const currentQuestion = questions[currentQuestionIndex];
+
+            // Логируем текущее слово
+            logEvent(`Загружено слово: ${currentQuestion.word} (Перевод: ${currentQuestion.translation})`);
+
             counterDiv.textContent = `${currentQuestionIndex + 1} из ${questions.length}`;
             playButton.textContent = `Прослушай ♫`;
             userInput.value = "";
@@ -273,16 +319,12 @@
             translationButtonsDiv.classList.add("hidden");
             translationResultDiv.textContent = "";
             submitButton.disabled = false;
-            // Обновляем полосу прогресса
-            updateProgressBar();
 
-            // Автоматическое воспроизведение слова через 1 секунду
+            updateProgressBar();
             setTimeout(() => {
                 speak(currentQuestion.word);
             }, 700);
-
-            // Добавьте эту строку в конце функции
-            userInput.focus(); // Устанавливаем фокус при загрузке нового вопроса
+            userInput.focus();
         }
 
 
@@ -292,45 +334,41 @@
             speechSynthesis.speak(utterance); // Голос берется из системных настроек по умолчанию
         }
 
-        // function speak(text, lang = "en") {
-        //     // Создаем URL для Google Translate TTS
-        //     const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=tw-ob`;
-
-        //     // Создаем аудиоэлемент
-        //     const audio = new Audio(url);
-
-        //     // Воспроизводим звук
-        //     audio.play();
-        // }
 
         playButton.addEventListener("click", () => {
             const currentQuestion = questions[currentQuestionIndex];
             speak(currentQuestion.word); // Вызываем функцию speak для озвучки слова
         });
 
+        // Модифицируем обработчик submitButton
         submitButton.addEventListener("click", () => {
             const currentQuestion = questions[currentQuestionIndex];
             const userAnswer = userInput.value.trim();
 
+            // Логируем ответ пользователя
+            logEvent(`Пользователь ввел: "${userAnswer}" для слова "${currentQuestion.word}"`);
+
             if (userAnswer.toLowerCase() === currentQuestion.correct.toLowerCase()) {
-                // Создание и настройка аудио right.mp3
                 const audio = new Audio('right.mp3');
-                audio.volume = 0.2; // Устанавливаем громкость на 50%
+                audio.volume = 0.2;
                 audio.play();
                 resultDiv.textContent = "Правильно! Теперь переведи:";
                 resultDiv.style.color = "green";
                 score++;
-                showTranslationButtons(currentQuestion); // Показываем кнопки с переводами
+                showTranslationButtons(currentQuestion);
             } else {
-                // Создание и настройка аудио wrong.mp3
                 const audio = new Audio('wrong.mp3');
-                audio.volume = 0.2; // Устанавливаем громкость на 50%
+                audio.volume = 0.2;
                 audio.play();
                 resultDiv.textContent = `Что-то не то...`;
                 resultDiv.style.color = "red";
-                submitButton.disabled = false; // Разрешаем повторную попытку
+                submitButton.disabled = false;
+
+                // Логируем неправильный ответ
+                logEvent(`НЕПРАВИЛЬНЫЙ ОТВЕТ: ожидалось "${currentQuestion.correct}", получено "${userAnswer}"`);
             }
         });
+
 
         function getTranslationOptions(question) {
             const correctTranslation = question.translation;
@@ -355,26 +393,30 @@
 
 
 
+        // Модифицируем функцию showTranslationButtons()
         function showTranslationButtons(question) {
             const translations = getTranslationOptions(question);
             const correctTranslation = question.translation;
-            // Очищаем предыдущие кнопки
+
             translationButtonsDiv.innerHTML = "";
             translationButtonsDiv.classList.remove("hidden");
-            // Создаём кнопки для каждого варианта перевода
+
             translations.forEach(translation => {
                 const button = document.createElement("button");
                 button.textContent = translation;
                 button.addEventListener("click", () => {
+                    // Логируем выбор перевода
+                    logEvent(`Пользователь выбрал перевод: "${translation}" для слова "${question.word}"`);
+
                     if (translation === correctTranslation) {
-                        // Проигрывание звука right.mp3
                         const audio = new Audio('right2.mp3');
-                        audio.volume = 0.2; // Устанавливаем громкость на 50%
+                        audio.volume = 0.2;
                         audio.play();
                         translationResultDiv.textContent = "Правильный перевод!";
                         translationResultDiv.style.color = "green";
 
-                        // Добавляем автоматический переход
+                        logEvent(`ПРАВИЛЬНЫЙ ПЕРЕВОД: "${translation}" для слова "${question.word}"`);
+
                         setTimeout(() => {
                             currentQuestionIndex++;
                             if (currentQuestionIndex < questions.length) {
@@ -382,20 +424,27 @@
                             } else {
                                 showFinalResult();
                             }
-                        }, 1000); // 1000 миллисекунд = 1 секунда
-
+                        }, 1000);
                     } else {
-                        // Проигрывание звука right.mp3
                         const audio = new Audio('wrong.mp3');
-                        audio.volume = 0.2; // Устанавливаем громкость на 50%
+                        audio.volume = 0.2;
                         audio.play();
                         translationResultDiv.textContent = `Не то...`;
                         translationResultDiv.style.color = "red";
+
+                        logEvent(`НЕПРАВИЛЬНЫЙ ПЕРЕВОД: выбрано "${translation}", ожидалось "${correctTranslation}"`);
                     }
                 });
                 translationButtonsDiv.appendChild(button);
             });
         }
+
+        // Добавляем логирование в начало теста
+        window.onload = function () {
+            logEvent('--- НАЧАЛО ТЕСТА ---');
+            logEvent(`Список слов в тесте: ${questions.map(q => `${q.word} (${q.translation})`).join(', ')}`);
+            userInput.focus();
+        };
 
         userInput.addEventListener("keypress", (event) => {
             if (event.key === "Enter") {
@@ -419,7 +468,10 @@
             finalResultDiv.classList.remove("hidden");
             finalResultDiv.textContent = `Результат теста ${score} из ${questions.length}`;
 
-            // Создаем кнопку "Начать заново"
+            // Логируем результаты теста
+            logEvent(`--- КОНЕЦ ТЕСТА ---`);
+            logEvent(`Результат: ${score} из ${questions.length}`);
+
             const restartButton = document.createElement("button");
             restartButton.textContent = "Начать заново";
             restartButton.style.display = "block";
@@ -432,21 +484,17 @@
             restartButton.style.borderRadius = "5px";
             restartButton.style.cursor = "pointer";
 
-            // Добавляем обработчик события для кнопки
             restartButton.addEventListener("click", () => {
-                // Сбрасываем параметры
+                logEvent('--- ПОВТОРНЫЙ ТЕСТ ---');
                 shuffleArray(questions);
                 questions = questions.slice(0, 12);
                 currentQuestionIndex = 0;
                 score = 0;
-
-                // Показываем контейнер с вопросами и загружаем первый вопрос
                 document.querySelector(".container").classList.remove("hidden");
                 finalResultDiv.classList.add("hidden");
                 loadQuestion();
             });
 
-            // Добавляем кнопку в финальный результат
             finalResultDiv.appendChild(restartButton);
         }
 
