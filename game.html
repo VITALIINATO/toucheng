@@ -1,20 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word Drop Clicker</title>
     <style>
         @keyframes fall {
-            from { transform: translateY(-10%) }
-            to { transform: translateY(100vh) }
+            from {
+                transform: translateY(-10%)
+            }
+
+            to {
+                transform: translateY(100vh)
+            }
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0) }
-            25% { transform: translateX(-5px) rotate(-2deg) }
-            50% { transform: translateX(5px) rotate(2deg) }
-            75% { transform: translateX(-5px) rotate(-2deg) }
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-5px) rotate(-2deg)
+            }
+
+            50% {
+                transform: translateX(5px) rotate(2deg)
+            }
+
+            75% {
+                transform: translateX(-5px) rotate(-2deg)
+            }
         }
 
         @keyframes explosion {
@@ -23,10 +42,12 @@
                 background: radial-gradient(circle, #ff4444, #cc0000);
                 box-shadow: 0 0 20px #ff4444;
             }
+
             50% {
                 transform: scale(2);
                 opacity: 0.8;
             }
+
             100% {
                 transform: scale(3);
                 opacity: 0;
@@ -54,7 +75,7 @@
             background: white;
             border-radius: 30px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             animation: fall linear infinite;
             transition: transform 0.2s;
         }
@@ -74,7 +95,7 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             color: white;
             padding: 15px 30px;
             border-radius: 25px;
@@ -86,7 +107,7 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             color: white;
             padding: 10px 20px;
             border-radius: 20px;
@@ -109,7 +130,7 @@
             font-size: 72px;
             font-weight: 700;
             color: #FFD700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         #timer {
@@ -117,7 +138,7 @@
             color: #FF4500;
             font: bold;
             font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         /* Стили для финального результата */
@@ -127,14 +148,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0, 0, 0, 0.9);
             color: white;
             display: none;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             font-size: 48px;
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
         }
 
         @media (max-width: 600px) {
@@ -142,23 +163,27 @@
                 font-size: 20px;
                 padding: 10px 20px;
             }
+
             .word {
                 font-size: 20px;
                 padding: 10px 20px;
             }
-            #score, #timer {
+
+            #score,
+            #timer {
                 font-size: 24px;
             }
         }
     </style>
 </head>
+
 <body>
     <div id="task">Переведи: ...</div>
     <div id="pauseButton">⏸ Пауза</div>
     <div id="gameContainer"></div>
     <div id="hud">
         <div id="score">0</div>
-        <div id="timer">45</div>
+        <div id="timer">50</div>
     </div>
     <div id="result"></div>
 
@@ -202,7 +227,7 @@
         ];
 
         let score = 0;
-        let timeLeft = 45;
+        let timeLeft = 50;
         let currentTask;
         let fallingWords = [];
         let gameInterval;
@@ -211,7 +236,7 @@
 
         // Настройки скорости (можно регулировать)
         const wordSpeed = 6000; // Скорость падения слов (в мс)
-        const spawnInterval = 6000; // Частота появления новых слов (в мс)
+        const spawnInterval = 2000; // Частота появления новых слов (в мс)
 
         function startGame() {
             newTask();
@@ -225,7 +250,7 @@
         }
 
         function createWord() {
-            const wordData = getRandomWords(3);
+            const wordData = getRandomWords(2);
             wordData.forEach(data => {
                 const wordElement = document.createElement('div');
                 wordElement.className = 'word';
@@ -238,11 +263,14 @@
             });
         }
 
+        const maxFallingWords = 7; // Максимум 10 слов на экране одновременно
+
+      
         function getRandomWords(count) {
             const result = [currentTask];
-            while(result.length < count) {
+            while (result.length < count) {
                 const randomWord = words[Math.floor(Math.random() * words.length)];
-                if(randomWord.word !== currentTask.word && !result.includes(randomWord)) {
+                if (randomWord.word !== currentTask.word && !result.includes(randomWord)) {
                     result.push(randomWord);
                 }
             }
@@ -250,9 +278,9 @@
         }
 
         function checkAnswer(element, word) {
-            if(isPaused) return;
-            
-            if(word === currentTask.word) {
+            if (isPaused) return;
+
+            if (word === currentTask.word) {
                 element.classList.add('explosion');
                 setTimeout(() => {
                     element.remove();
@@ -272,17 +300,17 @@
         function updateTimer() {
             timeLeft--;
             document.getElementById('timer').textContent = timeLeft;
-            if(timeLeft <= 0) endGame();
+            if (timeLeft <= 0) endGame();
         }
 
         function endGame() {
             clearInterval(gameInterval);
             clearInterval(timerInterval);
-            
+
             // Удаляем все слова
             fallingWords.forEach(word => word.remove());
             fallingWords = [];
-            
+
             // Показываем результат
             const resultDiv = document.getElementById('result');
             resultDiv.textContent = `Очки: ${score}`;
@@ -298,8 +326,8 @@
         document.getElementById('pauseButton').addEventListener('click', () => {
             isPaused = !isPaused;
             document.getElementById('pauseButton').textContent = isPaused ? '▶ Продолжить' : '⏸ Пауза';
-            
-            if(isPaused) {
+
+            if (isPaused) {
                 clearInterval(gameInterval);
                 clearInterval(timerInterval);
                 fallingWords.forEach(word => word.style.animationPlayState = 'paused');
@@ -313,4 +341,5 @@
         startGame();
     </script>
 </body>
+
 </html>
