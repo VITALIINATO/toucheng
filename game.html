@@ -104,6 +104,7 @@
             z-index: 10;
         }
 
+        /* ---------------------------------------------------- Улучшенная видимость счета и таймера */
         #score {
             font-size: 72px;
             font-weight: 700;
@@ -119,7 +120,7 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-
+        /* Стили для финального результата */
         #result {
             position: fixed;
             top: 0;
@@ -157,13 +158,13 @@
     <div id="gameContainer"></div>
     <div id="hud">
         <div id="score">0</div>
-        <div id="timer">60</div>
+        <div id="timer">45</div>
     </div>
     <div id="result"></div>
 
     <script>
         const words = [
-        { word: "shop", translation: "магазин" },
+            { word: "shop", translation: "магазин" },
             { word: "she", translation: "она" },
             { word: "fish", translation: "рыба" },
             { word: "child", translation: "ребенок" },
@@ -201,26 +202,26 @@
         ];
 
         let score = 0;
-        let timeLeft = 35;
+        let timeLeft = 45;
         let currentTask;
         let fallingWords = [];
         let gameInterval;
         let timerInterval;
         let isPaused = false;
 
-        // === НАСТРОЙКИ СЛОЖНОСТИ ===
-        const wordSpeed = 4000; // Скорость падения слов (в мс)
-        const spawnInterval = 4000; // Частота появления новых слов (в мс)
+        // Настройки скорости (можно регулировать)
+        const wordSpeed = 6000; // Скорость падения слов (в мс)
+        const spawnInterval = 6000; // Частота появления новых слов (в мс)
 
         function startGame() {
             newTask();
-            gameInterval = setInterval(createWord, spawnInterval);
+            gameInterval = setInterval(createWord, spawnInterval); // Регулируем частоту появления
             timerInterval = setInterval(updateTimer, 1000);
         }
 
         function newTask() {
             currentTask = words[Math.floor(Math.random() * words.length)];
-            document.getElementById('task').textContent = `Переведи: ${currentTask.translation}`;
+            document.getElementById('task').textContent = `${currentTask.translation}`;
         }
 
         function createWord() {
@@ -229,8 +230,8 @@
                 const wordElement = document.createElement('div');
                 wordElement.className = 'word';
                 wordElement.textContent = data.word;
-                wordElement.style.left = Math.random() * (window.innerWidth - 150) + 'px';
-                wordElement.style.animationDuration = (wordSpeed / 1000) + 's';
+                wordElement.style.left = Math.random() * (window.innerWidth - 500) + 'px';
+                wordElement.style.animationDuration = (wordSpeed / 700) + 's'; // Регулируем скорость падения
                 wordElement.addEventListener('click', () => checkAnswer(wordElement, data.word));
                 document.getElementById('gameContainer').appendChild(wordElement);
                 fallingWords.push(wordElement);
@@ -248,24 +249,19 @@
             return result.sort(() => 0.5 - Math.random());
         }
 
-        async function checkAnswer(element, word) {
+        function checkAnswer(element, word) {
             if(isPaused) return;
             
             if(word === currentTask.word) {
                 element.classList.add('explosion');
-                
-                // Озвучка английского слова
-                await speak(word);
-                playSound('correct');
-                
                 setTimeout(() => {
                     element.remove();
                     fallingWords = fallingWords.filter(w => w !== element);
                 }, 500);
-                
                 score++;
                 document.getElementById('score').textContent = score;
                 newTask();
+                playSound('correct');
             } else {
                 element.classList.add('shake');
                 setTimeout(() => element.classList.remove('shake'), 500);
@@ -289,22 +285,7 @@
             
             // Показываем результат
             const resultDiv = document.getElementById('result');
-            resultDiv.textContent = `Игра окончена! Очки: ${score}`;
-            
-            // Добавляем кнопку перезапуска
-            const restartButton = document.createElement('button');
-            restartButton.textContent = 'Начать заново';
-            restartButton.style.marginTop = '20px';
-            restartButton.style.padding = '15px 30px';
-            restartButton.style.fontSize = '24px';
-            restartButton.style.backgroundColor = '#4CAF50';
-            restartButton.style.color = 'white';
-            restartButton.style.border = 'none';
-            restartButton.style.borderRadius = '10px';
-            restartButton.style.cursor = 'pointer';
-            restartButton.onclick = () => window.location.reload();
-            
-            resultDiv.appendChild(restartButton);
+            resultDiv.textContent = `Очки: ${score}`;
             resultDiv.style.display = 'flex';
         }
 
@@ -312,15 +293,6 @@
             const audio = new Audio(type === 'correct' ? 'right.mp3' : 'wrong.mp3');
             audio.volume = 0.3;
             audio.play();
-        }
-
-        function speak(word) {
-            return new Promise(resolve => {
-                const utterance = new SpeechSynthesisUtterance(word);
-                utterance.lang = 'en-US';
-                utterance.onend = resolve;
-                speechSynthesis.speak(utterance);
-            });
         }
 
         document.getElementById('pauseButton').addEventListener('click', () => {
