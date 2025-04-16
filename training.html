@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
             margin: 0;
             padding: 0;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -25,6 +27,7 @@
             background-color: #685962;
             transition: background 0.5s ease;
         }
+
         .container {
             text-align: center;
             background: rgba(255, 255, 255, 0.85);
@@ -36,29 +39,85 @@
             min-width: 600px;
             animation: fadeInContainer 1s ease-in-out;
         }
+
         @keyframes fadeInContainer {
             from {
                 opacity: 0;
                 transform: scale(0.9);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1);
             }
         }
+
         .hidden {
             display: none !important;
         }
+
         #finalResult {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #fff;
-            background: linear-gradient(135deg, #ffab91, #ffccbc);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle at top left, #ffab91, #ffccbc 70%);
+            padding: 40px 60px;
+            border-radius: 20px;
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.2),
+                0 0 30px 5px rgba(255, 170, 150, 0.5);
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #4a148c;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            animation: pulse 2s infinite;
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            transition: transform 0.3s ease;
         }
+
+        #finalResult:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        #finalResult button {
+            margin-top: 30px;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
+            transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+
+        #finalResult button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(79, 195, 247, 0.6);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow:
+                    0 0 0 0 rgba(255, 170, 150, 0.4),
+                    0 8px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            70% {
+                box-shadow:
+                    0 0 0 30px rgba(255, 170, 150, 0),
+                    0 8px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 0 0 rgba(255, 170, 150, 0),
+                    0 8px 20px rgba(0, 0, 0, 0.2);
+            }
+        }
+
         button {
             padding: 12px 25px;
             margin: 10px;
@@ -69,30 +128,37 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         #playButton {
             background: linear-gradient(135deg, #b3e5fc, #81d4fa);
             color: #0277bd;
         }
+
         #playButton:hover {
             background: linear-gradient(135deg, #4fc3f7, #29b6f6);
             transform: scale(1.05);
         }
+
         #submitButton {
             background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
             color: #1b5e20;
         }
+
         #submitButton:hover {
             background: linear-gradient(135deg, #81c784, #66bb6a);
             transform: scale(1.05);
         }
+
         #nextButton {
             background: linear-gradient(135deg, #ffe0b2, #ffcc80);
             color: #8d6e63;
         }
+
         #nextButton:hover {
             background: linear-gradient(135deg, #ffb74d, #ffa726);
             transform: scale(1.05);
         }
+
         input[type="text"] {
             padding: 12px;
             font-size: 16px;
@@ -102,16 +168,19 @@
             border-radius: 10px;
             transition: border-color 0.3s ease;
         }
+
         input[type="text"]:focus {
             border-color: #4caf50;
             outline: none;
         }
+
         .translation-buttons {
             display: flex;
             justify-content: center;
             gap: 10px;
             margin-top: 15px;
         }
+
         .translation-buttons button {
             padding: 10px 20px;
             font-size: 18px;
@@ -123,16 +192,19 @@
             transition: all 0.3s ease;
             width: 120px;
         }
+
         .translation-buttons button:hover {
             background: linear-gradient(135deg, #ba68c8, #9c27b0);
             transform: scale(1.05);
         }
+
         #translationResult,
         #result {
             font-size: 24px;
             margin-top: 20px;
             color: #333;
         }
+
         #progressBarContainer {
             width: 100%;
             background: rgba(255, 255, 255, 0.5);
@@ -142,6 +214,7 @@
             overflow: hidden;
             position: relative;
         }
+
         #progressBar {
             width: 0%;
             height: 100%;
@@ -149,29 +222,36 @@
             border-radius: 10px;
             transition: width 0.3s ease;
         }
+
         @media only screen and (max-width: 510px) {
             body {
                 padding: 10px;
             }
+
             .container {
                 min-width: 90%;
                 padding: 20px;
             }
+
             button {
                 padding: 10px 15px;
                 font-size: 14px;
             }
+
             #playButton {
                 width: 100%;
             }
+
             input[type="text"] {
                 width: 100%;
                 font-size: 14px;
             }
+
             .translation-buttons button {
                 width: 48%;
                 font-size: 16px;
             }
+
             #finalResult {
                 font-size: 16px;
                 padding: 15px;
@@ -179,6 +259,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div id="progressBarContainer">
@@ -227,6 +308,32 @@
             { word: "photo", correct: "photo", translation: "фото" },
             { word: "alphabet", correct: "alphabet", translation: "алфавит" },
             { word: "phone", correct: "phone", translation: "телефон" },
+
+            { word: "jump", correct: "jump", translation: "прыгать" },
+            { word: "job", correct: "job", translation: "работа" },
+            { word: "jam", correct: "jam", translation: "джем" },
+            { word: "hand", correct: "hand", translation: "рука" },
+            { word: "home", correct: "home", translation: "дом" },
+            { word: "hat", correct: "hat", translation: "шляпа" },
+            { word: "we", correct: "we", translation: "мы" },
+            { word: "wine", correct: "wine", translation: "вино" },
+            { word: "way", correct: "way", translation: "путь" },
+            { word: "rabbit", correct: "rabbit", translation: "кролик" },
+            { word: "rose", correct: "rose", translation: "роза" },
+            { word: "red", correct: "red", translation: "красный" },
+            { word: "yellow", correct: "yellow", translation: "желтый" },
+            { word: "yes", correct: "yes", translation: "да" },
+            { word: "you", correct: "you", translation: "ты" },
+            { word: "gym", correct: "gym", translation: "спортзал" },
+            { word: "general", correct: "general", translation: "генерал" },
+            { word: "gel", correct: "gel", translation: "гель" },
+
+            { word: "quest", correct: "quest", translation: "поиск" },
+            { word: "queen", correct: "queen", translation: "королева" },
+            { word: "squirrel", correct: "squirrel", translation: "белка" },
+            { word: "exit", correct: "exit", translation: "выход" },
+            { word: "sex", correct: "sex", translation: "пол" },
+            { word: "fox", correct: "fox", translation: "лиса" }
         ];
 
         function shuffleArray(array) {
@@ -255,7 +362,7 @@
             const currentQuestion = questions[currentQuestionIndex];
             logEvent(`Загружено слово: ${currentQuestion.word} (Перевод: ${currentQuestion.translation})`);
             counterDiv.textContent = `${currentQuestionIndex + 1} из ${questions.length}`;
-            
+
             // Скрываем ненужные элементы
             playButton.classList.add('hidden');
             userInput.classList.add('hidden');
@@ -292,13 +399,13 @@
             const options = getEnglishOptions(question);
             translationButtonsDiv.innerHTML = "";
             translationButtonsDiv.classList.remove("hidden");
-            
+
             options.forEach(option => {
                 const button = document.createElement("button");
                 button.textContent = option;
                 button.addEventListener("click", () => {
                     logEvent(`Пользователь выбрал: "${option}" для перевода "${question.translation}"`);
-                    
+
                     if (option === question.word) {
                         const audio = new Audio('right.mp3');
                         audio.volume = 0.2;
@@ -308,7 +415,7 @@
                         translationResultDiv.style.color = "green";
                         score++;
                         logEvent(`ПРАВИЛЬНЫЙ ОТВЕТ: ${option}`);
-                        
+
                         setTimeout(() => {
                             currentQuestionIndex++;
                             if (currentQuestionIndex < questions.length) {
@@ -345,8 +452,8 @@
         function showFinalResult() {
             document.querySelector(".container").classList.add("hidden");
             finalResultDiv.classList.remove("hidden");
-            finalResultDiv.textContent = `Результат теста: ${score} из ${questions.length}`;
-            
+            finalResultDiv.textContent = `🥇 Результат теста: ${score} из ${questions.length}`;
+
             const restartButton = document.createElement("button");
             restartButton.textContent = "Начать заново";
             restartButton.style.display = "block";
@@ -358,7 +465,7 @@
             restartButton.style.border = "none";
             restartButton.style.borderRadius = "5px";
             restartButton.style.cursor = "pointer";
-            
+
             restartButton.addEventListener("click", () => {
                 logEvent('--- ПОВТОРНЫЙ ТЕСТ ---');
                 shuffleArray(questions);
@@ -369,15 +476,16 @@
                 finalResultDiv.classList.add("hidden");
                 loadQuestion();
             });
-            
+
             finalResultDiv.appendChild(restartButton);
         }
 
-        window.onload = function() {
+        window.onload = function () {
             logEvent('--- НАЧАЛО ТЕСТА ---');
             logEvent(`Список слов: ${questions.map(q => `${q.word} (${q.translation})`).join(', ')}`);
             loadQuestion();
         };
     </script>
 </body>
+
 </html>
