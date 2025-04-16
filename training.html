@@ -265,7 +265,7 @@
         <div id="progressBarContainer">
             <div id="progressBar"></div>
         </div>
-        <h1>🥇 Training</h1>
+        <h1>Training</h1>
         <div id="counter"></div>
         <button id="playButton" class="hidden">Прослушай ♫</button>
         <input type="text" id="userInput" class="hidden" placeholder="Напиши ✎">
@@ -452,7 +452,7 @@
         function showFinalResult() {
             document.querySelector(".container").classList.add("hidden");
             finalResultDiv.classList.remove("hidden");
-            finalResultDiv.textContent = `🥇 Результат теста: ${score} из ${questions.length}`;
+            finalResultDiv.textContent = `🥇 Тренировка на: ${score} из ${questions.length}`;
 
             const restartButton = document.createElement("button");
             restartButton.textContent = "Начать заново";
