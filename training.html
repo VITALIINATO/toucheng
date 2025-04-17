@@ -57,65 +57,14 @@
         }
 
         #finalResult {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle at top left, #ffab91, #ffccbc 70%);
-            padding: 40px 60px;
-            border-radius: 20px;
-            box-shadow:
-                0 8px 20px rgba(0, 0, 0, 0.2),
-                0 0 30px 5px rgba(255, 170, 150, 0.5);
-            font-size: 2.5em;
-            font-weight: 700;
-            color: #4a148c;
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
-            animation: pulse 2s infinite;
-            backdrop-filter: blur(10px);
-            border: 2px solid transparent;
-            background-clip: padding-box;
-            transition: transform 0.3s ease;
-        }
-
-        #finalResult:hover {
-            transform: translate(-50%, -50%) scale(1.05);
-        }
-
-        #finalResult button {
-            margin-top: 30px;
-            padding: 15px 40px;
-            font-size: 1.2em;
-            background: linear-gradient(135deg, #4fc3f7, #29b6f6);
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4);
-            transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-        }
-
-        #finalResult button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(79, 195, 247, 0.6);
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow:
-                    0 0 0 0 rgba(255, 170, 150, 0.4),
-                    0 8px 20px rgba(0, 0, 0, 0.2);
-            }
-
-            70% {
-                box-shadow:
-                    0 0 0 30px rgba(255, 170, 150, 0),
-                    0 8px 20px rgba(0, 0, 0, 0.2);
-            }
-
-            100% {
-                box-shadow:
-                    0 0 0 0 rgba(255, 170, 150, 0),
-                    0 8px 20px rgba(0, 0, 0, 0.2);
-            }
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(135deg, #ffab91, #ffccbc);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         button {
@@ -265,7 +214,7 @@
         <div id="progressBarContainer">
             <div id="progressBar"></div>
         </div>
-        <h1>Training</h1>
+        <h1>🥇 Training</h1>
         <div id="counter"></div>
         <button id="playButton" class="hidden">Прослушай ♫</button>
         <input type="text" id="userInput" class="hidden" placeholder="Напиши ✎">
@@ -308,36 +257,28 @@
             { word: "photo", correct: "photo", translation: "фото" },
             { word: "alphabet", correct: "alphabet", translation: "алфавит" },
             { word: "phone", correct: "phone", translation: "телефон" },
+            { word: "ring", correct: "ring", translation: "кольцо" },
+            { word: "king", correct: "king", translation: "король" },
+            { word: "baking", correct: "baking", translation: "выпечка" },
 
-            { word: "jump", correct: "jump", translation: "прыгать" },
-            { word: "job", correct: "job", translation: "работа" },
-            { word: "jam", correct: "jam", translation: "джем" },
-            { word: "hand", correct: "hand", translation: "рука" },
-            { word: "home", correct: "home", translation: "дом" },
-            { word: "hat", correct: "hat", translation: "шляпа" },
-            { word: "we", correct: "we", translation: "мы" },
-            { word: "wine", correct: "wine", translation: "вино" },
-            { word: "way", correct: "way", translation: "путь" },
-            { word: "rabbit", correct: "rabbit", translation: "кролик" },
-            { word: "rose", correct: "rose", translation: "роза" },
-            { word: "red", correct: "red", translation: "красный" },
-            { word: "yellow", correct: "yellow", translation: "желтый" },
-            { word: "yes", correct: "yes", translation: "да" },
-            { word: "you", correct: "you", translation: "ты" },
-            { word: "gym", correct: "gym", translation: "спортзал" },
-            { word: "general", correct: "general", translation: "генерал" },
-            { word: "gel", correct: "gel", translation: "гель" },
+            { word: "vision", correct: "vision", translation: "зрение" },
+            { word: "collision", correct: "collision", translation: "стролкновение" },
+            { word: "division", correct: "division", translation: "подразделение" },
 
-            { word: "quest", correct: "quest", translation: "поиск" },
-            { word: "queen", correct: "queen", translation: "королева" },
-            { word: "squirrel", correct: "squirrel", translation: "белка" },
-            { word: "exit", correct: "exit", translation: "выход" },
-            { word: "sex", correct: "sex", translation: "пол" },
-            { word: "fox", correct: "fox", translation: "лиса" },
-            { word: "exotic", correct: "exotic", translation: "экзотика" },
-            { word: "examine", correct: "examine", translation: "экзамен" },
-            { word: "example", correct: "example", translation: "пример" }
+            // ===
 
+            { word: "car", correct: "car", translation: "автомобиль" },
+            { word: "star", correct: "star", translation: "звезда" },
+            { word: "cigar", correct: "cigar", translation: "сигара" },
+            { word: "sister", correct: "sister", translation: "сестра" },
+            { word: "finger", correct: "finger", translation: "палец" },
+            { word: "driver", correct: "driver", translation: "водитель" },
+            // { word: "sport", correct: "sport", translation: "спорт" },
+            // { word: "morning", correct: "morning", translation: "утро" },
+            // { word: "north", correct: "north", translation: "север" },
+            // { word: "girlto", correct: "girl", translation: "девушка" },
+            // { word: "bird", correct: "bird", translation: "птица" },
+            // { word: "skirt", correct: "skirt", translation: "платье" },
         ];
 
         function shuffleArray(array) {
@@ -456,7 +397,7 @@
         function showFinalResult() {
             document.querySelector(".container").classList.add("hidden");
             finalResultDiv.classList.remove("hidden");
-            finalResultDiv.textContent = `🥇 Тренировка на: ${score} из ${questions.length}`;
+            finalResultDiv.textContent = `Результат теста: ${score} из ${questions.length}`;
 
             const restartButton = document.createElement("button");
             restartButton.textContent = "Начать заново";
