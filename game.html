@@ -78,25 +78,16 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             animation: fall linear infinite;
             transition: transform 0.2s;
-            margin: 25px;
-            padding: 15px 25px;
-            min-width: 120px;
-            text-align: center;
-             /* Добавляем минимальные отступы */
-    margin: 150px;
-    min-width: 120px;
-    text-align: center;
         }
 
         .word:hover {
-            transform: scale(1.2);
+            transform: scale(1.1);
         }
 
         .word.explosion {
             animation: explosion 0.5s forwards;
             pointer-events: none;
             color: transparent !important;
-            margin: 20px;
         }
 
         #task {
@@ -134,6 +125,7 @@
             z-index: 10;
         }
 
+        /* ---------------------------------------------------- Улучшенная видимость счета и таймера */
         #score {
             font-size: 72px;
             font-weight: 700;
@@ -149,7 +141,7 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-
+        /* Стили для финального результата */
         #result {
             position: fixed;
             top: 0;
@@ -186,115 +178,25 @@
 </head>
 
 <body>
-    <div id="task">=></div>
+    <div id="task">Переведи: ...</div>
     <div id="pauseButton">⏸ Пауза</div>
     <div id="gameContainer"></div>
     <div id="hud">
         <div id="score">0</div>
-        <div id="timer">45</div>
+        <div id="timer">60</div>
     </div>
     <div id="result"></div>
 
     <script>
-    // Система размещения слов без наложений
-const wordPositions = [];
-const WORD_HEIGHT = 60; // Высота области для каждого слова
 
-function createWord() {
-    const wordData = getRandomWords(2);
-    wordData.forEach(data => {
-        let wordElement;
-        let positionFound = false;
-        
-        while(!positionFound) {
-            const left = Math.random() * (window.innerWidth - 150);
-            const top = -Math.random() * window.innerHeight * 0.3;
-            
-            wordElement = document.createElement('div');
-            wordElement.className = 'word';
-            wordElement.textContent = data.word;
-            wordElement.style.left = left + 'px';
-            wordElement.style.top = top + 'px';
-            wordElement.style.animationDuration = (wordSpeed / 750) + 's';
-            
-            // Проверка вертикальных коллизий
-            const collision = wordPositions.some(pos => {
-                return Math.abs(pos - left) < 150 && 
-                       Math.abs(pos - top) < WORD_HEIGHT;
+function speak(word) {
+            return new Promise(resolve => {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'en-US';
+                utterance.onend = resolve;
+                speechSynthesis.speak(utterance);
             });
-
-            if(!collision) {
-                wordPositions.push(left);
-                positionFound = true;
-                wordElement.addEventListener('click', () => checkAnswer(wordElement, data.word));
-                document.getElementById('gameContainer').appendChild(wordElement);
-                fallingWords.push(wordElement);
-            } else {
-                wordElement.remove();
-            }
         }
-    });
-}
-
-// Очистка позиций при удалении слов
-function cleanupPositions() {
-    setInterval(() => {
-        const currentPositions = Array.from(document.querySelectorAll('.word'))
-            .map(word => parseFloat(word.style.left));
-        wordPositions = [...new Set(currentPositions)];
-    }, 1000);
-}
-
-// Обновленная функция checkCollisions
-function checkCollisions() {
-    const words = document.querySelectorAll('.word:not(.explosion)');
-    words.forEach(word => {
-        const rect = word.getBoundingClientRect();
-        words.forEach(otherWord => {
-            if(word === otherWord) return;
-            
-            const otherRect = otherWord.getBoundingClientRect();
-            
-            if(rect.top < otherRect.bottom && 
-               rect.bottom > otherRect.top &&
-               rect.left < otherRect.right &&
-               rect.right > otherRect.left) {
-                
-                // Отодвигаем слова друг от друга
-                const dx = (rect.left + rect.width/2) - (otherRect.left + otherRect.width/2);
-                const dy = (rect.top + rect.height/2) - (otherRect.top + otherRect.height/2);
-                
-                const angle = Math.atan2(dy, dx);
-                const distance = Math.sqrt(dx*dx + dy*dy);
-                const minDistance = 150; // Минимальное расстояние между словами
-                
-                if(distance < minDistance) {
-                    const moveX = Math.cos(angle) * (minDistance - distance);
-                    const moveY = Math.sin(angle) * (minDistance - distance);
-                    
-                    word.style.left = (parseFloat(word.style.left) + moveX) + 'px';
-                    word.style.top = (parseFloat(word.style.top) + moveY) + 'px';
-                }
-            }
-        });
-    });
-}
-
-// Запуск проверок при старте
-cleanupPositions();
-
-        // Обновляем функцию при изменении размера окна
-        window.addEventListener('resize', () => {
-            const words = document.querySelectorAll('.word');
-            words.forEach((word, index) => {
-                if (index === 0) return;
-                const prevWord = words[index - 1];
-                const prevRect = prevWord.getBoundingClientRect();
-                word.style.left = Math.max(0, Math.random() * (window.innerWidth - 150)) + 'px';
-                word.style.top = (prevRect.top - 50 - Math.random() * 100) + 'px';
-            });
-        });
-
 
         const words = [
             { word: "shop", translation: "магазин" },
@@ -333,27 +235,22 @@ cleanupPositions();
             { word: "sex", correct: "sex", translation: "пол" },
             { word: "fox", correct: "fox", translation: "лиса" }
         ];
-        
-        const collisionMargin = 25; // Минимальное расстояние между словами
-        const maxAttempts = 200; // Максимальное количество попыток размещения
-        const positionUpdateInterval = 100; // Частота проверки коллизий (мс)
-
 
         let score = 0;
-        let timeLeft = 45;
+        let timeLeft = 60;
         let currentTask;
         let fallingWords = [];
         let gameInterval;
         let timerInterval;
         let isPaused = false;
 
-        // === НАСТРОЙКИ СЛОЖНОСТИ ===
+        // Настройки скорости (можно регулировать)
         const wordSpeed = 6000; // Скорость падения слов (в мс)
-        const spawnInterval = 5000; // Частота появления новых слов (в мс)
+        const spawnInterval = 2000; // Частота появления новых слов (в мс)
 
         function startGame() {
             newTask();
-            gameInterval = setInterval(createWord, spawnInterval);
+            gameInterval = setInterval(createWord, spawnInterval); // Регулируем частоту появления
             timerInterval = setInterval(updateTimer, 1000);
         }
 
@@ -368,14 +265,17 @@ cleanupPositions();
                 const wordElement = document.createElement('div');
                 wordElement.className = 'word';
                 wordElement.textContent = data.word;
-                wordElement.style.left = Math.random() * (window.innerWidth - 150) + 'px';
-                wordElement.style.animationDuration = (wordSpeed / 750) + 's';
+                wordElement.style.left = Math.random() * (window.innerWidth - 500) + 'px';
+                wordElement.style.animationDuration = (wordSpeed / 700) + 's'; // Регулируем скорость падения
                 wordElement.addEventListener('click', () => checkAnswer(wordElement, data.word));
                 document.getElementById('gameContainer').appendChild(wordElement);
                 fallingWords.push(wordElement);
             });
         }
 
+        const maxFallingWords = 7; // Максимум 10 слов на экране одновременно
+
+      
         function getRandomWords(count) {
             const result = [currentTask];
             while (result.length < count) {
@@ -387,27 +287,23 @@ cleanupPositions();
             return result.sort(() => 0.5 - Math.random());
         }
 
-        async function checkAnswer(element, word) {
+        function checkAnswer(element, word) {
             if (isPaused) return;
 
             if (word === currentTask.word) {
                 element.classList.add('explosion');
-
-                // Озвучка английского слова
-                await speak(word);
-                playSound('correct');
-
                 setTimeout(() => {
                     element.remove();
                     fallingWords = fallingWords.filter(w => w !== element);
-                }, 50);
-
+                }, 500);
                 score++;
                 document.getElementById('score').textContent = score;
                 newTask();
+                speak(word);
+                // playSound('correct');
             } else {
                 element.classList.add('shake');
-                setTimeout(() => element.classList.remove('shake'), 100);
+                setTimeout(() => element.classList.remove('shake'), 500);
                 playSound('wrong');
             }
         }
@@ -429,37 +325,13 @@ cleanupPositions();
             // Показываем результат
             const resultDiv = document.getElementById('result');
             resultDiv.textContent = `Очки: ${score}`;
-
-            // Добавляем кнопку перезапуска
-            const restartButton = document.createElement('button');
-            restartButton.textContent = 'Начать заново';
-            restartButton.style.marginTop = '20px';
-            restartButton.style.padding = '15px 30px';
-            restartButton.style.fontSize = '24px';
-            restartButton.style.backgroundColor = '#4CAF50';
-            restartButton.style.color = 'white';
-            restartButton.style.border = 'none';
-            restartButton.style.borderRadius = '10px';
-            restartButton.style.cursor = 'pointer';
-            restartButton.onclick = () => window.location.reload();
-
-            resultDiv.appendChild(restartButton);
             resultDiv.style.display = 'flex';
         }
 
-        // function playSound(type) {
-        //     const audio = new Audio(type === 'correct' ? 'right.mp3' : 'wrong.mp3');
-        //     audio.volume = 0.3;
-        //     audio.play();
-        // }
-
-        function speak(word) {
-            return new Promise(resolve => {
-                const utterance = new SpeechSynthesisUtterance(word);
-                utterance.lang = 'en-US';
-                utterance.onend = resolve;
-                speechSynthesis.speak(utterance);
-            });
+        function playSound(type) {
+            const audio = new Audio(type === 'correct' ? 'right.mp3' : 'wrong.mp3');
+            audio.volume = 0.3;
+            audio.play();
         }
 
         document.getElementById('pauseButton').addEventListener('click', () => {
