@@ -6,500 +6,579 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English Sounds</title>
     <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        min-height: 100vh;
-        padding: 10px;
-        background: linear-gradient(180deg, #e0f7fa, #fcb3f6);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        color: #333;
-        transition: background 0.5s ease;
-    }
-    .container {
-        max-width: 1200px;
-        width: 100%;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        padding: 30px;
-        margin: 0 auto;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        animation: fadeInContainer 1s ease-in-out;
-    }
-    @keyframes fadeInContainer {
-        from {
+        /* Базовые стили */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0px;
+            background: linear-gradient(135deg, #685962, #3ba9ca);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('letters.jpg');
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+            padding: 20px;
+            padding-bottom: 10px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s ease;
+            height: 720px;
+
+            /* Начальное состояние для анимации */
             opacity: 0;
-            transform: translateY(-20px);
+            transform: translateY(20px);
+            animation: fadeInContainer 1s ease-in-out forwards;
+
         }
-        to {
-            opacity: 1;
-            transform: translateY(0);
+
+
+        /* Анимация появления контейнера */
+        @keyframes fadeInContainer {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-    }
-    .sound {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-        margin-bottom: 30px;
-    }
-    .alphabet-button,
-    .transcription-button {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        padding: 15px 20px;
-        font-size: 18px;
-        cursor: pointer;
-        border: none;
-        border-radius: 15px;
-        text-align: center;
-        width: 180px;
-        height: 80px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-    .alphabet-button {
-        background: linear-gradient(135deg, #ffab91, #ffccbc);
-        color: #4d2c0d;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    .alphabet-button:hover {
-        background: linear-gradient(135deg, #ff7043, #ff8a65);
-        transform: scale(1.05);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    }
-    .transcription-button {
-        background: linear-gradient(135deg, #b3e5fc, #81d4fa);
-        color: #0277bd;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
 
-    .transcription-buttons {
-    display: flex;
-    gap: 10px; /* Расстояние между кнопками */
-    justify-content: center; /* Выравнивание по центру */
-    flex-wrap: wrap; /* Перенос кнопок на новую строку при необходимости */
-}
-    .transcription-button:hover {
-        background: linear-gradient(135deg, #4fc3f7, #29b6f6);
-        transform: scale(1.05);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    }
-    .alphabet-symbol,
-    .transcription-symbol {
-        font-size: 24px;
-        font-weight: bold;
-    }
+        .sound {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
 
-    .tooltip {
-        position: absolute;
-        top: 110%;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #333;
-        color: #fff;
-        padding: 15px;
-        border-radius: 8px;
-        white-space: normal;
-        width: 300px;
-        text-align: center;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        z-index: 10;
-    }
-    .transcription-button:hover .tooltip {
-        opacity: 1;
-        visibility: visible;
-    }
+        .alphabet-button,
+        .transcription-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 15px;
+            text-align: center;
+            width: 180px;
+            height: 90px;
+            transition: all 0.5s ease;
+        }
 
-    .examples-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 20px;
-        margin-top: 20px;
-    }
-    .example-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-    .example-image {
-        width: 100%;
-        height: auto;
-        border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-    }
-    .example-image:hover {
-        transform: scale(1.05);
-    }
-    .example-button {
-        width: 100%;
-        padding: 15px;
-        font-size: 1rem;
-        background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
-        border: none;
-        border-radius: 10px;
-        color: #1b5e20;
-        cursor: pointer;
-        text-align: center;
-        transition: background 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    .example-button:hover {
-        background: linear-gradient(135deg, #81c784, #66bb6a);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    }
-    .word {
-        font-size: 1.5em;
-        font-weight: bold;
-        color: #1b5e20;
-    }
-    .transcription {
-        font-size: 1.2em;
-        color: #388e3c;
-    }
-    .translation {
-        font-size: 0.9em;
-        color: #558b2f;
-        font-style: italic;
-    }
+        .alphabet-button {
+            background: linear-gradient(135deg, #f7dc6f, #e6be45);
+            color: #333;
+        }
 
-    .nav-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        margin: 20px 0;
-    }
-    .nav-buttons button {
-        padding: 10px 20px;
-        font-size: 1rem;
-        background: linear-gradient(135deg, #ffe0b2, #ffcc80);
-        color: #8d6e63;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    .nav-buttons button:hover {
-        background: linear-gradient(135deg, #ffb74d, #ffa726);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    }
-    .full-nav {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-        gap: 10px;
-        margin-top: 20px;
-    }
-    .nav-item {
-        padding: 10px;
-        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-        color: #1565c0;
-        border-radius: 8px;
-        cursor: pointer;
-        text-align: center;
-        transition: background 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    .nav-item:hover {
-        background: linear-gradient(135deg, #90caf9, #64b5f6);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    }
-    .nav-item.active {
-        background: linear-gradient(135deg, #42a5f5, #1e88e5);
-        color: #fff;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    }
+        .alphabet-button:hover {
+            background: linear-gradient(135deg, #e6be45, #d4a631);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .transcription-button {
+            background: linear-gradient(135deg, #82ccdd, #6c9ec4);
+            color: white;
+        }
+
+        .transcription-button:hover {
+            background: linear-gradient(135deg, #6c9ec4, #5a8cb3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .alphabet-symbol,
+        .transcription-symbol {
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .examples-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .example-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease;
+        }
+
+        .example-section:hover {
+            transform: scale(1.05);
+        }
+
+        .example-image {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 15px;
+            transition: transform 0.5s ease;
+        }
+
+        .example-image:hover {
+            transform: scale(1.05);
+        }
+
+        .example-button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #3d96f5, #2a7bc5);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.5s ease;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .example-button:hover {
+            background: linear-gradient(135deg, #2a7bc5, #1f66a6);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .word {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .transcription {
+            font-size: 1.6em;
+            color: #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .translation {
+            font-size: 1em;
+            color: #aaa;
+            font-style: italic;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .nav-buttons button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #696e69, #4b42d1);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-buttons button:hover {
+            background: linear-gradient(135deg, #4b42d1, #3a32a8);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .full-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(25px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .nav-item {
+            padding: 5px;
+            background: linear-gradient(135deg, #f374de, #d857c7);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.5s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item:hover {
+            background: linear-gradient(135deg, #d857c7, #b83fae);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #790596, #5f047a);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Медиа-запрос для мобильных устройств */
+        @media only screen and (max-width: 768px) {
+            .sound {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .alphabet-button,
+            .transcription-button {
+                width: 100%;
+                height: auto;
+                padding: 15px;
+            }
+
+            .examples-container {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-buttons button {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .nav-item {
+                padding: 10px;
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
+        <!-- Секция звука -->
         <div class="sound">
-            <!-- Кнопка алфавита -->
-            <button class="alphabet-button" onclick="playAlphabetSound(sounds[currentIndex].alphabetSoundFile)">
-                <span class="alphabet-label">буква</span>
-                <span class="alphabet-symbol" id="alphabetSymbol"></span>
-            </button>
-            <!-- Кнопки транскрипции -->
-            <div class="transcription-buttons">
-                <button class="transcription-button" id="transcriptionButton1"
-                    onclick="playSound(sounds[currentIndex].soundFile)">
-                    <span class="transcription-label">звук</span>
-                    <span class="transcription-symbol" id="transcriptionSymbol1"></span>
-                </button>
-                <button class="transcription-button" id="transcriptionButton2"
-                    onclick="playSound(sounds[currentIndex].soundFile2)">
-                    <span class="transcription-label">звук</span>
-                    <span class="transcription-symbol" id="transcriptionSymbol2"></span>
-                </button>
-            </div>
+            <!-- Кнопка для воспроизведения звука буквы -->
+            <button class="alphabet-button" onclick="playAlphabetSound(sounds[currentIndex].alphabetSoundFile)"
+                id="alphabetButton"></button>
+
+            <!-- Кнопка для воспроизведения звука транскрипции -->
+            <button class="transcription-button" onclick="playSound(sounds[currentIndex].soundFile)"
+                id="transcriptionButton"></button>
+
+
         </div>
+        <!-- Примеры слов -->
         <div class="examples-container">
-            <div class="example-section" id="example1">
-                <img class="example-image" src="" alt="Изображение 1">
-                <button class="example-button">
-                    <span class="word"></span><br>
-                    <span class="transcription"></span><br>
-                    <span class="translation"></span>
+            <div class="example-section">
+                <img class="example-image" id="image1" src="" alt="Изображение 1">
+                <button class="example-button" id="wordButton1" onclick="speak(sounds[currentIndex].example1)">
+                    <span class="word">${sounds[currentIndex].example1}</span><br>
+                    <span class="transcription">${sounds[currentIndex].transcription1}</span><br>
+                    <span class="translation">${sounds[currentIndex].translation1}</span>
                 </button>
             </div>
-            <div class="example-section" id="example2"><img class="example-image" src="" alt="Изображение 2">
-                <button class="example-button">
-                    <span class="word"></span><br>
-                    <span class="transcription"></span><br>
-                    <span class="translation"></span>
+            <div class="example-section">
+                <img class="example-image" id="image2" src="" alt="Изображение 2">
+                <button class="example-button" id="wordButton2" onclick="speak(sounds[currentIndex].example2)">
+                    <span class="word">${sounds[currentIndex].example2}</span><br>
+                    <span class="transcription">${sounds[currentIndex].transcription2}</span><br>
+                    <span class="translation">${sounds[currentIndex].translation2}</span>
                 </button>
             </div>
-            <div class="example-section" id="example3"><img class="example-image" src="" alt="Изображение 3">
-                <button class="example-button">
-                    <span class="word"></span><br>
-                    <span class="transcription"></span><br>
-                    <span class="translation"></span>
-                </button>
-            </div>
-            <div class="example-section" id="example4"><img class="example-image" src="" alt="Изображение 4">
-                <button class="example-button">
-                    <span class="word"></span><br>
-                    <span class="transcription"></span><br>
-                    <span class="translation"></span>
-                </button>
-            </div>
-            <div class="example-section" id="example5"><img class="example-image" src="" alt="Изображение 5">
-                <button class="example-button">
-                    <span class="word"></span><br>
-                    <span class="transcription"></span><br>
-                    <span class="translation"></span>
-                </button>
-            </div>
-            <div class="example-section" id="example6"><img class="example-image" src="" alt="Изображение 6">
-                <button class="example-button">
-                    <span class="word"></span><br>
-                    <span class="transcription"></span><br>
-                    <span class="translation"></span>
+            <div class="example-section">
+                <img class="example-image" id="image3" src="" alt="Изображение 3">
+                <button class="example-button" id="wordButton3" onclick="speak(sounds[currentIndex].example3)">
+                    <span class="word">${sounds[currentIndex].example3}</span><br>
+                    <span class="transcription">${sounds[currentIndex].transcription3}</span><br>
+                    <span class="translation">${sounds[currentIndex].translation3}</span>
                 </button>
             </div>
         </div>
+        <!-- Кнопки для навигации -->
         <div class="nav-buttons">
             <button onclick="prevSound()">Назад</button>
             <button onclick="nextSound()">Вперед</button>
         </div>
+        <!-- Новая навигация -->
         <div class="full-nav" id="fullNav"></div>
     </div>
     <audio id="audioPlayer"></audio>
     <script>
+        // Данные
         const sounds = [
+
+
             {
-                alphabetButton: "Aa",
-                alphabetSoundFile: "A-a.mp3",
-                soundFile: "ei.mp3",
-                soundFile2: "ae.mp3",
-                transcriptionButton1: "[eɪ]",
-                transcriptionButton2: "[æ]",
-                examples: [
-                    { word: "lake", transcription: "[leɪk]", translation: "озеро", image: "lake.jpg" },
-                    { word: "game", transcription: "[geɪm]", translation: "игра", image: "game.jpg" },
-                    { word: "blaze", transcription: "[bleɪz]", translation: "блеск", image: "blaze.jpg" },
-                    { word: "sand", transcription: "[sænd]", translation: "песок", image: "sand.jpg" },
-                    { word: "flat", transcription: "[flæt]", translation: "квартира", image: "flat.jpg" },
-                    { word: "bag", transcription: "[bæg]", translation: "сумка", image: "bag.jpg" }
-                ]
+                soundFile: "p.mp3",
+                alphabetSoundFile: "P-p.mp3", // Файл для алфавита
+
+                alphabetButton: "Pp", // Название буквы
+                transcriptionButton: "[p]", // Транскрипция
+                example1: "pen", transcription1: "[pen]", translation1: "ручка", image1: "pen.jpg",
+                example2: "pet", transcription2: "[pet]", translation2: "питомец", image2: "pet.jpg",
+                example3: "plate", transcription3: "['pleɪt]", translation3: "тарелка ", image3: "plate.jpg"
             },
+
+
             {
-                alphabetButton: "Ee",
-                alphabetSoundFile: "E-e.mp3",
-                soundFile: "ii.mp3",
-                soundFile2: "e.mp3",
-                transcriptionButton1: "[i:]",
-                transcriptionButton2: "[e]",
-                examples: [
-                    { word: "be", transcription: "[bi:]", translation: "быть", image: "be.jpg" },
-                    { word: "leo", transcription: "[li:ou]", translation: "лев", image: "leo.jpg" },
-                    { word: "me", transcription: "[mi:]", translation: "я", image: "me.jpg" },
-                    { word: "legs", transcription: "[legz]", translation: "ноги", image: "legs.jpg" },
-                    { word: "nest", transcription: "[nest]", translation: "гнездо", image: "nest.jpg" },
-                    { word: "desk", transcription: "[desk]", translation: "доска", image: "desk.jpg" }
-                ]
+                soundFile: "b.mp3",
+                alphabetSoundFile: "B-b.mp3", // Файл для алфавита
+
+                alphabetButton: "Bb", // Название буквы
+                transcriptionButton: "[b]", // Транскрипция
+                example1: "baby", transcription1: "['beɪbɪ]", translation1: "малыш ", image1: "baby.jpg",
+                example2: "bag", transcription2: "[bæg]", translation2: "сумка", image2: "bag.jpg",
+                example3: "bike", transcription3: "[baɪk]", translation3: "велосипед", image3: "bike.jpg",
             },
 
             {
-                alphabetButton: "Ii",
-                alphabetSoundFile: "I-i.mp3",
-                soundFile: "i.mp3",
-                soundFile2: "ai.mp3",
+                soundFile: "f.mp3",
+                alphabetSoundFile: "f-f.mp3", // Файл для алфавита
 
-                transcriptionButton1: "[aɪ]",
-                transcriptionButton2: "[ɪ]",
-                examples: [
-                    { word: "bike", transcription: "[baɪk]", translation: "велосипед", image: "bike.jpg" },
-                    { word: "five", transcription: "[faɪv]", translation: "5", image: "five.jpg" },
-                    { word: "smile", transcription: "['smaɪl]", translation: "улыбка", image: "smile.jpg" },
-                    { word: "kid", transcription: "[kɪd]", translation: "ребенок", image: "kid.jpg" },
-                    { word: "zip", transcription: "[zɪp]", translation: "застежка", image: "zip.jpg" },
-                    { word: "pig", transcription: "[pɪg]", translation: "свинка", image: "pig.jpg" }
-                ]
+                alphabetButton: "Ff", // Название буквы
+                transcriptionButton: "[f]", // Транскрипция
+                example1: "flat", transcription1: "[flæt]", translation1: "квартира", image1: "flat.jpg",
+                example2: "face", transcription2: "[feɪs]", translation2: "лицо", image2: "face.jpg",
+                example3: "five", transcription3: "['faɪv]", translation3: "5 (пять)  ", image3: "five.jpg"
             },
-
-            {
-                alphabetButton: "Yy",
-                alphabetSoundFile: "Y-y.mp3",
-                soundFile: "ai.mp3",
-                soundFile2: "i.mp3",
-                transcriptionButton1: "[aɪ]",
-                transcriptionButton2: "[ɪ]",
-                examples: [
-                    { word: "my", transcription: "[maɪ]", translation: "мое", image: "my.jpg" },
-                    { word: "fly", transcription: "[flaɪ]", translation: "муха", image: "fly.jpg" },
-                    { word: "sky", transcription: "[skaɪ]", translation: "небо", image: "sky.jpg" },
-                    { word: "lily", transcription: "[lɪlɪ]", translation: "лилия", image: "lily.jpg" },
-                    { word: "city", transcription: "[sɪtɪ]", translation: "город", image: "city.jpg" },
-                    { word: "fantasy", transcription: "[fæntəsɪ]", translation: "фантазия", image: "fantasy.jpg" },
-                    { word: "enemy", transcription: "[enəmɪ]", translation: "враг", image: "enemy.jpg" }
-                ]
-            },
-
-            {
-                alphabetButton: "Oo",
-                alphabetSoundFile: "O-o.mp3", // Файл для алфавита
-                soundFile: "ou.mp3",         // Файл для первого звука
-                soundFile2: "o.mp3",         // Файл для второго звука
-                transcriptionButton1: "[əʊ]", // Первая транскрипция
-                transcriptionButton2: "[ɒ]",  // Вторая транскрипция
-                examples: [
-                    { word: "note", transcription: "[nəʊt]", translation: "нота", image: "note.jpg" },
-                    { word: "nose", transcription: "[nəʊz]", translation: "нос", image: "nose.jpg" },
-                    { word: "smoke", transcription: "[sməʊk]", translation: "дым", image: "smoke.jpg" },
-                    { word: "dog", transcription: "[dɒg]", translation: "пес", image: "dog.jpg" },
-                    { word: "pot", transcription: "[pɒt]", translation: "горшок", image: "pot.jpg" },
-                    { word: "top", transcription: "[tɒp]", translation: "вершина", image: "top.jpg" }
-                ]
-            },
-
-            {
-                alphabetButton: "Uu",
-                alphabetSoundFile: "juu.mp3",
-                soundFile: "ju.mp3",
-                soundFile2: "a.mp3",
-                transcriptionButton1: "[ju:]",
-                transcriptionButton2: "[ʌ]",
-                examples: [
-                    { word: "tube", transcription: "[tju:b]", translation: "труба", image: "tube.jpg" },
-                    { word: "duty", transcription: "[dju:tɪ]", translation: "долг", image: "duty.jpg" },
-                    { word: "music", transcription: "[mju:zik]", translation: "музыка", image: "music.jpg" },
-                    { word: "mum", transcription: "[mʌm]", translation: "мама", image: "mum.jpg" },
-                    { word: "gun", transcription: "[gʌn]", translation: "оружие", image: "gun.jpg" },
-                    { word: "bus", transcription: "[bʌs]", translation: "автобус", image: "bus.jpg" }
-                ]
-            },
-
-            {
-                alphabetButton: "Cc",
-                alphabetSoundFile: "C-c.mp3", // Файл для алфавита
-                soundFile: "s.mp3",          // Файл для первого звука
-                soundFile2: "k.mp3",         // Файл для второго звука
-                transcriptionButton1: "[s]", // Первая транскрипция
-                transcriptionButton2: "[k]", // Вторая транскрипция
-                examples: [
-                    { word: "cell", transcription: "[sel]", translation: "сот", image: "cell.jpg" },
-                    { word: "mice", transcription: "[maɪs]", translation: "мыши", image: "mice.jpg" },
-                    { word: "face", transcription: "['feɪs]", translation: "лицо", image: "face2.jpg" },
-                    { word: "cute", transcription: "[kju:t]", translation: "милый", image: "cute.jpg" },
-                    { word: "music", transcription: "[mju:zik]", translation: "музыка", image: "music.jpg" },
-                    { word: "cat", transcription: "[kæt]", translation: "кот", image: "cat.jpg" }
-                ]
-            },
-            {
-                alphabetButton: "Ss",
-                alphabetSoundFile: "S-s.mp3",
-                soundFile: "s.mp3",
-                soundFile2: "z.mp3",
-                transcriptionButton1: "[s]",
-                transcriptionButton2: "[z]",
-                examples: [
-                    { word: "sand", transcription: "[sænd]", translation: "песок", image: "sand.jpg" },
-                    { word: "sun", transcription: "[sʌn]", translation: "солнце", image: "sun.jpg" },
-                    { word: "smile", transcription: "['smaɪl]", translation: "улыбка", image: "smile.jpg" },
-                    { word: "music", transcription: "[mju:zik]", translation: "музыка", image: "music.jpg" },
-                    { word: "nose", transcription: "[nəʊz]", translation: "нос", image: "nose.jpg" },
-                    { word: "pose", transcription: "[pəʊz]", translation: "поза", image: "pose.jpg" }
-                ]
-            },
-
-            // с
 
 
             {
-                alphabetButton: "Gg",
-                alphabetSoundFile: "G-g.mp3", // Файл для алфавита
-                soundFile: "dj.mp3",          // Файл для первого звука
-                soundFile2: "g.mp3",         // Файл для второго звука
-                transcriptionButton1: "[dʒ]", // Первая транскрипция
-                transcriptionButton2: "[g]", // Вторая транскрипция
-                examples: [
-                    { word: "gym", transcription: "[dʒɪm]", translation: "тренажерный зал", image: "gym.jpg" },
-                    { word: "general", transcription: "[dʒenərəl]", translation: "генерал", image: "general.jpg" },
-                    { word: "gel", transcription: "[dʒel]", translation: "гель", image: "gel.jpg" },
-                    { word: "game", transcription: "[geɪm]", translation: "игра", image: "game.jpg" },
-                    { word: "gold", transcription: "[gould]", translation: "золото", image: "gold.jpg" },
-                    { word: "gun", transcription: "['gʌn]", translation: "оружие", image: "gun.jpg" },
+                soundFile: "v.mp3",
+                alphabetSoundFile: "V-v.mp3", // Файл для алфавита
 
-                ]
+                alphabetButton: "Vv", // Название буквы
+                transcriptionButton: "[v]", // Транскрипция
+                example1: "visit", transcription1: "[vɪzɪt]", translation1: "визит", image1: "visit.jpg",
+                example2: "van", transcription2: "[væn]", translation2: "вагон", image2: "van.jpg",
+                example3: "vine", transcription3: "['vaɪn]", translation3: "лоза", image3: "vine.jpg"
             },
 
             {
-                alphabetButton: "Xx",
-                alphabetSoundFile: "X-x.mp3", // Файл для алфавита
-                soundFile: "ks.mp3",          // Файл для первого звука
-                soundFile2: "gz.mp3",         // Файл для второго звука
-                transcriptionButton1: "[ks]", // Первая транскрипция
-                transcriptionButton2: "[gz]", // Вторая транскрипция
-                examples: [
-                    { word: "exit", transcription: "[eksɪt]", translation: "выход зал", image: "exit.jpg" },
-                    { word: "sex", transcription: "[seks]", translation: "пол", image: "sex.jpg" },
-                    { word: "fox", transcription: "[fɒks]", translation: "лиса", image: "fox.jpg" },
-                    { word: "exotic ", transcription: "[ɪɡˈzɒtɪk]", translation: "экзотика", image: "exotic.jpg" },
-                    { word: "examine", transcription: "[ɪɡˈzæmɪn]", translation: "экзамен", image: "examine.jpg" },
-                    { word: "example ", transcription: "[ɪɡˈzæmpəl]", translation: "пример", image: "example.jpg" },
+                soundFile: "m.mp3",
+                alphabetSoundFile: "M-m.mp3", // Файл для алфавита
 
-                ]
+                alphabetButton: "Mm", // Название буквы
+                transcriptionButton: "[m]", // Транскрипция
+                example1: "map", transcription1: "[mæp]", translation1: "карта", image1: "map.jpg",
+                example2: "mum", transcription2: "[mʌm]", translation2: "мама", image2: "mum.jpg",
+                example3: "milk", transcription3: "['mɪlk]", translation3: "молоко", image3: "milk.jpg"
+            },
+
+            {
+                soundFile: "z.mp3",
+                alphabetSoundFile: "Z-z.mp3", // Файл для алфавита
+
+                alphabetButton: "Zz", // Название буквы
+                transcriptionButton: "[z]", // Транскрипция
+                example1: "zip", transcription1: "[zɪp]", translation1: "застежка", image1: "zip.jpg",
+                example2: "zone", transcription2: "[zoun]", translation2: "зона", image2: "zone.jpg",
+                example3: "blaze", transcription3: "['bleɪz]", translation3: "блеск", image3: "blaze.jpg"
+            },
+
+            {
+                soundFile: "k.mp3",
+                alphabetSoundFile: "K-k.mp3", // Файл для алфавита
+
+                alphabetButton: "Kk", // Название буквы
+                transcriptionButton: "[k]", // Транскрипция
+                example1: "kiss", transcription1: "[kɪs]", translation1: "поцелуй", image1: "kiss.jpg",
+                example2: "kid", transcription2: "[kɪd]", translation2: "ребенок", image2: "kid.jpg",
+                example3: "kite", transcription3: "['kaɪt]", translation3: "змей", image3: "kite.jpg"
+            },
+
+            {
+                soundFile: "t.mp3",
+                alphabetSoundFile: "T-t.mp3", // Файл для алфавита
+
+                alphabetButton: "Tt", // Название буквы
+                transcriptionButton: "[t]", // Транскрипция
+                example1: "table", transcription1: "[teɪbl]", translation1: "стол", image1: "table.jpg",
+                example2: "tube", transcription2: "[tju:b]", translation2: "труба", image2: "tube.jpg",
+                example3: "top", transcription3: "['tɒp]", translation3: "вершина", image3: "top.jpg"
             },
 
 
 
-            // Добавьте другие звуки сюда
+            {
+                soundFile: "d.mp3",
+                alphabetSoundFile: "D-d.mp3", // Файл для алфавита
+
+                alphabetButton: "Dd", // Название буквы
+                transcriptionButton: "[d]", // Транскрипция
+                example1: "desk", transcription1: "[desk]", translation1: "доска", image1: "desk.jpg",
+                example2: "dog", transcription2: "[dɒg]", translation2: "собака", image2: "dog.jpg",
+                example3: "dad", transcription3: "['dæd]", translation3: "папа", image3: "dad.jpg"
+            },
+
+            {
+                soundFile: "n.mp3",
+                alphabetSoundFile: "N-n.mp3", // Файл для алфавита
+
+                alphabetButton: "Nn", // Название буквы
+                transcriptionButton: "[n]", // Транскрипция
+                example1: "name", transcription1: "[neɪm]", translation1: "имя", image1: "name.jpg",
+                example2: "nest", transcription2: "[nest]", translation2: "гнездо", image2: "nest.jpg",
+                example3: "nine", transcription3: "['naɪn]", translation3: "девять (9)", image3: "nine.jpg"
+            },
+
+            {
+                soundFile: "l.mp3",
+                alphabetSoundFile: "L-l.mp3", // Файл для алфавита
+
+                alphabetButton: "Ll", // Название буквы
+                transcriptionButton: "[l]", // Транскрипция
+                example1: "lips", transcription1: "[lɪps]", translation1: "губы", image1: "lips.jpg",
+                example2: "lamp", transcription2: "[læmp]", translation2: "лампа", image2: "lamp.jpg",
+                example3: "lake", transcription3: "['leɪk]", translation3: "озеро", image3: "lake.jpg"
+            },
+
+            // ====================================================================================================
+
+             // ====================================================================================================
+
+
+            {
+                soundFile: "dj.mp3",
+                alphabetSoundFile: "J-j.mp3", // Файл для алфавита
+
+                alphabetButton: "Jj", // Название буквы
+                transcriptionButton: "[dʒ]", // Транскрипция
+                example1: "jam", transcription1: "[dʒæm]", translation1: "варенье", image1: "jam.jpg",
+                example2: "job", transcription2: "[dʒɒb]", translation2: "работа", image2: "job.jpg",
+                example3: "jump", transcription3: "[dʒʌmp]", translation3: "прыжек", image3: "jump.jpg",
+
+            },
+            {
+                soundFile: "h.mp3",
+                alphabetSoundFile: "H-h.mp3", // Файл для алфавита
+
+                alphabetButton: "Hh", // Название буквы
+                transcriptionButton: "[h]", // Транскрипция
+                example1: "hand", transcription1: "[hænd]", translation1: "рука", image1: "hand.jpg",
+                example2: "home", transcription2: "[houm]", translation2: "дом", image2: "home.jpg",
+                example3: "hat", transcription3: "[hæt]", translation3: "шапка ", image3: "hat.jpg"
+            },
+
+            {
+                soundFile: "w.mp3",
+                alphabetSoundFile: "W-w.mp3", // Файл для алфавита
+
+                alphabetButton: "Ww", // Название буквы
+                transcriptionButton: "[w]", // Транскрипция
+                example1: "wine", transcription1: "[waɪn]", translation1: "вино", image1: "wine.jpg",
+                example2: "we", transcription2: "[wi:]", translation2: "мы", image2: "we.jpg",
+                example3: "way", transcription3: "[wæɪ]", translation3: "путь ", image3: "way.jpg"
+            },
+
+            {
+                soundFile: "r.mp3",
+                alphabetSoundFile: "R-r.mp3", // Файл для алфавита
+
+                alphabetButton: "Rr", // Название буквы
+                transcriptionButton: "[r]", // Транскрипция
+                example1: "rabbit", transcription1: "[ræbɪt]", translation1: "кролик", image1: "rabbit.jpg",
+                example2: "rose", transcription2: "[rouz]", translation2: "роза", image2: "rose.jpg",
+                example3: "red", transcription3: "[red]", translation3: "красный ", image3: "red.jpg"
+            },
+
+            {
+                soundFile: "jj.mp3",
+                alphabetSoundFile: "Y-y.mp3", // Файл для алфавита
+
+                alphabetButton: "Yy", // Название буквы
+                transcriptionButton: "[j]", // Транскрипция
+                example1: "yellow", transcription1: "[jeləʊ]", translation1: "желтый", image1: "yellow.jpg",
+                example2: "yes", transcription2: "[jes]", translation2: "да", image2: "yes.gif",
+                example3: "you", transcription3: "[ju:]", translation3: "ты ", image3: "you.jpg"
+            },
+
+            // Qq
+            {
+                soundFile: "kw.mp3",
+                alphabetSoundFile: "Q-q.mp3", // Файл для алфавита
+
+                alphabetButton: "Qq", // Название буквы
+                transcriptionButton: "[kw]", // Транскрипция
+                example1: "quest", transcription1: "[kwest]", translation1: "поиск", image1: "quest.jpg",
+                example2: "queen", transcription2: "[kwiːn]", translation2: "королева", image2: "queen.jpg",
+                example3: "squirrel", transcription3: "[skwɪrəl]", translation3: "белка ", image3: "squirrel.jpg"
+            },
+
+
+            // // Xx
+            // {
+            //     soundFile: "ks.mp3",
+            //     alphabetSoundFile: "X-x.mp3", // Файл для алфавита
+
+            //     alphabetButton: "Xx", // Название буквы
+            //     transcriptionButton: "[ks]", // Транскрипция
+            //     example1: "exit", transcription1: "[eksɪt]", translation1: "выход", image1: "exit.jpg",
+            //     example2: "sex", transcription2: "[seks]", translation2: "пол", image2: "sex.jpg",
+            //     example3: "fox", transcription3: "[fɒks]", translation3: "лиса ", image3: "fox.jpg"
+            // },
+
+
+            // Xx
+            // {
+            //     soundFile: "ks.mp3",
+            //     alphabetSoundFile: "X-x.mp3", // Файл для алфавита
+
+            //     alphabetButton: "Xx", // Название буквы
+            //     transcriptionButton: "[ks]", // Транскрипция
+            //     example1: "exit", transcription1: "[eksɪt]", translation1: "выход", image1: "exit.jpg",
+            //     example2: "sex", transcription2: "[seks]", translation2: "пол", image2: "sex.jpg",
+            //     example3: "fox", transcription3: "[fɒks]", translation3: "лиса ", image3: "fox.jpg"
+            // },
+
+
         ];
         let currentIndex = 0;
 
+        // Воспроизведение звука для алфавита
         function playAlphabetSound(file) {
             const audio = document.getElementById("audioPlayer");
             audio.src = file;
-            audio.play().catch(err => console.error(err));
+            audio.play().catch(error => console.error("Ошибка воспроизведения:", error));
         }
 
+        // Воспроизведение основного звука
         function playSound(file) {
             const audio = document.getElementById("audioPlayer");
             audio.src = file;
-            audio.play().catch(err => console.error(err));
+            audio.play().catch(error => console.error("Ошибка воспроизведения:", error));
         }
+
+        // Генерация текстового произношения
+
+
 
         function speak(text) {
             const utterance = new SpeechSynthesisUtterance(text);
@@ -507,6 +586,7 @@
             speechSynthesis.speak(utterance); // Голос берется из системных настроек по умолчанию
         }
 
+        // Переключение на предыдущий звук
         function prevSound() {
             if (currentIndex > 0) {
                 currentIndex--;
@@ -514,6 +594,7 @@
             }
         }
 
+        // Переключение на следующий звук
         function nextSound() {
             if (currentIndex < sounds.length - 1) {
                 currentIndex++;
@@ -521,58 +602,97 @@
             }
         }
 
+        // Создание полной навигации
         function createFullNavigation() {
-            const nav = document.getElementById("fullNav");
-            nav.innerHTML = "";
-            sounds.forEach((s, i) => {
-                const btn = document.createElement("div");
-                btn.className = "nav-item";
-                btn.textContent = s.alphabetButton;
-                btn.addEventListener("click", () => {
-                    currentIndex = i;
+            const navContainer = document.getElementById("fullNav");
+            navContainer.innerHTML = "";
+            sounds.forEach((sound, index) => {
+                const button = document.createElement("div");
+                button.classList.add("nav-item");
+                button.textContent = sound.alphabetButton;
+                if (index === currentIndex) {
+                    button.classList.add("active");
+                }
+                button.addEventListener("click", () => {
+                    currentIndex = index;
                     updateContent();
                 });
-                nav.appendChild(btn);
+                navContainer.appendChild(button);
             });
         }
 
-        function updateContent() {
-            const currentSound = sounds[currentIndex];
-
-            // Обновление кнопки "Буква"
-            document.getElementById("alphabetSymbol").textContent = currentSound.alphabetButton;
-
-            // Обновление кнопок "Звук"
-            document.getElementById("transcriptionSymbol1").textContent = currentSound.transcriptionButton1;
-            document.getElementById("transcriptionSymbol2").textContent = currentSound.transcriptionButton2;
-
-            // Обновление примеров
-            for (let i = 1; i <= 6; i++) {
-                const exampleContainer = document.getElementById(`example${i}`);
-                const example = currentSound.examples[i - 1];
-                if (example) {
-                    exampleContainer.style.display = 'block';
-                    exampleContainer.querySelector('.example-image').src = example.image;
-                    exampleContainer.querySelector('.word').textContent = example.word;
-                    exampleContainer.querySelector('.transcription').textContent = example.transcription;
-                    exampleContainer.querySelector('.translation').textContent = example.translation;
-                    exampleContainer.querySelector('.example-button').onclick = () => speak(example.word);
+        // Обновление активного состояния в навигации
+        function updateActiveNav() {
+            const navItems = document.querySelectorAll(".nav-item");
+            navItems.forEach((item, index) => {
+                if (index === currentIndex) {
+                    item.classList.add("active");
                 } else {
-                    exampleContainer.style.display = 'none';
+                    item.classList.remove("active");
                 }
-            }
+            });
+        }
 
-            // Обновление активного элемента навигации
+        // Обновление контента
+
+
+
+        function updateContent() {
+
+
+            // Установка текста для кнопки с буквой алфавита
+            document.getElementById("alphabetButton").innerHTML = `
+        <span class="alphabet-label">буква</span>  
+        <span class="alphabet-symbol">${sounds[currentIndex].alphabetButton}</span>`;
+
+            // Установка текста для кнопки с транскрипцией
+            document.getElementById("transcriptionButton").innerHTML = `
+        <span class="transcription-label">звук</span> 
+        <span class="transcription-symbol">${sounds[currentIndex].transcriptionButton}</span>`;
+
+            // Примеры слов
+            document.getElementById("image1").src = sounds[currentIndex].image1;
+            document.getElementById("wordButton1").innerHTML = `
+        <span class="word">${sounds[currentIndex].example1}</span><br>
+        <span class="transcription">${sounds[currentIndex].transcription1}</span><br>
+        <span class="translation">${sounds[currentIndex].translation1}</span>`;
+            document.getElementById("image2").src = sounds[currentIndex].image2;
+            document.getElementById("wordButton2").innerHTML = `
+        <span class="word">${sounds[currentIndex].example2}</span><br>
+        <span class="transcription">${sounds[currentIndex].transcription2}</span><br>
+        <span class="translation">${sounds[currentIndex].translation2}</span>`;
+            document.getElementById("image3").src = sounds[currentIndex].image3;
+            document.getElementById("wordButton3").innerHTML = `
+        <span class="word">${sounds[currentIndex].example3}</span><br>
+        <span class="transcription">${sounds[currentIndex].transcription3}</span><br>
+        <span class="translation">${sounds[currentIndex].translation3}</span>`;
+
+            // Обновляем активный элемент навигации
             updateActiveNav();
         }
 
-        function updateActiveNav() {
-            document.querySelectorAll(".nav-item").forEach((item, i) => {
-                item.classList.toggle("active", i === currentIndex);
-            });
+
+        function prevSound() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateContent();
+            } else {
+                console.warn("Вы уже на первом элементе.");
+            }
         }
 
-        window.onload = () => {
+        function nextSound() {
+            if (currentIndex < sounds.length - 1) {
+                currentIndex++;
+                updateContent();
+            } else {
+                console.warn("Вы уже на последнем элементе.");
+            }
+        }
+
+
+        // Инициализация при загрузке страницы
+        window.onload = function () {
             updateContent();
             createFullNavigation();
         };
