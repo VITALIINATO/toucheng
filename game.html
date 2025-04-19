@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word Drop Clicker</title>
     <style>
-        @keyframes fall {
+               @keyframes fall {
             from {
                 transform: translateY(-10%)
             }
@@ -123,8 +122,8 @@
         }
 
         .word:hover {
-            transform: scale(1.1) rotate(-2deg);
-            box-shadow: 0 0 20px #ff4500;
+            transform: scale(1.5) rotate(-2deg);
+            box-shadow: 0 0 20px #ff3300;
             z-index: 1; /* Поднятие над другими словами при наведении */
         }
 
@@ -222,7 +221,6 @@
         }
     </style>
 </head>
-
 <body>
     <div id="task"></div>
     <div id="pauseButton">⏸ Пауза</div>
@@ -232,160 +230,83 @@
         <div id="timer">60</div>
     </div>
     <div id="result"></div>
-
     <script>
-
         const words = [
-            { word: "lake", correct: "lake", translation: "озеро" },
-            { word: "game", correct: "game", translation: "игра" },
-            { word: "blaze", correct: "blaze", translation: "блеск" },
-            { word: "face", correct: "face", translation: "лицо" },
-            { word: "cake", correct: "cake", translation: "торт" },
-            { word: "plate", correct: "plate", translation: "тарелка" },
-            { word: "dad", correct: "dad", translation: "папа" },
-            { word: "lamp", correct: "lamp", translation: "лампа" },
-            { word: "map", correct: "map", translation: "карта" },
-            { word: "sand", correct: "sand", translation: "песок" },
-            { word: "flat", correct: "flat", translation: "квартира" },
-            { word: "bag", correct: "bag", translation: "сумка" },
-            { word: "be", correct: "be", translation: "быть" },
-            { word: "leo", correct: "leo", translation: "Лев" },
-            { word: "me", correct: "me", translation: "меня" },
+          
+          { word: "gym", correct: "gym", translation: "спортзал" },
+          { word: "general", correct: "general", translation: "генерал" },
+          { word: "gel", correct: "gel", translation: "гель" },
 
-            { word: "meme", correct: "meme", translation: "мем" },
-            { word: "cell", correct: "cell", translation: "сот" },
-            { word: "pen", correct: "pen", translation: "ручка" },
-            { word: "pet", correct: "pet", translation: "питомец" },
-            { word: "legs", correct: "legs", translation: "ноги" },
-            { word: "nest", correct: "nest", translation: "гнездо" },
-            { word: "desk", correct: "desk", translation: "стол" },
-            { word: "bike", correct: "bike", translation: "велосипед" },
-            { word: "five", correct: "five", translation: "пять" },
-            { word: "smile", correct: "smile", translation: "улыбка" },
-            { word: "kite", correct: "kite", translation: "возд. змей" },
-            { word: "nine", correct: "nine", translation: "девять" },
-            { word: "mice", correct: "mice", translation: "мыши" },
-            { word: "lips", correct: "lips", translation: "губы" },
-            { word: "milk", correct: "milk", translation: "молоко" },
-            { word: "kiss", correct: "kiss", translation: "поцелуй" },
-            { word: "kid", correct: "kid", translation: "ребёнок" },
-            { word: "zip", correct: "zip", translation: "молния" },
-            { word: "pig", correct: "pig", translation: "свинья" },
-            { word: "my", correct: "my", translation: "мой" },
-            { word: "fly", correct: "fly", translation: "муха" },
-            { word: "sky", correct: "sky", translation: "небо" },
-            { word: "ply", correct: "ply", translation: "слой" },
-            { word: "spy", correct: "spy", translation: "шпион" },
-            { word: "baby", correct: "baby", translation: "малыш" },
-            { word: "puppy", correct: "puppy", translation: "щенок" },
-            { word: "lily", correct: "lily", translation: "лилия" },
-            { word: "city", correct: "city", translation: "город" },
-            { word: "fantasy", correct: "fantasy", translation: "фантазия" },
-            { word: "enemy", correct: "enemy", translation: "враг" },
-            { word: "note", correct: "note", translation: "заметка" },
-            { word: "nose", correct: "nose", translation: "нос" },
-            { word: "smoke", correct: "smoke", translation: "дым" },
-            { word: "gold", correct: "gold", translation: "золото" },
-            { word: "zone", correct: "zone", translation: "зона" },
-            { word: "dog", correct: "dog", translation: "собака" },
-            { word: "pot", correct: "pot", translation: "горшок" },
-            { word: "top", correct: "top", translation: "вершина" },
-            { word: "slot", correct: "slot", translation: "щель" },
-            { word: "fog", correct: "fog", translation: "туман" },
-            { word: "log", correct: "log", translation: "бревно" },
-            { word: "tube", correct: "tube", translation: "труба" },
-            { word: "duty", correct: "duty", translation: "обязанность" },
-            { word: "music", correct: "music", translation: "музыка" },
-            { word: "cute", correct: "cute", translation: "милый" },
-            { word: "student", correct: "student", translation: "студент" },
-            { word: "dune", correct: "dune", translation: "дюна" },
-            { word: "cup", correct: "cup", translation: "чашка" },
-            { word: "sun", correct: "sun", translation: "солнце" },
-            { word: "nut", correct: "nut", translation: "орех" },
-            { word: "mum", correct: "mum", translation: "мама" },
-            { word: "gun", correct: "gun", translation: "пистолет" },
-            { word: "bus", correct: "bus", translation: "автобус" },
-            { word: "cent", correct: "cent", translation: "цент" },
-            { word: "citizen", correct: "citizen", translation: "гражданин" },
-            { word: "candy", correct: "candy", translation: "конфета" },
-            { word: "cat", correct: "cat", translation: "кошка" },
-            { word: "pose", correct: "pose", translation: "поза" },
-            { word: "vase", correct: "vase", translation: "ваза" },
-            { word: "wise", correct: "wise", translation: "мудрец" },
-            { word: "gym", correct: "gym", translation: "спортзал" },
-            { word: "general", correct: "general", translation: "генерал" },
-            { word: "gel", correct: "gel", translation: "гель" },
+          { word: "shop", translation: "магазин" },
+          { word: "she", translation: "она" },
+          { word: "fish", translation: "рыба" },
+          { word: "child", translation: "ребенок" },
+          { word: "bench", translation: "лавочка" },
+          { word: "cherry", translation: "вишня" },
+          { word: "thin", translation: "тонкий" },
+          { word: "moth", translation: "мотылек" },
+          { word: "smith", translation: "кузнец" },
+          { word: "alphabet", translation: "алфавит" },
+          { word: "photo", translation: "фото" },
+          { word: "phone", translation: "телефон" },
+          { word: "this", translation: "это" },
+          { word: "that", translation: "то" },
+          { word: "they", translation: "они" },
 
-            { word: "shop", translation: "магазин" },
-            { word: "she", translation: "она" },
-            { word: "fish", translation: "рыба" },
-            { word: "child", translation: "ребенок" },
-            { word: "bench", translation: "лавочка" },
-            { word: "cherry", translation: "вишня" },
-            { word: "thin", translation: "тонкий" },
-            { word: "moth", translation: "мотылек" },
-            { word: "smith", translation: "кузнец" },
-            { word: "alphabet", translation: "алфавит" },
-            { word: "photo", translation: "фото" },
-            { word: "phone", translation: "телефон" },
-            { word: "this", translation: "это" },
-            { word: "that", translation: "то" },
-            { word: "they", translation: "они" },
+          { word: "ring", translation: "кольцо" },
+          { word: "king", translation: "король" },
+          { word: "baking", translation: "выпечка" },
 
-            { word: "ring", translation: "кольцо" },
-            { word: "king", translation: "король" },
-            { word: "baking", translation: "выпечка" },
-
-            { word: "vision", translation: "зрение" },
-            { word: "collision", translation: "столкновение" },
-            { word: "division", translation: "дивизия" },
+          { word: "vision", translation: "зрение" },
+          { word: "collision", translation: "столкновение" },
+          { word: "division", translation: "дивизия" },
 
 
-            { word: "jump", correct: "jump", translation: "прыгать" },
-            { word: "job", correct: "job", translation: "работа" },
-            { word: "jam", correct: "jam", translation: "джем" },
-            { word: "hand", correct: "hand", translation: "рука" },
-            { word: "home", correct: "home", translation: "дом" },
-            { word: "hat", correct: "hat", translation: "шляпа" },
-            { word: "we", correct: "we", translation: "мы" },
-            { word: "wine", correct: "wine", translation: "вино" },
-            { word: "way", correct: "way", translation: "путь" },
-            { word: "rabbit", correct: "rabbit", translation: "кролик" },
-            { word: "rose", correct: "rose", translation: "роза" },
-            { word: "red", correct: "red", translation: "красный" },
-            { word: "yellow", correct: "yellow", translation: "желтый" },
-            { word: "yes", correct: "yes", translation: "да" },
-            { word: "you", correct: "you", translation: "ты" },
-            { word: "gym", correct: "gym", translation: "спортзал" },
-            { word: "general", correct: "general", translation: "генерал" },
-            { word: "gel", correct: "gel", translation: "гель" },
+          { word: "jump", correct: "jump", translation: "прыгать" },
+          { word: "job", correct: "job", translation: "работа" },
+          { word: "jam", correct: "jam", translation: "джем" },
+          { word: "hand", correct: "hand", translation: "рука" },
+          { word: "home", correct: "home", translation: "дом" },
+          { word: "hat", correct: "hat", translation: "шляпа" },
+          { word: "we", correct: "we", translation: "мы" },
+          { word: "wine", correct: "wine", translation: "вино" },
+          { word: "way", correct: "way", translation: "путь" },
+          { word: "rabbit", correct: "rabbit", translation: "кролик" },
+          { word: "rose", correct: "rose", translation: "роза" },
+          { word: "red", correct: "red", translation: "красный" },
+          { word: "yellow", correct: "yellow", translation: "желтый" },
+          { word: "yes", correct: "yes", translation: "да" },
+          { word: "you", correct: "you", translation: "ты" },
+          { word: "gym", correct: "gym", translation: "спортзал" },
+          { word: "general", correct: "general", translation: "генерал" },
+          { word: "gel", correct: "gel", translation: "гель" },
 
-            { word: "quest", correct: "quest", translation: "поиск" },
-            { word: "queen", correct: "queen", translation: "королева" },
-            { word: "squirrel", correct: "squirrel", translation: "белка" },
-            { word: "exit", correct: "exit", translation: "выход" },
-            { word: "sex", correct: "sex", translation: "пол" },
-            { word: "fox", correct: "fox", translation: "лиса" },
+          { word: "quest", correct: "quest", translation: "поиск" },
+          { word: "queen", correct: "queen", translation: "королева" },
+          { word: "squirrel", correct: "squirrel", translation: "белка" },
+          { word: "exit", correct: "exit", translation: "выход" },
+          { word: "sex", correct: "sex", translation: "пол" },
+          { word: "fox", correct: "fox", translation: "лиса" },
 
-            { word: "car", correct: "car", translation: "автомобиль" },
-            { word: "star", correct: "star", translation: "звезда" },
-            { word: "cigar", correct: "cigar", translation: "сигара" },
-            { word: "sister", correct: "sister", translation: "сестра" },
-            { word: "finger", correct: "finger", translation: "палец" },
-            { word: "driver", correct: "driver", translation: "водитель" },
+          { word: "car", correct: "car", translation: "автомобиль" },
+          { word: "star", correct: "star", translation: "звезда" },
+          { word: "cigar", correct: "cigar", translation: "сигара" },
+          { word: "sister", correct: "sister", translation: "сестра" },
+          { word: "finger", correct: "finger", translation: "палец" },
+          { word: "driver", correct: "driver", translation: "водитель" },
 
-            { word: "sport", correct: "sport", translation: "спорт" },
-            { word: "morning", correct: "morning", translation: "утро" },
-            { word: "north", correct: "north", translation: "север" },
-            { word: "girl", correct: "girl", translation: "девушка" },
-            { word: "bird", correct: "bird", translation: "птица" },
-            { word: "skirt", correct: "skirt", translation: "платье" },
+          { word: "sport", correct: "sport", translation: "спорт" },
+          { word: "morning", correct: "morning", translation: "утро" },
+          { word: "north", correct: "north", translation: "север" },
+          { word: "girl", correct: "girl", translation: "девушка" },
+          { word: "bird", correct: "bird", translation: "птица" },
+          { word: "skirt", correct: "skirt", translation: "платье" },
 
 
 
 
-        ];
-
+      ];
+        
         let score = 0;
         let timeLeft = 60;
         let currentTask;
@@ -396,9 +317,10 @@
         let isFrozen = false;
         let usedWords = [];
 
-        const wordSpeed = 4000;
-        const spawnInterval = 1500;
-        const maxFallingWords = 15;
+        // Настройки игры:
+        const wordSpeed = 15000; // Скорость падения слов (в миллисекундах)
+        const spawnInterval = 750; // Частота появления новых слов (в миллисекундах)
+        const maxFallingWords = 20; // Максимальное количество одновременно падающих слов
 
         function speak(word) {
             return new Promise(resolve => {
@@ -411,7 +333,7 @@
 
         function startGame() {
             newTask();
-            gameInterval = setInterval(createWord, spawnInterval);
+            gameInterval = setInterval(createWord, spawnInterval); // Создаем новое слово каждые spawnInterval мс
             timerInterval = setInterval(updateTimer, 1000);
         }
 
@@ -439,17 +361,16 @@
         function createWord() {
             if (isFrozen || isPaused) return;
 
-            const hasCurrentTask = fallingWords.some(word =>
-                word.textContent === currentTask.word
-            );
-
+            // Проверяем, есть ли текущее задание в падающих словах
+            const hasCurrentTask = fallingWords.some(word => word.textContent === currentTask.word);
             if (!hasCurrentTask) {
-                addCorrectWord();
+                addCorrectWord(); // Добавляем правильный ответ, если его нет
             }
 
             if (fallingWords.length >= maxFallingWords) return;
 
-            const wordData = getRandomWords(3);
+            // Создаем случайные слова
+            const wordData = getRandomWords(1); // Теперь создаем только одно слово за раз
             wordData.forEach(data => {
                 const wordText = data.word;
                 const wordWidth = getWordWidth(wordText);
@@ -479,8 +400,9 @@
                 wordElement.className = 'word';
                 wordElement.textContent = wordText;
                 wordElement.style.left = leftPosition + 'px';
-                wordElement.style.animationDuration = (wordSpeed / 500) + 's';
+                wordElement.style.animationDuration = (wordSpeed / 1000) + 's'; // Устанавливаем скорость падения
                 wordElement.addEventListener('click', () => checkAnswer(wordElement, data.word));
+
                 document.getElementById('gameContainer').appendChild(wordElement);
                 fallingWords.push(wordElement);
             });
@@ -503,7 +425,7 @@
                     const existingLeft = existingRect.left;
                     const existingWidth = existingRect.width;
 
-                    if (leftPosition < existingLeft + existingWidth + 20 &&
+                    if (leftPosition < existingLeft + existingWidth + 200 &&
                         leftPosition + wordWidth + 20 > existingLeft) {
                         overlap = true;
                         break;
@@ -517,8 +439,9 @@
             wordElement.className = 'word';
             wordElement.textContent = wordText;
             wordElement.style.left = leftPosition + 'px';
-            wordElement.style.animationDuration = (wordSpeed / 500) + 's';
+            wordElement.style.animationDuration = (wordSpeed / 1000) + 's'; // Устанавливаем скорость падения
             wordElement.addEventListener('click', () => checkAnswer(wordElement, currentTask.word));
+
             document.getElementById('gameContainer').appendChild(wordElement);
             fallingWords.push(wordElement);
         }
@@ -530,8 +453,7 @@
             while (result.length < count) {
                 const randomWord = words[Math.floor(Math.random() * words.length)];
 
-                if (randomWord.word !== currentTask.word &&
-                    !usedInThisRound.has(randomWord.word)) {
+                if (randomWord.word !== currentTask.word && !usedInThisRound.has(randomWord.word)) {
                     result.push(randomWord);
                     usedInThisRound.add(randomWord.word);
                 }
@@ -561,13 +483,11 @@
 
                 if (!isFrozen) {
                     isFrozen = true;
-
                     fallingWords.forEach(wordEl => {
                         wordEl.style.animationPlayState = 'paused';
                     });
 
                     clearInterval(gameInterval);
-
                     setTimeout(() => {
                         isFrozen = false;
                         fallingWords.forEach(wordEl => {
@@ -592,6 +512,7 @@
         function endGame() {
             clearInterval(gameInterval);
             clearInterval(timerInterval);
+
             fallingWords.forEach(word => word.remove());
             fallingWords = [];
 
@@ -628,5 +549,4 @@
         startGame();
     </script>
 </body>
-
-</html>ы
+</html>
