@@ -54,11 +54,47 @@
             }
         }
 
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 10px #ffd700;
+            }
+
+            50% {
+                box-shadow: 0 0 25px #ffd700, 0 0 50px #ff4500;
+            }
+
+            100% {
+                box-shadow: 0 0 10px #ffd700;
+            }
+        }
+
+
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            /* background: linear-gradient(135deg, #6a11cb, #2575fc); */
             height: 100vh;
             margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #72644e, #221901);
+            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
             overflow: hidden;
         }
 
@@ -69,20 +105,29 @@
         }
 
         .word {
+
+            margin: 10px 0; /* Вертикальный отступ между словами */
+            white-space: nowrap; /* Запрет переноса слов */
+
             position: absolute;
             font-size: 24px;
             padding: 15px 30px;
-            background: white;
-            border-radius: 30px;
+            background: #f0eded;
+            border: 2px solid #ffd700;
+            border-radius: 25px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             animation: fall linear infinite;
             transition: transform 0.2s;
+            text-shadow: 0 0 10px #ff4500;
+            box-shadow: 0 0 15px rgba(255, 69, 0, 0.3);
         }
 
         .word:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(-2deg);
+            box-shadow: 0 0 20px #ff4500;
+            z-index: 1; /* Поднятие над другими словами при наведении */
         }
+
 
         .word.explosion {
             animation: explosion 0.5s forwards;
@@ -92,15 +137,16 @@
 
         #task {
             position: fixed;
-            top: 20px;
+            top: 30px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.7);
-            color: white;
+            color: #ffd700;
             padding: 15px 30px;
             border-radius: 25px;
-            font-size: 24px;
-            z-index: 10;
+            font-size: 28px;
+            text-shadow: 2px 2px 4px #000;
+            animation: pulse 2s infinite;
         }
 
         #pauseButton {
@@ -178,7 +224,7 @@
 </head>
 
 <body>
-    <div id="task">Переведи: ...</div>
+    <div id="task"></div>
     <div id="pauseButton">⏸ Пауза</div>
     <div id="gameContainer"></div>
     <div id="hud">
@@ -189,19 +235,8 @@
 
     <script>
 
-function speak(word) {
-            return new Promise(resolve => {
-                const utterance = new SpeechSynthesisUtterance(word);
-                utterance.lang = 'en-US';
-                utterance.onend = resolve;
-                speechSynthesis.speak(utterance);
-            });
-        }
-
         const words = [
-
-        
-        { word: "lake", correct: "lake", translation: "озеро" },
+            { word: "lake", correct: "lake", translation: "озеро" },
             { word: "game", correct: "game", translation: "игра" },
             { word: "blaze", correct: "blaze", translation: "блеск" },
             { word: "face", correct: "face", translation: "лицо" },
@@ -216,7 +251,7 @@ function speak(word) {
             { word: "be", correct: "be", translation: "быть" },
             { word: "leo", correct: "leo", translation: "Лев" },
             { word: "me", correct: "me", translation: "меня" },
-            { word: "Steve", correct: "Steve", translation: "Стив" },
+
             { word: "meme", correct: "meme", translation: "мем" },
             { word: "cell", correct: "cell", translation: "сот" },
             { word: "pen", correct: "pen", translation: "ручка" },
@@ -280,9 +315,6 @@ function speak(word) {
             { word: "gym", correct: "gym", translation: "спортзал" },
             { word: "general", correct: "general", translation: "генерал" },
             { word: "gel", correct: "gel", translation: "гель" },
-
-
-
 
             { word: "shop", translation: "магазин" },
             { word: "she", translation: "она" },
@@ -349,7 +381,7 @@ function speak(word) {
             { word: "bird", correct: "bird", translation: "птица" },
             { word: "skirt", correct: "skirt", translation: "платье" },
 
-            
+
 
 
         ];
@@ -361,52 +393,155 @@ function speak(word) {
         let gameInterval;
         let timerInterval;
         let isPaused = false;
+        let isFrozen = false;
+        let usedWords = [];
 
-        // Настройки скорости (можно регулировать)
-        const wordSpeed = 6000; // Скорость падения слов (в мс)
-        const spawnInterval = 1000; // Частота появления новых слов (в мс)
+        const wordSpeed = 4000;
+        const spawnInterval = 1500;
+        const maxFallingWords = 12;
+
+        function speak(word) {
+            return new Promise(resolve => {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'en-US';
+                utterance.onend = resolve;
+                speechSynthesis.speak(utterance);
+            });
+        }
 
         function startGame() {
             newTask();
-            gameInterval = setInterval(createWord, spawnInterval); // Регулируем частоту появления
+            gameInterval = setInterval(createWord, spawnInterval);
             timerInterval = setInterval(updateTimer, 1000);
         }
 
         function newTask() {
-            currentTask = words[Math.floor(Math.random() * words.length)];
-            document.getElementById('task').textContent = `${currentTask.translation}`;
+            let availableWords = words.filter(word => !usedWords.includes(word.word));
+            if (availableWords.length === 0) usedWords = [];
+            currentTask = availableWords[Math.floor(Math.random() * availableWords.length)];
+            usedWords.push(currentTask.word);
+            document.getElementById('task').textContent = currentTask.translation;
+        }
+
+        function getWordWidth(wordText) {
+            const tempElement = document.createElement('div');
+            tempElement.className = 'word';
+            tempElement.textContent = wordText;
+            tempElement.style.position = 'absolute';
+            tempElement.style.visibility = 'hidden';
+            tempElement.style.left = '-9999px';
+            document.body.appendChild(tempElement);
+            const width = tempElement.offsetWidth;
+            document.body.removeChild(tempElement);
+            return width;
         }
 
         function createWord() {
-            const wordData = getRandomWords(2);
+            if (isFrozen || isPaused) return;
+
+            const hasCurrentTask = fallingWords.some(word =>
+                word.textContent === currentTask.word
+            );
+
+            if (!hasCurrentTask) {
+                addCorrectWord();
+            }
+
+            if (fallingWords.length >= maxFallingWords) return;
+
+            const wordData = getRandomWords(1);
             wordData.forEach(data => {
+                const wordText = data.word;
+                const wordWidth = getWordWidth(wordText);
+                let leftPosition;
+                let attempts = 0;
+
+                do {
+                    leftPosition = Math.random() * (window.innerWidth - wordWidth);
+                    let overlap = false;
+
+                    for (const existingWord of fallingWords) {
+                        const existingRect = existingWord.getBoundingClientRect();
+                        const existingLeft = existingRect.left;
+                        const existingWidth = existingRect.width;
+
+                        if (leftPosition < existingLeft + existingWidth + 20 &&
+                            leftPosition + wordWidth + 20 > existingLeft) {
+                            overlap = true;
+                            break;
+                        }
+                    }
+
+                    if (!overlap || attempts++ > 100) break;
+                } while (true);
+
                 const wordElement = document.createElement('div');
                 wordElement.className = 'word';
-                wordElement.textContent = data.word;
-                wordElement.style.left = Math.random() * (window.innerWidth - 500) + 'px';
-                wordElement.style.animationDuration = (wordSpeed / 500) + 's'; // Регулируем скорость падения
+                wordElement.textContent = wordText;
+                wordElement.style.left = leftPosition + 'px';
+                wordElement.style.animationDuration = (wordSpeed / 500) + 's';
                 wordElement.addEventListener('click', () => checkAnswer(wordElement, data.word));
                 document.getElementById('gameContainer').appendChild(wordElement);
                 fallingWords.push(wordElement);
             });
         }
 
-        const maxFallingWords = 7; // Максимум 10 слов на экране одновременно
+        function addCorrectWord() {
+            if (isFrozen || isPaused) return;
 
-      
+            const wordText = currentTask.word;
+            const wordWidth = getWordWidth(wordText);
+            let leftPosition;
+            let attempts = 0;
+
+            do {
+                leftPosition = Math.random() * (window.innerWidth - wordWidth);
+                let overlap = false;
+
+                for (const existingWord of fallingWords) {
+                    const existingRect = existingWord.getBoundingClientRect();
+                    const existingLeft = existingRect.left;
+                    const existingWidth = existingRect.width;
+
+                    if (leftPosition < existingLeft + existingWidth + 20 &&
+                        leftPosition + wordWidth + 20 > existingLeft) {
+                        overlap = true;
+                        break;
+                    }
+                }
+
+                if (!overlap || attempts++ > 100) break;
+            } while (true);
+
+            const wordElement = document.createElement('div');
+            wordElement.className = 'word';
+            wordElement.textContent = wordText;
+            wordElement.style.left = leftPosition + 'px';
+            wordElement.style.animationDuration = (wordSpeed / 500) + 's';
+            wordElement.addEventListener('click', () => checkAnswer(wordElement, currentTask.word));
+            document.getElementById('gameContainer').appendChild(wordElement);
+            fallingWords.push(wordElement);
+        }
+
         function getRandomWords(count) {
-            const result = [currentTask];
+            const usedInThisRound = new Set();
+            const result = [];
+
             while (result.length < count) {
                 const randomWord = words[Math.floor(Math.random() * words.length)];
-                if (randomWord.word !== currentTask.word && !result.includes(randomWord)) {
+
+                if (randomWord.word !== currentTask.word &&
+                    !usedInThisRound.has(randomWord.word)) {
                     result.push(randomWord);
+                    usedInThisRound.add(randomWord.word);
                 }
             }
+
             return result.sort(() => 0.5 - Math.random());
         }
 
         function checkAnswer(element, word) {
-            if (isPaused) return;
+            if (isPaused || isFrozen) return;
 
             if (word === currentTask.word) {
                 element.classList.add('explosion');
@@ -414,33 +549,52 @@ function speak(word) {
                     element.remove();
                     fallingWords = fallingWords.filter(w => w !== element);
                 }, 500);
+
                 score++;
                 document.getElementById('score').textContent = score;
                 newTask();
                 speak(word);
-                // playSound('correct');
             } else {
                 element.classList.add('shake');
                 setTimeout(() => element.classList.remove('shake'), 500);
                 playSound('wrong');
+
+                if (!isFrozen) {
+                    isFrozen = true;
+
+                    fallingWords.forEach(wordEl => {
+                        wordEl.style.animationPlayState = 'paused';
+                    });
+
+                    clearInterval(gameInterval);
+
+                    setTimeout(() => {
+                        isFrozen = false;
+                        fallingWords.forEach(wordEl => {
+                            wordEl.style.animationPlayState = 'running';
+                        });
+
+                        if (!isPaused) {
+                            gameInterval = setInterval(createWord, spawnInterval);
+                        }
+                    }, 2000);
+                }
             }
         }
 
         function updateTimer() {
             timeLeft--;
             document.getElementById('timer').textContent = timeLeft;
+
             if (timeLeft <= 0) endGame();
         }
 
         function endGame() {
             clearInterval(gameInterval);
             clearInterval(timerInterval);
-
-            // Удаляем все слова
             fallingWords.forEach(word => word.remove());
             fallingWords = [];
 
-            // Показываем результат
             const resultDiv = document.getElementById('result');
             resultDiv.textContent = `Очки: ${score}`;
             resultDiv.style.display = 'flex';
@@ -454,15 +608,19 @@ function speak(word) {
 
         document.getElementById('pauseButton').addEventListener('click', () => {
             isPaused = !isPaused;
-            document.getElementById('pauseButton').textContent = isPaused ? '▶ Продолжить' : '⏸ Пауза';
+            const pauseButton = document.getElementById('pauseButton');
+            pauseButton.textContent = isPaused ? '▶ Продолжить' : '⏸ Пауза';
 
             if (isPaused) {
                 clearInterval(gameInterval);
                 clearInterval(timerInterval);
                 fallingWords.forEach(word => word.style.animationPlayState = 'paused');
             } else {
-                gameInterval = setInterval(createWord, spawnInterval);
-                timerInterval = setInterval(updateTimer, 1000);
+                if (!isFrozen) {
+                    gameInterval = setInterval(createWord, spawnInterval);
+                    timerInterval = setInterval(updateTimer, 1000);
+                }
+
                 fallingWords.forEach(word => word.style.animationPlayState = 'running');
             }
         });
