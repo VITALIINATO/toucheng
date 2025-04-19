@@ -398,7 +398,7 @@
 
         const wordSpeed = 4000;
         const spawnInterval = 1500;
-        const maxFallingWords = 12;
+        const maxFallingWords = 15;
 
         function speak(word) {
             return new Promise(resolve => {
@@ -449,7 +449,7 @@
 
             if (fallingWords.length >= maxFallingWords) return;
 
-            const wordData = getRandomWords(1);
+            const wordData = getRandomWords(3);
             wordData.forEach(data => {
                 const wordText = data.word;
                 const wordWidth = getWordWidth(wordText);
@@ -629,4 +629,4 @@
     </script>
 </body>
 
-</html>
+</html>ы
