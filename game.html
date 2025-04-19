@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word Drop Clicker</title>
     <style>
-               @keyframes fall {
+        @keyframes fall {
             from {
-                transform: translateY(-10%)
+                transform: translateY(0)
             }
 
             to {
-                transform: translateY(100vh)
+                transform: translateY(calc(100vh - var(--start-top)))
             }
         }
 
@@ -91,7 +92,7 @@
             height: 100vh;
             margin: 0;
             height: 100vh;
-            background: linear-gradient(135deg, #72644e, #221901);
+            background: linear-gradient(180deg, #7e7b85, #030008);
             overflow: hidden;
             font-family: 'Orbitron', sans-serif;
             overflow: hidden;
@@ -104,10 +105,14 @@
         }
 
         .word {
+            --start-top: 100px;
+            /* примерное значение, можно рассчитывать динамически */
 
-            margin: 10px 0; /* Вертикальный отступ между словами */
-            white-space: nowrap; /* Запрет переноса слов */
-
+            margin: 10px 0;
+            /* Вертикальный отступ между словами */
+            white-space: nowrap;
+            /* Запрет переноса слов */
+            gap: 50px;
             position: absolute;
             font-size: 24px;
             padding: 15px 30px;
@@ -119,12 +124,14 @@
             transition: transform 0.2s;
             text-shadow: 0 0 10px #ff4500;
             box-shadow: 0 0 15px rgba(255, 69, 0, 0.3);
+
         }
 
         .word:hover {
             transform: scale(1.5) rotate(-2deg);
             box-shadow: 0 0 20px #ff3300;
-            z-index: 1; /* Поднятие над другими словами при наведении */
+            z-index: 1;
+            /* Поднятие над другими словами при наведении */
         }
 
 
@@ -221,6 +228,7 @@
         }
     </style>
 </head>
+
 <body>
     <div id="task"></div>
     <div id="pauseButton">⏸ Пауза</div>
@@ -232,81 +240,54 @@
     <div id="result"></div>
     <script>
         const words = [
-          
-          { word: "gym", correct: "gym", translation: "спортзал" },
-          { word: "general", correct: "general", translation: "генерал" },
-          { word: "gel", correct: "gel", translation: "гель" },
-
-          { word: "shop", translation: "магазин" },
-          { word: "she", translation: "она" },
-          { word: "fish", translation: "рыба" },
-          { word: "child", translation: "ребенок" },
-          { word: "bench", translation: "лавочка" },
-          { word: "cherry", translation: "вишня" },
-          { word: "thin", translation: "тонкий" },
-          { word: "moth", translation: "мотылек" },
-          { word: "smith", translation: "кузнец" },
-          { word: "alphabet", translation: "алфавит" },
-          { word: "photo", translation: "фото" },
-          { word: "phone", translation: "телефон" },
-          { word: "this", translation: "это" },
-          { word: "that", translation: "то" },
-          { word: "they", translation: "они" },
-
-          { word: "ring", translation: "кольцо" },
-          { word: "king", translation: "король" },
-          { word: "baking", translation: "выпечка" },
-
-          { word: "vision", translation: "зрение" },
-          { word: "collision", translation: "столкновение" },
-          { word: "division", translation: "дивизия" },
 
 
-          { word: "jump", correct: "jump", translation: "прыгать" },
-          { word: "job", correct: "job", translation: "работа" },
-          { word: "jam", correct: "jam", translation: "джем" },
-          { word: "hand", correct: "hand", translation: "рука" },
-          { word: "home", correct: "home", translation: "дом" },
-          { word: "hat", correct: "hat", translation: "шляпа" },
-          { word: "we", correct: "we", translation: "мы" },
-          { word: "wine", correct: "wine", translation: "вино" },
-          { word: "way", correct: "way", translation: "путь" },
-          { word: "rabbit", correct: "rabbit", translation: "кролик" },
-          { word: "rose", correct: "rose", translation: "роза" },
-          { word: "red", correct: "red", translation: "красный" },
-          { word: "yellow", correct: "yellow", translation: "желтый" },
-          { word: "yes", correct: "yes", translation: "да" },
-          { word: "you", correct: "you", translation: "ты" },
-          { word: "gym", correct: "gym", translation: "спортзал" },
-          { word: "general", correct: "general", translation: "генерал" },
-          { word: "gel", correct: "gel", translation: "гель" },
 
-          { word: "quest", correct: "quest", translation: "поиск" },
-          { word: "queen", correct: "queen", translation: "королева" },
-          { word: "squirrel", correct: "squirrel", translation: "белка" },
-          { word: "exit", correct: "exit", translation: "выход" },
-          { word: "sex", correct: "sex", translation: "пол" },
-          { word: "fox", correct: "fox", translation: "лиса" },
+            { word: "jump", correct: "jump", translation: "прыгать" },
+            { word: "job", correct: "job", translation: "работа" },
+            { word: "jam", correct: "jam", translation: "джем" },
+            { word: "hand", correct: "hand", translation: "рука" },
+            { word: "home", correct: "home", translation: "дом" },
+            { word: "hat", correct: "hat", translation: "шляпа" },
+            { word: "we", correct: "we", translation: "мы" },
+            { word: "wine", correct: "wine", translation: "вино" },
+            { word: "way", correct: "way", translation: "путь" },
+            { word: "rabbit", correct: "rabbit", translation: "кролик" },
+            { word: "rose", correct: "rose", translation: "роза" },
+            { word: "red", correct: "red", translation: "красный" },
+            { word: "yellow", correct: "yellow", translation: "желтый" },
+            { word: "yes", correct: "yes", translation: "да" },
+            { word: "you", correct: "you", translation: "ты" },
+            { word: "gym", correct: "gym", translation: "спортзал" },
+            { word: "general", correct: "general", translation: "генерал" },
+            { word: "gel", correct: "gel", translation: "гель" },
 
-          { word: "car", correct: "car", translation: "автомобиль" },
-          { word: "star", correct: "star", translation: "звезда" },
-          { word: "cigar", correct: "cigar", translation: "сигара" },
-          { word: "sister", correct: "sister", translation: "сестра" },
-          { word: "finger", correct: "finger", translation: "палец" },
-          { word: "driver", correct: "driver", translation: "водитель" },
+            { word: "quest", correct: "quest", translation: "поиск" },
+            { word: "queen", correct: "queen", translation: "королева" },
+            { word: "squirrel", correct: "squirrel", translation: "белка" },
+            { word: "exit", correct: "exit", translation: "выход" },
+            { word: "sex", correct: "sex", translation: "пол" },
+            { word: "fox", correct: "fox", translation: "лиса" },
 
-          { word: "sport", correct: "sport", translation: "спорт" },
-          { word: "morning", correct: "morning", translation: "утро" },
-          { word: "north", correct: "north", translation: "север" },
-          { word: "girl", correct: "girl", translation: "девушка" },
-          { word: "bird", correct: "bird", translation: "птица" },
-          { word: "skirt", correct: "skirt", translation: "платье" },
+            { word: "car", correct: "car", translation: "автомобиль" },
+            { word: "star", correct: "star", translation: "звезда" },
+            { word: "cigar", correct: "cigar", translation: "сигара" },
+            { word: "sister", correct: "sister", translation: "сестра" },
+            { word: "finger", correct: "finger", translation: "палец" },
+            { word: "driver", correct: "driver", translation: "водитель" },
+
+            { word: "sport", correct: "sport", translation: "спорт" },
+            { word: "morning", correct: "morning", translation: "утро" },
+            { word: "north", correct: "north", translation: "север" },
+            { word: "girl", correct: "girl", translation: "девушка" },
+            { word: "bird", correct: "bird", translation: "птица" },
+            { word: "skirt", correct: "skirt", translation: "платье" },
 
 
 
 
-      ];
-        
+        ];
+
         let score = 0;
         let timeLeft = 60;
         let currentTask;
@@ -318,9 +299,9 @@
         let usedWords = [];
 
         // Настройки игры:
-        const wordSpeed = 15000; // Скорость падения слов (в миллисекундах)
-        const spawnInterval = 750; // Частота появления новых слов (в миллисекундах)
-        const maxFallingWords = 20; // Максимальное количество одновременно падающих слов
+        const wordSpeed = 10000; // Скорость падения слов (в миллисекундах)
+        const spawnInterval = 500; // Частота появления новых слов (в миллисекундах)
+        const maxFallingWords = 12; // Максимальное количество одновременно падающих слов
 
         function speak(word) {
             return new Promise(resolve => {
@@ -361,6 +342,10 @@
         function createWord() {
             if (isFrozen || isPaused) return;
 
+            // Получаем высоту блока с заданием
+            const taskElement = document.getElementById('task');
+            const taskHeight = taskElement.offsetHeight + 40; // Добавляем отступ 40px
+
             // Проверяем, есть ли текущее задание в падающих словах
             const hasCurrentTask = fallingWords.some(word => word.textContent === currentTask.word);
             if (!hasCurrentTask) {
@@ -374,35 +359,58 @@
             wordData.forEach(data => {
                 const wordText = data.word;
                 const wordWidth = getWordWidth(wordText);
+
                 let leftPosition;
+                let topPosition;
                 let attempts = 0;
 
                 do {
+                    // Генерируем случайную позицию слева
                     leftPosition = Math.random() * (window.innerWidth - wordWidth);
-                    let overlap = false;
 
+                    // Устанавливаем стартовую позицию ниже блока с заданием
+                    const minTop = taskHeight;
+                    const maxTop = window.innerHeight * 0.7; // Максимальная стартовая позиция
+                    topPosition = minTop + Math.random() * (maxTop - minTop);
+
+                    // Проверяем перекрытие с другими словами
+                    let overlap = false;
                     for (const existingWord of fallingWords) {
                         const existingRect = existingWord.getBoundingClientRect();
                         const existingLeft = existingRect.left;
+                        const existingTop = existingRect.top;
                         const existingWidth = existingRect.width;
+                        const existingHeight = existingRect.height;
 
-                        if (leftPosition < existingLeft + existingWidth + 20 &&
-                            leftPosition + wordWidth + 20 > existingLeft) {
-                            overlap = true;
-                            break;
+                        // Минимальный gap (например, 30px)
+                        const minGap = 100;
+
+                        // Горизонтальная проверка
+                        if (
+                            leftPosition < existingLeft + existingWidth + minGap &&
+                            leftPosition + wordWidth + minGap > existingLeft
+                        ) {
+                            // Вертикальная проверка
+                            if (
+                                topPosition < existingTop + existingHeight + minGap &&
+                                topPosition + wordWidth + minGap > existingTop
+                            ) {
+                                overlap = true;
+                                break;
+                            }
                         }
                     }
 
-                    if (!overlap || attempts++ > 100) break;
+                    if (!overlap || attempts++ > 100) break; // Если после 100 попыток не удалось найти место, выходим
                 } while (true);
 
                 const wordElement = document.createElement('div');
                 wordElement.className = 'word';
                 wordElement.textContent = wordText;
                 wordElement.style.left = leftPosition + 'px';
-                wordElement.style.animationDuration = (wordSpeed / 1000) + 's'; // Устанавливаем скорость падения
+                wordElement.style.top = topPosition + 'px';
+                wordElement.style.animationDuration = (wordSpeed / 1000) + 's';
                 wordElement.addEventListener('click', () => checkAnswer(wordElement, data.word));
-
                 document.getElementById('gameContainer').appendChild(wordElement);
                 fallingWords.push(wordElement);
             });
@@ -411,24 +419,50 @@
         function addCorrectWord() {
             if (isFrozen || isPaused) return;
 
+            const taskElement = document.getElementById('task');
+            const taskHeight = taskElement.offsetHeight + 40; // Добавляем отступ 40px
+
             const wordText = currentTask.word;
             const wordWidth = getWordWidth(wordText);
+
             let leftPosition;
+            let topPosition;
             let attempts = 0;
 
             do {
+                // Генерируем случайную позицию слева
                 leftPosition = Math.random() * (window.innerWidth - wordWidth);
-                let overlap = false;
 
+                // Устанавливаем стартовую позицию ниже блока с заданием
+                const minTop = taskHeight;
+                const maxTop = window.innerHeight * 0.7;
+                topPosition = minTop + Math.random() * (maxTop - minTop);
+
+                // Проверяем перекрытие с другими словами
+                let overlap = false;
                 for (const existingWord of fallingWords) {
                     const existingRect = existingWord.getBoundingClientRect();
                     const existingLeft = existingRect.left;
+                    const existingTop = existingRect.top;
                     const existingWidth = existingRect.width;
+                    const existingHeight = existingRect.height;
 
-                    if (leftPosition < existingLeft + existingWidth + 200 &&
-                        leftPosition + wordWidth + 20 > existingLeft) {
-                        overlap = true;
-                        break;
+                    // Минимальный gap (например, 30px)
+                    const minGap = 30;
+
+                    // Горизонтальная проверка
+                    if (
+                        leftPosition < existingLeft + existingWidth + minGap &&
+                        leftPosition + wordWidth + minGap > existingLeft
+                    ) {
+                        // Вертикальная проверка
+                        if (
+                            topPosition < existingTop + existingHeight + minGap &&
+                            topPosition + wordWidth + minGap > existingTop
+                        ) {
+                            overlap = true;
+                            break;
+                        }
                     }
                 }
 
@@ -439,12 +473,14 @@
             wordElement.className = 'word';
             wordElement.textContent = wordText;
             wordElement.style.left = leftPosition + 'px';
-            wordElement.style.animationDuration = (wordSpeed / 1000) + 's'; // Устанавливаем скорость падения
+            wordElement.style.top = topPosition + 'px';
+            wordElement.style.animationDuration = (wordSpeed / 1000) + 's';
             wordElement.addEventListener('click', () => checkAnswer(wordElement, currentTask.word));
-
             document.getElementById('gameContainer').appendChild(wordElement);
             fallingWords.push(wordElement);
         }
+
+
 
         function getRandomWords(count) {
             const usedInThisRound = new Set();
@@ -549,4 +585,5 @@
         startGame();
     </script>
 </body>
+
 </html>
