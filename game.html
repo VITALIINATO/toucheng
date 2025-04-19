@@ -300,7 +300,7 @@
 
         // Настройки игры:
         const wordSpeed = 10000; // Скорость падения слов (в миллисекундах)
-        const spawnInterval = 500; // Частота появления новых слов (в миллисекундах)
+        const spawnInterval = 700; // Частота появления новых слов (в миллисекундах)
         const maxFallingWords = 12; // Максимальное количество одновременно падающих слов
 
         function speak(word) {
@@ -322,7 +322,7 @@
             let availableWords = words.filter(word => !usedWords.includes(word.word));
             if (availableWords.length === 0) usedWords = [];
             currentTask = availableWords[Math.floor(Math.random() * availableWords.length)];
-            usedWords.push(currentTask.word);
+            // Удалите эту строку: usedWords.push(currentTask.word);
             document.getElementById('task').textContent = currentTask.translation;
         }
 
@@ -416,15 +416,61 @@
             });
         }
 
+        function checkAnswer(element, word) {
+            if (isPaused || isFrozen) return;
+
+            if (word === currentTask.word) {
+                // Правильный ответ
+                score++;
+                document.getElementById('score').textContent = score;
+                usedWords.push(currentTask.word); // Добавляем слово в список использованных
+                newTask(); // Создаем новое задание
+                speak(word); // Произносим слово
+
+                // Добавляем анимацию взрыва для правильного слова
+                element.classList.add('explosion');
+                playSound('correct'); // Воспроизводим звук правильного ответа
+
+                // Удаляем слово из DOM после завершения анимации
+                setTimeout(() => {
+                    element.remove();
+                    fallingWords = fallingWords.filter(wordEl => wordEl !== element);
+                }, 500); // Время анимации взрыва (0.5 секунды)
+            } else {
+                // Неправильный ответ
+                element.classList.add('shake'); // Добавляем анимацию "тряска"
+                setTimeout(() => element.classList.remove('shake'), 500); // Убираем анимацию через 0.5 секунды
+                playSound('wrong'); // Воспроизводим звук неправильного ответа
+
+                // Замораживаем игру на 2 секунды при неправильном ответе
+                if (!isFrozen) {
+                    isFrozen = true;
+                    fallingWords.forEach(wordEl => {
+                        wordEl.style.animationPlayState = 'paused';
+                    });
+                    clearInterval(gameInterval);
+
+                    setTimeout(() => {
+                        isFrozen = false;
+                        fallingWords.forEach(wordEl => {
+                            wordEl.style.animationPlayState = 'running';
+                        });
+                        if (!isPaused) {
+                            gameInterval = setInterval(createWord, spawnInterval);
+                        }
+                    }, 2000); // Заморозка на 2 секунды
+                }
+            }
+        }
+
+
         function addCorrectWord() {
             if (isFrozen || isPaused) return;
 
             const taskElement = document.getElementById('task');
-            const taskHeight = taskElement.offsetHeight + 40; // Добавляем отступ 40px
-
+            const taskHeight = taskElement.offsetHeight + 40;
             const wordText = currentTask.word;
             const wordWidth = getWordWidth(wordText);
-
             let leftPosition;
             let topPosition;
             let attempts = 0;
@@ -432,7 +478,6 @@
             do {
                 // Генерируем случайную позицию слева
                 leftPosition = Math.random() * (window.innerWidth - wordWidth);
-
                 // Устанавливаем стартовую позицию ниже блока с заданием
                 const minTop = taskHeight;
                 const maxTop = window.innerHeight * 0.7;
@@ -466,7 +511,7 @@
                     }
                 }
 
-                if (!overlap || attempts++ > 100) break;
+                if (!overlap || attempts++ > 100) break; // Если после 100 попыток не удалось найти место, выходим
             } while (true);
 
             const wordElement = document.createElement('div');
@@ -479,7 +524,6 @@
             document.getElementById('gameContainer').appendChild(wordElement);
             fallingWords.push(wordElement);
         }
-
 
 
         function getRandomWords(count) {
@@ -498,44 +542,83 @@
             return result.sort(() => 0.5 - Math.random());
         }
 
-        function checkAnswer(element, word) {
-            if (isPaused || isFrozen) return;
+        function createWord() {
+            if (isFrozen || isPaused) return;
 
-            if (word === currentTask.word) {
-                element.classList.add('explosion');
-                setTimeout(() => {
-                    element.remove();
-                    fallingWords = fallingWords.filter(w => w !== element);
-                }, 500);
+            // Получаем высоту блока с заданием
+            const taskElement = document.getElementById('task');
+            const taskHeight = taskElement.offsetHeight + 40; // Добавляем отступ 40px
 
-                score++;
-                document.getElementById('score').textContent = score;
-                newTask();
-                speak(word);
-            } else {
-                element.classList.add('shake');
-                setTimeout(() => element.classList.remove('shake'), 500);
-                playSound('wrong');
-
-                if (!isFrozen) {
-                    isFrozen = true;
-                    fallingWords.forEach(wordEl => {
-                        wordEl.style.animationPlayState = 'paused';
-                    });
-
-                    clearInterval(gameInterval);
-                    setTimeout(() => {
-                        isFrozen = false;
-                        fallingWords.forEach(wordEl => {
-                            wordEl.style.animationPlayState = 'running';
-                        });
-
-                        if (!isPaused) {
-                            gameInterval = setInterval(createWord, spawnInterval);
-                        }
-                    }, 2000);
-                }
+            // Гарантированно добавляем правильный ответ, если его нет
+            const hasCurrentTask = fallingWords.some(word => word.textContent === currentTask.word);
+            if (!hasCurrentTask) {
+                addCorrectWord(); // Добавляем правильный ответ
             }
+
+            // Проверяем, сколько еще слов можно добавить
+            const remainingSlots = maxFallingWords - fallingWords.length;
+            if (remainingSlots <= 0) return;
+
+            // Создаем случайные слова (не более оставшихся слотов)
+            const wordCount = Math.min(remainingSlots, 1); // Добавляем только одно случайное слово за раз
+            const wordData = getRandomWords(wordCount);
+
+            wordData.forEach(data => {
+                const wordText = data.word;
+                const wordWidth = getWordWidth(wordText);
+                let leftPosition;
+                let topPosition;
+                let attempts = 0;
+
+                do {
+                    // Генерируем случайную позицию слева
+                    leftPosition = Math.random() * (window.innerWidth - wordWidth);
+                    // Устанавливаем стартовую позицию ниже блока с заданием
+                    const minTop = taskHeight;
+                    const maxTop = window.innerHeight * 0.7; // Максимальная стартовая позиция
+                    topPosition = minTop + Math.random() * (maxTop - minTop);
+
+                    // Проверяем перекрытие с другими словами
+                    let overlap = false;
+                    for (const existingWord of fallingWords) {
+                        const existingRect = existingWord.getBoundingClientRect();
+                        const existingLeft = existingRect.left;
+                        const existingTop = existingRect.top;
+                        const existingWidth = existingRect.width;
+                        const existingHeight = existingRect.height;
+
+                        // Минимальный gap (например, 30px)
+                        const minGap = 30;
+
+                        // Горизонтальная проверка
+                        if (
+                            leftPosition < existingLeft + existingWidth + minGap &&
+                            leftPosition + wordWidth + minGap > existingLeft
+                        ) {
+                            // Вертикальная проверка
+                            if (
+                                topPosition < existingTop + existingHeight + minGap &&
+                                topPosition + wordWidth + minGap > existingTop
+                            ) {
+                                overlap = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!overlap || attempts++ > 100) break; // Если после 100 попыток не удалось найти место, выходим
+                } while (true);
+
+                const wordElement = document.createElement('div');
+                wordElement.className = 'word';
+                wordElement.textContent = wordText;
+                wordElement.style.left = leftPosition + 'px';
+                wordElement.style.top = topPosition + 'px';
+                wordElement.style.animationDuration = (wordSpeed / 1000) + 's';
+                wordElement.addEventListener('click', () => checkAnswer(wordElement, data.word));
+                document.getElementById('gameContainer').appendChild(wordElement);
+                fallingWords.push(wordElement);
+            });
         }
 
         function updateTimer() {
