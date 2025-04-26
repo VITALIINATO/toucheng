@@ -261,7 +261,7 @@
             "[ð]": "[θ]",
             "[ʃ]": "[tʃ]",
 
-            
+
 
 
 
@@ -471,7 +471,7 @@
                 ]
             },
 
-           
+
 
             {
 
@@ -539,105 +539,105 @@
 
         // Функция генерации теста
         function generateTest() {
-            // Определяем текущий звук
-            const currentSound = sounds[currentIndex];
-            if (!currentSound) return;
+    // Определяем текущий звук
+    const currentSound = sounds[currentIndex];
+    if (!currentSound) return;
 
-            // Определяем парный звук
-            const currentTranscription = currentSound.transcriptionButton;
-            const pairedTranscription = soundPairs[currentTranscription];
-            const pairedSound = sounds.find(sound => sound.transcriptionButton === pairedTranscription);
+    // Определяем парный звук
+    const currentTranscription = currentSound.transcriptionButton;
+    const pairedTranscription = soundPairs[currentTranscription];
+    const pairedSound = pairedTranscription ? sounds.find(sound => sound.transcriptionButton === pairedTranscription) : null;
 
-            // Отображаем текущий звук на странице
-            document.getElementById("currentSoundSymbol").textContent = currentSound.transcriptionButton;
+    // Отображаем текущий звук на странице
+    document.getElementById("currentSoundSymbol").textContent = currentSound.transcriptionButton;
 
-            // Получаем правильные примеры для текущего звука
-            const correctExamples = currentSound.correctExamples;
-            shuffleArray(correctExamples);
+    // Получаем правильные примеры для текущего звука
+    const correctExamples = currentSound.correctExamples;
+    shuffleArray(correctExamples);
 
-            // Выбираем 2 случайных правильных слова
-            const selectedCorrectExamples = correctExamples.slice(0, 2);
+    // Выбираем 2 случайных правильных слова
+    const selectedCorrectExamples = correctExamples.slice(0, 2);
 
-            // Создаем массив неправильных слов
-            const incorrectExamples = [];
-            const uniqueWords = new Set(selectedCorrectExamples.map(example => example.word));
+    // Создаем массив неправильных слов
+    const incorrectExamples = [];
+    const uniqueWords = new Set(selectedCorrectExamples.map(example => example.word));
 
-            // 1. Добавляем 2 слова из парного звука (если существует)
-            if (pairedSound) {
-                const pairedExamples = pairedSound.correctExamples.filter(example => !uniqueWords.has(example.word));
-                shuffleArray(pairedExamples);
-                const selectedPairedExamples = pairedExamples.slice(0, 2);
-                selectedPairedExamples.forEach(example => {
-                    incorrectExamples.push(example);
-                    uniqueWords.add(example.word);
-                });
-            }
+    // 1. Добавляем 2 слова из парного звука (если существует)
+    if (pairedSound) {
+        const pairedExamples = pairedSound.correctExamples.filter(example => !uniqueWords.has(example.word));
+        shuffleArray(pairedExamples);
+        const selectedPairedExamples = pairedExamples.slice(0, 2);
+        selectedPairedExamples.forEach(example => {
+            incorrectExamples.push(example);
+            uniqueWords.add(example.word);
+        });
+    }
 
-            // 2. Добавляем 2 слова из других звуков (кроме текущего и парного)
-            let otherExamples = [];
-            sounds.forEach(sound => {
-                if (sound !== currentSound && sound !== pairedSound) {
-                    sound.correctExamples.forEach(example => {
-                        if (!uniqueWords.has(example.word)) {
-                            otherExamples.push(example);
-                        }
-                    });
+    // 2. Добавляем 2 слова из других звуков (кроме текущего и парного)
+    let otherExamples = [];
+    sounds.forEach(sound => {
+        if (sound !== currentSound && sound !== pairedSound) {
+            sound.correctExamples.forEach(example => {
+                if (!uniqueWords.has(example.word)) {
+                    otherExamples.push(example);
                 }
             });
+        }
+    });
+    shuffleArray(otherExamples);
+    const selectedOtherExamples = otherExamples.slice(0, 2);
+    selectedOtherExamples.forEach(example => {
+        incorrectExamples.push(example);
+        uniqueWords.add(example.word);
+    });
 
-            shuffleArray(otherExamples);
-            const selectedOtherExamples = otherExamples.slice(0, 2);
-            selectedOtherExamples.forEach(example => {
-                incorrectExamples.push(example);
-                uniqueWords.add(example.word);
-            });
+    // Объединяем все слова
+    const testExamples = [...selectedCorrectExamples, ...incorrectExamples];
+    shuffleArray(testExamples); // Перемешиваем их
 
-            // Объединяем все слова
-            const testExamples = [...selectedCorrectExamples, ...incorrectExamples];
-            shuffleArray(testExamples); // Перемешиваем их
+    // Очищаем контейнер с примерами
+    const testContainer = document.getElementById("testExamples");
+    testContainer.innerHTML = "";
 
-            // Очищаем контейнер с примерами
-            const testContainer = document.getElementById("testExamples");
-            testContainer.innerHTML = "";
+    // Создаем кнопки для каждого слова
+    testExamples.forEach(example => {
+        const exampleSection = document.createElement("div");
+        exampleSection.className = "example-section";
 
-            // Создаем кнопки для каждого слова
-            testExamples.forEach(example => {
-                const exampleSection = document.createElement("div");
-                exampleSection.className = "example-section";
+        const exampleImage = document.createElement("img");
+        exampleImage.src = example.image;
+        exampleImage.alt = example.word;
+        exampleImage.className = "example-image";
 
-                const exampleImage = document.createElement("img");
-                exampleImage.src = example.image;
-                exampleImage.alt = example.word;
-                exampleImage.className = "example-image";
+        const exampleButton = document.createElement("button");
+        exampleButton.className = "example-button";
+        exampleButton.textContent = example.word;
 
-                const exampleButton = document.createElement("button");
-                exampleButton.className = "example-button";
-                exampleButton.textContent = example.word;
-
-                // Помечаем правильные слова атрибутом data-correct
-                if (selectedCorrectExamples.includes(example)) {
-                    exampleButton.setAttribute("data-correct", "true");
-                }
-
-                // Добавляем атрибут с очищенной транскрипцией
-                exampleButton.setAttribute("data-transcription", example.transcription.replace(/[\[\]]/g, ''));
-
-                // Добавляем обработчик клика
-                exampleButton.onclick = () => selectWord(exampleButton);
-
-                exampleSection.appendChild(exampleImage);
-                exampleSection.appendChild(exampleButton);
-                testContainer.appendChild(exampleSection);
-            });
-
-            // Сбрасываем состояние кнопок
-            document.getElementById("confirmButton").disabled = true;
-            document.getElementById("testResult").style.display = "none";
-            selectedWords = [];
-            hadError = false;
+        // Помечаем правильные слова атрибутом data-correct
+        if (selectedCorrectExamples.includes(example)) {
+            exampleButton.setAttribute("data-correct", "true");
         }
 
-        function selectWord(button) {
+        // Добавляем атрибут с очищенной транскрипцией
+        exampleButton.setAttribute("data-transcription", example.transcription.replace(/[\[\]]/g, ''));
+
+        // Добавляем обработчик клика
+        exampleButton.onclick = () => selectWord(exampleButton);
+
+        exampleSection.appendChild(exampleImage);
+        exampleSection.appendChild(exampleButton);
+        testContainer.appendChild(exampleSection);
+    });
+
+    // Сбрасываем состояние кнопок
+    document.getElementById("confirmButton").disabled = true;
+    document.getElementById("testResult").style.display = "none";
+    selectedWords = [];
+    hadError = false;
+}
+
+
+function selectWord(button) {
             // Если кнопка уже выбрана, удаляем её из массива selectedWords
             if (selectedWords.includes(button)) {
                 selectedWords = selectedWords.filter(wordButton => wordButton !== button);
@@ -656,39 +656,53 @@
 
 
         // Функция подтверждения выбора
+        // Обновленная функция подтверждения выбора
+        // Функция подтверждения выбора
         function confirmSelection() {
             const currentSound = sounds[currentIndex];
-            const currentTranscriptionClean = currentSound.transcriptionButton.replace(/[\[\]]/g, '');
+            const currentTranscriptionClean = currentSound.transcriptionButton.replace(/[\[\]]/g, ''); // Очищаем искомый звук от скобок
             let correctCountSelected = 0;
 
             selectedWords.forEach(button => {
-                const isCorrect = button.getAttribute('data-correct') === 'true';
-                const transcription = button.getAttribute('data-transcription') || '';
+                const isCorrect = button.getAttribute('data-correct') === 'true'; // Проверяем, помечено ли слово как правильное
+                const transcription = button.getAttribute('data-transcription') || ''; // Получаем транскрипцию слова
 
-                // Проверяем, что слово помечено как правильное И содержит текущий звук
+                // Проверяем два условия:
+                // 1. Слово помечено как правильное (data-correct="true")
+                // 2. Транскрипция слова содержит искомый звук
                 if (isCorrect && transcription.includes(currentTranscriptionClean)) {
                     correctCountSelected++;
                 }
             });
 
             const resultDiv = document.getElementById("testResult");
+
+            // Если оба выбранных слова соответствуют условиям
             if (correctCountSelected === 2) {
                 playSound("right.mp3");
                 resultDiv.textContent = "Правильно!";
                 resultDiv.className = "result success";
+
+                // Увеличиваем счетчик правильных ответов только если не было ошибок
                 if (!hadError && correctCount < sounds.length) {
                     correctCount++;
                 }
+
+                // Переходим к следующему вопросу через 1 секунду
                 setTimeout(() => nextTest(), 1000);
             } else {
+                // Фиксируем ошибку только при первой неправильной попытке
                 if (!hadError) {
                     wrongCount++;
                     hadError = true;
                 }
+
                 playSound("wrong.mp3");
                 resultDiv.textContent = "Что-то не то!";
                 resultDiv.className = "result error";
             }
+
+            // Показываем результат проверки
             resultDiv.style.display = "block";
             document.getElementById("confirmButton").disabled = true;
         }
