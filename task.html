@@ -249,229 +249,26 @@
     <script>
         // Объект парных звуков
         const soundPairs = {
-            "[eɪ]": "[æ]",
-            "[æ]": "[eɪ]",
-            "[i:]": "[e]",
-            "[aɪ]": "[ɪ]",
-            "[əʊ]": "[ɒ]",
-            "[ju:]": "[ʌ]",
-            "[dʒ]": "[g]",
-            "[k]": "[s]",
-            "[z]": "[s]",
+
             "[ð]": "[θ]",
             "[ʃ]": "[tʃ]",
+            "[f]": "[p]",
+            "[ŋ]": "[n]",
+            "[ʒ]": "[z]",
 
-
-
-
-
-            "[æ]": "[eɪ]",
-            "[eɪ]": "[æ]",
-            "[e]": "[i:]",
-            "[ɪ]": "[aɪ]",
-            "[ɒ]": "[əʊ]",
-            "[ʌ]": "[ju:]",
-            "[g]": "[dʒ]",
-            "[s]": "[k]",
-            "[s]": "[z]",
             "[θ]": "[ð]",
             "[tʃ]": "[ʃ]",
+            "[p]": "[f]",
+            "[n]": "[ŋ]",
+            "[z]": "[ʒ]",
+
+
+
+
         };
 
         // Массив звуков
         const sounds = [
-            {
-                transcriptionButton: "[eɪ]",
-                correctExamples: [
-                    { word: "lake", transcription: "[leɪk]", translation: "озеро", image: "lake.jpg" },
-                    { word: "game", transcription: "[geɪm]", translation: "игра", image: "game.jpg" },
-                    { word: "blaze", transcription: "[bleɪz]", translation: "блеск", image: "blaze.jpg" },
-                    { word: "baby", transcription: "[beɪbi]", translation: "малыш", image: "baby.jpg" }
-                ]
-            },
-            {
-                transcriptionButton: "[æ]",
-                correctExamples: [
-                    { word: "sand", transcription: "[sænd]", translation: "песок", image: "sand.jpg" },
-                    { word: "flat", transcription: "[flæt]", translation: "плоский", image: "flat.jpg" },
-                    { word: "bag", transcription: "[bæg]", translation: "сумка", image: "bag.jpg" }
-                ]
-            },
-
-            {
-                transcriptionButton: "[aɪ]",
-                correctExamples: [
-                    { word: "bike", transcription: "[baɪk]", translation: "велосипед", image: "bike.jpg" },
-                    { word: "five", transcription: "[faɪv]", translation: "5", image: "five.jpg" },
-                    { word: "smile", transcription: "['smaɪl]", translation: "улыбка", image: "smile.jpg" },
-                    { word: "my", transcription: "[maɪ]", translation: "мое", image: "my.jpg" },
-                    { word: "bike", transcription: "[baɪk]", translation: "велосипед", image: "bike.jpg" },
-                    { word: "five", transcription: "[faɪv]", translation: "5", image: "five.jpg" },
-                    { word: "smile", transcription: "['smaɪl]", translation: "улыбка", image: "smile.jpg" },
-                ]
-            },
-
-            {
-                transcriptionButton: "[ɪ]",
-                correctExamples: [
-
-                    { word: "kid", transcription: "[kɪd]", translation: "ребенок", image: "kid.jpg" },
-                    { word: "zip", transcription: "[zɪp]", translation: "застежка", image: "zip.jpg" },
-                    { word: "pig", transcription: "[pɪg]", translation: "свинка", image: "pig.jpg" },
-                    { word: "lily", transcription: "[lɪlɪ]", translation: "лилия", image: "lily.jpg" },
-                    { word: "city", transcription: "[sɪtɪ]", translation: "город", image: "city.jpg" },
-                    { word: "fantasy", transcription: "[fæntəsɪ]", translation: "фантазия", image: "fantasy.jpg" },
-                    { word: "enemy", transcription: "[enəmɪ]", translation: "враг", image: "enemy.jpg" }
-                ]
-            },
-
-            {
-                transcriptionButton: "[i:]",
-                correctExamples: [
-                    { word: "be", transcription: "[bi:]", translation: "быть", image: "be.jpg" },
-                    { word: "leo", transcription: "[li:ou]", translation: "лев", image: "leo.jpg" },
-                    { word: "me", transcription: "[mi:]", translation: "я", image: "me.jpg" },
-
-                ]
-            },
-
-            {
-                transcriptionButton: "[e]",
-                correctExamples: [
-
-                    { word: "legs", transcription: "[legz]", translation: "ноги", image: "legs.jpg" },
-                    { word: "nest", transcription: "[nest]", translation: "гнездо", image: "nest.jpg" },
-                    { word: "desk", transcription: "[desk]", translation: "доска", image: "desk.jpg" }
-                ]
-            },
-
-            {
-                transcriptionButton: "[aɪ]",
-                correctExamples: [
-                    { word: "bike", transcription: "[baɪk]", translation: "велосипед", image: "bike.jpg" },
-                    { word: "five", transcription: "[faɪv]", translation: "5", image: "five.jpg" },
-                    { word: "smile", transcription: "['smaɪl]", translation: "улыбка", image: "smile.jpg" },
-                    { word: "my", transcription: "[maɪ]", translation: "мое", image: "my.jpg" },
-                    { word: "bike", transcription: "[baɪk]", translation: "велосипед", image: "bike.jpg" },
-                    { word: "five", transcription: "[faɪv]", translation: "5", image: "five.jpg" },
-                    { word: "smile", transcription: "['smaɪl]", translation: "улыбка", image: "smile.jpg" },
-                ]
-            },
-
-            {
-                transcriptionButton: "[ɪ]",
-                correctExamples: [
-
-                    { word: "kid", transcription: "[kɪd]", translation: "ребенок", image: "kid.jpg" },
-                    { word: "zip", transcription: "[zɪp]", translation: "застежка", image: "zip.jpg" },
-                    { word: "pig", transcription: "[pɪg]", translation: "свинка", image: "pig.jpg" },
-                    { word: "lily", transcription: "[lɪlɪ]", translation: "лилия", image: "lily.jpg" },
-                    { word: "city", transcription: "[sɪtɪ]", translation: "город", image: "city.jpg" },
-                    { word: "fantasy", transcription: "[fæntəsɪ]", translation: "фантазия", image: "fantasy.jpg" },
-                    { word: "enemy", transcription: "[enəmɪ]", translation: "враг", image: "enemy.jpg" }
-                ]
-            },
-
-            {
-                transcriptionButton: "[əʊ]", // Первая транскрипция
-
-                correctExamples: [
-                    { word: "note", transcription: "[nəʊt]", translation: "нота", image: "note.jpg" },
-                    { word: "nose", transcription: "[nəʊz]", translation: "нос", image: "nose.jpg" },
-                    { word: "smoke", transcription: "[sməʊk]", translation: "дым", image: "smoke.jpg" },
-                    { word: "pose", transcription: "[pəʊz]", translation: "поза", image: "pose.jpg" }
-
-                ]
-            },
-
-
-            {
-                transcriptionButton: "[ɒ]",  // Вторая транскрипция
-                correctExamples: [
-
-                    { word: "dog", transcription: "[dɒg]", translation: "пес", image: "dog.jpg" },
-                    { word: "pot", transcription: "[pɒt]", translation: "горшок", image: "pot.jpg" },
-                    { word: "top", transcription: "[tɒp]", translation: "вершина", image: "top.jpg" }
-                ]
-            },
-
-            {
-                transcriptionButton: "[dʒ]",
-                correctExamples: [
-                    { word: "gym", transcription: "[dʒɪm]", translation: "зал", image: "gym.jpg" },
-                    { word: "gel", transcription: "[dʒel]", translation: "гель", image: "gel.jpg" },
-                    { word: "jump", transcription: "[dʒʌmp]", translation: "прыгать", image: "jump.jpg" }
-                ]
-            },
-            {
-                transcriptionButton: "[g]",
-                correctExamples: [
-                    { word: "game", transcription: "[geɪm]", translation: "игра", image: "game.jpg" },
-                    { word: "gold", transcription: "[gould]", translation: "золото", image: "gold.jpg" },
-                    { word: "gun", transcription: "['gʌn]", translation: "оружие", image: "gun.jpg" },
-                    { word: "bag", transcription: "[bæg]", translation: "сумка", image: "bag.jpg" }
-                ]
-            },
-            {
-                transcriptionButton: "[ju:]",
-                correctExamples: [
-                    { word: "tube", transcription: "[tju:b]", translation: "труба", image: "tube.jpg" },
-                    { word: "duty", transcription: "[dju:tɪ]", translation: "долг", image: "duty.jpg" },
-                    { word: "music", transcription: "[mju:zik]", translation: "музыка", image: "music.jpg" }
-                ]
-            },
-            {
-                transcriptionButton: "[ʌ]",
-                correctExamples: [
-                    { word: "mum", transcription: "[mʌm]", translation: "мама", image: "mum.jpg" },
-                    { word: "gun", transcription: "[gʌn]", translation: "оружие", image: "gun.jpg" },
-                    { word: "bus", transcription: "[bʌs]", translation: "автобус", image: "bus.jpg" },
-                    { word: "jump", transcription: "[dʒʌmp]", translation: "прыгать", image: "jump.jpg" }
-                ]
-            },
-
-
-            {
-
-                transcriptionButton: "[k]", // Вторая транскрипция
-                correctExamples: [
-
-                    { word: "cute", transcription: "[kju:t]", translation: "милый", image: "cute.jpg" },
-                    { word: "music", transcription: "[mju:zik]", translation: "музыка", image: "music.jpg" },
-                    { word: "cat", transcription: "[kæt]", translation: "кот", image: "cat.jpg" }
-                ]
-            },
-
-            {
-
-                transcriptionButton: "[s]", // Первая транскрипция
-
-                correctExamples: [
-                    { word: "cell", transcription: "[sel]", translation: "сот", image: "cell.jpg" },
-                    { word: "mice", transcription: "[maɪs]", translation: "мыши", image: "mice.jpg" },
-                    { word: "face", transcription: "['feɪs]", translation: "лицо", image: "face2.jpg" },
-
-                    { word: "sand", transcription: "[sænd]", translation: "песок", image: "sand.jpg" },
-                    { word: "sun", transcription: "[sʌn]", translation: "солнце", image: "sun.jpg" },
-                    { word: "smile", transcription: "['smaɪl]", translation: "улыбка", image: "smile.jpg" },
-                    { word: "bus", transcription: "[bʌs]", translation: "автобус", image: "bus.jpg" },
-
-                ]
-            },
-
-
-
-            {
-                transcriptionButton: "[z]",
-                correctExamples: [
-
-                    { word: "music", transcription: "[mju:zik]", translation: "музыка", image: "music.jpg" },
-                    { word: "nose", transcription: "[nəʊz]", translation: "нос", image: "nose.jpg" },
-                    { word: "pose", transcription: "[pəʊz]", translation: "поза", image: "pose.jpg" }
-                ]
-            },
-
-
 
             {
 
@@ -517,17 +314,78 @@
             },
 
 
+            {
+
+                transcriptionButton: "[f]", // Транскрипция
+
+                correctExamples: [
+                    { word: "photo", transcription: "[foʊtoʊ]", translation: "фото", image: "photo.jpg" },
+                    { word: "alphabet", transcription: "[ælfəbet]", translation: "алфавит", image: "alphabet.jpg" },
+                    { word: "phone", transcription: "[foʊn]", translation: "телефон", image: "phone.jpg" }]
+            },
+
+            {
+
+                transcriptionButton: "[p]", // Транскрипция
+
+                correctExamples: [
+                    { word: "pen", transcription: "[pen]", translation: "ручка", image: "pen.jpg" },
+                    { word: "pet", transcription: "[pet]", translation: "питомец", image: "pet.jpg" },
+                    { word: "plate", transcription: "[pleɪt]", translation: "тарелка", image: "plate.jpg" }]
+            },
+
+            {
+                transcriptionButton: "[ŋ]", // Транскрипция
+                correctExamples: [
+                    { word: "ring", transcription: "[rɪŋ]", translation: "кольцо", image: "ring.jpg" },
+                    { word: "king", transcription: "[kɪŋ]", translation: "король", image: "king.jpg" },
+                    { word: "baking", transcription: "[beɪkɪŋ]", translation: "выпечка", image: "baking.jpg" }]
+            },
+
+            {
+                transcriptionButton: "[n]", // Транскрипция
+                correctExamples: [
+                    { word: "name", transcription: "[neɪm]", translation: "имя", image: "name.jpg" },
+                    { word: "nest", transcription: "[nest]", translation: "гнездо", image: "nest.jpg" },
+                    { word: "nine", transcription: "[naɪn]", translation: "девять", image: "nine.jpg" }]
+            },
+
+            {
+
+                transcriptionButton: "[ʒ]", // Транскрипция
+
+                correctExamples: [
+                    { word: "vision", transcription: "[vɪʒn]", translation: "зрение", image: "vision.jpg" },
+                    { word: "collision", transcription: "[kɒlɪʒn]", translation: "стролкновение", image: "collision.jpg" },
+                    { word: "division", transcription: "[dɪvɪʒn]", translation: "подразделение", image: "division.jpg" }]
+            },
+
+            {
+
+                transcriptionButton: "[z]", // Транскрипция
+
+                correctExamples: [
+                    { word: "zip", transcription: "[zɪp]", translation: "застежка", image: "zip.jpg" },
+                    { word: "zone", transcription: "[zoun]", translation: "зона", image: "zone.jpg" },
+                    { word: "blaze", transcription: "[bleɪz]", translation: "блеск", image: "blaze.jpg" }]
+            },
 
         ];
 
         // Глобальные переменные
-        const maxTasks = 7; // Максимальное количество заданий
+        // Глобальные переменные
+        const maxTasks = 7;
+        let currentSoundIndex = 0;
+        let taskCounter; // Убрана инициализация
+
+
+
         let currentIndex = 0;
         let selectedWords = [];
         let correctCount = 0;
         let wrongCount = 0;
         let hadError = false;
-        let taskCounter = 0; // Счетчик заданий
+
 
         // Функция перемешивания массива
         function shuffleArray(array) {
@@ -702,7 +560,7 @@
 
         // Функция перемешивания звуков
         let shuffledSounds = []; // Массив для хранения перемешанных звуков
-        let currentSoundIndex = 0; // Текущий индекс в перемешанном массиве
+
 
         function shuffleSounds() {
             shuffledSounds = [...sounds];
@@ -712,15 +570,18 @@
         }
 
         // Функция перехода к следующему тесту
+        // Функция перехода к следующему тесту
+        // Функция перехода к следующему тесту
         function nextTest() {
-            if (currentSoundIndex >= maxTasks) { // Используйте maxTasks вместо shuffledSounds.length
+            currentSoundIndex++;
+            if (currentSoundIndex >= maxTasks) {
                 showFinalResult();
                 return;
             }
+            taskCounter = currentSoundIndex + 1; // Счетчик зависит от индекса
             currentIndex = sounds.indexOf(shuffledSounds[currentSoundIndex]);
-            document.getElementById("taskNumber").textContent = `Задание ${++taskCounter}`;
+            document.getElementById("taskNumber").textContent = `Задание ${taskCounter}`;
             generateTest();
-            currentSoundIndex++;
         }
         // Функция отображения итогового результата
         function showFinalResult() {
@@ -738,9 +599,12 @@
         }
 
         // Инициализация при загрузке страницы
+        // Функция инициализации при загрузке страницы
         window.onload = () => {
-            shuffleSounds(); // Теперь перемешивает и обрезает до 7 звуков
-            currentIndex = sounds.indexOf(shuffledSounds[0]); // Берем первый элемент из перемешанного списка
+            shuffleSounds();
+            currentSoundIndex = 0; // Начинаем с 0
+            taskCounter = currentSoundIndex + 1; // Устанавливаем счетчик для первого задания
+            document.getElementById("taskNumber").textContent = `Задание ${taskCounter}`;
             generateTest();
         };
 
