@@ -125,10 +125,8 @@
     </style>
 </head>
 <body>
-
 <!-- Таймер -->
 <div id="timer">00:00</div>
-
 <!-- Основные блоки -->
 <div class="container" id="main-area">
     <div class="grid" id="target-grid"></div>
@@ -140,14 +138,12 @@
     </div>
     <div class="grid" id="button-grid"></div>
 </div>
-
 <!-- Экран успеха -->
 <div id="success-container">
     <h1>♡ Ты лучшая ♡</h1>
     <div id="final-time"></div>
 </div>
 <div id="fireworks"></div>
-
 <!-- Аудио -->
 <!-- <audio id="click-sound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio> -->
 <audio id="drop-sound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
@@ -168,6 +164,12 @@
         const tickSound = document.getElementById('tick-sound');
         const successSound = document.getElementById('success-sound');
 
+        // Функция воспроизведения звука по букве в формате A-a.mp3
+        function playLetterSound(letter) {
+            const audio = new Audio(`${letter}-${letter.toLowerCase()}.mp3`);
+            audio.play().catch(e => console.warn(`Не удалось воспроизвести ${letter}-${letter.toLowerCase()}.mp3`, e));
+        }
+
         // Цвета для букв
         const colors = [
             '#FF6B6B', '#FFD93D', '#6BCB77', '#4D96FF',
@@ -186,10 +188,8 @@
             { start: 14, end: 20 }, // O-U
             { start: 21, end: 25 }  // V-Z
         ];
-
         // Храним оригинальные позиции букв
         const originalPositions = {};
-
         let startTime;
         let timerInterval;
 
@@ -225,6 +225,7 @@
                 if (source && !cell.classList.contains('filled')) {
                     updateTargetGrid(letter, targetIndex, source);
                     dropSound.play();
+                    playLetterSound(letter); // Только здесь воспроизводим звук
                 }
             });
             cell.addEventListener('click', () => {
@@ -237,14 +238,6 @@
                     checkSuccess();
                     updateCheckmarks();
                     clickSound.play();
-                } else {
-                    const selectedLetter = document.querySelector('.letter-cell.selected');
-                    if (selectedLetter) {
-                        const letter = selectedLetter.dataset.letter;
-                        const targetIndex = Array.from(targetGrid.children).indexOf(cell);
-                        updateTargetGrid(letter, targetIndex, selectedLetter);
-                        dropSound.play();
-                    }
                 }
             });
         }
@@ -264,6 +257,7 @@
             }
             checkSuccess();
             updateCheckmarks();
+            playLetterSound(letter); // Воспроизводим звук при двойном клике
         }
 
         function clearOldPosition(letter) {
@@ -295,18 +289,15 @@
 
         function addEvents(element) {
             element.setAttribute('draggable', 'true');
-
             element.addEventListener('dragstart', e => {
                 if (element.classList.contains('filled')) {
                     e.dataTransfer.setData('text/plain', element.dataset.letter);
                     e.target.style.opacity = '0.5';
                 }
             });
-
             element.addEventListener('dragend', e => {
                 e.target.style.opacity = '1';
             });
-
             element.addEventListener('click', e => {
                 e.stopPropagation();
                 clickSound.play();
@@ -315,7 +306,6 @@
                     element.classList.add('selected');
                 }
             });
-
             element.addEventListener('dblclick', () => {
                 const letter = element.dataset.letter;
                 const cells = Array.from(targetGrid.children);
@@ -390,7 +380,6 @@
             clearInterval(timerInterval);
             const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
             document.getElementById('final-time').textContent = `Время: ${elapsedTime} секунд`;
-
             mainArea.style.opacity = 0;
             setTimeout(() => {
                 mainArea.style.display = 'none';
