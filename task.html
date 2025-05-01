@@ -167,92 +167,99 @@
         }
 
         /* Стиль для итогового результата */
- /* Стиль для итогового результата */
-.final-result {
-    font-size: 2.5em; /* Увеличиваем размер шрифта */
-    font-weight: bold;
-    text-align: center;
-    margin: 0 auto;
-    padding: 20px;
-    position: relative;
-    display: inline-block;
+        /* Стиль для итогового результата */
+        .final-result {
+            font-size: 2.5em;
+            /* Увеличиваем размер шрифта */
+            font-weight: bold;
+            text-align: center;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            display: inline-block;
 
-    /* Градиентный цвет текста */
-    background: linear-gradient(90deg, #1f1d1d, #1b1a17, #080808);
-    -webkit-background-clip: text; /* Для WebKit-браузеров */
-    background-clip: text; /* Без префикса для Firefox */
-    -webkit-text-fill-color: transparent; /* Прозрачный текст */
+            /* Градиентный цвет текста */
+            background: linear-gradient(90deg, #1f1d1d, #1b1a17, #080808);
+            -webkit-background-clip: text;
+            /* Для WebKit-браузеров */
+            background-clip: text;
+            /* Без префикса для Firefox */
+            -webkit-text-fill-color: transparent;
+            /* Прозрачный текст */
 
-    /* Анимация появления */
-    animation: fadeInAndScale 1.5s ease-out;
+            /* Анимация появления */
+            animation: fadeInAndScale 1.5s ease-out;
 
-    /* Тень для текста */
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            /* Тень для текста */
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 
-    /* Дополнительные декоративные элементы */
-    border-radius: 10px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-}
+            /* Дополнительные декоративные элементы */
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
 
-/* Контейнер для дополнительных эффектов */
-.final-result::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    background: linear-gradient(45deg, #ff6f61, #ffca58, #1b5e20);
-    z-index: -1;
-    border-radius: 15px;
-    filter: blur(10px);
-    opacity: 0.7;
-}
+        /* Контейнер для дополнительных эффектов */
+        .final-result::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #ff6f61, #ffca58, #1b5e20);
+            z-index: -1;
+            border-radius: 15px;
+            filter: blur(10px);
+            opacity: 0.7;
+        }
 
-/* Анимация пульсации вокруг текста */
-.final-result::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    animation: pulse 2s infinite ease-out;
-    z-index: -2;
-}
+        /* Анимация пульсации вокруг текста */
+        .final-result::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            animation: pulse 2s infinite ease-out;
+            z-index: -2;
+        }
 
-/* Анимация появления и увеличения */
-@keyframes fadeInAndScale {
-    0% {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
+        /* Анимация появления и увеличения */
+        @keyframes fadeInAndScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
 
-/* Анимация пульсации */
-@keyframes pulse {
-    0% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.5;
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 0.2;
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.5;
-    }
-}
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
 
-/* Анимация появления
+        /* Анимация пульсации */
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.2;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.5;
+            }
+        }
+
+        /* Анимация появления
 
         /* Стиль для контейнера промежуточного результата */
         .result {
@@ -623,7 +630,7 @@
                 ],
 
                 incorrectExamples: [
-                { word: "dog", transcription: "[dɒg]", translation: "пес", image: "dog.jpg" },
+                    { word: "dog", transcription: "[dɒg]", translation: "пес", image: "dog.jpg" },
                     { word: "pot", transcription: "[pɒt]", translation: "горшок", image: "pot.jpg" },
                     { word: "top", transcription: "[tɒp]", translation: "вершина", image: "top.jpg" },
                     { word: "book", transcription: "[bʊk]", translation: "книга", image: "book.jpg" },
@@ -632,6 +639,72 @@
                     { word: "sport", transcription: "[spɔːt]", translation: "спорт", image: "sport.jpg" },
                     { word: "morning", transcription: "[mɔːnɪŋ]", translation: "утро", image: "morning.jpg" },
                     { word: "north", transcription: "[nɔːθ]", translation: "север", image: "north.jpg" },
+
+                ]
+            },
+
+            {
+                transcriptionButton: "[ɪə]", // Транскрипция
+
+                correctExamples: [
+
+                    { word: "ear", transcription: "[ɪə]", translation: "ухо", image: "ear.jpg" },
+                    { word: "fear", transcription: "[fɪə]", translation: "страх", image: "fear.jpg" },
+                    { word: "year", transcription: "[jɪə]", translation: "год", image: "year.jpg" },
+
+                ],
+
+                incorrectExamples: [
+                    { word: "tea", transcription: "[ti:]", translation: "чай", image: "tea.jpg" },
+                    { word: "sea", transcription: "[si:]", translation: "море", image: "sea.jpg" },
+                    { word: "please", transcription: "[pli:z]", translation: "пожалуйста", image: "please.jpg" },
+                    { word: "green", transcription: "[gri:n]", translation: "зеленый", image: "green.jpg" },
+                    { word: "cheese", transcription: "[tʃi:z]", translation: "сыр", image: "cheese.jpg" },
+                    { word: "tree", transcription: "[tri:]", translation: "дерево", image: "tree.jpg" },
+
+                ]
+            },
+
+            {
+                transcriptionButton: "[ʊə]", // Транскрипция
+
+                correctExamples: [
+
+                    { word: "cure", transcription: "[kjʊə]", translation: "лечение", image: "cure.jpg" },
+                    { word: "pure", transcription: "[pjʊə]", translation: "беспримесный", image: "pure.jpg" },
+                    { word: "sure", transcription: "[ʃʊə]", translation: "уверенный", image: "sure.jpg" },
+
+                ],
+
+                incorrectExamples: [
+                    { word: "snow", transcription: "[snoʊ]", translation: "снег", image: "snow.jpg" },
+                    { word: "pillow", transcription: "[piloʊ]", translation: "подушка", image: "pillow.jpg" },
+                    { word: "flow", transcription: "[floʊ]", translation: "поток", image: "flow.jpg" },
+                    { word: "book", transcription: "[bʊk]", translation: "книга", image: "book.jpg" },
+                    { word: "look", transcription: "[lʊk]", translation: "взгляд", image: "look.jpg" },
+                    { word: "room", transcription: "[ruːm]", translation: "комната", image: "room.jpg" },
+
+                ]
+            },
+
+            {
+                transcriptionButton: "[eə]", // Транскрипция
+
+                correctExamples: [
+
+                    { word: "air", transcription: "[eə]", translation: "воздух", image: "air.jpg" },
+                    { word: "chair", transcription: "[tʃeə]", translation: "стул", image: "chair.jpg" },
+                    { word: "hair", transcription: "[heə]", translation: "волосы", image: "hair.jpg" },
+
+                ],
+
+                incorrectExamples: [
+                    { word: "tea", transcription: "[ti:]", translation: "чай", image: "tea.jpg" },
+                    { word: "sea", transcription: "[si:]", translation: "море", image: "sea.jpg" },
+                    { word: "please", transcription: "[pli:z]", translation: "пожалуйста", image: "please.jpg" },
+                    { word: "moon", transcription: "[muːn]", translation: "луна", image: "moon.jpg" },
+                    { word: "spoon", transcription: "[spuːn]", translation: "ложка", image: "spoon.jpg" },
+                    { word: "bamboo", transcription: "[bæmˈbuː]", translation: "бамбук", image: "bamboo.jpg" },
 
                 ]
             },
