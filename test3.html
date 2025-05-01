@@ -309,7 +309,7 @@
             { word: "bird", correct: "bird", translation: "птица" },
             { word: "skirt", correct: "skirt", translation: "платье" },
 
-           { word: "book", correct: "book", translation: "книга" },
+            { word: "book", correct: "book", translation: "книга" },
             { word: "look", correct: "look", translation: "взгляд" },
             { word: "room", correct: "room", translation: "комната" },
             { word: "moon", correct: "moon", translation: "луна" },
@@ -328,12 +328,25 @@
             { word: "house", correct: "house", translation: "дом" },
             { word: "town", correct: "town", translation: "город" },
             { word: "crown", correct: "crown", translation: "корона" },
-            { word: "brown", correct: "brown", translation: "коричневый" },   
-            
+            { word: "brown", correct: "brown", translation: "коричневый" },
+
             { word: "snow", correct: "snow", translation: "снег" },
             { word: "pillow", correct: "pillow", translation: "подушка" },
             { word: "flow", correct: "flow", translation: "поток" },
 
+            { word: "air", transcription: "[eə]", translation: "воздух", image: "air.jpg" },
+            { word: "chair", transcription: "[tʃeə]", translation: "стул", image: "chair.jpg" },
+            { word: "hair", transcription: "[heə]", translation: "волосы", image: "hair.jpg" },
+
+
+            { word: "cure", transcription: "[kjʊə]", translation: "лечение", image: "cure.jpg" },
+            { word: "pure", transcription: "[pjʊə]", translation: "беспримесный", image: "pure.jpg" },
+            { word: "sure", transcription: "[ʃʊə]", translation: "уверенный", image: "sure.jpg" },
+
+
+            { word: "ear", transcription: "[ɪə]", translation: "ухо", image: "ear.jpg" },
+            { word: "fear", transcription: "[fɪə]", translation: "страх", image: "fear.jpg" },
+            { word: "year", transcription: "[jɪə]", translation: "год", image: "year.jpg" },
 
 
 
@@ -350,7 +363,7 @@
         }
 
         shuffleArray(questions);
-        questions = questions.slice(0, 5);
+        questions = questions.slice(0, 12);
 
         let currentQuestionIndex = 0;
         let score = 0;
