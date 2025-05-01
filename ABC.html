@@ -380,7 +380,7 @@
             function showSuccessAnimation() {
                 clearInterval(timerInterval);
                 const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
-                document.getElementById('final-time').textContent = `Время: ${elapsedTime} секунд`;
+                document.getElementById('final-time').textContent = `Время: ${elapsedTime} сек.`;
 
                 mainArea.style.opacity = 0;
                 setTimeout(() => {
