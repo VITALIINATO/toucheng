@@ -302,11 +302,26 @@
             { word: "house", correct: "house", translation: "дом" },
             { word: "town", correct: "town", translation: "город" },
             { word: "crown", correct: "crown", translation: "корона" },
-            { word: "brown", correct: "brown", translation: "коричневый" },   
-            
+            { word: "brown", correct: "brown", translation: "коричневый" },
+
             { word: "snow", correct: "snow", translation: "снег" },
             { word: "pillow", correct: "pillow", translation: "подушка" },
             { word: "flow", correct: "flow", translation: "поток" },
+
+            { word: "air", transcription: "[eə]", translation: "воздух", image: "air.jpg" },
+            { word: "chair", transcription: "[tʃeə]", translation: "стул", image: "chair.jpg" },
+            { word: "hair", transcription: "[heə]", translation: "волосы", image: "hair.jpg" },
+
+
+            { word: "cure", transcription: "[kjʊə]", translation: "лечение", image: "cure.jpg" },
+            { word: "pure", transcription: "[pjʊə]", translation: "беспримесный", image: "pure.jpg" },
+            { word: "sure", transcription: "[ʃʊə]", translation: "уверенный", image: "sure.jpg" },
+
+
+            { word: "ear", transcription: "[ɪə]", translation: "ухо", image: "ear.jpg" },
+            { word: "fear", transcription: "[fɪə]", translation: "страх", image: "fear.jpg" },
+            { word: "year", transcription: "[jɪə]", translation: "год", image: "year.jpg" },
+
 
 
 
@@ -324,7 +339,7 @@
         let usedWords = [];
 
         // Настройки игры:
-        const wordSpeed = 12000; // Скорость падения слов (в миллисекундах)
+        const wordSpeed = 10000; // Скорость падения слов (в миллисекундах)
         const spawnInterval = 700; // Частота появления новых слов (в миллисекундах)
         const maxFallingWords = 12; // Максимальное количество одновременно падающих слов
 
