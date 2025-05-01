@@ -125,281 +125,290 @@
     </style>
 </head>
 <body>
-    <!-- Таймер -->
-    <div id="timer">00:00</div>
 
-    <!-- Основные блоки -->
-    <div class="container" id="main-area">
-        <div class="grid" id="target-grid"></div>
-        <div class="checkmarks" id="checkmarks">
-            <div class="checkmark"></div>
-            <div class="checkmark"></div>
-            <div class="checkmark"></div>
-            <div class="checkmark"></div>
-        </div>
-        <div class="grid" id="button-grid"></div>
+<!-- Таймер -->
+<div id="timer">00:00</div>
+
+<!-- Основные блоки -->
+<div class="container" id="main-area">
+    <div class="grid" id="target-grid"></div>
+    <div class="checkmarks" id="checkmarks">
+        <div class="checkmark"></div>
+        <div class="checkmark"></div>
+        <div class="checkmark"></div>
+        <div class="checkmark"></div>
     </div>
+    <div class="grid" id="button-grid"></div>
+</div>
 
-    <!-- Экран успеха -->
-    <div id="success-container">
-        <h1>Все правильно<br>♡ Ты лучшая ♡</h1>
-        <div id="final-time"></div>
-    </div>
+<!-- Экран успеха -->
+<div id="success-container">
+    <h1>♡ Ты лучшая ♡</h1>
+    <div id="final-time"></div>
+</div>
+<div id="fireworks"></div>
 
-    <div id="fireworks"></div>
+<!-- Аудио -->
+<!-- <audio id="click-sound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio> -->
+<audio id="drop-sound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+<audio id="tick-sound" src="https://www.soundjay.com/buttons/sounds/button-2.mp3"></audio>
+<audio id="success-sound" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
 
-    <!-- Аудио -->
-    <audio id="click-sound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
-    <audio id="drop-sound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
-    <audio id="tick-sound" src="https://www.soundjay.com/buttons/sounds/button-2.mp3"></audio>
-    <audio id="success-sound" src="https://www.soundjay.com/buttons/sounds/button-37.mp3"></audio>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const targetGrid = document.getElementById('target-grid');
+        const buttonGrid = document.getElementById('button-grid');
+        const checkmarks = document.querySelectorAll('.checkmark');
+        const mainArea = document.getElementById('main-area');
+        const successContainer = document.getElementById('success-container');
+        const fireworks = document.getElementById('fireworks');
+        const clickSound = document.getElementById('click-sound');
+        const dropSound = document.getElementById('drop-sound');
+        const tickSound = document.getElementById('tick-sound');
+        const successSound = document.getElementById('success-sound');
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-            const targetGrid = document.getElementById('target-grid');
-            const buttonGrid = document.getElementById('button-grid');
-            const checkmarks = document.querySelectorAll('.checkmark');
-            const mainArea = document.getElementById('main-area');
-            const successContainer = document.getElementById('success-container');
-            const fireworks = document.getElementById('fireworks');
-            const clickSound = document.getElementById('click-sound');
-            const dropSound = document.getElementById('drop-sound');
-            const tickSound = document.getElementById('tick-sound');
-            const successSound = document.getElementById('success-sound');
+        // Цвета для букв
+        const colors = [
+            '#FF6B6B', '#FFD93D', '#6BCB77', '#4D96FF',
+            '#FF6F91', '#FF9671', '#FFC75F', '#F9F871',
+            '#00C9A7', '#9390FF', '#009EFF', '#FF9999',
+            '#66B2FF', '#99FF99', '#FFD700', '#FFA07A',
+            '#DDA0DD', '#87CEEB', '#FF6347', '#7FFF00',
+            '#BA55D3', '#3CB371', '#4682B4', '#2E8B57',
+            '#8A2BE2', '#5F9EA0'
+        ];
 
-            // Цвета для букв
-            const colors = [
-                '#FF6B6B', '#FFD93D', '#6BCB77', '#4D96FF',
-                '#FF6F91', '#FF9671', '#FFC75F', '#F9F871',
-                '#00C9A7', '#9390FF', '#009EFF', '#FF9999',
-                '#66B2FF', '#99FF99', '#FFD700', '#FFA07A',
-                '#DDA0DD', '#87CEEB', '#FF6347', '#7FFF00',
-                '#BA55D3', '#3CB371', '#4682B4', '#2E8B57',
-                '#8A2BE2', '#5F9EA0'
-            ];
+        // Разбивка алфавита на ряды
+        const rowRanges = [
+            { start: 0, end: 6 },   // A-G
+            { start: 7, end: 13 },  // H-N
+            { start: 14, end: 20 }, // O-U
+            { start: 21, end: 25 }  // V-Z
+        ];
 
-            // Разбивка алфавита на ряды
-            const rowRanges = [
-                { start: 0, end: 6 },   // A-G
-                { start: 7, end: 13 },  // H-N
-                { start: 14, end: 20 }, // O-U
-                { start: 21, end: 25 }  // V-Z
-            ];
+        // Храним оригинальные позиции букв
+        const originalPositions = {};
 
-            // Храним оригинальные позиции букв
-            const originalPositions = {};
+        let startTime;
+        let timerInterval;
 
-            let startTime;
-            let timerInterval;
+        function startTimer() {
+            startTime = Date.now();
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const minutes = String(Math.floor(elapsed / 60)).padStart(2, '0');
+                const seconds = String(elapsed % 60).padStart(2, '0');
+                document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+            }, 1000);
+        }
 
-            function startTimer() {
-                startTime = Date.now();
-                timerInterval = setInterval(() => {
-                    const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                    const minutes = String(Math.floor(elapsed / 60)).padStart(2, '0');
-                    const seconds = String(elapsed % 60).padStart(2, '0');
-                    document.getElementById('timer').textContent = `${minutes}:${seconds}`;
-                }, 1000);
+        function initGrid(grid, isTarget = false) {
+            grid.innerHTML = '';
+            for (let i = 0; i < 28; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'letter-cell';
+                if (isTarget) setupTargetCell(cell);
+                grid.appendChild(cell);
             }
+        }
 
-            function initGrid(grid, isTarget = false) {
-                grid.innerHTML = '';
-                for (let i = 0; i < 28; i++) {
-                    const cell = document.createElement('div');
-                    cell.className = 'letter-cell';
-                    if (isTarget) setupTargetCell(cell);
-                    grid.appendChild(cell);
+        function setupTargetCell(cell) {
+            cell.addEventListener('dragover', e => e.preventDefault());
+            cell.addEventListener('drop', e => {
+                e.preventDefault();
+                const letter = e.dataTransfer.getData('text/plain');
+                const source = e.relatedTarget?.closest('.letter-cell.filled') ||
+                    buttonGrid.querySelector(`.letter-cell[data-letter="${letter}"]`);
+                const cells = Array.from(targetGrid.children);
+                const targetIndex = cells.indexOf(cell);
+                if (source && !cell.classList.contains('filled')) {
+                    updateTargetGrid(letter, targetIndex, source);
+                    dropSound.play();
                 }
-            }
-
-            function setupTargetCell(cell) {
-                cell.addEventListener('dragover', e => e.preventDefault());
-                cell.addEventListener('drop', e => {
-                    e.preventDefault();
-                    const letter = e.dataTransfer.getData('text/plain');
-                    const source = e.relatedTarget?.closest('.letter-cell.filled') ||
-                        buttonGrid.querySelector(`.letter-cell[data-letter="${letter}"]`);
-                    const cells = Array.from(targetGrid.children);
-                    const targetIndex = cells.indexOf(cell);
-                    if (source && !cell.classList.contains('filled')) {
-                        updateTargetGrid(letter, targetIndex, source);
+            });
+            cell.addEventListener('click', () => {
+                if (cell.classList.contains('filled')) {
+                    const letter = cell.dataset.letter;
+                    cell.className = 'letter-cell';
+                    delete cell.dataset.letter;
+                    cell.textContent = '';
+                    restoreButtonToOriginalPosition(letter);
+                    checkSuccess();
+                    updateCheckmarks();
+                    clickSound.play();
+                } else {
+                    const selectedLetter = document.querySelector('.letter-cell.selected');
+                    if (selectedLetter) {
+                        const letter = selectedLetter.dataset.letter;
+                        const targetIndex = Array.from(targetGrid.children).indexOf(cell);
+                        updateTargetGrid(letter, targetIndex, selectedLetter);
                         dropSound.play();
                     }
-                });
-                cell.addEventListener('click', () => {
-                    if (cell.classList.contains('filled')) {
-                        const letter = cell.dataset.letter;
-                        cell.className = 'letter-cell';
-                        delete cell.dataset.letter;
-                        cell.textContent = '';
-                        restoreButtonToOriginalPosition(letter);
-                        checkSuccess();
-                        updateCheckmarks();
-                        clickSound.play();
-                    } else {
-                        const selectedLetter = document.querySelector('.letter-cell.selected');
-                        if (selectedLetter) {
-                            const letter = selectedLetter.dataset.letter;
-                            const targetIndex = Array.from(targetGrid.children).indexOf(cell);
-                            updateTargetGrid(letter, targetIndex, selectedLetter);
-                            dropSound.play();
-                        }
-                    }
-                });
-            }
+                }
+            });
+        }
 
-            function updateTargetGrid(letter, index, source) {
+        function updateTargetGrid(letter, index, source) {
+            const cells = Array.from(targetGrid.children);
+            const targetCell = cells[index];
+            clearOldPosition(letter);
+            targetCell.className = 'letter-cell filled';
+            targetCell.dataset.letter = letter;
+            targetCell.textContent = letter;
+            targetCell.style.backgroundColor = source.style.backgroundColor;
+            if (source.closest('#button-grid')) {
+                source.className = 'letter-cell';
+                source.textContent = '';
+                delete source.dataset.letter;
+            }
+            checkSuccess();
+            updateCheckmarks();
+        }
+
+        function clearOldPosition(letter) {
+            const oldCell = targetGrid.querySelector(`[data-letter="${letter}"]`);
+            if (oldCell) {
+                oldCell.className = 'letter-cell';
+                delete oldCell.dataset.letter;
+                oldCell.textContent = '';
+            }
+        }
+
+        function initButtons() {
+            const shuffled = [...alphabet].sort(() => Math.random() - 0.5);
+            const cells = Array.from(buttonGrid.children);
+            cells.forEach((cell, index) => {
+                if (index < shuffled.length) {
+                    const letter = shuffled[index];
+                    const color = colors[index % colors.length];
+                    cell.className = 'letter-cell filled';
+                    cell.dataset.letter = letter;
+                    cell.dataset.originalIndex = index;
+                    cell.textContent = letter;
+                    cell.style.backgroundColor = color;
+                    originalPositions[letter] = index;
+                    addEvents(cell);
+                }
+            });
+        }
+
+        function addEvents(element) {
+            element.setAttribute('draggable', 'true');
+
+            element.addEventListener('dragstart', e => {
+                if (element.classList.contains('filled')) {
+                    e.dataTransfer.setData('text/plain', element.dataset.letter);
+                    e.target.style.opacity = '0.5';
+                }
+            });
+
+            element.addEventListener('dragend', e => {
+                e.target.style.opacity = '1';
+            });
+
+            element.addEventListener('click', e => {
+                e.stopPropagation();
+                clickSound.play();
+                document.querySelectorAll('.letter-cell').forEach(el => el.classList.remove('selected'));
+                if (element.classList.contains('filled')) {
+                    element.classList.add('selected');
+                }
+            });
+
+            element.addEventListener('dblclick', () => {
+                const letter = element.dataset.letter;
                 const cells = Array.from(targetGrid.children);
-                const targetCell = cells[index];
-                clearOldPosition(letter);
+                const emptyIndex = cells.findIndex(cell => !cell.classList.contains('filled'));
+                if (emptyIndex !== -1) {
+                    updateTargetGrid(letter, emptyIndex, element);
+                    dropSound.play();
+                }
+            });
+        }
+
+        function restoreButtonToOriginalPosition(letter) {
+            const index = originalPositions[letter];
+            const allCells = Array.from(buttonGrid.children);
+            const targetCell = allCells[index];
+            if (!targetCell.classList.contains('filled')) {
                 targetCell.className = 'letter-cell filled';
                 targetCell.dataset.letter = letter;
                 targetCell.textContent = letter;
-                targetCell.style.backgroundColor = source.style.backgroundColor;
-                if (source.closest('#button-grid')) {
-                    source.className = 'letter-cell';
-                    source.textContent = '';
-                    delete source.dataset.letter;
+                targetCell.style.backgroundColor = colors[index % colors.length];
+                addEvents(targetCell);
+            }
+        }
+
+        function updateCheckmarks() {
+            const cells = Array.from(targetGrid.children);
+            rowRanges.forEach((range, rowIndex) => {
+                const expectedLetters = alphabet.slice(range.start, range.end + 1);
+                const rowStart = rowIndex * 7;
+                const rowEnd = rowStart + 7;
+                const rowCells = cells.slice(rowStart, rowEnd);
+                const filledLetters = rowCells
+                    .filter(cell => cell.classList.contains('filled'))
+                    .map(cell => cell.dataset.letter)
+                    .sort((a, b) => a.charCodeAt(0) - b.charCodeAt(0));
+                const isComplete = arraysEqual(filledLetters, expectedLetters);
+                const checkmark = checkmarks[rowIndex];
+                checkmark.classList.remove('success');
+                checkmark.textContent = '';
+                if (isComplete) {
+                    checkmark.classList.add('success');
+                    checkmark.textContent = '✓';
+                    if (!checkmark.hasAttribute('data-played')) {
+                        tickSound.currentTime = 0;
+                        tickSound.play()
+                            .then(() => checkmark.setAttribute('data-played', 'true'))
+                            .catch(e => console.error('Audio error:', e));
+                    }
+                } else {
+                    checkmark.removeAttribute('data-played');
                 }
-                checkSuccess();
-                updateCheckmarks();
-            }
+            });
+        }
 
-            function clearOldPosition(letter) {
-                const oldCell = targetGrid.querySelector(`[data-letter="${letter}"]`);
-                if (oldCell) {
-                    oldCell.className = 'letter-cell';
-                    delete oldCell.dataset.letter;
-                    oldCell.textContent = '';
-                }
-            }
+        function arraysEqual(a, b) {
+            return a && b && a.length === b.length && a.every((val, i) => val === b[i]);
+        }
 
-            function initButtons() {
-                const shuffled = [...alphabet].sort(() => Math.random() - 0.5);
-                const cells = Array.from(buttonGrid.children);
-                cells.forEach((cell, index) => {
-                    if (index < shuffled.length) {
-                        const letter = shuffled[index];
-                        const color = colors[index % colors.length];
-                        cell.className = 'letter-cell filled';
-                        cell.dataset.letter = letter;
-                        cell.dataset.originalIndex = index;
-                        cell.textContent = letter;
-                        cell.style.backgroundColor = color;
-                        originalPositions[letter] = index;
-                        addEvents(cell);
-                    }
-                });
-            }
-
-            function addEvents(element) {
-                element.setAttribute('draggable', 'true');
-                element.addEventListener('dragstart', e => {
-                    if (element.classList.contains('filled')) {
-                        e.dataTransfer.setData('text/plain', element.dataset.letter);
-                        e.target.style.opacity = '0.5';
-                    }
-                });
-                element.addEventListener('dragend', e => {
-                    e.target.style.opacity = '1';
-                });
-                element.addEventListener('click', e => {
-                    e.stopPropagation();
-                    clickSound.play();
-                    document.querySelectorAll('.letter-cell').forEach(el => el.classList.remove('selected'));
-                    if (element.classList.contains('filled')) {
-                        element.classList.add('selected');
-                    }
-                });
-            }
-
-            function restoreButtonToOriginalPosition(letter) {
-                const index = originalPositions[letter];
-                const allCells = Array.from(buttonGrid.children);
-                const targetCell = allCells[index];
-                if (!targetCell.classList.contains('filled')) {
-                    targetCell.className = 'letter-cell filled';
-                    targetCell.dataset.letter = letter;
-                    targetCell.textContent = letter;
-                    targetCell.style.backgroundColor = colors[index % colors.length];
-                    addEvents(targetCell);
+        function checkSuccess() {
+            const filledCells = Array.from(targetGrid.children).filter(cell =>
+                cell.classList.contains('filled')
+            );
+            if (filledCells.length === 26) {
+                const letters = filledCells.map(cell => cell.dataset.letter);
+                if (arraysEqual(letters, alphabet)) {
+                    showSuccessAnimation();
                 }
             }
+        }
 
-            function updateCheckmarks() {
-                const cells = Array.from(targetGrid.children);
-                rowRanges.forEach((range, rowIndex) => {
-                    const expectedLetters = alphabet.slice(range.start, range.end + 1);
-                    const rowStart = rowIndex * 7;
-                    const rowEnd = rowStart + 7;
-                    const rowCells = cells.slice(rowStart, rowEnd);
-                    // Получаем буквы в правильном порядке для ряда
-                    const filledLetters = rowCells
-                        .filter(cell => cell.classList.contains('filled'))
-                        .map(cell => cell.dataset.letter)
-                        .sort((a, b) => a.charCodeAt(0) - b.charCodeAt(0)); // Сортируем буквы
-                    const isComplete = arraysEqual(filledLetters, expectedLetters);
-                    const checkmark = checkmarks[rowIndex];
-                    // Сбрасываем состояние при каждом обновлении
-                    checkmark.classList.remove('success');
-                    checkmark.textContent = '';
-                    if (isComplete) {
-                        checkmark.classList.add('success');
-                        checkmark.textContent = '✓';
-                        // Воспроизводим звук только при первом успешном заполнении
-                        if (!checkmark.hasAttribute('played')) {
-                            tickSound.currentTime = 0;
-                            tickSound.play()
-                                .then(() => checkmark.setAttribute('played', 'true'))
-                                .catch(error => console.error('Audio play failed:', error));
-                        }
-                    } else {
-                        checkmark.removeAttribute('played');
-                    }
-                });
-            }
+        function showSuccessAnimation() {
+            clearInterval(timerInterval);
+            const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('final-time').textContent = `Время: ${elapsedTime} секунд`;
 
-            function arraysEqual(a, b) {
-                return a.length === b.length &&
-                    a.every((val, index) => val === b[index]);
-            }
+            mainArea.style.opacity = 0;
+            setTimeout(() => {
+                mainArea.style.display = 'none';
+                successContainer.classList.add('show');
+                fireworks.classList.add('show');
+                successSound.play();
+            }, 500);
+        }
 
-            function checkSuccess() {
-                const filledCells = Array.from(targetGrid.children).filter(cell =>
-                    cell.classList.contains('filled')
-                );
-                if (filledCells.length === 26) {
-                    const letters = filledCells.map(cell => cell.dataset.letter);
-                    if (arraysEqual(letters, alphabet)) {
-                        showSuccessAnimation();
-                    }
-                }
-            }
+        // Инициализация
+        initGrid(targetGrid, true);
+        initGrid(buttonGrid);
+        initButtons();
+        updateCheckmarks();
 
-            function showSuccessAnimation() {
-                clearInterval(timerInterval);
-                const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
-                document.getElementById('final-time').textContent = `Время: ${elapsedTime} сек.`;
-
-                mainArea.style.opacity = 0;
-                setTimeout(() => {
-                    mainArea.style.display = 'none';
-                    successContainer.classList.add('show');
-                    fireworks.classList.add('show');
-                    successSound.play();
-                }, 500);
-            }
-
-            // Инициализация
-            initGrid(targetGrid, true);
-            initGrid(buttonGrid);
-            initButtons();
-            updateCheckmarks();
-
-            // Запуск таймера
-            startTimer();
-        });
-    </script>
+        // Запуск таймера
+        startTimer();
+    });
+</script>
 </body>
 </html>
