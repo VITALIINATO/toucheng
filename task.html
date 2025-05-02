@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тест на распознавание звуков</title>
     <style>
-        /* Основные стили */
+        /* Основные стили остаются без изменений */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -167,38 +167,23 @@
         }
 
         /* Стиль для итогового результата */
-        /* Стиль для итогового результата */
         .final-result {
             font-size: 2.5em;
-            /* Увеличиваем размер шрифта */
             font-weight: bold;
             text-align: center;
             margin: 0 auto;
             padding: 20px;
             position: relative;
             display: inline-block;
-
-            /* Градиентный цвет текста */
             background: linear-gradient(90deg, #1f1d1d, #1b1a17, #080808);
             -webkit-background-clip: text;
-            /* Для WebKit-браузеров */
             background-clip: text;
-            /* Без префикса для Firefox */
             -webkit-text-fill-color: transparent;
-            /* Прозрачный текст */
-
-            /* Анимация появления */
-            animation: fadeInAndScale 1.5s ease-out;
-
-            /* Тень для текста */
             text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-
-            /* Дополнительные декоративные элементы */
             border-radius: 10px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
 
-        /* Контейнер для дополнительных эффектов */
         .final-result::before {
             content: '';
             position: absolute;
@@ -213,7 +198,6 @@
             opacity: 0.7;
         }
 
-        /* Анимация пульсации вокруг текста */
         .final-result::after {
             content: '';
             position: absolute;
@@ -228,7 +212,6 @@
             z-index: -2;
         }
 
-        /* Анимация появления и увеличения */
         @keyframes fadeInAndScale {
             0% {
                 opacity: 0;
@@ -241,7 +224,6 @@
             }
         }
 
-        /* Анимация пульсации */
         @keyframes pulse {
             0% {
                 transform: translate(-50%, -50%) scale(1);
@@ -259,49 +241,29 @@
             }
         }
 
-        /* Анимация появления
-
-        /* Стиль для контейнера промежуточного результата */
         .result {
             font-size: 1.5em;
-            /* Размер текста */
             font-weight: bold;
-            /* Жирный шрифт */
             text-align: center;
-            /* Выравнивание текста по центру */
             margin: 20px auto;
-            /* Отступы сверху и снизу, авто для горизонтального центрирования */
             padding: 15px;
-            /* Внутренние отступы */
             border-radius: 10px;
-            /* Закругление углов */
             color: #fff;
-            /* Цвет текста */
             background: linear-gradient(135deg, #4caf50, #388e3c);
-            /* Градиент для успешного результата */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            /* Тень для объема */
             max-width: 600px;
-            /* Максимальная ширина */
             display: none;
-            /* По умолчанию скрыт */
             transition: all 0.3s ease;
-            /* Плавные переходы */
         }
 
-        /* Стиль для успешного результата */
         .result.success {
             background: linear-gradient(135deg, #4caf50, #388e3c);
-            /* Зеленый градиент */
         }
 
-        /* Стиль для ошибки */
         .result.error {
             background: linear-gradient(135deg, #f44336, #d32f2f);
-            /* Красный градиент */
         }
 
-        /* Стиль для ошибки */
         .task-number {
             font-size: 1em;
             font-weight: bold;
@@ -330,12 +292,11 @@
     </div>
     <div class="final-result" id="finalResult" style="display: none;"></div>
     <audio id="audioPlayer"></audio>
-
     <script>
         // Уникальные звуки без дубликатов
         const sounds = [
             {
-                transcriptionButton: "[ʃ]", // Транскрипция
+                transcriptionButton: "[ʃ]",
                 correctExamples: [
                     { word: "shop", transcription: "[ʃɒp]", translation: "магазин", image: "shop.jpg" },
                     { word: "she", transcription: "[ʃiː]", translation: "она", image: "she.jpg" },
@@ -347,11 +308,11 @@
                     { word: "cherry", transcription: "[ˈtʃeri]", translation: "вишня", image: "cherry.jpg" },
                     { word: "sand", transcription: "[sænd]", translation: "песок", image: "sand.jpg" },
                     { word: "sun", transcription: "[sʌn]", translation: "солнце", image: "sun.jpg" },
-                    { word: "smile", transcription: "['smaɪl]", translation: "улыбка", image: "smile.jpg" },
+                    { word: "smile", transcription: "['smaɪl]", translation: "улыбка", image: "smile.jpg" }
                 ]
             },
             {
-                transcriptionButton: "[tʃ]", // Транскрипция
+                transcriptionButton: "[tʃ]",
                 correctExamples: [
                     { word: "child", transcription: "[tʃaɪld]", translation: "ребенок", image: "child.jpg" },
                     { word: "bench", transcription: "[bentʃ]", translation: "лавочка", image: "bench.jpg" },
@@ -362,26 +323,27 @@
                     { word: "she", transcription: "[ʃiː]", translation: "она", image: "she.jpg" },
                     { word: "fish", transcription: "[fɪʃ]", translation: "рыба", image: "fish.jpg" },
                     { word: "mice", transcription: "[maɪs]", translation: "мыши", image: "mice.jpg" },
-                    { word: "face", transcription: "['feɪs]", translation: "лицо", image: "face2.jpg" },
+                    { word: "face", transcription: "['feɪs]", translation: "лицо", image: "face2.jpg" }
                 ]
             },
             {
-                transcriptionButton: "[ð]", // Транскрипция
+                transcriptionButton: "[ð]",
                 correctExamples: [
                     { word: "this", transcription: "[ðɪs]", translation: "это", image: "this.jpg" },
                     { word: "that", transcription: "[ðæ]", translation: "то", image: "that.jpg" },
-                    { word: "they", transcription: "[ðeɪ]", translation: "они", image: "they.jpg" }],
+                    { word: "they", transcription: "[ðeɪ]", translation: "они", image: "they.jpg" }
+                ],
                 incorrectExamples: [
                     { word: "thin", transcription: "[θɪn]", translation: "тонкий", image: "thin.jpg" },
                     { word: "moth", transcription: "[mɒθ]", translation: "мотылек", image: "moth.jpg" },
                     { word: "smith", transcription: "[smɪθ]", translation: "кузнец", image: "smith.jpg" },
                     { word: "blaze", transcription: "[bleɪz]", translation: "блеск", image: "blaze.jpg" },
                     { word: "zip", transcription: "[zɪp]", translation: "застежка", image: "zip.jpg" },
-                    { word: "zone", transcription: "[zoun]", translation: "зона", image: "zone.jpg" },
+                    { word: "zone", transcription: "[zoun]", translation: "зона", image: "zone.jpg" }
                 ]
             },
             {
-                transcriptionButton: "[θ]", // Транскрипция
+                transcriptionButton: "[θ]",
                 correctExamples: [
                     { word: "thin", transcription: "[θɪn]", translation: "тонкий", image: "thin.jpg" },
                     { word: "moth", transcription: "[mɒθ]", translation: "мотылек", image: "moth.jpg" },
@@ -393,14 +355,11 @@
                     { word: "they", transcription: "[ðeɪ]", translation: "они", image: "they.jpg" },
                     { word: "cell", transcription: "[sel]", translation: "сот", image: "cell.jpg" },
                     { word: "smile", transcription: "['smaɪl]", translation: "улыбка", image: "smile.jpg" },
-                    { word: "mice", transcription: "[maɪs]", translation: "мыши", image: "mice.jpg" },
-                ],
+                    { word: "mice", transcription: "[maɪs]", translation: "мыши", image: "mice.jpg" }
+                ]
             },
-
-            // Добавьте остальные звуки аналогично...
-
             {
-                transcriptionButton: "[f]", // Транскрипция
+                transcriptionButton: "[f]",
                 correctExamples: [
                     { word: "photo", transcription: "[foʊtoʊ]", translation: "фото", image: "photo.jpg" },
                     { word: "alphabet", transcription: "[ælfəbet]", translation: "алфавит", image: "alphabet.jpg" },
@@ -413,11 +372,10 @@
                     { word: "hand", transcription: "[hænd]", translation: "рука", image: "hand.jpg" },
                     { word: "home", transcription: "[houm]", translation: "дом", image: "home.jpg" },
                     { word: "hat", transcription: "[hæt]", translation: "шапка", image: "hat.jpg" }
-                ],
+                ]
             },
-
             {
-                transcriptionButton: "[ŋ]", // Транскрипция
+                transcriptionButton: "[ŋ]",
                 correctExamples: [
                     { word: "ring", transcription: "[rɪŋ]", translation: "кольцо", image: "ring.jpg" },
                     { word: "king", transcription: "[kɪŋ]", translation: "король", image: "king.jpg" },
@@ -429,13 +387,11 @@
                     { word: "nine", transcription: "[naɪn]", translation: "девять", image: "nine.jpg" },
                     { word: "van", transcription: "[væn]", translation: "вагон", image: "van.jpg" },
                     { word: "phone", transcription: "[foʊn]", translation: "телефон", image: "phone.jpg" },
-                    { word: "thin", transcription: "[θɪn]", translation: "тонкий", image: "thin.jpg" },
-
-                ],
+                    { word: "thin", transcription: "[θɪn]", translation: "тонкий", image: "thin.jpg" }
+                ]
             },
-
             {
-                transcriptionButton: "[ʒ]", // Транскрипция
+                transcriptionButton: "[ʒ]",
                 correctExamples: [
                     { word: "vision", transcription: "[vɪʒn]", translation: "зрение", image: "vision.jpg" },
                     { word: "collision", transcription: "[kɒlɪʒn]", translation: "стролкновение", image: "collision.jpg" },
@@ -448,13 +404,10 @@
                     { word: "child", transcription: "[tʃaɪld]", translation: "ребенок", image: "child.jpg" },
                     { word: "this", transcription: "[ðɪs]", translation: "это", image: "this.jpg" },
                     { word: "fish", transcription: "[fɪʃ]", translation: "рыба", image: "fish.jpg" }
-
-
-                ],
+                ]
             },
-
             {
-                transcriptionButton: "[ɑː]", // Транскрипция
+                transcriptionButton: "[ɑː]",
                 correctExamples: [
                     { word: "car", transcription: "[kɑːr]", translation: "автомобиль", image: "car.jpg" },
                     { word: "star", transcription: "[stɑːr]", translation: "звезда", image: "star.jpg" },
@@ -469,10 +422,8 @@
                     { word: "north", transcription: "[nɔːθ]", translation: "север", image: "north.jpg" }
                 ]
             },
-
             {
-                transcriptionButton: "[ə]", // Транскрипция
-
+                transcriptionButton: "[ə]",
                 correctExamples: [
                     { word: "sister", transcription: "[sɪstə]", translation: "сестра", image: "sister.jpg" },
                     { word: "finger", transcription: "[fɪŋgə]", translation: "палец", image: "finger.jpg" },
@@ -487,16 +438,13 @@
                     { word: "desk", transcription: "[desk]", translation: "доска", image: "desk.jpg" }
                 ]
             },
-
             {
-                transcriptionButton: "[ɔː]", // Транскрипция
-
+                transcriptionButton: "[ɔː]",
                 correctExamples: [
                     { word: "sport", transcription: "[spɔːt]", translation: "спорт", image: "sport.jpg" },
                     { word: "morning", transcription: "[mɔːnɪŋ]", translation: "утро", image: "morning.jpg" },
                     { word: "north", transcription: "[nɔːθ]", translation: "север", image: "north.jpg" }
                 ],
-
                 incorrectExamples: [
                     { word: "note", transcription: "[nəʊt]", translation: "нота", image: "note.jpg" },
                     { word: "nose", transcription: "[nəʊz]", translation: "нос", image: "nose.jpg" },
@@ -506,16 +454,13 @@
                     { word: "top", transcription: "[tɒp]", translation: "вершина", image: "top.jpg" }
                 ]
             },
-
             {
-                transcriptionButton: "[ɜ:]", // Транскрипция
-
+                transcriptionButton: "[ɜ:]",
                 correctExamples: [
                     { word: "girl", transcription: "[ɡɜ:l]", translation: "девушка", image: "girl.jpg" },
                     { word: "bird", transcription: "[bɜ:d]", translation: "птица", image: "bird.jpg" },
                     { word: "skirt", transcription: "[skɜ:t]", translation: "платье", image: "skirt.jpg" }
                 ],
-
                 incorrectExamples: [
                     { word: "sport", transcription: "[spɔːt]", translation: "спорт", image: "sport.jpg" },
                     { word: "morning", transcription: "[mɔːnɪŋ]", translation: "утро", image: "morning.jpg" },
@@ -523,19 +468,15 @@
                     { word: "sister", transcription: "[sɪstə]", translation: "сестра", image: "sister.jpg" },
                     { word: "finger", transcription: "[fɪŋgə]", translation: "палец", image: "finger.jpg" },
                     { word: "driver", transcription: "[draɪvə]", translation: "водитель", image: "driver.jpg" }
-
                 ]
             },
-
             {
-                transcriptionButton: "[ʊ]", // Транскрипция
-
+                transcriptionButton: "[ʊ]",
                 correctExamples: [
                     { word: "book", transcription: "[bʊk]", translation: "книга", image: "book.jpg" },
                     { word: "look", transcription: "[lʊk]", translation: "взгляд", image: "look.jpg" },
-                    { word: "room", transcription: "[ruːm]", translation: "комната", image: "room.jpg" },
+                    { word: "room", transcription: "[ruːm]", translation: "комната", image: "room.jpg" }
                 ],
-
                 incorrectExamples: [
                     { word: "mouth", transcription: "[maʊθ]", translation: "рот", image: "mouth.jpg" },
                     { word: "tube", transcription: "[tju:b]", translation: "труба", image: "tube.jpg" },
@@ -543,33 +484,26 @@
                     { word: "music", transcription: "[mju:zik]", translation: "музыка", image: "music.jpg" },
                     { word: "mum", transcription: "[mʌm]", translation: "мама", image: "mum.jpg" },
                     { word: "bus", transcription: "[bʌs]", translation: "автобус", image: "bus.jpg" }
-
                 ]
             },
-
             {
-                transcriptionButton: "[uː]", // Транскрипция
-
+                transcriptionButton: "[uː]",
                 correctExamples: [
                     { word: "moon", transcription: "[muːn]", translation: "луна", image: "moon.jpg" },
                     { word: "spoon", transcription: "[spuːn]", translation: "ложка", image: "spoon.jpg" },
-                    { word: "bamboo", transcription: "[bæmˈbuː]", translation: "бамбук", image: "bamboo.jpg" },
+                    { word: "bamboo", transcription: "[bæmˈbuː]", translation: "бамбук", image: "bamboo.jpg" }
                 ],
-
                 incorrectExamples: [
                     { word: "quest", transcription: "[kwest]", translation: "поиск", image: "quest.jpg" },
                     { word: "queen", transcription: "[kwiːn]", translation: "королева", image: "queen.jpg" },
                     { word: "squirrel", transcription: "[skwɪrəl]", translation: "белка", image: "squirrel.jpg" },
                     { word: "gun", transcription: "[gʌn]", translation: "оружие", image: "gun.jpg" },
                     { word: "cute", transcription: "[kju:t]", translation: "милый", image: "cute.jpg" },
-                    { word: "sun", transcription: "[sʌn]", translation: "солнце", image: "sun.jpg" },
-
+                    { word: "sun", transcription: "[sʌn]", translation: "солнце", image: "sun.jpg" }
                 ]
             },
-
             {
-                transcriptionButton: "[iː]", // Транскрипция
-
+                transcriptionButton: "[iː]",
                 correctExamples: [
                     { word: "green", transcription: "[gri:n]", translation: "зеленый", image: "green.jpg" },
                     { word: "cheese", transcription: "[tʃi:z]", translation: "сыр", image: "cheese.jpg" },
@@ -579,9 +513,8 @@
                     { word: "please", transcription: "[pli:z]", translation: "пожалуйста", image: "please.jpg" },
                     { word: "be", transcription: "[bi:]", translation: "быть", image: "be.jpg" },
                     { word: "leo", transcription: "[li:ou]", translation: "лев", image: "leo.jpg" },
-                    { word: "me", transcription: "[mi:]", translation: "я", image: "me.jpg" },
+                    { word: "me", transcription: "[mi:]", translation: "я", image: "me.jpg" }
                 ],
-
                 incorrectExamples: [
                     { word: "city", transcription: "[sɪtɪ]", translation: "город", image: "city.jpg" },
                     { word: "fantasy", transcription: "[fæntəsɪ]", translation: "фантазия", image: "fantasy.jpg" },
@@ -589,22 +522,18 @@
                     { word: "kid", transcription: "[kɪd]", translation: "ребенок", image: "kid.jpg" },
                     { word: "zip", transcription: "[zɪp]", translation: "застежка", image: "zip.jpg" },
                     { word: "pig", transcription: "[pɪg]", translation: "свинка", image: "pig.jpg" }
-
                 ]
             },
             {
-                transcriptionButton: "[aʊ]", // Транскрипция
-
+                transcriptionButton: "[aʊ]",
                 correctExamples: [
-
                     { word: "mouth", transcription: "[maʊθ]", translation: "рот", image: "mouth.jpg" },
                     { word: "cloud", transcription: "[klaʊd]", translation: "облако", image: "cloud.jpg" },
                     { word: "house", transcription: "[haʊz]", translation: "дом", image: "house.jpg" },
                     { word: "town", transcription: "[taʊn]", translation: "город", image: "town.jpg" },
                     { word: "crown", transcription: "[kraʊn]", translation: "корона", image: "crown.jpg" },
-                    { word: "brown", transcription: "[braʊn]", translation: "коричневый", image: "brown.jpg" },
+                    { word: "brown", transcription: "[braʊn]", translation: "коричневый", image: "brown.jpg" }
                 ],
-
                 incorrectExamples: [
                     { word: "bike", transcription: "[baɪk]", translation: "велосипед", image: "bike.jpg" },
                     { word: "five", transcription: "[faɪv]", translation: "5", image: "five.jpg" },
@@ -612,23 +541,18 @@
                     { word: "my", transcription: "[maɪ]", translation: "мое", image: "my.jpg" },
                     { word: "fly", transcription: "[flaɪ]", translation: "муха", image: "fly.jpg" },
                     { word: "sky", transcription: "[skaɪ]", translation: "небо", image: "sky.jpg" }
-
                 ]
             },
-
             {
-                transcriptionButton: "[oʊ]", // Транскрипция
-
+                transcriptionButton: "[oʊ]",
                 correctExamples: [
-
                     { word: "snow", transcription: "[snoʊ]", translation: "снег", image: "snow.jpg" },
                     { word: "pillow", transcription: "[piloʊ]", translation: "подушка", image: "pillow.jpg" },
                     { word: "flow", transcription: "[floʊ]", translation: "поток", image: "flow.jpg" },
                     { word: "note", transcription: "[nəʊt]", translation: "нота", image: "note.jpg" },
                     { word: "nose", transcription: "[nəʊz]", translation: "нос", image: "nose.jpg" },
-                    { word: "smoke", transcription: "[sməʊk]", translation: "дым", image: "smoke.jpg" },
+                    { word: "smoke", transcription: "[sməʊk]", translation: "дым", image: "smoke.jpg" }
                 ],
-
                 incorrectExamples: [
                     { word: "dog", transcription: "[dɒg]", translation: "пес", image: "dog.jpg" },
                     { word: "pot", transcription: "[pɒt]", translation: "горшок", image: "pot.jpg" },
@@ -638,269 +562,258 @@
                     { word: "room", transcription: "[ruːm]", translation: "комната", image: "room.jpg" },
                     { word: "sport", transcription: "[spɔːt]", translation: "спорт", image: "sport.jpg" },
                     { word: "morning", transcription: "[mɔːnɪŋ]", translation: "утро", image: "morning.jpg" },
-                    { word: "north", transcription: "[nɔːθ]", translation: "север", image: "north.jpg" },
-
+                    { word: "north", transcription: "[nɔːθ]", translation: "север", image: "north.jpg" }
                 ]
             },
-
             {
-                transcriptionButton: "[ɪə]", // Транскрипция
-
+                transcriptionButton: "[ɪə]",
                 correctExamples: [
-
                     { word: "ear", transcription: "[ɪə]", translation: "ухо", image: "ear.jpg" },
                     { word: "fear", transcription: "[fɪə]", translation: "страх", image: "fear.jpg" },
-                    { word: "year", transcription: "[jɪə]", translation: "год", image: "year.jpg" },
-
+                    { word: "year", transcription: "[jɪə]", translation: "год", image: "year.jpg" }
                 ],
-
                 incorrectExamples: [
                     { word: "tea", transcription: "[ti:]", translation: "чай", image: "tea.jpg" },
                     { word: "sea", transcription: "[si:]", translation: "море", image: "sea.jpg" },
                     { word: "please", transcription: "[pli:z]", translation: "пожалуйста", image: "please.jpg" },
                     { word: "green", transcription: "[gri:n]", translation: "зеленый", image: "green.jpg" },
                     { word: "cheese", transcription: "[tʃi:z]", translation: "сыр", image: "cheese.jpg" },
-                    { word: "tree", transcription: "[tri:]", translation: "дерево", image: "tree.jpg" },
-
+                    { word: "tree", transcription: "[tri:]", translation: "дерево", image: "tree.jpg" }
                 ]
             },
-
             {
-                transcriptionButton: "[ʊə]", // Транскрипция
-
+                transcriptionButton: "[ʊə]",
                 correctExamples: [
-
                     { word: "cure", transcription: "[kjʊə]", translation: "лечение", image: "cure.jpg" },
                     { word: "pure", transcription: "[pjʊə]", translation: "беспримесный", image: "pure.jpg" },
-                    { word: "sure", transcription: "[ʃʊə]", translation: "уверенный", image: "sure.jpg" },
-
+                    { word: "sure", transcription: "[ʃʊə]", translation: "уверенный", image: "sure.jpg" }
                 ],
-
                 incorrectExamples: [
                     { word: "snow", transcription: "[snoʊ]", translation: "снег", image: "snow.jpg" },
                     { word: "pillow", transcription: "[piloʊ]", translation: "подушка", image: "pillow.jpg" },
                     { word: "flow", transcription: "[floʊ]", translation: "поток", image: "flow.jpg" },
                     { word: "book", transcription: "[bʊk]", translation: "книга", image: "book.jpg" },
                     { word: "look", transcription: "[lʊk]", translation: "взгляд", image: "look.jpg" },
-                    { word: "room", transcription: "[ruːm]", translation: "комната", image: "room.jpg" },
-
+                    { word: "room", transcription: "[ruːm]", translation: "комната", image: "room.jpg" }
                 ]
             },
-
             {
-                transcriptionButton: "[eə]", // Транскрипция
-
+                transcriptionButton: "[eə]",
                 correctExamples: [
-
                     { word: "air", transcription: "[eə]", translation: "воздух", image: "air.jpg" },
                     { word: "chair", transcription: "[tʃeə]", translation: "стул", image: "chair.jpg" },
-                    { word: "hair", transcription: "[heə]", translation: "волосы", image: "hair.jpg" },
-
+                    { word: "hair", transcription: "[heə]", translation: "волосы", image: "hair.jpg" }
                 ],
-
                 incorrectExamples: [
                     { word: "tea", transcription: "[ti:]", translation: "чай", image: "tea.jpg" },
                     { word: "sea", transcription: "[si:]", translation: "море", image: "sea.jpg" },
                     { word: "please", transcription: "[pli:z]", translation: "пожалуйста", image: "please.jpg" },
                     { word: "moon", transcription: "[muːn]", translation: "луна", image: "moon.jpg" },
                     { word: "spoon", transcription: "[spuːn]", translation: "ложка", image: "spoon.jpg" },
-                    { word: "bamboo", transcription: "[bæmˈbuː]", translation: "бамбук", image: "bamboo.jpg" },
-
+                    { word: "bamboo", transcription: "[bæmˈbuː]", translation: "бамбук", image: "bamboo.jpg" }
                 ]
-            },
-
-
-
+            }
         ];
-
-
         // Глобальные переменные
+      
+      
+    function logEvent(message) {
+        const timestamp = new Date().toISOString();
+        const logMessage = `${timestamp} - ${message}`;
+        let logs = localStorage.getItem('testLogs') || '';
+        logs += logMessage + '\n';
+        localStorage.setItem('testLogs', logs);
+    }
 
-        const maxTasks = 21; // Для примера 4 задания
-        let shuffledSounds = [];
-        let currentSoundIndex = 0;
-        let selectedWords = [];
-        let correctCount = 0;
-        let wrongCount = 0;
+    let currentSoundIndex = 0;
+    let selectedWords = [];
+    let correctCount = 0;
+    let wrongCount = 0;
+    let wrongSounds = []; // Массив для хранения звуков с ошибками
+    maxTasks = 21
 
-        // Функция перемешивания звуков
-        function shuffleSounds() {
-            // Создаем массив уникальных звуков
-            const uniqueSounds = sounds.filter((sound, index, self) =>
-                index === self.findIndex(s => s.transcriptionButton === sound.transcriptionButton)
-            );
+    function shuffleSounds() {
+        const uniqueSounds = sounds.filter((sound, index, self) =>
+            index === self.findIndex(s => s.transcriptionButton === sound.transcriptionButton)
+        );
+        shuffledSounds = [...uniqueSounds];
+        shuffleArray(shuffledSounds);
+        shuffledSounds = shuffledSounds.slice(0, maxTasks);
+        currentSoundIndex = 0;
+        wrongSounds = [];
+    }
 
-            shuffledSounds = [...uniqueSounds];
-            shuffleArray(shuffledSounds);
-            shuffledSounds = shuffledSounds.slice(0, maxTasks);
-            currentSoundIndex = 0;
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
         }
+        return array;
+    }
 
-        // Исправленная функция перемешивания массива
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+    function generateTest() {
+        const currentSound = shuffledSounds[currentSoundIndex];
+        const correct = shuffleArray([...currentSound.correctExamples]).slice(0, 2);
+        const incorrect = shuffleArray([...currentSound.incorrectExamples]).slice(0, 4);
+        const examples = shuffleArray([...correct, ...incorrect]);
+        const container = document.getElementById('testExamples');
+        container.innerHTML = examples.map(example => `
+            <div class="example-section">
+                <img src="${example.image}" class="example-image">
+                <button class="example-button" 
+                        data-correct="${currentSound.correctExamples.some(e => e.word === example.word)}">
+                    ${example.word}
+                </button>
+            </div>
+        `).join('');
+        
+        document.querySelectorAll('.example-button').forEach(button => {
+            button.addEventListener('click', () => selectWord(button));
+        });
+        
+        document.getElementById('currentSoundSymbol').textContent = currentSound.transcriptionButton;
+        document.getElementById('taskNumber').textContent = `Задание ${currentSoundIndex + 1}`;
+    }
+
+    function selectWord(button) {
+        if (selectedWords.includes(button)) {
+            selectedWords = selectedWords.filter(b => b !== button);
+            button.classList.remove("selected");
+        } else {
+            if (selectedWords.length < 2) {
+                selectedWords.push(button);
+                button.classList.add("selected");
             }
-            return array; // Добавлен возврат массива
         }
+        document.getElementById("confirmButton").disabled = selectedWords.length !== 2;
+    }
 
-        // Исправленная функция генерации теста
-        function generateTest() {
-            const currentSound = shuffledSounds[currentSoundIndex];
+    function confirmSelection() {
+        const currentSound = shuffledSounds[currentSoundIndex];
+        const correctAnswers = selectedWords.filter(button =>
+            button.getAttribute('data-correct') === 'true'
+        );
+        const resultDiv = document.getElementById("testResult");
+        let hadError = false;
 
-            // Исправлено создание правильных и неправильных примеров
-            const correct = shuffleArray([...currentSound.correctExamples]).slice(0, 2);
-            const incorrect = shuffleArray([...currentSound.incorrectExamples]).slice(0, 4);
-            const examples = shuffleArray([...correct, ...incorrect]);
-
-            const container = document.getElementById('testExamples');
-            container.innerHTML = examples.map(example => `
-                <div class="example-section">
-                    <img src="${example.image}" class="example-image">
-                    <button class="example-button" 
-                            data-correct="${currentSound.correctExamples.some(e => e.word === example.word)}">
-                        ${example.word}
-                    </button>
-                </div>
-            `).join('');
-
-            // Добавление обработчиков событий для кнопок
-            document.querySelectorAll('.example-button').forEach(button => {
-                button.addEventListener('click', () => selectWord(button));
+        if (correctAnswers.length === 2) {
+            playSound("right.mp3");
+            resultDiv.textContent = "Правильно!";
+            resultDiv.className = "result success";
+            correctCount++;
+        } else {
+            playSound("wrong.mp3");
+            resultDiv.textContent = "Что-то не то!";
+            resultDiv.className = "result error";
+            hadError = true;
+            wrongCount++;
+            
+            // Добавляем звук в список ошибок, если его там нет
+            if (!wrongSounds.some(sound => sound.transcriptionButton === currentSound.transcriptionButton)) {
+                wrongSounds.push(currentSound);
+            }
+        }
+        
+        resultDiv.style.display = "block";
+        selectedWords.forEach(btn => btn.disabled = true);
+        
+        setTimeout(() => {
+            resultDiv.style.display = "none";
+            selectedWords.forEach(btn => {
+                btn.classList.remove("selected");
+                btn.disabled = false;
             });
-
-            document.getElementById('currentSoundSymbol').textContent = currentSound.transcriptionButton;
-            document.getElementById('taskNumber').textContent = `Задание ${currentSoundIndex + 1}`;
-        }
-
-        // Исправленная функция подтверждения выбора
-        function confirmSelection() {
-            const currentSound = shuffledSounds[currentSoundIndex];
-            const correctAnswers = selectedWords.filter(button =>
-                button.getAttribute('data-correct') === 'true'
-            );
-
-            document.getElementById("testResult").style.display = "block";
-            selectedWords.forEach(btn => btn.disabled = true);
-
-            if (correctAnswers.length === 2) {
-                correctCount++;
-                document.getElementById("testResult").textContent = "Правильно!";
-                document.getElementById("testResult").className = "result success";
+            selectedWords = [];
+            
+            if (currentSoundIndex < shuffledSounds.length - 1) {
+                currentSoundIndex++;
+                generateTest();
             } else {
-                document.getElementById("testResult").textContent = "Ошибка!";
-                document.getElementById("testResult").className = "result error";
-            }
-
-            setTimeout(() => {
-                document.getElementById("testResult").style.display = "none";
-                selectedWords = [];
-
-                if (currentSoundIndex < shuffledSounds.length - 1) {
-                    currentSoundIndex++;
-                    generateTest();
-                } else {
-                    showFinalResult();
-                }
-            }, 1000);
-        }
-        function selectWord(button) {
-            if (selectedWords.includes(button)) {
-                selectedWords = selectedWords.filter(b => b !== button);
-                button.classList.remove("selected");
-            } else {
-                if (selectedWords.length < 2) {
-                    selectedWords.push(button);
-                    button.classList.add("selected");
-                }
-            }
-            document.getElementById("confirmButton").disabled = selectedWords.length !== 2;
-        }
-
-        function confirmSelection() {
-            const currentSound = shuffledSounds[currentSoundIndex];
-            const correctAnswers = selectedWords.filter(button =>
-                button.getAttribute('data-correct') === 'true'
-            );
-            const resultDiv = document.getElementById("testResult");
-            let hadError = false;
-
-            // Воспроизведение звука и обновление интерфейса
-            if (correctAnswers.length === 2) {
-                playSound("right.mp3");
-                resultDiv.textContent = "Правильно!";
-                resultDiv.className = "result success";
-                if (!hadError) correctCount++;
-            } else {
-                playSound("wrong.mp3");
-                resultDiv.textContent = "Что-то не то!";
-                resultDiv.className = "result error";
-                hadError = true;
-                wrongCount++;
-            }
-
-            resultDiv.style.display = "block";
-            selectedWords.forEach(btn => btn.disabled = true);
-
-            setTimeout(() => {
-                resultDiv.style.display = "none";
-                selectedWords.forEach(btn => {
-                    btn.classList.remove("selected");
-                    btn.disabled = false;
-                });
-                selectedWords = [];
-
-                if (currentSoundIndex < shuffledSounds.length - 1) {
-                    currentSoundIndex++;
-                    generateTest();
-                } else {
-                    showFinalResult();
-                }
-            }, 1000);
-        }
-
-        // Добавьте эту функцию для воспроизведения звуков
-        function playSound(soundFile) {
-            const audioPlayer = document.getElementById('audioPlayer');
-            audioPlayer.src = soundFile;
-            audioPlayer.play().catch(error => {
-                console.log("Автовоспроизведение заблокировано:", error);
-            });
-        }
-
-        // Функция перехода к следующему тесту
-        function nextTest() {
-            if (currentSoundIndex >= maxTasks) {
                 showFinalResult();
-                return;
             }
+        }, 1000);
+    }
 
-            const currentSound = shuffledSounds[currentSoundIndex];
-            currentIndex = sounds.findIndex(sound =>
-                sound.transcriptionButton === currentSound.transcriptionButton
-            );
+    function playSound(soundFile) {
+        const audioPlayer = document.getElementById('audioPlayer');
+        audioPlayer.src = soundFile;
+        audioPlayer.play().catch(error => {
+            console.log("Автовоспроизведение заблокировано:", error);
+        });
+    }
 
-            document.getElementById("taskNumber").textContent = `Задание ${currentSoundIndex + 1}`;
-            generateTest();
-            currentSoundIndex++;
+    function showFinalResult() {
+        document.getElementById("testContainer").style.display = "none";
+        const finalResultDiv = document.getElementById("finalResult");
+        finalResultDiv.innerHTML = ""; // Очищаем предыдущее содержимое
+        
+        // Основной результат
+        const resultText = document.createElement("div");
+        resultText.textContent = `Результат: ${correctCount}/${maxTasks}`;
+        resultText.style.fontSize = "24px";
+        resultText.style.marginBottom = "20px";
+        resultText.style.fontWeight = "bold";
+        finalResultDiv.appendChild(resultText);
+
+        // Блок для ошибок
+        const wrongSoundsDiv = document.createElement("div");
+        wrongSoundsDiv.style.marginTop = "20px";
+        wrongSoundsDiv.style.fontSize = "18px";
+        wrongSoundsDiv.style.color = "#d32f2f";
+        
+        if (wrongSounds.length > 0) {
+            const wrongSoundsList = wrongSounds.map(sound => sound.transcriptionButton).join(", ");
+            wrongSoundsDiv.innerHTML = `<strong>Ошибки:</strong> ${wrongSoundsList}`;
+        } else {
+            wrongSoundsDiv.textContent = "Ошибок нет! Отличная работа!";
         }
+        
+        finalResultDiv.appendChild(wrongSoundsDiv);
 
-        function showFinalResult() {
-            document.getElementById("testContainer").style.display = "none";
-            document.getElementById("finalResult").textContent =
-                `Результат: ${correctCount}/${maxTasks}`;
-            document.getElementById("finalResult").style.display = "block";
-        }
-
-        window.onload = () => {
+        // Кнопка перезапуска
+        const restartButton = document.createElement("button");
+        restartButton.textContent = "Начать заново";
+        restartButton.style.display = "block";
+        restartButton.style.margin = "30px auto 0";
+        restartButton.style.padding = "10px 20px";
+        restartButton.style.fontSize = "16px";
+        restartButton.style.backgroundColor = "#5c8dc2";
+        restartButton.style.color = "#fff";
+        restartButton.style.border = "none";
+        restartButton.style.borderRadius = "5px";
+        restartButton.style.cursor = "pointer";
+        
+        restartButton.addEventListener("click", () => {
+            logEvent('--- ПОВТОРНЫЙ ТЕСТ ---');
             shuffleSounds();
             generateTest();
-        };
+            currentSoundIndex = 0;
+            correctCount = 0;
+            wrongCount = 0;
+            wrongSounds = [];
+            document.getElementById("testContainer").style.display = "flex";
+            finalResultDiv.style.display = "none";
+        });
+        
+        finalResultDiv.appendChild(restartButton);
+        finalResultDiv.style.display = "block";
+    }
 
+    function updateProgressBar() {
+        const progressBar = document.getElementById("progressBar");
+        const progressPercentage = ((currentSoundIndex + 1) / maxTasks) * 100;
+        progressBar.style.width = `${progressPercentage}%`;
+    }
 
-        document.getElementById("confirmButton").onclick = confirmSelection;
-    </script>
+    window.onload = () => {
+        shuffleSounds();
+        generateTest();
+        wrongSounds = [];
+        logEvent('--- НАЧАЛО ТЕСТА ---');
+    };
+
+    document.getElementById("confirmButton").onclick = confirmSelection;
+</script>
 </body>
 
 </html>
