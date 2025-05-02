@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +11,6 @@
             margin: 0;
             padding: 0;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -27,7 +25,6 @@
             background-color: #685962;
             transition: background 0.5s ease;
         }
-
         .container {
             text-align: center;
             background: rgba(255, 255, 255, 0.85);
@@ -39,23 +36,19 @@
             min-width: 600px;
             animation: fadeInContainer 1s ease-in-out;
         }
-
         @keyframes fadeInContainer {
             from {
                 opacity: 0;
                 transform: scale(0.9);
             }
-
             to {
                 opacity: 1;
                 transform: scale(1);
             }
         }
-
         .hidden {
             display: none !important;
         }
-
         /* Стили для контейнера итогового результата */
         #finalResult {
             position: relative;
@@ -72,20 +65,17 @@
             transform: translateY(-20px);
             animation: fadeInFinalResult 1s ease-in-out forwards;
         }
-
         /* Анимация появления итогового результата */
         @keyframes fadeInFinalResult {
             from {
                 opacity: 0;
                 transform: translateY(-20px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-
         /* Стили для кнопки "Начать заново" */
         #finalResult button {
             display: inline-block;
@@ -101,26 +91,22 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-
         #finalResult button:hover {
             background: linear-gradient(135deg, #388e3c, #2e7d32);
             transform: scale(1.05);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
-
         /* Медиа-запросы для мобильных устройств */
         @media only screen and (max-width: 510px) {
             #finalResult {
                 font-size: 22px;
                 padding: 20px;
             }
-
             #finalResult button {
                 font-size: 16px;
                 padding: 10px 25px;
             }
         }
-
         button {
             padding: 12px 25px;
             margin: 10px;
@@ -131,37 +117,30 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
         #playButton {
             background: linear-gradient(135deg, #b3e5fc, #81d4fa);
             color: #0277bd;
         }
-
         #playButton:hover {
             background: linear-gradient(135deg, #4fc3f7, #29b6f6);
             transform: scale(1.05);
         }
-
         #submitButton {
             background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
             color: #1b5e20;
         }
-
         #submitButton:hover {
             background: linear-gradient(135deg, #81c784, #66bb6a);
             transform: scale(1.05);
         }
-
         #nextButton {
             background: linear-gradient(135deg, #ffe0b2, #ffcc80);
             color: #8d6e63;
         }
-
         #nextButton:hover {
             background: linear-gradient(135deg, #ffb74d, #ffa726);
             transform: scale(1.05);
         }
-
         input[type="text"] {
             padding: 12px;
             font-size: 16px;
@@ -171,19 +150,16 @@
             border-radius: 10px;
             transition: border-color 0.3s ease;
         }
-
         input[type="text"]:focus {
             border-color: #4caf50;
             outline: none;
         }
-
         .translation-buttons {
             display: flex;
             justify-content: center;
             gap: 10px;
             margin-top: 15px;
         }
-
         .translation-buttons button {
             padding: 10px 20px;
             font-size: 18px;
@@ -195,19 +171,16 @@
             transition: all 0.3s ease;
             width: 120px;
         }
-
         .translation-buttons button:hover {
             background: linear-gradient(135deg, #ba68c8, #9c27b0);
             transform: scale(1.05);
         }
-
         #translationResult,
         #result {
             font-size: 24px;
             margin-top: 20px;
             color: #333;
         }
-
         #progressBarContainer {
             width: 100%;
             background: rgba(255, 255, 255, 0.5);
@@ -217,7 +190,6 @@
             overflow: hidden;
             position: relative;
         }
-
         #progressBar {
             width: 0%;
             height: 100%;
@@ -225,36 +197,29 @@
             border-radius: 10px;
             transition: width 0.3s ease;
         }
-
         @media only screen and (max-width: 510px) {
             body {
                 padding: 10px;
             }
-
             .container {
                 min-width: 90%;
                 padding: 20px;
             }
-
             button {
                 padding: 10px 15px;
                 font-size: 14px;
             }
-
             #playButton {
                 width: 100%;
             }
-
             input[type="text"] {
                 width: 100%;
                 font-size: 14px;
             }
-
             .translation-buttons button {
                 width: 48%;
                 font-size: 16px;
             }
-
             #finalResult {
                 font-size: 16px;
                 padding: 15px;
@@ -262,7 +227,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div id="progressBarContainer">
@@ -289,12 +253,10 @@
             logs += logMessage + '\n';
             localStorage.setItem('testLogs', logs);
         }
-
         function viewLogs() {
             const logs = localStorage.getItem('testLogs');
             console.log(logs || 'Логи отсутствуют');
         }
-
         let questions = [
             { word: "shop", correct: "shop", translation: "магазин" },
             { word: "she", correct: "she", translation: "она" },
@@ -314,13 +276,10 @@
             { word: "ring", correct: "ring", translation: "кольцо" },
             { word: "king", correct: "king", translation: "король" },
             { word: "baking", correct: "baking", translation: "выпечка" },
-
             { word: "vision", correct: "vision", translation: "зрение" },
             { word: "collision", correct: "collision", translation: "стролкновение" },
             { word: "division", correct: "division", translation: "подразделение" },
-
             // ===
-
             { word: "car", correct: "car", translation: "автомобиль" },
             { word: "star", correct: "star", translation: "звезда" },
             { word: "cigar", correct: "cigar", translation: "сигара" },
@@ -333,65 +292,48 @@
             { word: "girl", correct: "girl", translation: "девушка" },
             { word: "bird", correct: "bird", translation: "птица" },
             { word: "skirt", correct: "skirt", translation: "платье" },
-
             { word: "book", correct: "book", translation: "книга" },
             { word: "look", correct: "look", translation: "взгляд" },
             { word: "room", correct: "room", translation: "комната" },
             { word: "moon", correct: "moon", translation: "луна" },
             { word: "spoon", correct: "spoon", translation: "ложка" },
             { word: "bamboo", correct: "bamboo", translation: "бамбук" },
-
             { word: "green", correct: "green", translation: "зеленый" },
             { word: "cheese", correct: "cheese", translation: "сыр" },
             { word: "tree", correct: "tree", translation: "дерево" },
             { word: "tea", correct: "tea", translation: "чай" },
             { word: "sea", correct: "sea", translation: "море" },
             { word: "please", correct: "please", translation: "пожалуйста" },
-
             { word: "mouth", correct: "mouth", translation: "рот" },
             { word: "cloud", correct: "cloud", translation: "облако" },
             { word: "house", correct: "house", translation: "дом" },
             { word: "town", correct: "town", translation: "город" },
             { word: "crown", correct: "crown", translation: "корона" },
             { word: "brown", correct: "brown", translation: "коричневый" },
-
             { word: "snow", correct: "snow", translation: "снег" },
             { word: "pillow", correct: "pillow", translation: "подушка" },
             { word: "flow", correct: "flow", translation: "поток" },
-
-            
             { word: "air", correct: "air", translation: "воздух" },
             { word: "chair", correct: "chair", translation: "стул" },
             { word: "hair", correct: "hair", translation: "волосы" },
-
             { word: "cure", correct: "cure", translation: "лечение" },
             { word: "pure", correct: "pure", translation: "беспримесный" },
             { word: "sure", correct: "sure", translation: "уверенный" },
-
             { word: "ear", correct: "ear", translation: "ухо" },
             { word: "fear", correct: "fear", translation: "страх" },
             { word: "year", correct: "year", translation: "год" },
         ];
-
-
-
-
-
-
-
-
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [array[i], array[j]] = [array[j], array[i]];
             }
         }
-
         shuffleArray(questions);
         questions = questions.slice(0, 21);
         let currentQuestionIndex = 0;
         let score = 0;
-
+        let wrongAnswers = []; // Массив для хранения ошибок
         const playButton = document.getElementById("playButton");
         const userInput = document.getElementById("userInput");
         const resultDiv = document.getElementById("result");
@@ -401,29 +343,23 @@
         const translationResultDiv = document.getElementById("translationResult");
         const finalResultDiv = document.getElementById("finalResult");
         const counterDiv = document.getElementById("counter");
-
         function loadQuestion() {
             hadError = false; // Сбрасываем флаг ошибки при загрузке нового вопроса
-
             const currentQuestion = questions[currentQuestionIndex];
             logEvent(`Загружено слово: ${currentQuestion.word} (Перевод: ${currentQuestion.translation})`);
             counterDiv.textContent = `${currentQuestionIndex + 1} из ${questions.length}`;
-
             // Скрываем ненужные элементы
             playButton.classList.add('hidden');
             userInput.classList.add('hidden');
             submitButton.classList.add('hidden');
             nextButton.classList.add('hidden');
-
             // Отображаем перевод
             translationResultDiv.textContent = currentQuestion.translation;
             translationResultDiv.style.color = "#333";
-
             // Показываем варианты ответов
             showEnglishOptions(currentQuestion);
             updateProgressBar();
         }
-
         function getEnglishOptions(question) {
             const correctAnswer = question.word;
             const allAnswers = questions.map(q => q.word);
@@ -441,7 +377,6 @@
             return options;
         }
         let hadError = false; // Добавляем переменную для отслеживания ошибок в текущем вопросе
-
         function showEnglishOptions(question) {
             const options = getEnglishOptions(question);
             translationButtonsDiv.innerHTML = "";
@@ -451,13 +386,11 @@
                 button.textContent = option;
                 button.addEventListener("click", () => {
                     logEvent(`Пользователь выбрал: "${option}" для перевода "${question.translation}"`);
-
                     if (option === question.word) {
                         const audio = new Audio('right.mp3');
                         audio.volume = 0.2;
                         audio.play();
                         speak(question.word);
-
                         if (!hadError) {
                             // Если ответ правильный с первой попытки
                             score++;
@@ -465,14 +398,11 @@
                         } else {
                             logEvent(`ПРАВИЛЬНЫЙ ОТВЕТ ПОСЛЕ ОШИБКИ: ${option}`);
                         }
-
                         translationResultDiv.textContent = "Правильно!";
                         translationResultDiv.style.color = "green";
-
                         setTimeout(() => {
                             currentQuestionIndex++;
                             hadError = false; // Сбрасываем флаг ошибки для следующего вопроса
-
                             if (currentQuestionIndex < questions.length) {
                                 loadQuestion();
                             } else {
@@ -484,10 +414,10 @@
                             // Фиксируем ошибку только при первой неправильной попытке
                             hadError = true;
                             logEvent(`ПЕРВАЯ ОШИБКА: выбрано ${option}`);
+                            wrongAnswers.push(question); // Сохраняем вопрос с ошибкой
                         } else {
                             logEvent(`ПОВТОРНАЯ ОШИБКА: выбрано ${option}`);
                         }
-
                         const audio = new Audio('wrong.mp3');
                         audio.volume = 0.2;
                         audio.play();
@@ -498,24 +428,39 @@
                 translationButtonsDiv.appendChild(button);
             });
         }
-
         function speak(text) {
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = "en-US";
             speechSynthesis.speak(utterance);
         }
-
         function updateProgressBar() {
             const progressBar = document.getElementById("progressBar");
             const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
             progressBar.style.width = `${progressPercentage}%`;
         }
-
         function showFinalResult() {
             document.querySelector(".container").classList.add("hidden");
             finalResultDiv.classList.remove("hidden");
+            
+            // Основной результат
             finalResultDiv.textContent = `Результат теста: ${score} из ${questions.length}`;
+            
+            // Блок для ошибок
+            const wrongWordsDiv = document.createElement("div");
+            wrongWordsDiv.style.marginTop = "20px";
+            wrongWordsDiv.style.fontSize = "18px";
+            wrongWordsDiv.style.color = "#d32f2f";
+            
+            if (wrongAnswers.length > 0) {
+                const wrongWordsList = wrongAnswers.map(q => q.word).join(", ");
+                wrongWordsDiv.innerHTML = `<strong>Ошибки:</strong> ${wrongWordsList}`;
+            } else {
+                wrongWordsDiv.textContent = "Ошибок нет! Отличная работа!";
+            }
+            
+            finalResultDiv.appendChild(wrongWordsDiv);
 
+            // Кнопка перезапуска
             const restartButton = document.createElement("button");
             restartButton.textContent = "Начать заново";
             restartButton.style.display = "block";
@@ -527,21 +472,21 @@
             restartButton.style.border = "none";
             restartButton.style.borderRadius = "5px";
             restartButton.style.cursor = "pointer";
-
+            
             restartButton.addEventListener("click", () => {
                 logEvent('--- ПОВТОРНЫЙ ТЕСТ ---');
                 shuffleArray(questions);
                 questions = questions.slice(0, 12);
                 currentQuestionIndex = 0;
                 score = 0;
+                wrongAnswers = []; // Очистка ошибок
                 document.querySelector(".container").classList.remove("hidden");
                 finalResultDiv.classList.add("hidden");
                 loadQuestion();
             });
-
+            
             finalResultDiv.appendChild(restartButton);
         }
-
         window.onload = function () {
             logEvent('--- НАЧАЛО ТЕСТА ---');
             logEvent(`Список слов: ${questions.map(q => `${q.word} (${q.translation})`).join(', ')}`);
@@ -549,5 +494,4 @@
         };
     </script>
 </body>
-
 </html>
