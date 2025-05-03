@@ -598,66 +598,72 @@
                 ]
             },
             {
-                transcriptionButton: "[eə]",
+                transcriptionButton: "[ɔɪ]",
                 correctExamples: [
-                    { word: "air", transcription: "[eə]", translation: "воздух", image: "air.jpg" },
-                    { word: "chair", transcription: "[tʃeə]", translation: "стул", image: "chair.jpg" },
-                    { word: "hair", transcription: "[heə]", translation: "волосы", image: "hair.jpg" }
+                    { word: "coin", transcription: "[kɔɪn]", translation: "монета", image: "coin.jpg" },
+                    { word: "voice", transcription: "[vɔɪs]", translation: "голос", image: "voice.jpg" },
+                    { word: "oil", transcription: "[ɔɪl]", translation: "масло", image: "oil.jpg" },
+                    { word: "boy", transcription: "[bɔɪ]", translation: "луна", image: "boy.jpg" },
+                    { word: "toy", transcription: "[tɔɪ]", translation: "ложка", image: "toy.jpg" },
+                    { word: "joy", transcription: "[dʒɔɪ]", translation: "бамбук", image: "joy.jpg" }
                 ],
                 incorrectExamples: [
-                    { word: "tea", transcription: "[ti:]", translation: "чай", image: "tea.jpg" },
-                    { word: "sea", transcription: "[si:]", translation: "море", image: "sea.jpg" },
-                    { word: "please", transcription: "[pli:z]", translation: "пожалуйста", image: "please.jpg" },
-                    { word: "moon", transcription: "[muːn]", translation: "луна", image: "moon.jpg" },
-                    { word: "spoon", transcription: "[spuːn]", translation: "ложка", image: "spoon.jpg" },
-                    { word: "bamboo", transcription: "[bæmˈbuː]", translation: "бамбук", image: "bamboo.jpg" }
+                    { word: "sport", transcription: "[spɔːt]", translation: "спорт", image: "sport.jpg" },
+                    { word: "morning", transcription: "[mɔːnɪŋ]", translation: "утро", image: "morning.jpg" },
+                    { word: "note", transcription: "[nəʊt]", translation: "нота", image: "note.jpg" },
+                    { word: "nose", transcription: "[nəʊz]", translation: "нос", image: "nose.jpg" },
+                    { word: "smoke", transcription: "[sməʊk]", translation: "дым", image: "smoke.jpg" },
+                    { word: "moth", transcription: "[mɒθ]", translation: "мотылек", image: "moth.jpg" },
+
                 ]
-            }
+            },
+
+
         ];
         // Глобальные переменные
-      
-      
-    function logEvent(message) {
-        const timestamp = new Date().toISOString();
-        const logMessage = `${timestamp} - ${message}`;
-        let logs = localStorage.getItem('testLogs') || '';
-        logs += logMessage + '\n';
-        localStorage.setItem('testLogs', logs);
-    }
 
-    let currentSoundIndex = 0;
-    let selectedWords = [];
-    let correctCount = 0;
-    let wrongCount = 0;
-    let wrongSounds = []; // Массив для хранения звуков с ошибками
-    maxTasks = 21
 
-    function shuffleSounds() {
-        const uniqueSounds = sounds.filter((sound, index, self) =>
-            index === self.findIndex(s => s.transcriptionButton === sound.transcriptionButton)
-        );
-        shuffledSounds = [...uniqueSounds];
-        shuffleArray(shuffledSounds);
-        shuffledSounds = shuffledSounds.slice(0, maxTasks);
-        currentSoundIndex = 0;
-        wrongSounds = [];
-    }
-
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
+        function logEvent(message) {
+            const timestamp = new Date().toISOString();
+            const logMessage = `${timestamp} - ${message}`;
+            let logs = localStorage.getItem('testLogs') || '';
+            logs += logMessage + '\n';
+            localStorage.setItem('testLogs', logs);
         }
-        return array;
-    }
 
-    function generateTest() {
-        const currentSound = shuffledSounds[currentSoundIndex];
-        const correct = shuffleArray([...currentSound.correctExamples]).slice(0, 2);
-        const incorrect = shuffleArray([...currentSound.incorrectExamples]).slice(0, 4);
-        const examples = shuffleArray([...correct, ...incorrect]);
-        const container = document.getElementById('testExamples');
-        container.innerHTML = examples.map(example => `
+        let currentSoundIndex = 0;
+        let selectedWords = [];
+        let correctCount = 0;
+        let wrongCount = 0;
+        let wrongSounds = []; // Массив для хранения звуков с ошибками
+        maxTasks = 21
+
+        function shuffleSounds() {
+            const uniqueSounds = sounds.filter((sound, index, self) =>
+                index === self.findIndex(s => s.transcriptionButton === sound.transcriptionButton)
+            );
+            shuffledSounds = [...uniqueSounds];
+            shuffleArray(shuffledSounds);
+            shuffledSounds = shuffledSounds.slice(0, maxTasks);
+            currentSoundIndex = 0;
+            wrongSounds = [];
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function generateTest() {
+            const currentSound = shuffledSounds[currentSoundIndex];
+            const correct = shuffleArray([...currentSound.correctExamples]).slice(0, 2);
+            const incorrect = shuffleArray([...currentSound.incorrectExamples]).slice(0, 4);
+            const examples = shuffleArray([...correct, ...incorrect]);
+            const container = document.getElementById('testExamples');
+            container.innerHTML = examples.map(example => `
             <div class="example-section">
                 <img src="${example.image}" class="example-image">
                 <button class="example-button" 
@@ -666,154 +672,154 @@
                 </button>
             </div>
         `).join('');
-        
-        document.querySelectorAll('.example-button').forEach(button => {
-            button.addEventListener('click', () => selectWord(button));
-        });
-        
-        document.getElementById('currentSoundSymbol').textContent = currentSound.transcriptionButton;
-        document.getElementById('taskNumber').textContent = `Задание ${currentSoundIndex + 1}`;
-    }
 
-    function selectWord(button) {
-        if (selectedWords.includes(button)) {
-            selectedWords = selectedWords.filter(b => b !== button);
-            button.classList.remove("selected");
-        } else {
-            if (selectedWords.length < 2) {
-                selectedWords.push(button);
-                button.classList.add("selected");
-            }
-        }
-        document.getElementById("confirmButton").disabled = selectedWords.length !== 2;
-    }
-
-    function confirmSelection() {
-        const currentSound = shuffledSounds[currentSoundIndex];
-        const correctAnswers = selectedWords.filter(button =>
-            button.getAttribute('data-correct') === 'true'
-        );
-        const resultDiv = document.getElementById("testResult");
-        let hadError = false;
-
-        if (correctAnswers.length === 2) {
-            playSound("right.mp3");
-            resultDiv.textContent = "Правильно!";
-            resultDiv.className = "result success";
-            correctCount++;
-        } else {
-            playSound("wrong.mp3");
-            resultDiv.textContent = "Что-то не то!";
-            resultDiv.className = "result error";
-            hadError = true;
-            wrongCount++;
-            
-            // Добавляем звук в список ошибок, если его там нет
-            if (!wrongSounds.some(sound => sound.transcriptionButton === currentSound.transcriptionButton)) {
-                wrongSounds.push(currentSound);
-            }
-        }
-        
-        resultDiv.style.display = "block";
-        selectedWords.forEach(btn => btn.disabled = true);
-        
-        setTimeout(() => {
-            resultDiv.style.display = "none";
-            selectedWords.forEach(btn => {
-                btn.classList.remove("selected");
-                btn.disabled = false;
+            document.querySelectorAll('.example-button').forEach(button => {
+                button.addEventListener('click', () => selectWord(button));
             });
-            selectedWords = [];
-            
-            if (currentSoundIndex < shuffledSounds.length - 1) {
-                currentSoundIndex++;
-                generateTest();
-            } else {
-                showFinalResult();
-            }
-        }, 1000);
-    }
 
-    function playSound(soundFile) {
-        const audioPlayer = document.getElementById('audioPlayer');
-        audioPlayer.src = soundFile;
-        audioPlayer.play().catch(error => {
-            console.log("Автовоспроизведение заблокировано:", error);
-        });
-    }
-
-    function showFinalResult() {
-        document.getElementById("testContainer").style.display = "none";
-        const finalResultDiv = document.getElementById("finalResult");
-        finalResultDiv.innerHTML = ""; // Очищаем предыдущее содержимое
-        
-        // Основной результат
-        const resultText = document.createElement("div");
-        resultText.textContent = `Результат: ${correctCount}/${maxTasks}`;
-        resultText.style.fontSize = "24px";
-        resultText.style.marginBottom = "20px";
-        resultText.style.fontWeight = "bold";
-        finalResultDiv.appendChild(resultText);
-
-        // Блок для ошибок
-        const wrongSoundsDiv = document.createElement("div");
-        wrongSoundsDiv.style.marginTop = "20px";
-        wrongSoundsDiv.style.fontSize = "18px";
-        wrongSoundsDiv.style.color = "#d32f2f";
-        
-        if (wrongSounds.length > 0) {
-            const wrongSoundsList = wrongSounds.map(sound => sound.transcriptionButton).join(", ");
-            wrongSoundsDiv.innerHTML = `<strong>Ошибки:</strong> ${wrongSoundsList}`;
-        } else {
-            wrongSoundsDiv.textContent = "Ошибок нет! Отличная работа!";
+            document.getElementById('currentSoundSymbol').textContent = currentSound.transcriptionButton;
+            document.getElementById('taskNumber').textContent = `Задание ${currentSoundIndex + 1}`;
         }
-        
-        finalResultDiv.appendChild(wrongSoundsDiv);
 
-        // Кнопка перезапуска
-        const restartButton = document.createElement("button");
-        restartButton.textContent = "Начать заново";
-        restartButton.style.display = "block";
-        restartButton.style.margin = "30px auto 0";
-        restartButton.style.padding = "10px 20px";
-        restartButton.style.fontSize = "16px";
-        restartButton.style.backgroundColor = "#5c8dc2";
-        restartButton.style.color = "#fff";
-        restartButton.style.border = "none";
-        restartButton.style.borderRadius = "5px";
-        restartButton.style.cursor = "pointer";
-        
-        restartButton.addEventListener("click", () => {
-            logEvent('--- ПОВТОРНЫЙ ТЕСТ ---');
+        function selectWord(button) {
+            if (selectedWords.includes(button)) {
+                selectedWords = selectedWords.filter(b => b !== button);
+                button.classList.remove("selected");
+            } else {
+                if (selectedWords.length < 2) {
+                    selectedWords.push(button);
+                    button.classList.add("selected");
+                }
+            }
+            document.getElementById("confirmButton").disabled = selectedWords.length !== 2;
+        }
+
+        function confirmSelection() {
+            const currentSound = shuffledSounds[currentSoundIndex];
+            const correctAnswers = selectedWords.filter(button =>
+                button.getAttribute('data-correct') === 'true'
+            );
+            const resultDiv = document.getElementById("testResult");
+            let hadError = false;
+
+            if (correctAnswers.length === 2) {
+                playSound("right.mp3");
+                resultDiv.textContent = "Правильно!";
+                resultDiv.className = "result success";
+                correctCount++;
+            } else {
+                playSound("wrong.mp3");
+                resultDiv.textContent = "Что-то не то!";
+                resultDiv.className = "result error";
+                hadError = true;
+                wrongCount++;
+
+                // Добавляем звук в список ошибок, если его там нет
+                if (!wrongSounds.some(sound => sound.transcriptionButton === currentSound.transcriptionButton)) {
+                    wrongSounds.push(currentSound);
+                }
+            }
+
+            resultDiv.style.display = "block";
+            selectedWords.forEach(btn => btn.disabled = true);
+
+            setTimeout(() => {
+                resultDiv.style.display = "none";
+                selectedWords.forEach(btn => {
+                    btn.classList.remove("selected");
+                    btn.disabled = false;
+                });
+                selectedWords = [];
+
+                if (currentSoundIndex < shuffledSounds.length - 1) {
+                    currentSoundIndex++;
+                    generateTest();
+                } else {
+                    showFinalResult();
+                }
+            }, 1000);
+        }
+
+        function playSound(soundFile) {
+            const audioPlayer = document.getElementById('audioPlayer');
+            audioPlayer.src = soundFile;
+            audioPlayer.play().catch(error => {
+                console.log("Автовоспроизведение заблокировано:", error);
+            });
+        }
+
+        function showFinalResult() {
+            document.getElementById("testContainer").style.display = "none";
+            const finalResultDiv = document.getElementById("finalResult");
+            finalResultDiv.innerHTML = ""; // Очищаем предыдущее содержимое
+
+            // Основной результат
+            const resultText = document.createElement("div");
+            resultText.textContent = `Результат: ${correctCount}/${maxTasks}`;
+            resultText.style.fontSize = "24px";
+            resultText.style.marginBottom = "20px";
+            resultText.style.fontWeight = "bold";
+            finalResultDiv.appendChild(resultText);
+
+            // Блок для ошибок
+            const wrongSoundsDiv = document.createElement("div");
+            wrongSoundsDiv.style.marginTop = "20px";
+            wrongSoundsDiv.style.fontSize = "18px";
+            wrongSoundsDiv.style.color = "#d32f2f";
+
+            if (wrongSounds.length > 0) {
+                const wrongSoundsList = wrongSounds.map(sound => sound.transcriptionButton).join(", ");
+                wrongSoundsDiv.innerHTML = `<strong>Ошибки:</strong> ${wrongSoundsList}`;
+            } else {
+                wrongSoundsDiv.textContent = "Ошибок нет! Отличная работа!";
+            }
+
+            finalResultDiv.appendChild(wrongSoundsDiv);
+
+            // Кнопка перезапуска
+            const restartButton = document.createElement("button");
+            restartButton.textContent = "Начать заново";
+            restartButton.style.display = "block";
+            restartButton.style.margin = "30px auto 0";
+            restartButton.style.padding = "10px 20px";
+            restartButton.style.fontSize = "16px";
+            restartButton.style.backgroundColor = "#5c8dc2";
+            restartButton.style.color = "#fff";
+            restartButton.style.border = "none";
+            restartButton.style.borderRadius = "5px";
+            restartButton.style.cursor = "pointer";
+
+            restartButton.addEventListener("click", () => {
+                logEvent('--- ПОВТОРНЫЙ ТЕСТ ---');
+                shuffleSounds();
+                generateTest();
+                currentSoundIndex = 0;
+                correctCount = 0;
+                wrongCount = 0;
+                wrongSounds = [];
+                document.getElementById("testContainer").style.display = "flex";
+                finalResultDiv.style.display = "none";
+            });
+
+            finalResultDiv.appendChild(restartButton);
+            finalResultDiv.style.display = "block";
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progressBar");
+            const progressPercentage = ((currentSoundIndex + 1) / maxTasks) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+        }
+
+        window.onload = () => {
             shuffleSounds();
             generateTest();
-            currentSoundIndex = 0;
-            correctCount = 0;
-            wrongCount = 0;
             wrongSounds = [];
-            document.getElementById("testContainer").style.display = "flex";
-            finalResultDiv.style.display = "none";
-        });
-        
-        finalResultDiv.appendChild(restartButton);
-        finalResultDiv.style.display = "block";
-    }
+            logEvent('--- НАЧАЛО ТЕСТА ---');
+        };
 
-    function updateProgressBar() {
-        const progressBar = document.getElementById("progressBar");
-        const progressPercentage = ((currentSoundIndex + 1) / maxTasks) * 100;
-        progressBar.style.width = `${progressPercentage}%`;
-    }
-
-    window.onload = () => {
-        shuffleSounds();
-        generateTest();
-        wrongSounds = [];
-        logEvent('--- НАЧАЛО ТЕСТА ---');
-    };
-
-    document.getElementById("confirmButton").onclick = confirmSelection;
-</script>
+        document.getElementById("confirmButton").onclick = confirmSelection;
+    </script>
 </body>
 
 </html>
