@@ -278,11 +278,9 @@
             { word: "ear", correct: "ear", translation: "ухо" },
             { word: "fear", correct: "fear", translation: "страх" },
             { word: "year", correct: "year", translation: "год" },
-
             { word: "coin", correct: "coin", translation: "монета" },
             { word: "voice", correct: "voice", translation: "голос" },
             { word: "oil", correct: "oil", translation: "масло" },
-
             { word: "boy", correct: "boy", translation: "мальчик" },
             { word: "toy", correct: "toy", translation: "игрушка" },
             { word: "joy", correct: "joy", translation: "радость" },
@@ -295,6 +293,8 @@
         }
         shuffleArray(questions);
         questions = questions.slice(0, 21);
+        // Добавляем флаг answered для каждого вопроса
+        questions.forEach(q => q.answered = false);
         let currentQuestionIndex = 0;
         let score = 0;
         let wrongAnswers = [];
@@ -343,6 +343,8 @@
                 resultDiv.textContent = "Правильно! Теперь переведи:";
                 resultDiv.style.color = "green";
                 score++;
+                // Устанавливаем флаг, что вопрос ответен
+                currentQuestion.answered = true;
                 showTranslationButtons(currentQuestion);
             } else {
                 const audio = new Audio('wrong.mp3');
@@ -390,6 +392,8 @@
                         audio.play();
                         translationResultDiv.textContent = "Правильный перевод!";
                         translationResultDiv.style.color = "green";
+                        // Устанавливаем флаг, что вопрос ответен
+                        question.answered = true;
                         logEvent(`ПРАВИЛЬНЫЙ ПЕРЕВОД: "${translation}" для слова "${question.word}"`);
                         setTimeout(() => {
                             currentQuestionIndex++;
@@ -426,6 +430,12 @@
             }
         });
         nextButton.addEventListener("click", () => {
+            const currentQuestion = questions[currentQuestionIndex];
+            // Проверяем, был ли вопрос ответен
+            if (!currentQuestion.answered) {
+                wrongAnswers.push(currentQuestion);
+                logEvent(`Пользователь пропустил вопрос: "${currentQuestion.word}"`);
+            }
             currentQuestionIndex++;
             if (currentQuestionIndex < questions.length) {
                 loadQuestion();
