@@ -273,7 +273,7 @@
             return array;
         }
 
-        const QUESTIONS_TO_ASK = 2;
+        const QUESTIONS_TO_ASK = 20;
         let selectedQuestions = shuffleArray([...questions]).slice(0, QUESTIONS_TO_ASK);
         selectedQuestions.forEach(q => q.answered = false);
         questions = selectedQuestions;
