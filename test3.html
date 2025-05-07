@@ -150,6 +150,8 @@
             color: #333;
         }
 
+      
+
         @media only screen and (max-width: 510px) {
             .container {
                 min-width: 90%;
@@ -271,7 +273,7 @@
             return array;
         }
 
-        const QUESTIONS_TO_ASK = 20;
+        const QUESTIONS_TO_ASK = 2;
         let selectedQuestions = shuffleArray([...questions]).slice(0, QUESTIONS_TO_ASK);
         selectedQuestions.forEach(q => q.answered = false);
         questions = selectedQuestions;
@@ -323,13 +325,13 @@
                 // Проговаривание слова с задержкой
                 setTimeout(() => {
                     speak(currentQuestion.word);
-                }, 300);
+                }, 1000);
             } else {
                 // Неправильный ответ
                 const errorAudio = new Audio('wrong.mp3');
                 errorAudio.volume = 0.2;
                 errorAudio.play();
-                resultDiv.textContent = `Правильный ответ: ${currentQuestion.correct}`;
+                resultDiv.textContent = `Что-то не то!`;
                 resultDiv.style.color = "red";
 
                 // Добавляем ошибку только если её ещё нет в списке
@@ -363,7 +365,7 @@
             finalResultDiv.appendChild(scoreDiv);
 
             if (wrongAnswers.length > 0) {
-                const wrongWordsList = wrongAnswers.map(q => `${q.translation} → ${q.word}`).join(", ");
+                const wrongWordsList = wrongAnswers.map(q => `${q.word}`).join(", ");
                 const wrongWordsDiv = document.createElement("div");
                 wrongWordsDiv.innerHTML = `<strong>Ошибки:</strong> ${wrongWordsList}`;
                 wrongWordsDiv.classList.add("wrong-words");
