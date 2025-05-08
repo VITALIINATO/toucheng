@@ -1,438 +1,677 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Правописание слов</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English</title>
+    <style>
+        /* ОБЩИЕ НАСТРОЙКИ */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
 
-    body, #game-container {
-      height: 100vh;
-      font-family: 'Arial', sans-serif;
-      overflow: hidden;
-      background: linear-gradient(to bottom, #d0eaff, #ffffff);
-      color: #333;
-      text-align: center;
-    }
+        }
 
-    .hidden {
-      display: none !important;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #685962, #4b3f4e);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            transition: background 0.5s ease;
+            /* background: #685962 url('fonstart3.jpg') no-repeat center fixed;
+            background-size: cover; */
+        }
 
-    h1 {
-      position: absolute;
-      top: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 24px;
-      z-index: 999;
-    }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            width: 95%;
+            max-width: 1800px;
+            padding: 0px;
+            animation: fadeInContainer 1s ease-in-out;
+            grid-template-columns: 37% 35% 25%;
 
-    #scoreboard,
-    #timer,
-    #level,
-    #pause-btn,
-    #record {
-      position: absolute;
-      font-size: 20px;
-      font-weight: bold;
-      padding: 12px 20px;
-      border-radius: 10px;
-      z-index: 999;
-    }
+            /* grid-template-columns: 
+        calc(40% - 20px) 
+        calc(35% - 20px) 
+        25%;
+  */
+        }
 
-    #scoreboard {
-      left: 20px;
-      top: 20px;
-      background-color: rgba(255, 255, 255, 0.8);
-    }
+        @keyframes fadeInContainer {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
 
-    #level {
-      left: 50%;
-      top: 20px;
-      transform: translateX(-50%);
-      background-color: rgba(255, 255, 255, 0.8);
-    }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
 
-    #timer {
-      right: 20px;
-      top: 20px;
-      background-color: rgba(255, 255, 255, 0.8);
-    }
+        .column {
 
-    #pause-btn {
-      left: 20px;
-      bottom: 20px;
-      font-size: 20px;
-      cursor: pointer;
-      user-select: none;
-      background-color: #ffc107;
-    }
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
 
-    #record {
-      right: 20px;
-      bottom: 20px;
-      font-size: 20px;
-      color: #555;
-      background: none;
-      font-weight: normal;
-    }
+        /* .column:hover {
+            /* transform: translateY(-5px); 
+        } 
+            */
 
-    #word-area {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
+        /* ЛЕВАЯ КОЛОНКА - ЗВУКИ */
+        .left-column {
+            flex: 0.4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* overflow: hidden; Убираем прокрутку */
+            padding: 20px;
+            overflow: visible !important;
+            /* Убираем обрезку содержимого */
+            position: relative;
+            /* Создаем контекст позиционирования */
+            z-index: 2;
+            /* Поднимаем левую колонку над другими */
+        }
 
-    .word {
-      position: absolute;
-      top: -50px;
-      font-size: 20px;
-      padding: 10px 20px;
-      border-radius: 12px;
-      cursor: pointer;
-      animation: fall linear forwards;
-      z-index: 1;
-      user-select: none;
-      touch-action: manipulation;
-      background-color: #28a745;
-      color: white;
-    }
 
-    @keyframes fall {
-      from { transform: translateY(-50px); opacity: 1; }
-      to { transform: translateY(100vh); opacity: 0.3; }
-    }
 
-    .explode {
-      animation: explode 0.6s forwards;
-    }
 
-    @keyframes explode {
-      0% { transform: scale(1) rotate(0deg); opacity: 1; }
-      100% { transform: scale(2) rotate(360deg); opacity: 0; }
-    }
+        .row1,
+        .row2,
+        .row3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
 
-    .word.clicked-wrong {
-      background-color: #dc3545 !important;
-    }
+        .sound-btn {
+            position: relative;
+            /* Обеспечиваем корректное позиционирование тултипа */
+            position: relative;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffab91, #ffccbc);
+            color: #4d2c0d;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    #final-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: #f8f9fa;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      font-size: 24px;
-      z-index: 9999;
-      animation: fadeIn 0.6s ease-out;
-    }
+        .sound-btn:hover {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, #ff7043, #ff8a65);
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateX(20px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
+        /* Корректируем стили для тултипов */
+        .tooltip {
+            z-index: 10;
+            /* Гарантируем, что тултип выше всех элементов */
 
-    #final-stats div {
-      margin: 10px 0;
-    }
 
-    #restart-btn {
-      margin-top: 30px;
-      padding: 14px 28px;
-      font-size: 22px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
 
-    #restart-btn:hover {
-      background-color: #218838;
-    }
-  </style>
+            position: absolute;
+            bottom: 120%;
+            /* Позиция над кнопкой */
+            left: 50%;
+            transform: translateX(-50%);
+            background: #424242;
+            color: #fff;
+            padding: 10px;
+            /* Уменьшаем padding */
+            border-radius: 8px;
+            white-space: normal;
+            /* Разрешаем перенос текста */
+            /* max-width: 480px; Максимальная ширина */
+            width: 500px;
+            /* Автоматическая ширина */
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease 0.4s, visibility 0.3s ease 0.4s;
+            /* Задержка 1с */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            /* Убедимся, что тултип поверх других элементов */
+        }
+
+
+        .sound-btn:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .row1 .sound-btn {
+            background: linear-gradient(135deg, #b3e5fc, #81d4fa);
+            color: #0277bd;
+        }
+
+        .row2 .sound-btn {
+            background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+            color: #1b5e20;
+        }
+
+        .row3 .sound-btn {
+            background: linear-gradient(135deg, #ffe0b2, #ffcc80);
+            color: #8d6e63;
+        }
+
+        /* ЦЕНТРАЛЬНАЯ КОЛОНКА - БУКВЫ */
+        .center-column {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .two h1,
+        .two h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .center-buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .adult-btn,
+        .kid-btn {
+            padding: 15px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .adult-btn {
+            background: linear-gradient(135deg, #ce93d8, #f48fb1);
+            color: #4a148c;
+        }
+
+        .adult-btn:hover {
+            background: linear-gradient(135deg, #ba68c8, #f06292);
+            transform: scale(1.05);
+        }
+
+        .kid-btn {
+            background: linear-gradient(135deg, #b3e5fc, #81d4fa);
+            color: #0277bd;
+        }
+
+        .kid-btn:hover {
+            background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+            transform: scale(1.05);
+        }
+
+        .buttons-container button {
+            font-size: 1.5rem;
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #ffab91, #ffccbc);
+            color: #4d2c0d;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttons-container button:hover {
+            background: linear-gradient(135deg, #ff7043, #ff8a65);
+            transform: scale(1.1);
+        }
+
+        /* ПРАВАЯ КОЛОНКА - ТЕСТЫ И ССЫЛКИ */
+        .right-column {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .left-column h1,
+        .left-column h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .right-column h1,
+        .right-column h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .links-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .letters-link,
+        .test-link {
+            padding: 15px 25px;
+        margin: 10px;
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .letters-link {
+            background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+            color: #1b5e20;
+        }
+
+        .letters-link:hover {
+            background: linear-gradient(135deg, #81c784, #66bb6a);
+            transform: scale(1.05);
+        }
+
+        .test-link {
+            background: linear-gradient(135deg, #ffe0b2, #ffcc80);
+            color: #8d6e63;
+        }
+
+        .test-link:hover {
+            background: linear-gradient(135deg, #ffb74d, #ffa726);
+            transform: scale(1.05);
+        }
+
+        .links-row2,
+        .links-row3,
+        .links-row4,
+        .links-row5 {
+            margin-top: 20px;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .column {
+                padding: 10px;
+            }
+
+            .sound-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 16px;
+            }
+
+            .adult-btn,
+            .kid-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .buttons-container button {
+                font-size: 1.2rem;
+                padding: 10px;
+            }
+
+            .letters-link,
+            .test-link {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <div id="game-container">
-    <h1>Кликни на ПРАВИЛЬНО написанные слова!</h1>
+    <div class="container">
+        <!-- Левая колонка -->
+        <div class="column left-column">
+            <h1>🎵</h1>
+            <h1>Звуки:</h1>
 
-    <div id="scoreboard">Очки: <span id="score">0</span></div>
-    <div id="level">Уровень: <span id="level-number">1</span></div>
-    <div id="timer">Время: <span id="time">60</span>s</div>
-    <div id="pause-btn">⏸ Пауза</div>
-    <div id="record">Рекорд: <span id="record-value">0</span></div>
+            <div class="row1">
+                <button class="sound-btn" data-sound="2p.mp3"
+                    data-description="близок русскому звуку [ п ], но энергичнее и с придыханием (губы сначала смыкаются, а потом резко размыкаются сильной струей воздуха)">[
+                    p ]</button>
+                <button class="sound-btn" data-sound="2b.mp3"
+                    data-description="близок русскому звуку [ б ], но энергичнее, с бо́льшим напряжением губ">[ b
+                    ]</button>
+                <button class="sound-btn" data-sound="2f.mp3"
+                    data-description="близок русскому звуку [ ф ], но энергичнее, с бо́льшим напряжением губ">[ f
+                    ]</button>
+                <button class="sound-btn" data-sound="2v.mp3"
+                    data-description="близок русскому звуку [ в ], но энергичнее, с бо́льшим напряжением губ">[ v
+                    ]</button>
+                <button class="sound-btn" data-sound="2s.mp3"
+                    data-description="близок русскому звуку [ с ], но более энергично, с бо́льшим напряжением языка">[ s
+                    ]</button>
+                <button class="sound-btn" data-sound="2z.mp3"
+                    data-description="близок русскому звуку [ з ], но более энергично, с бо́льшим напряжением языка">[ z
+                    ]</button>
+                <button class="sound-btn" data-sound="2k.mp3"
+                    data-description="близок русскому звуку [ к ], но более энергично и с придыханием (верхняя часть языка и нёбо смыкаются, а потом резко размыкаются сильной струей воздуха)">[
+                    k ]</button>
+                <button class="sound-btn" data-sound="2g.mp3"
+                    data-description="близок русскому звуку [ г ], но более энергично, с бо́льшим напряжением верхней части языка">[
+                    g ]</button>
+                <button class="sound-btn" data-sound="2dj.mp3" data-description="русский звук [ дж ], [ ж ] - мягкий">[
+                    dʒ
+                    ]</button>
+                <button class="sound-btn" data-sound="2m.mp3"
+                    data-description="близок русскому звуку [ м ], но энергичнее, с бо́льшим напряжением губ">[ m
+                    ]</button>
+                <button class="sound-btn" data-sound="2t.mp3"
+                    data-description="отличается от русского звука [ т ], тем, что кончик языка приподнят, смыкается с альвеолами (бугорками верхнего нёба, расположенными за верхними зубами), а потом резко размыкается сильной струей воздуха">[
+                    t ]</button>
+                <button class="sound-btn" data-sound="2d.mp3"
+                    data-description="отличается от русского звука [ д ], тем, что кончик языка приподнят и касается альвеол – бугорков верхнего нёба, расположенных за верхними зубами ">[
+                    d ]</button>
+                <button class="sound-btn" data-sound="2n.mp3"
+                    data-description="отличается от русского звука [ н ], тем, что кончик языка приподнят и касается альвеол – бугорков верхнего нёба, расположенных за верхними зубами ">[
+                    n ]</button>
+                <button class="sound-btn" data-sound="2l.mp3"
+                    data-description="отличается от русского звука [ л ], тем, что кончик языка приподнят и касается альвеол – бугорков верхнего нёба, расположенных за верхними зубами ">[
+                    l ]</button>
+            </div>
 
-    <div id="word-area"></div>
-  </div>
 
-  <!-- Экран окончания игры -->
-  <div id="final-screen" class="hidden">
-    <div id="final-stats"></div>
-    <button id="restart-btn">🔄 Перезапустить</button>
-  </div>
 
-  <!-- Аудио -->
-  <audio id="sound-right" src="right.mp3"></audio>
-  <audio id="sound-wrong" src="wrong.mp3"></audio>
-  <audio id="sound-away" src="away.mp3"></audio>
-  <audio id="sound-level" src="level.mp3"></audio>
+            <div class="row2">
+                <button class="sound-btn" data-sound="ei.mp3" data-description="близок русскому звуку [ эй ]">[ eɪ
+                    ]</button>
+                <button class="sound-btn" data-sound="2ae.mp3"
+                    data-description="между русскими звуками [ а ] и [ э ], нижняя челюсть значительно опущена, губы растянуты, кончик языка находится у основания нижних зубов">[
+                    æ ]</button>
+                <button class="sound-btn" data-sound="2ii.mp3"
+                    data-description="длительный звук, средний между [ и ] и [ ы ]">[
+                    iː ]</button>
+                <button class="sound-btn" data-sound="2e.mp3"
+                    data-description="близок русскому звуку [ э ], но губы слегка растянуты, кончик языка касается нижних зубов">[
+                    e ]</button>
+                <button class="sound-btn" data-sound="2ai.mp3" data-description="близок русскму звуку [ ай ]">[ aɪ
+                    ]</button>
+                <button class="sound-btn" data-sound="2i.mp3"
+                    data-description="средний звук между русскими звуками [ и ] и [ ы ]">[ ɪ ]</button>
+                <button class="sound-btn" data-sound="2ou.mp3"
+                    data-description="близок русскому звуку [ оу ] протяжно и с ударением на первом звуке">[ əʊ
+                    ]</button>
+                <button class="sound-btn" data-sound="2o.mp3" data-description="краткий русский звук [ о ]">[ ɒ
+                    ]</button>
+                <button class="sound-btn" data-sound="2a.mp3" data-description="очень краткое [ а ]">[ ʌ ]</button>
+            </div>
 
-  <script>
-    const correctWords = [
-  "shop", "she", "fish", "child", "bench", "cherry", "thin", "moth", "smith",
-  "this", "that", "they", "photo", "alphabet", "phone", "ring", "king", "baking",
-  "vision", "collision", "division", "car", "star", "cigar", "sister", "finger",
-  "driver", "sport", "morning", "north", "girl", "bird", "skirt", "book", "look",
-  "room", "moon", "spoon", "bamboo", "green", "cheese", "tree", "tea", "sea",
-  "please", "mouth", "cloud", "house", "town", "crown", "brown", "snow", "pillow",
-  "flow", "air", "chair", "hair", "cure", "pure", "sure", "ear", "fear", "year",
-  "coin", "voice", "oil", "boy", "toy", "joy"
-];
-const incorrectWords = [
-  "shope", "shi", "feesh", "chaild", "banch", "charry", "theen", "mose", "smeeth",
-  "thees", "thet", "thei", "foto", "alfabet", "fone", "rin", "keeng", "bakin",
-  "vizion", "colision", "devision", "kar", "ctar", "cegar", "siste", "phinger",
-  "draiver", "sporte", "moning", "noth", "gerl", "berd", "skert", "buk", "luk",
-  "rum", "mun", "spun", "bemboo", "grin", "chize", "tri", "tee", "see",
-  "pleeze", "mauth", "claud", "houze", "tovn", "crovn", "brovn", "snov", "pelow",
-  "flov", "eir", "cheir", "heir", "kure", "puere", "shure", "eer", "phear", "yea",
-  "koin", "voise", "oel", "boi", "toi", "goy"
-];
+            <div class="row3">
+                <button class="sound-btn" data-sound="2h.mp3"
+                    data-description="близок русскому звуку [ х ], но почти беззвучен, как легкий выдох">[ h ]</button>
+                <button class="sound-btn" data-sound="2w.mp3"
+                    data-description="губы округлены и слегка вытянуты вперед, как перед произнесением русского [ у ], а затем быстро и энергично произносится следующий гласный звук в слове после [ w ]">[
+                    w ]</button>
+                <button class="sound-btn" data-sound="2r.mp3"
+                    data-description="отличается от русского звука [ р ] тем, что лишен вибрации, а кончик языка заострен, поднят к нёбу, не касается его и остается неподвижным">[
+                    r ]</button>
+                <button class="sound-btn" data-sound="2j.mp3" data-description="русский звук [ й ]">[ j ]</button>
 
-    const backgrounds = [
-      "linear-gradient(to bottom, #d0eaff, #ffffff)",
-      "linear-gradient(to bottom, #ffeec0, #fffde7)",
-      "linear-gradient(to bottom, #ffdde1, #ee9ca7)",
-      "linear-gradient(to bottom, #8ac5ff, #b6daff)"
-    ];
+                <button class="sound-btn" data-sound="2sh.mp3" data-description="глухой мягкий русский звук [ш]">[ ʃ
+                    ]</button>
 
-    let score = 0;
-    let timeLeft = 60;
-    let gameRunning = true;
-    let spawnInterval;
-    let timerInterval;
-    let fallDuration = 5;
 
-    const speedSteps = [45, 30, 15];
-    let currentLevelIndex = 0;
 
-    const stats = {
-      missedCorrect: [],
-      clickedWrong: [],
-      clickedCorrect: []
-    };
+                <button class="sound-btn" data-sound="2ch.mp3" data-description="русский звук [ч]">[ tʃ ]</button>
 
-    const wordArea = document.getElementById("word-area");
-    const scoreDisplay = document.getElementById("score");
-    const timerDisplay = document.getElementById("time");
-    const levelDisplay = document.getElementById("level-number");
-    const pauseBtn = document.getElementById("pause-btn");
-    const finalScreen = document.getElementById("final-screen");
-    const finalStats = document.getElementById("final-stats");
-    const restartBtn = document.getElementById("restart-btn");
-    const recordValue = document.getElementById("record-value");
+                <button class="sound-btn" data-sound="2zch.mp3" data-description="звонкий мягкий русский [ж]">[ ʒ
+                    ]</button>
 
-    const soundRight = document.getElementById("sound-right");
-    const soundWrong = document.getElementById("sound-wrong");
-    const soundAway = document.getElementById("sound-away");
-    const soundLevel = document.getElementById("sound-level");
+                <button class="sound-btn" data-sound="2th1.mp3"
+                    data-description="глухой звук отличный от русского [с] тем, что образуется струей воздуха, проходящей между кончиком языка, находящимся между зубами при слегка выдвинутой нижней челюсти">[
+                    θ ]</button>
 
-    function updateScore() {
-      scoreDisplay.textContent = score;
-    }
+                <button class="sound-btn" data-sound="2th2.mp3"
+                    data-description="звонкий звук отличный от русского [з] тем, что образуется струей воздуха, проходящей между кончиком языка, находящимся между зубами при слегка выдвинутой нижней челюсти">[
+                    ð ]</button>
 
-    function updateTimer() {
-      timerDisplay.textContent = timeLeft;
-    }
+                <button class="sound-btn" data-sound="2ng.mp3"
+                    data-description="носовой звук [н] – задняя часть языка поднята к опущенному мягкому нёбу, и струя воздуха протяжно проходит через полость носа">[
+                    ŋ ]</button>
 
-    function updateLevel(level) {
-      levelDisplay.textContent = level;
-    }
+                    <button class="sound-btn" data-sound="2ar.mp3"
+                    data-description="открытый долгий звук [а] ">[
+                    ɑː ]</button>
 
-    function createWord() {
-      if (!gameRunning) return;
+                <button class="sound-btn" data-sound="2er.mp3"
+                    data-description="неясный, короткий безударный звук между [а] и [э]
+                    ">[
+                    ə ]</button>
 
-      const isCorrect = Math.random() > 0.5;
-      const word = isCorrect
-        ? correctWords[Math.floor(Math.random() * correctWords.length)]
-        : incorrectWords[Math.floor(Math.random() * incorrectWords.length)];
+                <button class="sound-btn" data-sound="2or.mp3"
+                    data-description="долгий открытый протяжный звук [о], но язык опущен и оттянут назад и губы не округлены и не вытянуты            
+                    ">[
+                    ɔː ]</button>
 
-      const wordEl = document.createElement("div");
-      wordEl.className = "word";
-      wordEl.textContent = word;
-      wordEl.dataset.correct = isCorrect;
-      wordEl.dataset.word = word;
-      wordEl.dataset.clicked = "false";
+                <button class="sound-btn" data-sound="2ir.mp3"
+                    data-description="произносится изнутри с полузакрытым ртом средний между русскими звуками [о] и [э]">[
+                    ɜː ]</button>
 
-      wordEl.style.left = Math.random() * (window.innerWidth - 120) + "px";
-      wordEl.style.animationDuration = fallDuration + "s";
+                <button class="sound-btn" data-sound="2oo1.mp3"
+                    data-description="краткий русский звук [у]">[
+                    ʊ ]</button>
 
-      wordEl.addEventListener("click", () => {
-        if (!gameRunning || wordEl.dataset.clicked === "true") return;
+                <button class="sound-btn" data-sound="2oo2.mp3"
+                    data-description="закрытый долгий русский звук [у], но губы не вытянуты и не сужены">[
+                    uː ]</button>
 
-        if (isCorrect) {
-          wordEl.dataset.clicked = "true";
-          score++;
-          updateScore();
-          stats.clickedCorrect.push(word);
-          soundRight.currentTime = 0;
-          soundRight.play();
-          wordEl.classList.add("explode");
-          setTimeout(() => wordEl.remove(), 600);
-        } else {
-          wordEl.dataset.clicked = "true";
-          score -= 2;
-          updateScore();
-          stats.clickedWrong.push(word);
-          wordEl.classList.add("clicked-wrong");
-          soundWrong.currentTime = 0;
-          soundWrong.play();
+                <button class="sound-btn" data-sound="2oi.mp3"
+                    data-description="близок русскому звуку [ой] 
+                    с ударением на первом звуке">[
+                    ɔɪ ]</button>
+
+                <button class="sound-btn" data-sound="2au.mp3"
+                    data-description="близок русскому звуку [ау], протяжно и с ударением на первом звуке">[
+                    aʊ ]</button>
+
+                <button class="sound-btn" data-sound="2ear.mp3"
+                    data-description="сочетание английских звуков [ɪ] и [ə] c ударением на [ə], близкое к русскому [иэ]">[
+                    ɪə ]</button>
+
+                <button class="sound-btn" data-sound="2air.mp3"
+                    data-description="сочетание английских звуков [e] и [ə] 
+                    c оттенком [ʌ], близкое к русскому [эа], с ударением на первом звуке">[
+                    eə ]</button>
+
+                <button class="sound-btn" data-sound="2ure.mp3"
+                    data-description="сочетание английских звуков [ʊ] и [ə] c ударением на [ʊ], близкое к русскому [уэ]">[
+                    ʊə ]</button>
+
+
+
+            </div>
+        </div>
+
+        <!-- Центральная колонка -->
+        <div class="column center-column">
+            <div class="two">
+                <h1>😎</h1>
+                <h2>Название букв:</h2>
+            </div>
+            <div class="center-buttons-container">
+                <button id="adultButton" class="btn adult-btn">Adult</button>
+                <button id="childButton" class="btn kid-btn">Kid</button>
+            </div>
+            <div class="buttons-container">
+                <button onclick="playSound('A-a.mp3')">Aa</button>
+                <button onclick="playSound('B-b.mp3')">Bb</button>
+                <button onclick="playSound('C-c.mp3')">Cc</button>
+                <button onclick="playSound('D-d.mp3')">Dd</button>
+                <button onclick="playSound('E-e.mp3')">Ee</button>
+                <button onclick="playSound('F-f.mp3')">Ff</button>
+                <button onclick="playSound('G-g.mp3')">Gg</button>
+                <button onclick="playSound('H-h.mp3')">Hh</button>
+                <button onclick="playSound('I-i.mp3')">Ii</button>
+                <button onclick="playSound('J-j.mp3')">Jj</button>
+                <button onclick="playSound('K-k.mp3')">Kk</button>
+                <button onclick="playSound('L-l.mp3')">Ll</button>
+                <button onclick="playSound('M-m.mp3')">Mm</button>
+                <button onclick="playSound('N-n.mp3')">Nn</button>
+                <button onclick="playSound('O-o.mp3')">Oo</button>
+                <button onclick="playSound('P-p.mp3')">Pp</button>
+                <button onclick="playSound('Q-q.mp3')">Qq</button>
+                <button onclick="playSound('R-r.mp3')">Rr</button>
+                <button onclick="playSound('S-s.mp3')">Ss</button>
+                <button onclick="playSound('T-t.mp3')">Tt</button>
+                <button onclick="playSound('U-u.mp3')">Uu</button>
+                <button onclick="playSound('V-v.mp3')">Vv</button>
+                <button onclick="playSound('W-w.mp3')">Ww</button>
+                <button onclick="playSound('X-x.mp3')">Xx</button>
+                <button onclick="playSound('Y-y.mp3')">Yy</button>
+                <button onclick="playSound('Z-z.mp3')">Zz</button>
+            </div>
+        </div>
+
+        <!-- Правая колонка -->
+        <div class="column right-column">
+            <h1>🎤</h1>
+            <h2>Чтение букв</h2>
+
+            <div class="links-row">
+                <a href="1. Words.html" class="letters-link">17 букв</a>
+                <a href="2. Words.html" class="letters-link">10 букв</a>
+            </div>
+
+            <div class="links-row2">
+                <a href="3. Words.html" class="letters-link">Cочетания</a>
+            </div>
+
+            <br><br>
+
+
+            <div class="links-row3">
+                <a href="training.html" class="test-link">🏋‍♀ Training</a>
+                <a href="test3.html" class="test-link">🏆 Тест</a>
+              
+            </div><br><br>
+
+            <div class="links-row5">
+              
+                <a href="game.html" class="test-link">🏃 Game</a>
+                <a href="task.html" class="test-link">🚩 Task</a>
+            </div>
+
+            <div class="links-row5">
+              <br><br>
+                <a href="abc.html" class="test-link">◕‿◕ ABC</a>
+                <a href="game2.html" class="test-link">🧿 Игра-2</a>
+               
+            </div>
+
+
+
+        </div>
+
+
+    <script>
+        document.querySelectorAll('.sound-btn').forEach(btn => {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.innerHTML = btn.dataset.description.replace(/\n/g, '<br>');
+            btn.appendChild(tooltip);
+
+            let audio = null;
+            let isPlaying = false;
+
+            // Проверка видимости подсказки
+            // Проверка видимости подсказки
+            btn.addEventListener('mouseenter', () => {
+                const rect = tooltip.getBoundingClientRect();
+                if (rect.left < 0) {
+                    tooltip.style.left = `${Math.abs(rect.left) + 50}px`;
+                } else {
+                    tooltip.style.left = '50%';
+                }
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                tooltip.style.left = '50%';
+            });
+
+
+
+            btn.addEventListener('click', () => {
+                if (isPlaying) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                } else {
+                    audio = new Audio(btn.dataset.sound);
+                    audio.play().catch(err => console.error('Ошибка воспроизведения:', err));
+                }
+                isPlaying = !isPlaying;
+            });
+        });
+
+        const audioFiles = {
+            adult: new Audio('abc26.mp3'),
+            child: new Audio('child.mp3')
+        };
+        // Устанавливаем скорость воспроизведения для обоих аудиофайлов
+        audioFiles.adult.playbackRate = 1.5; // Ускорение на 10%
+        audioFiles.child.playbackRate = 1.5; // Ускорение на 10%
+        const isPlayingAudio = { adult: false, child: false };
+
+        function toggleAudio(buttonId) {
+            const type = buttonId === 'adultButton' ? 'adult' : 'child';
+            const otherType = type === 'adult' ? 'child' : 'adult';
+
+            if (isPlayingAudio[type]) {
+                audioFiles[type].pause();
+                audioFiles[type].currentTime = 0;
+            } else {
+                audioFiles[type].play();
+                audioFiles[otherType].pause();
+                audioFiles[otherType].currentTime = 0;
+                isPlayingAudio[otherType] = false;
+            }
+            isPlayingAudio[type] = !isPlayingAudio[type];
         }
-      });
 
-      wordArea.appendChild(wordEl);
+        document.getElementById('adultButton').addEventListener('click', () => toggleAudio('adultButton'));
+        document.getElementById('childButton').addEventListener('click', () => toggleAudio('childButton'));
 
-      setTimeout(() => {
-        if (wordArea.contains(wordEl)) {
-          wordEl.remove();
-          if (isCorrect && wordEl.dataset.clicked === "false") {
-            score--;
-            updateScore();
-            stats.missedCorrect.push(word);
-            soundAway.currentTime = 0;
-            soundAway.play();
-          }
+        function playSound(filename) {
+            new Audio(filename).play();
         }
-      }, fallDuration * 1000);
-    }
-
-    function changeBackgroundAndSpeed() {
-      // Проверяем, не вышли ли мы за пределы массива
-      if (currentLevelIndex >= backgrounds.length) return;
-
-      // Каждые 15 секунд (45, 30, 15)
-      if (speedSteps.includes(timeLeft)) {
-        // Меняем фон и уровень
-        document.body.style.background = backgrounds[currentLevelIndex + 1];
-        updateLevel(currentLevelIndex + 2);
-
-        // Увеличиваем скорость
-        fallDuration *= 0.9;
-        currentLevelIndex++;
-
-        // Звук уровня
-        soundLevel.currentTime = 0;
-        soundLevel.play();
-      }
-    }
-
-    function startGame() {
-      score = 0;
-      timeLeft = 60;
-      fallDuration = 5;
-      currentLevelIndex = 0;
-      gameRunning = true;
-      updateScore();
-      updateTimer();
-      updateLevel(1);
-      document.body.style.background = backgrounds[0];
-
-      stats.missedCorrect = [];
-      stats.clickedWrong = [];
-      stats.clickedCorrect = [];
-
-      wordArea.innerHTML = "";
-      finalScreen.classList.add("hidden");
-
-      spawnInterval = setInterval(createWord, 1200);
-      timerInterval = setInterval(() => {
-        timeLeft--;
-        updateTimer();
-
-        if (timeLeft <= 0) {
-          clearInterval(timerInterval);
-          clearInterval(spawnInterval);
-          endGame();
-        }
-
-        changeBackgroundAndSpeed();
-      }, 1000);
-    }
-
-    function endGame() {
-      gameRunning = false;
-      soundAway.pause(); soundAway.currentTime = 0;
-      soundLevel.pause(); soundLevel.currentTime = 0;
-
-      const wrongList = [...new Set(stats.clickedWrong)];
-      const wrongCount = wrongList.length;
-      const missedCount = stats.missedCorrect.length;
-      const correctCount = stats.clickedCorrect.length;
-
-      finalStats.innerHTML = `
-        <div>🚫 Нажато по неправильным словам: ${wrongList.join(", ")} [${wrongCount} шт.]</div>
-        <div>❌ Пропущены правильные слова: [${missedCount} шт.]</div>
-        <div>✅ Нажато по правильным словам: [${correctCount} шт.]</div>
-        <div>💰 Всего заработано очков: ${score}</div>
-      `;
-
-      finalScreen.classList.remove("hidden");
-      saveRecord(score);
-    }
-
-    function saveRecord(newScore) {
-      const record = parseInt(localStorage.getItem("word-game-record")) || 0;
-      if (newScore > record) localStorage.setItem("word-game-record", newScore);
-      recordValue.textContent = localStorage.getItem("word-game-record") || 0;
-    }
-
-    // Кнопка паузы
-    pauseBtn.addEventListener("click", () => {
-      if (gameRunning) {
-        gameRunning = false;
-        clearInterval(timerInterval);
-        clearInterval(spawnInterval);
-        pauseBtn.textContent = "▶ Возобновить";
-      } else {
-        gameRunning = true;
-        timerInterval = setInterval(() => {
-          timeLeft--;
-          updateTimer();
-          if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            clearInterval(spawnInterval);
-            endGame();
-          }
-          changeBackgroundAndSpeed();
-        }, 1000);
-        spawnInterval = setInterval(createWord, 1200);
-        pauseBtn.textContent = "⏸ Пауза";
-      }
-    });
-
-    restartBtn.addEventListener("click", startGame);
-
-    window.onload = () => {
-      setTimeout(() => {
-        const title = document.querySelector("h1");
-        if (title) title.classList.add("hidden");
-      }, 2000);
-      saveRecord();
-      startGame();
-    };
-  </script>
+    </script>
 </body>
+
 </html>
