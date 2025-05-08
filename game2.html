@@ -10,13 +10,19 @@
       padding: 0;
     }
 
-    body, #game-container {
+    body {
+      background: #f0f0f0;
+    }
+
+    #game-container {
       height: 100vh;
       font-family: 'Arial', sans-serif;
       overflow: hidden;
       background: linear-gradient(to bottom, #d0eaff, #ffffff);
       color: #333;
       text-align: center;
+      transition: background 0.5s ease;
+      position: relative;
     }
 
     .hidden {
@@ -190,8 +196,27 @@
   <audio id="sound-level" src="level.mp3"></audio>
 
   <script>
-    const correctWords = ["shop", "she", "fish", "child", "bench", "cherry"];
-    const incorrectWords = ["shope", "shi", "feesh", "chaild", "banch", "charry"];
+    const correctWords = [
+      "shop", "she", "fish", "child", "bench", "cherry", "thin", "moth", "smith",
+      "this", "that", "they", "photo", "alphabet", "phone", "ring", "king", "baking",
+      "vision", "collision", "division", "car", "star", "cigar", "sister", "finger",
+      "driver", "sport", "morning", "north", "girl", "bird", "skirt", "book", "look",
+      "room", "moon", "spoon", "bamboo", "green", "cheese", "tree", "tea", "sea",
+      "please", "mouth", "cloud", "house", "town", "crown", "brown", "snow", "pillow",
+      "flow", "air", "chair", "hair", "cure", "pure", "sure", "ear", "fear", "year",
+      "coin", "voice", "oil", "boy", "toy", "joy"
+    ];
+
+    const incorrectWords = [
+      "shope", "shi", "feesh", "chaild", "banch", "charry", "theen", "mose", "smeeth",
+      "thees", "thet", "thei", "foto", "alfabet", "fone", "rin", "keeng", "bakin",
+      "vizion", "colision", "devision", "kar", "ctar", "cegar", "siste", "phinger",
+      "draiver", "sporte", "moning", "noth", "gerl", "berd", "skert", "buk", "luk",
+      "rum", "mun", "spun", "bemboo", "grin", "chize", "tri", "tee", "see",
+      "pleeze", "mauth", "claud", "houze", "tovn", "crovn", "brovn", "snov", "pelow",
+      "flov", "eir", "cheir", "heir", "kure", "puere", "shure", "eer", "phear", "yea",
+      "koin", "voise", "oel", "boi", "toi", "goy"
+    ];
 
     const backgrounds = [
       "linear-gradient(to bottom, #d0eaff, #ffffff)",
@@ -205,9 +230,10 @@
     let gameRunning = true;
     let spawnInterval;
     let timerInterval;
-    let fallDuration = 5;
+    let fallDuration = 7;
     const speedSteps = [45, 30, 15];
-    let currentLevelIndex = 0;
+    let currentLevel = 1;
+    let levelsPassed = 0;
 
     const stats = {
       missedCorrect: [],
@@ -224,6 +250,7 @@
     const finalStats = document.getElementById("final-stats");
     const restartBtn = document.getElementById("restart-btn");
     const recordValue = document.getElementById("record-value");
+    const gameContainer = document.getElementById("game-container");
 
     const soundRight = document.getElementById("sound-right");
     const soundWrong = document.getElementById("sound-wrong");
@@ -297,28 +324,35 @@
         }
       }, fallDuration * 1000);
     }
-
     function changeBackgroundAndSpeed() {
-      if (speedSteps.includes(timeLeft)) {
-        document.body.style.background = backgrounds[currentLevelIndex % backgrounds.length];
-        currentLevelIndex++;
-        updateLevel(currentLevelIndex);
-        fallDuration *= 0.9;
-        soundLevel.currentTime = 0;
-        soundLevel.play();
-      }
-    }
+  // Проверяем точное совпадение времени
+  if (timeLeft === 45 || timeLeft === 30 || timeLeft === 15) {
+    const bgIndex = levelsPassed % backgrounds.length;
+    gameContainer.style.background = backgrounds[bgIndex];
+    
+    soundLevel.currentTime = 0;
+    soundLevel.play();
+    
+    currentLevel++;
+    levelsPassed++;
+    updateLevel(currentLevel);
+    fallDuration *= 0.9;
+    
+    console.log(`Changed background at ${timeLeft}s to:`, backgrounds[bgIndex]);
+  }
+}
 
     function startGame() {
       score = 0;
       timeLeft = 60;
-      fallDuration = 5;
-      currentLevelIndex = 0;
+      fallDuration = 7;
+      currentLevel = 1;
+      levelsPassed = 0;
       gameRunning = true;
       updateScore();
       updateTimer();
-      updateLevel(1);
-      document.body.style.background = backgrounds[0];
+      updateLevel(currentLevel);
+      gameContainer.style.background = backgrounds[0];
 
       stats.missedCorrect = [];
       stats.clickedWrong = [];
