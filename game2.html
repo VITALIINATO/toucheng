@@ -251,7 +251,7 @@
         //     "linear-gradient(to bottom, #a1ffce, #faffd1)",          // мятно-желтый
         //     "linear-gradient(to bottom, #e0c3fc, #8ec5fc)",          // лавандово-голубой
            
-            "linear-gradient(to bottom, #d4fc79, #96e6a1)",          // салатово-зеленый
+            // "linear-gradient(to bottom, #d4fc79, #96e6a1)",          // салатово-зеленый
             "linear-gradient(to bottom, #fdcbf1, #e6dee9)",          // сиренево-белый
             "linear-gradient(to bottom, #a8edea, #fed6e3)",          // аквамариново-розовый
             "linear-gradient(to bottom, #f5f7fa, #c3cfe2)",          // серо-голубой (минимализм)
@@ -274,7 +274,7 @@
         let gameRunning = true;
         let spawnInterval;
         let timerInterval;
-        let fallDuration = 5;
+        let fallDuration = 10;
         let currentLevel = 1;
         let levelsPassed = 0;
         const stats = {
@@ -391,8 +391,8 @@ soundRight.volume = 0.3;
         }
         function startGame() {
             score = 0;
-            timeLeft = 63;
-            fallDuration = 5;
+            timeLeft = 60;
+            fallDuration = 7;
             currentLevel = 1;
             levelsPassed = 0;
             gameRunning = true;
