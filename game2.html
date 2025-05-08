@@ -28,7 +28,7 @@
       top: 60px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 24px;
+      font-size: 28px;
       z-index: 999;
     }
 
@@ -67,7 +67,8 @@
     #pause-btn {
       left: 20px;
       bottom: 20px;
-      font-size: 20px;
+      font-size: 24px;
+      padding: 15px 25px;
       cursor: pointer;
       user-select: none;
       background-color: #ffc107;
@@ -94,8 +95,8 @@
     .word {
       position: absolute;
       top: -50px;
-      font-size: 20px;
-      padding: 10px 20px;
+      font-size: 28px;
+      padding: 15px 25px;
       border-radius: 12px;
       cursor: pointer;
       animation: fall linear forwards;
@@ -151,8 +152,8 @@
 
     #restart-btn {
       margin-top: 30px;
-      padding: 14px 28px;
-      font-size: 22px;
+      padding: 16px 30px;
+      font-size: 26px;
       background-color: #28a745;
       color: white;
       border: none;
@@ -178,13 +179,11 @@
     <div id="word-area"></div>
   </div>
 
-  <!-- Экран окончания игры -->
   <div id="final-screen" class="hidden">
     <div id="final-stats"></div>
     <button id="restart-btn">🔄 Перезапустить</button>
   </div>
 
-  <!-- Аудио -->
   <audio id="sound-right" src="right.mp3"></audio>
   <audio id="sound-wrong" src="wrong.mp3"></audio>
   <audio id="sound-away" src="away.mp3"></audio>
@@ -207,7 +206,6 @@
     let spawnInterval;
     let timerInterval;
     let fallDuration = 5;
-
     const speedSteps = [45, 30, 15];
     let currentLevelIndex = 0;
 
@@ -258,7 +256,6 @@
       wordEl.dataset.correct = isCorrect;
       wordEl.dataset.word = word;
       wordEl.dataset.clicked = "false";
-
       wordEl.style.left = Math.random() * (window.innerWidth - 120) + "px";
       wordEl.style.animationDuration = fallDuration + "s";
 
@@ -302,20 +299,11 @@
     }
 
     function changeBackgroundAndSpeed() {
-      // Проверяем, не вышли ли мы за пределы массива
-      if (currentLevelIndex >= backgrounds.length) return;
-
-      // Каждые 15 секунд (45, 30, 15)
       if (speedSteps.includes(timeLeft)) {
-        // Меняем фон и уровень
-        document.body.style.background = backgrounds[currentLevelIndex + 1];
-        updateLevel(currentLevelIndex + 2);
-
-        // Увеличиваем скорость
-        fallDuration *= 0.9;
+        document.body.style.background = backgrounds[currentLevelIndex % backgrounds.length];
         currentLevelIndex++;
-
-        // Звук уровня
+        updateLevel(currentLevelIndex);
+        fallDuration *= 0.9;
         soundLevel.currentTime = 0;
         soundLevel.play();
       }
@@ -381,7 +369,6 @@
       recordValue.textContent = localStorage.getItem("word-game-record") || 0;
     }
 
-    // Кнопка паузы
     pauseBtn.addEventListener("click", () => {
       if (gameRunning) {
         gameRunning = false;
