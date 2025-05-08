@@ -1,1 +1,475 @@
+<!DOCTYPE html>
+<html lang="ru">
 
+<head>
+    <meta charset="UTF-8" />
+    <title>Правописание слов</title>
+    <style>
+        /* Основные стили без изменений */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #f0f0f0;
+        }
+
+        #game-container {
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #d0eaff, #ffffff);
+            color: #333;
+            text-align: center;
+            transition: background 0.5s ease, color 0.5s ease;
+            position: relative;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        h1 {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            z-index: 999;
+        }
+
+        #scoreboard,
+        #timer,
+        #level,
+        #pause-btn,
+        #record {
+            position: absolute;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 10px;
+            z-index: 999;
+            transition: background-color 0.3s ease;
+        }
+
+        #scoreboard {
+            left: 20px;
+            top: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        #level {
+            left: 50%;
+            top: 20px;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        #timer {
+            right: 20px;
+            top: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        #pause-btn {
+            left: 20px;
+            bottom: 20px;
+            font-size: 24px;
+            padding: 15px 25px;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.3s ease;
+        }
+
+        #record {
+            right: 20px;
+            bottom: 20px;
+            font-size: 20px;
+            color: #555;
+            background: none;
+            font-weight: normal;
+        }
+
+        #word-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .word {
+            position: absolute;
+            top: -50px;
+            font-size: 28px;
+            padding: 15px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            animation: fall linear forwards;
+            z-index: 1;
+            user-select: none;
+            touch-action: manipulation;
+            background-color: #28a745;
+            color: white;
+        }
+
+        @keyframes fall {
+            from {
+                transform: translateY(-50px);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(100vh);
+                opacity: 0.3;
+            }
+        }
+
+        .explode {
+            animation: explode 0.6s forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .word.clicked-wrong {
+            background-color: #dc3545 !important;
+        }
+
+        #final-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            z-index: 9999;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        #final-stats div {
+            margin: 10px 0;
+        }
+
+        #restart-btn {
+            margin-top: 30px;
+            padding: 16px 30px;
+            font-size: 26px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #restart-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game-container">
+        <h1>Кликни на ПРАВИЛЬНО написанные слова!</h1>
+        <div id="scoreboard">Очки: <span id="score">0</span></div>
+        <div id="level">Уровень: <span id="level-number">1</span></div>
+        <div id="timer">Время: <span id="time">60</span>s</div>
+        <div id="pause-btn">⏸ Пауза</div>
+        <div id="record">Рекорд: <span id="record-value">0</span></div>
+        <div id="word-area"></div>
+    </div>
+    <div id="final-screen" class="hidden">
+        <div id="final-stats"></div>
+        <button id="restart-btn">🔄 Перезапустить</button>
+    </div>
+    <audio id="sound-right" src="right.mp3"></audio>
+    <audio id="sound-wrong" src="wrong.mp3"></audio>
+    <audio id="sound-away" src="away.mp3"></audio>
+    <audio id="sound-level" src="level.mp3"></audio>
+    <script>
+        // Константы
+        const correctWords = [
+            "pen", "pet", "plate", "baby", "bag", "bike", "flat", "face", "five", "visit", "vine", "map", "mum", "milk", "zone", "blaze", "kiss", "kid",
+            "kite", "table", "tube", "top", "desk", "dog", "dad", "name", "nine",
+            "lips", "lamp", "lake",  "shop", "she", "fish", "child", "bench", "cherry", "thin", "moth", "smith",
+  "this", "that", "they", "photo", "alphabet", "phone", "ring", "king", "baking",
+  "car", "star", "cigar", "sister", "finger",
+  "driver", "sport", "morning", "north", "girl", "bird", "skirt", "book", "look",
+  "room", "moon", "spoon", "bamboo", "green", "cheese", "tree", "tea", "sea",
+  "please", "mouth", "cloud", "house", "town", "crown", "brown", "snow", "pillow",
+  "flow", "air", "chair", "hair", "cure", "pure", "sure", "ear", "fear", "year",
+  "coin", "voice", "oil", "boy", "toy", "joy"
+        ];
+        const incorrectWords = [
+            "pan", "peat", "pleie", "beiby", "beg", "baike", "flet", "feis", "faiv", "vizit",
+            "van", "vain", "mep", "mam", "melk", "zoun", "blase", "kis", "ked",
+            "kait", "teible", "tub", "tope", "dask", "doug", "ded", "neim", "nain",
+            "lipz", "lemp", "leik",  "shop", "she", "fish", "child", "bench", "cherry", "thin", "moth", "smith",
+  "this", "that", "they", "photo", "alphabet", "phone", "ring", "king", "baking",
+  "car", "star", "cigar", "sister", "finger",
+  "driver", "sport", "morning", "north", "girl", "bird", "skirt", "book", "look",
+  "room", "moon", "spoon", "bamboo", "green", "cheese", "tree", "tea", "sea",
+  "please", "mouth", "cloud", "house", "town", "crown", "brown", "snow", "pillow",
+  "flow", "air", "chair", "hair", "cure", "pure", "sure", "ear", "fear", "year",
+  "coin", "voice", "oil", "boy", "toy", "joy"
+        ];
+        const backgrounds = [
+            "linear-gradient(to bottom, #8ac5ff, #b6daff)",
+            "linear-gradient(to bottom, #ffeec0, #fffde7)",
+            "linear-gradient(to bottom, #ffdde1, #ee9ca7)",
+            "linear-gradient(to bottom, #8ac5ff, #b6daff)"
+        ];
+        const buttonColors = [
+            "#ffc107", // Оранжевый для первого фона
+            "#28a745", // Зелёный для второго фона
+            "#dc3545", // Красный для третьего фона
+            "#007bff"  // Синий для четвёртого фона
+        ];
+
+        // Переменные состояния
+        let score = 0;
+        let timeLeft = 63;
+        let gameRunning = true;
+        let spawnInterval;
+        let timerInterval;
+        let fallDuration = 7;
+        let currentLevel = 1;
+        let levelsPassed = 0;
+        const stats = {
+            missedCorrect: [],
+            clickedWrong: [],
+            clickedCorrect: []
+        };
+
+        // DOM элементы
+        const wordArea = document.getElementById("word-area");
+        const scoreDisplay = document.getElementById("score");
+        const timerDisplay = document.getElementById("time");
+        const levelDisplay = document.getElementById("level-number");
+        const pauseBtn = document.getElementById("pause-btn");
+        const finalScreen = document.getElementById("final-screen");
+        const finalStats = document.getElementById("final-stats");
+        const restartBtn = document.getElementById("restart-btn");
+        const recordValue = document.getElementById("record-value");
+        const gameContainer = document.getElementById("game-container");
+
+        // Аудио
+        const soundRight = document.getElementById("sound-right");
+        const soundWrong = document.getElementById("sound-wrong");
+        const soundAway = document.getElementById("sound-away");
+        const soundLevel = document.getElementById("sound-level");
+
+        // Функции
+        function updateScore() {
+            scoreDisplay.textContent = score;
+        }
+
+        function updateTimer() {
+            timerDisplay.textContent = timeLeft;
+        }
+
+        function updateLevel(level) {
+            levelDisplay.textContent = level;
+        }
+
+        function createWord() {
+            if (!gameRunning) return;
+
+            const isCorrect = Math.random() > 0.5;
+            const word = isCorrect
+                ? correctWords[Math.floor(Math.random() * correctWords.length)]
+                : incorrectWords[Math.floor(Math.random() * incorrectWords.length)];
+
+            const wordEl = document.createElement("div");
+            wordEl.className = "word";
+            wordEl.textContent = word;
+            wordEl.dataset.correct = isCorrect;
+            wordEl.dataset.word = word;
+            wordEl.dataset.clicked = "false";
+            wordEl.style.left = Math.random() * (window.innerWidth - 120) + "px";
+            wordEl.style.animationDuration = fallDuration + "s";
+
+            wordEl.addEventListener("click", () => {
+                if (!gameRunning || wordEl.dataset.clicked === "true") return;
+
+                if (isCorrect) {
+                    wordEl.dataset.clicked = "true";
+                    score++;
+                    updateScore();
+                    stats.clickedCorrect.push(word);
+                    soundRight.currentTime = 0;
+                    soundRight.play();
+                    wordEl.classList.add("explode");
+                    setTimeout(() => wordEl.remove(), 600);
+                } else {
+                    wordEl.dataset.clicked = "true";
+                    score -= 2;
+                    updateScore();
+                    stats.clickedWrong.push(word);
+                    wordEl.classList.add("clicked-wrong");
+                    soundWrong.currentTime = 0;
+                    soundWrong.play();
+                }
+            });
+
+            wordArea.appendChild(wordEl);
+
+            setTimeout(() => {
+                if (wordArea.contains(wordEl)) {
+                    wordEl.remove();
+                    if (isCorrect && wordEl.dataset.clicked === "false") {
+                        score--;
+                        updateScore();
+                        stats.missedCorrect.push(word);
+                        soundAway.currentTime = 0;
+                        soundAway.play();
+                    }
+                }
+            }, fallDuration * 1000);
+        }
+        function changeBackgroundAndSpeed() {
+            if (timeLeft === 45 || timeLeft === 30 || timeLeft === 15) {
+                const bgIndex = (levelsPassed + 1) % backgrounds.length; // Увеличиваем индекс на 1
+
+                gameContainer.style.background = backgrounds[bgIndex];
+                soundLevel.currentTime = 0;
+                soundLevel.play();
+
+                currentLevel++;
+                levelsPassed++; // Увеличиваем levelsPassed после вычисления индекса
+                updateLevel(currentLevel);
+                fallDuration *= 0.9;
+
+                console.log(`Изменён фон на ${timeLeft} секунде:`, backgrounds[bgIndex]);
+            }
+        }
+        function startGame() {
+            score = 0;
+            timeLeft = 63;
+            fallDuration = 7;
+            currentLevel = 1;
+            levelsPassed = 0;
+            gameRunning = true;
+            updateScore();
+            updateTimer();
+            updateLevel(currentLevel);
+            gameContainer.style.background = backgrounds[0];
+            pauseBtn.style.backgroundColor = buttonColors[0];
+            restartBtn.style.backgroundColor = buttonColors[0];
+            stats.missedCorrect = [];
+            stats.clickedWrong = [];
+            stats.clickedCorrect = [];
+            wordArea.innerHTML = "";
+            finalScreen.classList.add("hidden");
+
+            spawnInterval = setInterval(createWord, 1200);
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimer();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    clearInterval(spawnInterval);
+                    endGame();
+                }
+                changeBackgroundAndSpeed();
+            }, 1000);
+        }
+
+        function endGame() {
+            gameRunning = false;
+            soundAway.pause();
+            soundAway.currentTime = 0;
+            soundLevel.pause();
+            soundLevel.currentTime = 0;
+
+            const wrongList = [...new Set(stats.clickedWrong)];
+            const wrongCount = wrongList.length;
+            const missedCount = stats.missedCorrect.length;
+            const correctCount = stats.clickedCorrect.length;
+
+            finalStats.innerHTML = `
+        <div>🚫 Нажато по неправильным словам: ${wrongList.join(", ")} [${wrongCount} шт.]</div>
+        <div>❌ Пропущены правильные слова: [${missedCount} шт.]</div>
+        <div>✅ Нажато по правильным словам: [${correctCount} шт.]</div>
+        <div>💰 Всего заработано очков: ${score}</div>
+      `;
+
+            finalScreen.classList.remove("hidden");
+            saveRecord(score);
+        }
+
+        function saveRecord(newScore) {
+            const record = parseInt(localStorage.getItem("word-game-record")) || 0;
+            if (newScore > record) localStorage.setItem("word-game-record", newScore);
+            recordValue.textContent = localStorage.getItem("word-game-record") || 0;
+        }
+
+        // Обработчики событий
+        pauseBtn.addEventListener("click", () => {
+            if (gameRunning) {
+                gameRunning = false;
+                clearInterval(timerInterval);
+                clearInterval(spawnInterval);
+                pauseBtn.textContent = "▶ Возобновить";
+            } else {
+                gameRunning = true;
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimer();
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        clearInterval(spawnInterval);
+                        endGame();
+                    }
+                    changeBackgroundAndSpeed();
+                }, 1000);
+                spawnInterval = setInterval(createWord, 1200);
+                pauseBtn.textContent = "⏸ Пауза";
+            }
+        });
+
+        restartBtn.addEventListener("click", startGame);
+
+        window.onload = () => {
+            setTimeout(() => {
+                const title = document.querySelector("h1");
+                if (title) title.classList.add("hidden");
+            }, 2000);
+            saveRecord();
+            startGame();
+        };
+    </script>
+</body>
+
+</html>
