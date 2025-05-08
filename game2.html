@@ -4,16 +4,15 @@
   <meta charset="UTF-8" />
   <title>Правописание слов</title>
   <style>
+    /* Основные стили без изменений */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
     body {
       background: #f0f0f0;
     }
-
     #game-container {
       height: 100vh;
       font-family: 'Arial', sans-serif;
@@ -21,14 +20,12 @@
       background: linear-gradient(to bottom, #d0eaff, #ffffff);
       color: #333;
       text-align: center;
-      transition: background 0.5s ease;
+      transition: background 0.5s ease, color 0.5s ease;
       position: relative;
     }
-
     .hidden {
       display: none !important;
     }
-
     h1 {
       position: absolute;
       top: 60px;
@@ -37,7 +34,6 @@
       font-size: 28px;
       z-index: 999;
     }
-
     #scoreboard,
     #timer,
     #level,
@@ -49,27 +45,24 @@
       padding: 12px 20px;
       border-radius: 10px;
       z-index: 999;
+      transition: background-color 0.3s ease;
     }
-
     #scoreboard {
       left: 20px;
       top: 20px;
       background-color: rgba(255, 255, 255, 0.8);
     }
-
     #level {
       left: 50%;
       top: 20px;
       transform: translateX(-50%);
       background-color: rgba(255, 255, 255, 0.8);
     }
-
     #timer {
       right: 20px;
       top: 20px;
       background-color: rgba(255, 255, 255, 0.8);
     }
-
     #pause-btn {
       left: 20px;
       bottom: 20px;
@@ -77,9 +70,8 @@
       padding: 15px 25px;
       cursor: pointer;
       user-select: none;
-      background-color: #ffc107;
+      transition: background-color 0.3s ease;
     }
-
     #record {
       right: 20px;
       bottom: 20px;
@@ -88,7 +80,6 @@
       background: none;
       font-weight: normal;
     }
-
     #word-area {
       position: absolute;
       top: 0;
@@ -97,7 +88,6 @@
       height: 100%;
       overflow: hidden;
     }
-
     .word {
       position: absolute;
       top: -50px;
@@ -112,25 +102,20 @@
       background-color: #28a745;
       color: white;
     }
-
     @keyframes fall {
       from { transform: translateY(-50px); opacity: 1; }
       to { transform: translateY(100vh); opacity: 0.3; }
     }
-
     .explode {
       animation: explode 0.6s forwards;
     }
-
     @keyframes explode {
       0% { transform: scale(1) rotate(0deg); opacity: 1; }
       100% { transform: scale(2) rotate(360deg); opacity: 0; }
     }
-
     .word.clicked-wrong {
       background-color: #dc3545 !important;
     }
-
     #final-screen {
       position: fixed;
       top: 0;
@@ -146,16 +131,13 @@
       z-index: 9999;
       animation: fadeIn 0.6s ease-out;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateX(20px); }
       to { opacity: 1; transform: translateX(0); }
     }
-
     #final-stats div {
       margin: 10px 0;
     }
-
     #restart-btn {
       margin-top: 30px;
       padding: 16px 30px;
@@ -165,8 +147,8 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
-
     #restart-btn:hover {
       background-color: #218838;
     }
@@ -175,72 +157,63 @@
 <body>
   <div id="game-container">
     <h1>Кликни на ПРАВИЛЬНО написанные слова!</h1>
-
     <div id="scoreboard">Очки: <span id="score">0</span></div>
     <div id="level">Уровень: <span id="level-number">1</span></div>
     <div id="timer">Время: <span id="time">60</span>s</div>
     <div id="pause-btn">⏸ Пауза</div>
     <div id="record">Рекорд: <span id="record-value">0</span></div>
-
     <div id="word-area"></div>
   </div>
-
   <div id="final-screen" class="hidden">
     <div id="final-stats"></div>
     <button id="restart-btn">🔄 Перезапустить</button>
   </div>
-
   <audio id="sound-right" src="right.mp3"></audio>
   <audio id="sound-wrong" src="wrong.mp3"></audio>
   <audio id="sound-away" src="away.mp3"></audio>
   <audio id="sound-level" src="level.mp3"></audio>
-
   <script>
+    // Константы
     const correctWords = [
-      "shop", "she", "fish", "child", "bench", "cherry", "thin", "moth", "smith",
-      "this", "that", "they", "photo", "alphabet", "phone", "ring", "king", "baking",
-      "vision", "collision", "division", "car", "star", "cigar", "sister", "finger",
-      "driver", "sport", "morning", "north", "girl", "bird", "skirt", "book", "look",
-      "room", "moon", "spoon", "bamboo", "green", "cheese", "tree", "tea", "sea",
-      "please", "mouth", "cloud", "house", "town", "crown", "brown", "snow", "pillow",
-      "flow", "air", "chair", "hair", "cure", "pure", "sure", "ear", "fear", "year",
-      "coin", "voice", "oil", "boy", "toy", "joy"
-    ];
-
-    const incorrectWords = [
-      "shope", "shi", "feesh", "chaild", "banch", "charry", "theen", "mose", "smeeth",
-      "thees", "thet", "thei", "foto", "alfabet", "fone", "rin", "keeng", "bakin",
-      "vizion", "colision", "devision", "kar", "ctar", "cegar", "siste", "phinger",
-      "draiver", "sporte", "moning", "noth", "gerl", "berd", "skert", "buk", "luk",
-      "rum", "mun", "spun", "bemboo", "grin", "chize", "tri", "tee", "see",
-      "pleeze", "mauth", "claud", "houze", "tovn", "crovn", "brovn", "snov", "pelow",
-      "flov", "eir", "cheir", "heir", "kure", "puere", "shure", "eer", "phear", "yea",
-      "koin", "voise", "oel", "boi", "toi", "goy"
-    ];
-
+  "pen", "pet", "plate", "baby", "bag", "bike", "flat", "face", "five", "visit", "vine", "map", "mum", "milk", "zone", "blaze", "kiss", "kid", 
+  "kite", "table", "tube", "top", "desk", "dog", "dad", "name", "nine", 
+  "lips", "lamp", "lake"
+];
+const incorrectWords = [
+  "pan", "peat", "pleie", "beiby", "beg", "baike", "flet", "feis", "faiv", "vizit", 
+  "van", "vain", "mep", "mam", "melk", "zoun", "blase", "kis", "ked", 
+  "kait", "teible", "tub", "tope", "dask", "doug", "ded", "neim", "nine", 
+  "lips", "lamp", "lake"
+];
     const backgrounds = [
-      "linear-gradient(to bottom, #d0eaff, #ffffff)",
+      "linear-gradient(to bottom, #8ac5ff, #b6daff)",
       "linear-gradient(to bottom, #ffeec0, #fffde7)",
       "linear-gradient(to bottom, #ffdde1, #ee9ca7)",
       "linear-gradient(to bottom, #8ac5ff, #b6daff)"
     ];
+    const buttonColors = [
+      "#ffc107", // Оранжевый для первого фона
+      "#28a745", // Зелёный для второго фона
+      "#dc3545", // Красный для третьего фона
+      "#007bff"  // Синий для четвёртого фона
+    ];
 
+    // Переменные состояния
     let score = 0;
     let timeLeft = 60;
     let gameRunning = true;
     let spawnInterval;
     let timerInterval;
     let fallDuration = 7;
-    const speedSteps = [45, 30, 15];
     let currentLevel = 1;
     let levelsPassed = 0;
-
     const stats = {
       missedCorrect: [],
       clickedWrong: [],
       clickedCorrect: []
     };
 
+    // DOM элементы
     const wordArea = document.getElementById("word-area");
     const scoreDisplay = document.getElementById("score");
     const timerDisplay = document.getElementById("time");
@@ -251,32 +224,34 @@
     const restartBtn = document.getElementById("restart-btn");
     const recordValue = document.getElementById("record-value");
     const gameContainer = document.getElementById("game-container");
-
+    
+    // Аудио
     const soundRight = document.getElementById("sound-right");
     const soundWrong = document.getElementById("sound-wrong");
     const soundAway = document.getElementById("sound-away");
     const soundLevel = document.getElementById("sound-level");
 
+    // Функции
     function updateScore() {
       scoreDisplay.textContent = score;
     }
-
+    
     function updateTimer() {
       timerDisplay.textContent = timeLeft;
     }
-
+    
     function updateLevel(level) {
       levelDisplay.textContent = level;
     }
 
     function createWord() {
       if (!gameRunning) return;
-
+      
       const isCorrect = Math.random() > 0.5;
       const word = isCorrect
         ? correctWords[Math.floor(Math.random() * correctWords.length)]
         : incorrectWords[Math.floor(Math.random() * incorrectWords.length)];
-
+      
       const wordEl = document.createElement("div");
       wordEl.className = "word";
       wordEl.textContent = word;
@@ -285,10 +260,10 @@
       wordEl.dataset.clicked = "false";
       wordEl.style.left = Math.random() * (window.innerWidth - 120) + "px";
       wordEl.style.animationDuration = fallDuration + "s";
-
+      
       wordEl.addEventListener("click", () => {
         if (!gameRunning || wordEl.dataset.clicked === "true") return;
-
+        
         if (isCorrect) {
           wordEl.dataset.clicked = "true";
           score++;
@@ -308,9 +283,9 @@
           soundWrong.play();
         }
       });
-
+      
       wordArea.appendChild(wordEl);
-
+      
       setTimeout(() => {
         if (wordArea.contains(wordEl)) {
           wordEl.remove();
@@ -324,23 +299,30 @@
         }
       }, fallDuration * 1000);
     }
+
     function changeBackgroundAndSpeed() {
-  // Проверяем точное совпадение времени
-  if (timeLeft === 45 || timeLeft === 30 || timeLeft === 15) {
-    const bgIndex = levelsPassed % backgrounds.length;
-    gameContainer.style.background = backgrounds[bgIndex];
-    
-    soundLevel.currentTime = 0;
-    soundLevel.play();
-    
-    currentLevel++;
-    levelsPassed++;
-    updateLevel(currentLevel);
-    fallDuration *= 0.9;
-    
-    console.log(`Changed background at ${timeLeft}s to:`, backgrounds[bgIndex]);
-  }
-}
+      // Проверяем точное совпадение времени
+      if (timeLeft === 45 || timeLeft === 30 || timeLeft === 15) {
+        const bgIndex = levelsPassed % backgrounds.length;
+        
+        // Меняем фон
+        gameContainer.style.background = backgrounds[bgIndex];
+        
+        // Меняем цвет кнопок
+        pauseBtn.style.backgroundColor = buttonColors[bgIndex];
+        restartBtn.style.backgroundColor = buttonColors[bgIndex];
+        
+        // Воспроизводим звук и обновляем уровень
+        soundLevel.currentTime = 0;
+        soundLevel.play();
+        currentLevel++;
+        levelsPassed++;
+        updateLevel(currentLevel);
+        fallDuration *= 0.9;
+        
+        console.log(`Изменён фон на ${timeLeft} секунде:`, backgrounds[bgIndex]);
+      }
+    }
 
     function startGame() {
       score = 0;
@@ -353,46 +335,47 @@
       updateTimer();
       updateLevel(currentLevel);
       gameContainer.style.background = backgrounds[0];
-
+      pauseBtn.style.backgroundColor = buttonColors[0];
+      restartBtn.style.backgroundColor = buttonColors[0];
       stats.missedCorrect = [];
       stats.clickedWrong = [];
       stats.clickedCorrect = [];
-
       wordArea.innerHTML = "";
       finalScreen.classList.add("hidden");
-
+      
       spawnInterval = setInterval(createWord, 1200);
+      
       timerInterval = setInterval(() => {
         timeLeft--;
         updateTimer();
-
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
           clearInterval(spawnInterval);
           endGame();
         }
-
         changeBackgroundAndSpeed();
       }, 1000);
     }
 
     function endGame() {
       gameRunning = false;
-      soundAway.pause(); soundAway.currentTime = 0;
-      soundLevel.pause(); soundLevel.currentTime = 0;
-
+      soundAway.pause(); 
+      soundAway.currentTime = 0;
+      soundLevel.pause(); 
+      soundLevel.currentTime = 0;
+      
       const wrongList = [...new Set(stats.clickedWrong)];
       const wrongCount = wrongList.length;
       const missedCount = stats.missedCorrect.length;
       const correctCount = stats.clickedCorrect.length;
-
+      
       finalStats.innerHTML = `
         <div>🚫 Нажато по неправильным словам: ${wrongList.join(", ")} [${wrongCount} шт.]</div>
         <div>❌ Пропущены правильные слова: [${missedCount} шт.]</div>
         <div>✅ Нажато по правильным словам: [${correctCount} шт.]</div>
         <div>💰 Всего заработано очков: ${score}</div>
       `;
-
+      
       finalScreen.classList.remove("hidden");
       saveRecord(score);
     }
@@ -403,6 +386,7 @@
       recordValue.textContent = localStorage.getItem("word-game-record") || 0;
     }
 
+    // Обработчики событий
     pauseBtn.addEventListener("click", () => {
       if (gameRunning) {
         gameRunning = false;
