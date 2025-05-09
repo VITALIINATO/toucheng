@@ -178,6 +178,25 @@
         #restart-btn:hover {
             background-color: #218838;
         }
+
+        #reset-record-btn {
+    position: absolute;
+    right: 20px;
+    bottom: 70px;
+    font-size: 18px;
+    padding: 12px 20px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#reset-record-btn:hover {
+    background-color: #5a6268;
+}
+
     </style>
 </head>
 <body>
@@ -193,6 +212,7 @@
 <div id="final-screen" class="hidden">
     <div id="final-stats"></div>
     <button id="restart-btn">🔄 Перезапустить</button>
+    <button id="reset-record-btn">🗑 Сбросить рекорд</button>
 </div>
 <audio id="sound-right" src="right.mp3"></audio>
 <audio id="sound-wrong" src="wrong.mp3"></audio>
@@ -610,6 +630,14 @@
         saveRecord();
         startGame();
     };
+    document.getElementById("reset-record-btn").addEventListener("click", () => {
+    if (confirm("Вы уверены, что хотите сбросить рекорд?")) {
+        localStorage.removeItem("word-game-record");
+        recordValue.textContent = "0";
+        alert("Рекорд успешно сброшен!");
+    }
+});
+
 </script>
 </body>
 </html>
