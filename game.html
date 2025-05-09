@@ -1,100 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Drop Clicker</title>
+    <title>Word Drop Clicker - Enhanced</title>
     <style>
         @keyframes fall {
-            from {
-                transform: translateY(0)
-            }
-
-            to {
-                transform: translateY(calc(100vh - var(--start-top)))
-            }
+            from { transform: translateY(-50px); opacity: 0.8; }
+            to { transform: translateY(calc(100vh + 50px)); opacity: 1; }
         }
-
         @keyframes shake {
-
-            0%,
-            100% {
-                transform: translateX(0)
-            }
-
-            25% {
-                transform: translateX(-5px) rotate(-2deg)
-            }
-
-            50% {
-                transform: translateX(5px) rotate(2deg)
-            }
-
-            75% {
-                transform: translateX(-5px) rotate(-2deg)
-            }
+            0%, 100% { transform: translateX(0) rotate(0); }
+            25% { transform: translateX(-5px) rotate(-3deg); }
+            50% { transform: translateX(5px) rotate(3deg); }
+            75% { transform: translateX(-5px) rotate(-3deg); }
         }
-
         @keyframes explosion {
             0% {
                 transform: scale(1);
                 background: radial-gradient(circle, #ff4444, #cc0000);
                 box-shadow: 0 0 20px #ff4444;
+                opacity: 1;
             }
-
             50% {
                 transform: scale(2);
                 opacity: 0.8;
             }
-
             100% {
                 transform: scale(3);
                 opacity: 0;
             }
         }
-
-        @keyframes explode {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.5);
-                opacity: 0.8;
-            }
-
-            100% {
-                transform: scale(2);
-                opacity: 0;
-            }
-        }
-
         @keyframes pulse {
-            0% {
-                box-shadow: 0 0 10px #ffd700;
-            }
-
-            50% {
-                box-shadow: 0 0 25px #ffd700, 0 0 50px #ff4500;
-            }
-
-            100% {
-                box-shadow: 0 0 10px #ffd700;
-            }
+            0%, 100% { box-shadow: 0 0 10px #ffd700; }
+            50% { box-shadow: 0 0 25px #ffd700, 0 0 50px #ff4500; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             font-family: 'Segoe UI', sans-serif;
-            /* background: linear-gradient(135deg, #6a11cb, #2575fc); */
+            background: linear-gradient(180deg, #1a1a1a, #0d0d0d);
+            color: #fff;
             height: 100vh;
-            margin: 0;
-            height: 100vh;
-            background: linear-gradient(180deg, #7e7b85, #030008);
-            overflow: hidden;
-            font-family: 'Orbitron', sans-serif;
             overflow: hidden;
         }
 
@@ -106,34 +62,28 @@
 
         .word {
             --start-top: 100px;
-            /* примерное значение, можно рассчитывать динамически */
-
-            margin: 10px 0;
-            /* Вертикальный отступ между словами */
-            white-space: nowrap;
-            /* Запрет переноса слов */
-            gap: 50px;
+            display: inline-block;
             position: absolute;
             font-size: 24px;
-            padding: 15px 30px;
-            background: #f0eded;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
             border: 2px solid #ffd700;
             border-radius: 25px;
             cursor: pointer;
             animation: fall linear infinite;
-            transition: transform 0.2s;
-            text-shadow: 0 0 10px #ff4500;
-            box-shadow: 0 0 15px rgba(255, 69, 0, 0.3);
-
+            transition: all 0.2s ease-in-out;
+            white-space: nowrap;
+            z-index: 1;
+            backdrop-filter: blur(4px);
+            text-shadow: 0 0 5px #ff4500;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
         }
 
         .word:hover {
-            transform: scale(1.5) rotate(-2deg);
+            transform: scale(1.2) rotate(-2deg) translateY(-5px);
             box-shadow: 0 0 20px #ff3300;
-            z-index: 1;
-            /* Поднятие над другими словами при наведении */
+            z-index: 2;
         }
-
 
         .word.explosion {
             animation: explosion 0.5s forwards;
@@ -153,6 +103,8 @@
             font-size: 28px;
             text-shadow: 2px 2px 4px #000;
             animation: pulse 2s infinite;
+            z-index: 5;
+            border: 2px solid #ff4500;
         }
 
         #pauseButton {
@@ -165,6 +117,13 @@
             border-radius: 20px;
             cursor: pointer;
             z-index: 10;
+            border: 2px solid #ffd700;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #pauseButton:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.05);
         }
 
         #hud {
@@ -173,41 +132,84 @@
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 30px;
+            gap: 50px;
             z-index: 10;
+            font-weight: bold;
         }
 
-        /* ---------------------------------------------------- Улучшенная видимость счета и таймера */
-        #score {
-            font-size: 72px;
-            font-weight: 700;
-            color: #FFD700;
+        .hud-item {
+            text-align: center;
+        }
+
+        .hud-label {
+            font-size: 20px;
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+
+        #score, #timer {
+            font-size: 64px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        #score {
+            color: #FFD700;
         }
 
         #timer {
-            font-size: 72px;
             color: #FF4500;
-            font: bold;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        /* Стили для финального результата */
         #result {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
+            background: rgba(0, 0, 0, 0.95);
             display: none;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            z-index: 20;
+            backdrop-filter: blur(5px);
+        }
+
+        #result h1 {
             font-size: 48px;
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+            margin-bottom: 30px;
+            color: #ffd700;
+            text-shadow: 0 0 10px #ffd700;
+        }
+
+        #result button {
+            padding: 15px 30px;
+            font-size: 20px;
+            background: #ffd700;
+            color: #000;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 10px #ffd700;
+        }
+
+        #result button:hover {
+            background: #ffeb3b;
+            transform: scale(1.05);
+        }
+
+        #levelIndicator {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #00ff00;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            z-index: 10;
+            border: 2px solid #00ff00;
         }
 
         @media (max-width: 600px) {
@@ -215,34 +217,45 @@
                 font-size: 20px;
                 padding: 10px 20px;
             }
-
+            
             .word {
                 font-size: 20px;
-                padding: 10px 20px;
+                padding: 8px 16px;
             }
-
+            
             #score,
             #timer {
-                font-size: 24px;
+                font-size: 32px;
+            }
+            
+            #levelIndicator {
+                display: none;
             }
         }
     </style>
 </head>
-
 <body>
+    <div id="levelIndicator">Уровень: 1</div>
     <div id="task"></div>
     <div id="pauseButton">⏸ Пауза</div>
     <div id="gameContainer"></div>
     <div id="hud">
-        <div id="score">0</div>
-        <div id="timer">60</div>
+        <div class="hud-item">
+            <div class="hud-label">Очки</div>
+            <div id="score">0</div>
+        </div>
+        <div class="hud-item">
+            <div class="hud-label">Время</div>
+            <div id="timer">60</div>
+        </div>
     </div>
-    <div id="result"></div>
+    <div id="result">
+        <h1 id="resultText">Игра окончена!</h1>
+        <button id="restartButton">Начать заново</button>
+    </div>
+
     <script>
         const words = [
-
-
-
             { word: "jump", correct: "jump", translation: "прыгать" },
             { word: "job", correct: "job", translation: "работа" },
             { word: "jam", correct: "jam", translation: "джем" },
@@ -261,53 +274,45 @@
             { word: "gym", correct: "gym", translation: "спортзал" },
             { word: "general", correct: "general", translation: "генерал" },
             { word: "gel", correct: "gel", translation: "гель" },
-
             { word: "quest", correct: "quest", translation: "поиск" },
             { word: "queen", correct: "queen", translation: "королева" },
             { word: "squirrel", correct: "squirrel", translation: "белка" },
             { word: "exit", correct: "exit", translation: "выход" },
             { word: "sex", correct: "sex", translation: "пол" },
             { word: "fox", correct: "fox", translation: "лиса" },
-
             { word: "car", correct: "car", translation: "автомобиль" },
             { word: "star", correct: "star", translation: "звезда" },
             { word: "cigar", correct: "cigar", translation: "сигара" },
             { word: "sister", correct: "sister", translation: "сестра" },
             { word: "finger", correct: "finger", translation: "палец" },
             { word: "driver", correct: "driver", translation: "водитель" },
-
             { word: "sport", correct: "sport", translation: "спорт" },
             { word: "morning", correct: "morning", translation: "утро" },
             { word: "north", correct: "north", translation: "север" },
             { word: "girl", correct: "girl", translation: "девушка" },
             { word: "bird", correct: "bird", translation: "птица" },
             { word: "skirt", correct: "skirt", translation: "платье" },
-
             { word: "book", correct: "book", translation: "книга" },
             { word: "look", correct: "look", translation: "взгляд" },
             { word: "room", correct: "room", translation: "комната" },
             { word: "moon", correct: "moon", translation: "луна" },
             { word: "spoon", correct: "spoon", translation: "ложка" },
             { word: "bamboo", correct: "bamboo", translation: "бамбук" },
-
             { word: "green", correct: "green", translation: "зеленый" },
             { word: "cheese", correct: "cheese", translation: "сыр" },
             { word: "tree", correct: "tree", translation: "дерево" },
             { word: "tea", correct: "tea", translation: "чай" },
             { word: "sea", correct: "sea", translation: "море" },
             { word: "please", correct: "please", translation: "пожалуйста" },
-
             { word: "mouth", correct: "mouth", translation: "рот" },
             { word: "cloud", correct: "cloud", translation: "облако" },
             { word: "house", correct: "house", translation: "дом" },
             { word: "town", correct: "town", translation: "город" },
             { word: "crown", correct: "crown", translation: "корона" },
             { word: "brown", correct: "brown", translation: "коричневый" },
-
             { word: "snow", correct: "snow", translation: "снег" },
             { word: "pillow", correct: "pillow", translation: "подушка" },
             { word: "flow", correct: "flow", translation: "поток" },
-
             { word: "air", correct: "air", translation: "воздух" },
             { word: "chair", correct: "chair", translation: "стул" },
             { word: "hair", correct: "hair", translation: "волосы" },
@@ -317,23 +322,17 @@
             { word: "ear", correct: "ear", translation: "ухо" },
             { word: "fear", correct: "fear", translation: "страх" },
             { word: "year", correct: "year", translation: "год" },
-
             { word: "coin", correct: "coin", translation: "монета" },
             { word: "voice", correct: "voice", translation: "голос" },
             { word: "oil", correct: "oil", translation: "масло" },
-
             { word: "boy", correct: "boy", translation: "мальчик" },
             { word: "toy", correct: "toy", translation: "игрушка" },
             { word: "joy", correct: "joy", translation: "радость" },
-
-
-
-
-
         ];
 
         let score = 0;
         let timeLeft = 60;
+        let currentLevel = 1;
         let currentTask;
         let fallingWords = [];
         let gameInterval;
@@ -342,31 +341,69 @@
         let isFrozen = false;
         let usedWords = [];
 
-        // Настройки игры:
-        const wordSpeed = 10000; // Скорость падения слов (в миллисекундах)
-        const spawnInterval = 700; // Частота появления новых слов (в миллисекундах)
-        const maxFallingWords = 12; // Максимальное количество одновременно падающих слов
+        // Настройки уровня
+        const levelSettings = [
+            { speed: 10000, spawnInterval: 700, maxFallingWords: 8 },
+            { speed: 9000, spawnInterval: 650, maxFallingWords: 9 },
+            { speed: 8000, spawnInterval: 600, maxFallingWords: 10 },
+            { speed: 7000, spawnInterval: 550, maxFallingWords: 11 },
+            { speed: 6000, spawnInterval: 500, maxFallingWords: 12 }
+        ];
+
+        function getCurrentSettings() {
+            return levelSettings[Math.min(currentLevel - 1, levelSettings.length - 1)];
+        }
 
         function speak(word) {
-            return new Promise(resolve => {
-                const utterance = new SpeechSynthesisUtterance(word);
-                utterance.lang = 'en-US';
-                utterance.onend = resolve;
-                speechSynthesis.speak(utterance);
-            });
+            if ('speechSynthesis' in window) {
+                return new Promise(resolve => {
+                    const utterance = new SpeechSynthesisUtterance(word);
+                    utterance.lang = 'en-US';
+                    utterance.onend = resolve;
+                    speechSynthesis.speak(utterance);
+                });
+            } else {
+                console.warn("Web Speech API не поддерживается вашим браузером");
+                return Promise.resolve();
+            }
         }
 
         function startGame() {
+            resetGame();
+            updateLevelIndicator();
             newTask();
-            gameInterval = setInterval(createWord, spawnInterval); // Создаем новое слово каждые spawnInterval мс
+            startIntervals();
+            playBackgroundMusic();
+        }
+
+        function resetGame() {
+            score = 0;
+            timeLeft = 60;
+            currentLevel = 1;
+            usedWords = [];
+            document.getElementById('score').textContent = score;
+            document.getElementById('timer').textContent = timeLeft;
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('pauseButton').textContent = '⏸ Пауза';
+            stopBackgroundMusic();
+            clearFallingWords();
+        }
+
+        function startIntervals() {
+            const settings = getCurrentSettings();
+            gameInterval = setInterval(createWord, settings.spawnInterval);
             timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function stopIntervals() {
+            clearInterval(gameInterval);
+            clearInterval(timerInterval);
         }
 
         function newTask() {
             let availableWords = words.filter(word => !usedWords.includes(word.word));
             if (availableWords.length === 0) usedWords = [];
             currentTask = availableWords[Math.floor(Math.random() * availableWords.length)];
-            // Удалите эту строку: usedWords.push(currentTask.word);
             document.getElementById('task').textContent = currentTask.translation;
         }
 
@@ -388,36 +425,35 @@
 
             // Получаем высоту блока с заданием
             const taskElement = document.getElementById('task');
-            const taskHeight = taskElement.offsetHeight + 40; // Добавляем отступ 40px
+            const taskHeight = taskElement.offsetHeight + 40;
 
-            // Проверяем, есть ли текущее задание в падающих словах
+            // Гарантированно добавляем правильный ответ, если его нет
             const hasCurrentTask = fallingWords.some(word => word.textContent === currentTask.word);
             if (!hasCurrentTask) {
-                addCorrectWord(); // Добавляем правильный ответ, если его нет
+                addCorrectWord();
             }
 
-            if (fallingWords.length >= maxFallingWords) return;
+            const settings = getCurrentSettings();
+            const remainingSlots = settings.maxFallingWords - fallingWords.length;
+            if (remainingSlots <= 0) return;
 
-            // Создаем случайные слова
-            const wordData = getRandomWords(1); // Теперь создаем только одно слово за раз
+            // Создаем случайные слова (не более оставшихся слотов)
+            const wordCount = Math.min(remainingSlots, 1);
+            const wordData = getRandomWords(wordCount);
+
             wordData.forEach(data => {
                 const wordText = data.word;
                 const wordWidth = getWordWidth(wordText);
-
                 let leftPosition;
                 let topPosition;
                 let attempts = 0;
 
                 do {
-                    // Генерируем случайную позицию слева
                     leftPosition = Math.random() * (window.innerWidth - wordWidth);
-
-                    // Устанавливаем стартовую позицию ниже блока с заданием
                     const minTop = taskHeight;
-                    const maxTop = window.innerHeight * 0.7; // Максимальная стартовая позиция
+                    const maxTop = window.innerHeight * 0.7;
                     topPosition = minTop + Math.random() * (maxTop - minTop);
 
-                    // Проверяем перекрытие с другими словами
                     let overlap = false;
                     for (const existingWord of fallingWords) {
                         const existingRect = existingWord.getBoundingClientRect();
@@ -426,15 +462,11 @@
                         const existingWidth = existingRect.width;
                         const existingHeight = existingRect.height;
 
-                        // Минимальный gap (например, 30px)
                         const minGap = 100;
-
-                        // Горизонтальная проверка
                         if (
                             leftPosition < existingLeft + existingWidth + minGap &&
                             leftPosition + wordWidth + minGap > existingLeft
                         ) {
-                            // Вертикальная проверка
                             if (
                                 topPosition < existingTop + existingHeight + minGap &&
                                 topPosition + wordWidth + minGap > existingTop
@@ -444,8 +476,7 @@
                             }
                         }
                     }
-
-                    if (!overlap || attempts++ > 100) break; // Если после 100 попыток не удалось найти место, выходим
+                    if (!overlap || attempts++ > 100) break;
                 } while (true);
 
                 const wordElement = document.createElement('div');
@@ -453,7 +484,7 @@
                 wordElement.textContent = wordText;
                 wordElement.style.left = leftPosition + 'px';
                 wordElement.style.top = topPosition + 'px';
-                wordElement.style.animationDuration = (wordSpeed / 1000) + 's';
+                wordElement.style.animationDuration = (getCurrentSettings().speed / 1000) + 's';
                 wordElement.addEventListener('click', () => checkAnswer(wordElement, data.word));
                 document.getElementById('gameContainer').appendChild(wordElement);
                 fallingWords.push(wordElement);
@@ -467,24 +498,29 @@
                 // Правильный ответ
                 score++;
                 document.getElementById('score').textContent = score;
-                usedWords.push(currentTask.word); // Добавляем слово в список использованных
-                newTask(); // Создаем новое задание
-                speak(word); // Произносим слово
+                usedWords.push(currentTask.word);
+                newTask();
+                speak(word);
 
                 // Добавляем анимацию взрыва для правильного слова
                 element.classList.add('explosion');
-                playSound('correct'); // Воспроизводим звук правильного ответа
+
+                // Воспроизводим звук правильного ответа
+                playSound('correct');
 
                 // Удаляем слово из DOM после завершения анимации
                 setTimeout(() => {
                     element.remove();
                     fallingWords = fallingWords.filter(wordEl => wordEl !== element);
-                }, 500); // Время анимации взрыва (0.5 секунды)
+                }, 500);
+
+                // Проверяем повышение уровня
+                checkLevelUp();
             } else {
                 // Неправильный ответ
-                element.classList.add('shake'); // Добавляем анимацию "тряска"
-                setTimeout(() => element.classList.remove('shake'), 500); // Убираем анимацию через 0.5 секунды
-                playSound('wrong'); // Воспроизводим звук неправильного ответа
+                element.classList.add('shake');
+                setTimeout(() => element.classList.remove('shake'), 500);
+                playSound('wrong');
 
                 // Замораживаем игру на 2 секунды при неправильном ответе
                 if (!isFrozen) {
@@ -492,7 +528,7 @@
                     fallingWords.forEach(wordEl => {
                         wordEl.style.animationPlayState = 'paused';
                     });
-                    clearInterval(gameInterval);
+                    stopIntervals();
 
                     setTimeout(() => {
                         isFrozen = false;
@@ -500,13 +536,12 @@
                             wordEl.style.animationPlayState = 'running';
                         });
                         if (!isPaused) {
-                            gameInterval = setInterval(createWord, spawnInterval);
+                            startIntervals();
                         }
-                    }, 2000); // Заморозка на 2 секунды
+                    }, 2000);
                 }
             }
         }
-
 
         function addCorrectWord() {
             if (isFrozen || isPaused) return;
@@ -520,14 +555,11 @@
             let attempts = 0;
 
             do {
-                // Генерируем случайную позицию слева
                 leftPosition = Math.random() * (window.innerWidth - wordWidth);
-                // Устанавливаем стартовую позицию ниже блока с заданием
                 const minTop = taskHeight;
                 const maxTop = window.innerHeight * 0.7;
                 topPosition = minTop + Math.random() * (maxTop - minTop);
 
-                // Проверяем перекрытие с другими словами
                 let overlap = false;
                 for (const existingWord of fallingWords) {
                     const existingRect = existingWord.getBoundingClientRect();
@@ -536,15 +568,11 @@
                     const existingWidth = existingRect.width;
                     const existingHeight = existingRect.height;
 
-                    // Минимальный gap (например, 30px)
                     const minGap = 30;
-
-                    // Горизонтальная проверка
                     if (
                         leftPosition < existingLeft + existingWidth + minGap &&
                         leftPosition + wordWidth + minGap > existingLeft
                     ) {
-                        // Вертикальная проверка
                         if (
                             topPosition < existingTop + existingHeight + minGap &&
                             topPosition + wordWidth + minGap > existingTop
@@ -554,8 +582,7 @@
                         }
                     }
                 }
-
-                if (!overlap || attempts++ > 100) break; // Если после 100 попыток не удалось найти место, выходим
+                if (!overlap || attempts++ > 100) break;
             } while (true);
 
             const wordElement = document.createElement('div');
@@ -563,131 +590,91 @@
             wordElement.textContent = wordText;
             wordElement.style.left = leftPosition + 'px';
             wordElement.style.top = topPosition + 'px';
-            wordElement.style.animationDuration = (wordSpeed / 1000) + 's';
+            wordElement.style.animationDuration = (getCurrentSettings().speed / 1000) + 's';
             wordElement.addEventListener('click', () => checkAnswer(wordElement, currentTask.word));
             document.getElementById('gameContainer').appendChild(wordElement);
             fallingWords.push(wordElement);
         }
 
-
         function getRandomWords(count) {
             const usedInThisRound = new Set();
             const result = [];
-
             while (result.length < count) {
                 const randomWord = words[Math.floor(Math.random() * words.length)];
-
                 if (randomWord.word !== currentTask.word && !usedInThisRound.has(randomWord.word)) {
                     result.push(randomWord);
                     usedInThisRound.add(randomWord.word);
                 }
             }
-
             return result.sort(() => 0.5 - Math.random());
-        }
-
-        function createWord() {
-            if (isFrozen || isPaused) return;
-
-            // Получаем высоту блока с заданием
-            const taskElement = document.getElementById('task');
-            const taskHeight = taskElement.offsetHeight + 40; // Добавляем отступ 40px
-
-            // Гарантированно добавляем правильный ответ, если его нет
-            const hasCurrentTask = fallingWords.some(word => word.textContent === currentTask.word);
-            if (!hasCurrentTask) {
-                addCorrectWord(); // Добавляем правильный ответ
-            }
-
-            // Проверяем, сколько еще слов можно добавить
-            const remainingSlots = maxFallingWords - fallingWords.length;
-            if (remainingSlots <= 0) return;
-
-            // Создаем случайные слова (не более оставшихся слотов)
-            const wordCount = Math.min(remainingSlots, 1); // Добавляем только одно случайное слово за раз
-            const wordData = getRandomWords(wordCount);
-
-            wordData.forEach(data => {
-                const wordText = data.word;
-                const wordWidth = getWordWidth(wordText);
-                let leftPosition;
-                let topPosition;
-                let attempts = 0;
-
-                do {
-                    // Генерируем случайную позицию слева
-                    leftPosition = Math.random() * (window.innerWidth - wordWidth);
-                    // Устанавливаем стартовую позицию ниже блока с заданием
-                    const minTop = taskHeight;
-                    const maxTop = window.innerHeight * 0.7; // Максимальная стартовая позиция
-                    topPosition = minTop + Math.random() * (maxTop - minTop);
-
-                    // Проверяем перекрытие с другими словами
-                    let overlap = false;
-                    for (const existingWord of fallingWords) {
-                        const existingRect = existingWord.getBoundingClientRect();
-                        const existingLeft = existingRect.left;
-                        const existingTop = existingRect.top;
-                        const existingWidth = existingRect.width;
-                        const existingHeight = existingRect.height;
-
-                        // Минимальный gap (например, 30px)
-                        const minGap = 30;
-
-                        // Горизонтальная проверка
-                        if (
-                            leftPosition < existingLeft + existingWidth + minGap &&
-                            leftPosition + wordWidth + minGap > existingLeft
-                        ) {
-                            // Вертикальная проверка
-                            if (
-                                topPosition < existingTop + existingHeight + minGap &&
-                                topPosition + wordWidth + minGap > existingTop
-                            ) {
-                                overlap = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!overlap || attempts++ > 100) break; // Если после 100 попыток не удалось найти место, выходим
-                } while (true);
-
-                const wordElement = document.createElement('div');
-                wordElement.className = 'word';
-                wordElement.textContent = wordText;
-                wordElement.style.left = leftPosition + 'px';
-                wordElement.style.top = topPosition + 'px';
-                wordElement.style.animationDuration = (wordSpeed / 1000) + 's';
-                wordElement.addEventListener('click', () => checkAnswer(wordElement, data.word));
-                document.getElementById('gameContainer').appendChild(wordElement);
-                fallingWords.push(wordElement);
-            });
         }
 
         function updateTimer() {
             timeLeft--;
             document.getElementById('timer').textContent = timeLeft;
-
             if (timeLeft <= 0) endGame();
         }
 
         function endGame() {
-            clearInterval(gameInterval);
-            clearInterval(timerInterval);
+            stopIntervals();
+            clearFallingWords();
+            const resultDiv = document.getElementById('result');
+            const resultText = document.getElementById('resultText');
+            resultText.textContent = `Вы набрали ${score} очков!`;
+            resultDiv.style.display = 'flex';
+        }
 
+        function clearFallingWords() {
             fallingWords.forEach(word => word.remove());
             fallingWords = [];
-
-            const resultDiv = document.getElementById('result');
-            resultDiv.textContent = `Очки: ${score}`;
-            resultDiv.style.display = 'flex';
         }
 
         function playSound(type) {
             const audio = new Audio(type === 'correct' ? 'right.mp3' : 'wrong.mp3');
             audio.volume = 0.3;
-            audio.play();
+            try {
+                audio.play();
+            } catch (e) {
+                console.log("Не удалось воспроизвести звук:", e);
+            }
+        }
+
+        function playBackgroundMusic() {
+            if ('Audio' in window) {
+                const bgMusic = new Audio('background.mp3');
+                bgMusic.loop = true;
+                bgMusic.volume = 0.1;
+                bgMusic.play().catch(e => console.log("Не удалось воспроизвести фоновую музыку:", e));
+            }
+        }
+
+        function stopBackgroundMusic() {
+            // Просто пример, на самом деле управление музыкой может быть сложнее
+            console.log("Фоновая музыка остановлена");
+        }
+
+        function checkLevelUp() {
+            // Повышение уровня каждые 10 очков
+            const newLevel = Math.floor(score / 10) + 1;
+            if (newLevel > currentLevel) {
+                currentLevel = newLevel;
+                updateLevelIndicator();
+                
+                // Останавливаем текущие таймеры
+                stopIntervals();
+                
+                // Если игра не на паузе, запускаем новые таймеры с новыми настройками
+                if (!isPaused) {
+                    startIntervals();
+                }
+            }
+        }
+
+        function updateLevelIndicator() {
+            const levelIndicator = document.getElementById('levelIndicator');
+            if (levelIndicator) {
+                levelIndicator.textContent = `Уровень: ${currentLevel}`;
+            }
         }
 
         document.getElementById('pauseButton').addEventListener('click', () => {
@@ -696,21 +683,22 @@
             pauseButton.textContent = isPaused ? '▶ Продолжить' : '⏸ Пауза';
 
             if (isPaused) {
-                clearInterval(gameInterval);
-                clearInterval(timerInterval);
+                stopIntervals();
                 fallingWords.forEach(word => word.style.animationPlayState = 'paused');
             } else {
                 if (!isFrozen) {
-                    gameInterval = setInterval(createWord, spawnInterval);
-                    timerInterval = setInterval(updateTimer, 1000);
+                    startIntervals();
                 }
-
                 fallingWords.forEach(word => word.style.animationPlayState = 'running');
             }
         });
 
+        document.getElementById('restartButton').addEventListener('click', () => {
+            startGame();
+        });
+
+        // Инициализация игры
         startGame();
     </script>
 </body>
-
 </html>
