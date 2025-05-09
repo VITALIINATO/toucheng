@@ -418,14 +418,14 @@
       if ([45, 30, 15].includes(timeLeft)) {
         const bgIndex = currentLevel % 4;
         document.body.style.background = [
-        "linear-gradient(135deg, #1b1b2f, #162447, #1f4068)", // Сине-фиолетовая тьма
+      "linear-gradient(135deg, #1c1c1c, #2d2d2d)",         // Темная сталь
     "linear-gradient(135deg, #000000, #434343)",         // Черный + серый
    
 
        "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",// Морская глубина
     "linear-gradient(135deg, #1c1c1c, #2d2d2d)",         // Темная сталь
  
-    "linear-gradient(135deg, #1b1b2f, #162447, #1f4068)" // Сине-фиолетовая тьма
+  
 ][bgIndex];
         playSound('level');
         currentLevel++;
