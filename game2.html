@@ -598,6 +598,14 @@
         }
     });
 
+    document.getElementById("reset-record-btn").addEventListener("click", () => {
+    if (confirm("Вы уверены, что хотите сбросить рекорд?")) {
+        localStorage.removeItem("word-game-record");
+        recordValue.textContent = "0";
+        alert("Рекорд успешно сброшен!");
+    }
+});
+
     restartBtn.addEventListener("click", startGame);
 
     window.onload = () => {
