@@ -418,7 +418,7 @@
       if ([45, 30, 15].includes(timeLeft)) {
         const bgIndex = currentLevel % 4;
         document.body.style.background = [
-      "linear-gradient(135deg, #1c1c1c, #2d2d2d)",         // Темная сталь
+        "linear-gradient(135deg, #1b1b2f, #162447, #1f4068)", // Сине-фиолетовая тьма
     "linear-gradient(135deg, #000000, #434343)",         // Черный + серый
    
 
@@ -443,7 +443,7 @@
       updateScore();
       updateTimer();
       updateLevel(currentLevel);
-      document.body.style.background = "linear-gradient(135deg, #6a11cb, #2575fc)";
+      document.body.style.background =  "linear-gradient(135deg, #1b1b2f, #162447, #1f4068)", // Сине-фиолетовая тьма
       stats.missedCorrect = [];
       stats.clickedWrong = [];
       stats.clickedCorrect = [];
@@ -466,10 +466,10 @@
     function endGame() {
       gameRunning = false;
       finalStats.innerHTML = `
-        <div>🚫 Нажато по неправильным словам: [${stats.clickedWrong.length}]</div>
-        <div>❌ Пропущены правильные слова: [${stats.missedCorrect.length}]</div>
-        <div>✅ Нажато по правильным словам: [${stats.clickedCorrect.length}]</div>
-        <div>💰 Всего заработано очков: ${score}</div>
+        <div>🚫 Неправильно: [${stats.clickedWrong.length}]</div>
+        <div>❌ Пропущены: [${stats.missedCorrect.length}]</div>
+        <div>✅ Правильно: [${stats.clickedCorrect.length}]</div>
+        <div>💰 Очки: ${score}</div>
       `;
       finalScreen.style.display = "flex";
       saveRecord(score);
