@@ -430,7 +430,7 @@
         playSound('level');
         currentLevel++;
         updateLevel(currentLevel);
-        fallDuration *= 0.75;
+        fallDuration *= 0.8;
       }
     }
 
@@ -438,7 +438,7 @@
       score = 0;
       timeLeft = 60;
       currentLevel = 1;
-      fallDuration = 5;
+      fallDuration = 6;
       gameRunning = true;
       updateScore();
       updateTimer();
