@@ -28,7 +28,7 @@
             height: 100%;
         }
 
-       
+
 
         @keyframes float {
             from {
@@ -256,49 +256,470 @@
     <script>
         // Слова с пропусками и вариантами
         const tasks = [
-            {
-                word: "fish",
-                maskedWord: "f__sh",
-                correctMissing: "i",
-                incorrectOptions: ["ee", "ei", "ai", "ɪ"],
-                translation: "рыба"
-            },
-            {
-                word: "she",
-                maskedWord: "sh__",
-                correctMissing: "e",
-                incorrectOptions: ["ee", "ea", "er", "ie"],
-                translation: "она"
-            },
-            {
-                word: "shop",
-                maskedWord: "sh__p",
-                correctMissing: "o",
-                incorrectOptions: ["op", "oe", "oi", "io"],
-                translation: "магазин"
-            },
-            {
-                word: "car",
-                maskedWord: "c__r",
-                correctMissing: "a",
-                incorrectOptions: ["ar", "or", "er", "ur"],
-                translation: "машина"
-            },
-            {
-                word: "thin",
-                maskedWord: "th__n",
-                correctMissing: "i",
-                incorrectOptions: ["in", "un", "en", "an"],
-                translation: "тонкий"
-            },
-            {
-                word: "child",
-                maskedWord: "ch__ld",
-                correctMissing: "il",
-                incorrectOptions: ["al", "el", "ol", "ul"],
-                translation: "ребёнок"
-            }
-        ];
+  {
+    word: "shop",
+    maskedWord: "sh__p",
+    correctMissing: "op",
+    incorrectOptions: ["op", "oe", "oi", "io"],
+    translation: "магазин"
+  },
+  {
+    word: "she",
+    maskedWord: "sh__",
+    correctMissing: "e",
+    incorrectOptions: ["ee", "ea", "er", "ie"],
+    translation: "она"
+  },
+  {
+    word: "fish",
+    maskedWord: "f__sh",
+    correctMissing: "i",
+    incorrectOptions: ["ee", "ei", "ai", "ɪ"],
+    translation: "рыба"
+  },
+  {
+    word: "child",
+    maskedWord: "ch__ld",
+    correctMissing: "il",
+    incorrectOptions: ["al", "el", "ol", "ul"],
+    translation: "ребенок"
+  },
+  {
+    word: "bench",
+    maskedWord: "ben__",
+    correctMissing: "ch",
+    incorrectOptions: ["sh", "st", "th", "sk"],
+    translation: "лавочка"
+  },
+  {
+    word: "cherry",
+    maskedWord: "che__y",
+    correctMissing: "rr",
+    incorrectOptions: ["rri", "eri", "ari", "ir"],
+    translation: "вишня"
+  },
+  {
+    word: "thin",
+    maskedWord: "th__n",
+    correctMissing: "i",
+    incorrectOptions: ["in", "un", "en", "an"],
+    translation: "тонкий"
+  },
+  {
+    word: "moth",
+    maskedWord: "mo__",
+    correctMissing: "th",
+    incorrectOptions: ["ph", "tch", "dh", "te"],
+    translation: "мотылек"
+  },
+  {
+    word: "smith",
+    maskedWord: "sm__th",
+    correctMissing: "i",
+    incorrectOptions: ["ei", "ai", "a", "e"],
+    translation: "кузнец"
+  },
+  {
+    word: "this",
+    maskedWord: "th__s",
+    correctMissing: "is",
+    incorrectOptions: ["as", "es", "os", "us"],
+    translation: "это"
+  },
+  {
+    word: "that",
+    maskedWord: "th__t",
+    correctMissing: "at",
+    incorrectOptions: ["et", "ot", "it", "ut"],
+    translation: "то"
+  },
+  {
+    word: "they",
+    maskedWord: "th__y",
+    correctMissing: "ey",
+    incorrectOptions: ["ay", "oy", "iy", "uy"],
+    translation: "они"
+  },
+  {
+    word: "photo",
+    maskedWord: "ph__to",
+    correctMissing: "o",
+    incorrectOptions: ["ou", "oa", "oe", "oi"],
+    translation: "фото"
+  },
+  {
+    word: "alphabet",
+    maskedWord: "alph__bet",
+    correctMissing: "ab",
+    incorrectOptions: ["eb", "ib", "ob", "ub"],
+    translation: "алфавит"
+  },
+  {
+    word: "phone",
+    maskedWord: "ph__ne",
+    correctMissing: "on",
+    incorrectOptions: ["an", "in", "un", "en"],
+    translation: "телефон"
+  },
+  {
+    word: "ring",
+    maskedWord: "r__g",
+    correctMissing: "in",
+    incorrectOptions: ["en", "an", "on", "un"],
+    translation: "кольцо"
+  },
+  {
+    word: "king",
+    maskedWord: "k__g",
+    correctMissing: "in",
+    incorrectOptions: ["en", "an", "on", "un"],
+    translation: "король"
+  },
+  {
+    word: "baking",
+    maskedWord: "bak__ng",
+    correctMissing: "in",
+    incorrectOptions: ["en", "an", "on", "un"],
+    translation: "выпечка"
+  },
+  {
+    word: "car",
+    maskedWord: "c__r",
+    correctMissing: "a",
+    incorrectOptions: ["ar", "or", "ur", "er"],
+    translation: "автомобиль"
+  },
+  {
+    word: "star",
+    maskedWord: "st__r",
+    correctMissing: "ar",
+    incorrectOptions: ["or", "er", "ir", "ur"],
+    translation: "звезда"
+  },
+  {
+    word: "cigar",
+    maskedWord: "cig__r",
+    correctMissing: "ar",
+    incorrectOptions: ["er", "or", "ir", "ur"],
+    translation: "сигара"
+  },
+  {
+    word: "sister",
+    maskedWord: "sis__r",
+    correctMissing: "te",
+    incorrectOptions: ["ti", "to", "ta", "tr"],
+    translation: "сестра"
+  },
+  {
+    word: "finger",
+    maskedWord: "fin__r",
+    correctMissing: "ge",
+    incorrectOptions: ["ga", "gi", "go", "gu"],
+    translation: "палец"
+  },
+  {
+    word: "driver",
+    maskedWord: "dri__r",
+    correctMissing: "ve",
+    incorrectOptions: ["va", "vo", "vi", "vu"],
+    translation: "водитель"
+  },
+  {
+    word: "sport",
+    maskedWord: "sp__rt",
+    correctMissing: "or",
+    incorrectOptions: ["ar", "er", "ir", "ur"],
+    translation: "спорт"
+  },
+  {
+    word: "morning",
+    maskedWord: "morn__",
+    correctMissing: "ing",
+    incorrectOptions: ["ang", "eng", "ong", "ung"],
+    translation: "утро"
+  },
+  {
+    word: "north",
+    maskedWord: "nor__",
+    correctMissing: "th",
+    incorrectOptions: ["ch", "sh", "ph", "tt"],
+    translation: "север"
+  },
+  {
+    word: "girl",
+    maskedWord: "g__rl",
+    correctMissing: "i",
+    incorrectOptions: ["ai", "ei", "ui", "oi"],
+    translation: "девушка"
+  },
+  {
+    word: "bird",
+    maskedWord: "b__rd",
+    correctMissing: "ir",
+    incorrectOptions: ["ar", "er", "or", "ur"],
+    translation: "птица"
+  },
+  {
+    word: "skirt",
+    maskedWord: "sk__rt",
+    correctMissing: "ir",
+    incorrectOptions: ["ar", "er", "or", "ur"],
+    translation: "юбка"
+  },
+  {
+    word: "book",
+    maskedWord: "b__k",
+    correctMissing: "oo",
+    incorrectOptions: ["oa", "oe", "oe", "ow"],
+    translation: "книга"
+  },
+  {
+    word: "look",
+    maskedWord: "l__k",
+    correctMissing: "oo",
+    incorrectOptions: ["oa", "oe", "oe", "ow"],
+    translation: "взгляд"
+  },
+  {
+    word: "room",
+    maskedWord: "r__m",
+    correctMissing: "oo",
+    incorrectOptions: ["oa", "oe", "oe", "ow"],
+    translation: "комната"
+  },
+  {
+    word: "moon",
+    maskedWord: "m__n",
+    correctMissing: "oo",
+    incorrectOptions: ["oa", "oe", "oi", "ow"],
+    translation: "луна"
+  },
+  {
+    word: "spoon",
+    maskedWord: "sp__n",
+    correctMissing: "oo",
+    incorrectOptions: ["oi", "oi", "ow", "oe"],
+    translation: "ложка"
+  },
+  {
+    word: "bamboo",
+    maskedWord: "bam__",
+    correctMissing: "boo",
+    incorrectOptions: ["bao", "beo", "bio", "ba"],
+    translation: "бамбук"
+  },
+  {
+    word: "green",
+    maskedWord: "gr__n",
+    correctMissing: "ee",
+    incorrectOptions: ["ea", "ei", "ai", "ie"],
+    translation: "зеленый"
+  },
+  {
+    word: "cheese",
+    maskedWord: "che__se",
+    correctMissing: "ee",
+    incorrectOptions: ["ea", "ei", "ai", "ie"],
+    translation: "сыр"
+  },
+  {
+    word: "tree",
+    maskedWord: "tr__",
+    correctMissing: "ee",
+    incorrectOptions: ["ea", "ei", "ai", "ie"],
+    translation: "дерево"
+  },
+  {
+    word: "tea",
+    maskedWord: "t__",
+    correctMissing: "ea",
+    incorrectOptions: ["ee", "ei", "ai", "ie"],
+    translation: "чай"
+  },
+  {
+    word: "sea",
+    maskedWord: "s__",
+    correctMissing: "ea",
+    incorrectOptions: ["ee", "ei", "ai", "ie"],
+    translation: "море"
+  },
+  {
+    word: "please",
+    maskedWord: "pl__se",
+    correctMissing: "ea",
+    incorrectOptions: ["ee", "ei", "ai", "ie"],
+    translation: "пожалуйста"
+  },
+  {
+    word: "mouth",
+    maskedWord: "m__th",
+    correctMissing: "ou",
+    incorrectOptions: ["oa", "oe", "oe", "ia"],
+    translation: "рот"
+  },
+  {
+    word: "cloud",
+    maskedWord: "cl__d",
+    correctMissing: "ou",
+    incorrectOptions: ["oa", "oe", "oe", "ia"],
+    translation: "облако"
+  },
+  {
+    word: "house",
+    maskedWord: "h__se",
+    correctMissing: "ou",
+    incorrectOptions: ["oa", "oe", "oe", "ia"],
+    translation: "дом"
+  },
+  {
+    word: "town",
+    maskedWord: "t__wn",
+    correctMissing: "ow",
+    incorrectOptions: ["aw", "ew", "uw", "oy"],
+    translation: "город"
+  },
+  {
+    word: "crown",
+    maskedWord: "cr__wn",
+    correctMissing: "ow",
+    incorrectOptions: ["aw", "ew", "iw", "oy"],
+    translation: "корона"
+  },
+  {
+    word: "brown",
+    maskedWord: "br__wn",
+    correctMissing: "ow",
+    incorrectOptions: ["aw", "ew", "iw", "oy"],
+    translation: "коричневый"
+  },
+  {
+    word: "snow",
+    maskedWord: "sn__w",
+    correctMissing: "ow",
+    incorrectOptions: ["aw", "ew", "iw", "ay"],
+    translation: "снег"
+  },
+  {
+    word: "pillow",
+    maskedWord: "pil__w",
+    correctMissing: "lo",
+    incorrectOptions: ["li", "la", "le", "lu"],
+    translation: "подушка"
+  },
+  {
+    word: "flow",
+    maskedWord: "fl__w",
+    correctMissing: "ow",
+    incorrectOptions: ["aw", "ew", "iw", "ay"],
+    translation: "поток"
+  },
+  {
+    word: "air",
+    maskedWord: "a__r",
+    correctMissing: "ir",
+    incorrectOptions: ["ar", "or", "er", "ur"],
+    translation: "воздух"
+  },
+  {
+    word: "chair",
+    maskedWord: "ch__r",
+    correctMissing: "ai",
+    incorrectOptions: ["ei", "ee", "ea", "er"],
+    translation: "стул"
+  },
+  {
+    word: "hair",
+    maskedWord: "h__r",
+    correctMissing: "ai",
+    incorrectOptions: ["ei", "ee", "ea", "er"],
+    translation: "волосы"
+  },
+  {
+    word: "cure",
+    maskedWord: "c__re",
+    correctMissing: "u",
+    incorrectOptions: ["a", "e", "i", "o"],
+    translation: "лечение"
+  },
+  {
+    word: "pure",
+    maskedWord: "p__re",
+    correctMissing: "u",
+    incorrectOptions: ["a", "e", "i", "o"],
+    translation: "беспримесный"
+  },
+  {
+    word: "sure",
+    maskedWord: "s__re",
+    correctMissing: "u",
+    incorrectOptions: ["a", "e", "i", "o"],
+    translation: "уверенный"
+  },
+  {
+    word: "ear",
+    maskedWord: "__ar",
+    correctMissing: "e",
+    incorrectOptions: ["a", "i", "o", "u"],
+    translation: "ухо"
+  },
+  {
+    word: "fear",
+    maskedWord: "f__r",
+    correctMissing: "ea",
+    incorrectOptions: ["ee", "ei", "oi", "ai"],
+    translation: "страх"
+  },
+  {
+    word: "year",
+    maskedWord: "y__r",
+    correctMissing: "ea",
+    incorrectOptions: ["ee", "ei", "oi", "ai"],
+    translation: "год"
+  },
+  {
+    word: "coin",
+    maskedWord: "c__in",
+    correctMissing: "oi",
+    incorrectOptions: ["ai", "ee", "ei", "oy"],
+    translation: "монета"
+  },
+  {
+    word: "voice",
+    maskedWord: "v__ice",
+    correctMissing: "oi",
+    incorrectOptions: ["ai", "ee", "ei", "oy"],
+    translation: "голос"
+  },
+  {
+    word: "oil",
+    maskedWord: "o__",
+    correctMissing: "il",
+    incorrectOptions: ["al", "el", "ol", "ul"],
+    translation: "масло"
+  },
+  {
+    word: "boy",
+    maskedWord: "b__y",
+    correctMissing: "oy",
+    incorrectOptions: ["ay", "ey", "iy", "uy"],
+    translation: "мальчик"
+  },
+  {
+    word: "toy",
+    maskedWord: "t__y",
+    correctMissing: "oy",
+    incorrectOptions: ["ay", "ey", "iy", "uy"],
+    translation: "игрушка"
+  },
+  {
+    word: "joy",
+    maskedWord: "j__y",
+    correctMissing: "oy",
+    incorrectOptions: ["ay", "ey", "iy", "uy"],
+    translation: "радость"
+  }
+]
+   
 
         let score = 0;
         let timeLeft = 60;
@@ -359,11 +780,15 @@
         }
 
         function createLetter(option) {
+            if (isPaused || fallingLetters.length >= 12) return; // ← Максимум 6 букв на экране
             const element = document.createElement("div");
             element.className = "letter";
             element.textContent = option;
             element.dataset.value = option;
             element.dataset.correct = option === currentTask.correctMissing ? "true" : "false";
+
+            
+
 
             // Начальные координаты
             const x = Math.random() * (window.innerWidth - 120);
@@ -374,7 +799,7 @@
 
             document.getElementById("gameContainer").appendChild(element);
 
-            const speed = 2 + Math.random() * 1.5;
+            const speed = 2 + Math.random() * 1; //         == speed
             const angle = Math.random() * 2 * Math.PI;
             const dx = Math.cos(angle) * speed;
             const dy = Math.sin(angle) * speed;
