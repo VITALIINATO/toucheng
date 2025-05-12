@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Правописание слов - Восстанови пропущенное</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron :wght@500&display=swap');
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      color: #fff;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #gameContainer {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .letter {
+      position: absolute;
+      font-size: 28px;
+      padding: 15px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      user-select: none;
+      touch-action: manipulation;
+      transition: transform 0.2s ease-in-out;
+      white-space: nowrap;
+      z-index: 1;
+      border: 2px solid #ffd700;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 10px #ff4500;
+    }
+    .letter:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #ff3300;
+      z-index: 2;
+    }
+    .letter.correct,
+    .letter.wrong {
+      animation: explode 0.5s forwards;
+      pointer-events: none;
+      color: transparent !important;
+    }
+    @keyframes explode {
+      0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2) rotate(0deg);
+        opacity: 0;
+      }
+    }
+    #task {
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffd700;
+      padding: 15px 30px;
+      border-radius: 25px;
+      font-size: 28px;
+      text-shadow: 0 0 10px #ff4500;
+      z-index: 10;
+      border: 2px solid #ff4500;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 10px #ffd700;
+      }
+      50% {
+        box-shadow: 0 0 25px #ffd700, 0 0 50px #ff4500;
+      }
+    }
+    #hud {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 50px;
+      z-index: 10;
+      font-weight: bold;
+    }
+    .hud-item {
+      text-align: center;
+    }
+    .hud-label {
+      font-size: 20px;
+      color: #aaa;
+      margin-bottom: 5px;
+    }
+    #score,
+    #timer {
+      font-size: 64px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    #score {
+      color: #FFD700;
+    }
+    #timer {
+      color: #FF4500;
+    }
+    #pauseButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s ease-in-out;
+    }
+    #pauseButton:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+    }
+    #result {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 20;
+      backdrop-filter: blur(5px);
+    }
+    #result h1 {
+      font-size: 48px;
+      margin-bottom: 30px;
+      color: #ffd700;
+      text-shadow: 0 0 10px #ffd700;
+    }
+    #result button {
+      padding: 15px 30px;
+      font-size: 20px;
+      background: #ffd700;
+      color: #000;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 0 10px #ffd700;
+    }
+    #result button:hover {
+      background: #ffeb3b;
+      transform: scale(1.05);
+    }
+    #record {
+      position: fixed;
+      bottom: 20px;
+      right: 150px;
+      font-size: 24px;
+      color: #ffd700;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 20px;
+      border-radius: 20px;
+    }
+    #stats {
+      max-height: 300px;
+      overflow-y: auto;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+    .stat-correct {
+      color: #0f0;
+    }
+    .stat-wrong {
+      color: #f00;
+    }
+    @media (max-width: 600px) {
+      .letter {
+        font-size: 22px;
+        padding: 10px 20px;
+      }
+      #task {
+        font-size: 20px;
+        padding: 10px 20px;
+      }
+      #score,
+      #timer {
+        font-size: 32px;
+      }
+      #pauseButton {
+        font-size: 20px;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="task">_ _ _</div>
+  <div id="pauseButton">⏸ Пауза</div>
+  <div id="gameContainer"></div>
+  <div id="hud">
+    <div class="hud-item">
+      <div class="hud-label">Очки</div>
+      <div id="score">0</div>
+    </div>
+    <div class="hud-item">
+      <div class="hud-label">Время</div>
+      <div id="timer">60</div>
+    </div>
+  </div>
+  <div id="record">Рекорд: 0</div>
+  <div id="result">
+    <h1 id="resultText">Игра окончена!</h1>
+    <div id="stats"></div>
+    <button id="restartButton">Начать заново</button>
+  </div>
+
+  <script>
+    const tasks = [
+      {
+        word: "shop",
+        maskedWord: "**op",
+        correctMissing: "sh",
+        translation: "магазин"
+      },
+      {
+        word: "she",
+        maskedWord: "**e",
+        correctMissing: "sh",
+        translation: "она"
+      },
+      {
+        word: "fish",
+        maskedWord: "fi**",
+        correctMissing: "sh",
+        translation: "рыба"
+      },
+      {
+        word: "child",
+        maskedWord: "**ild",
+        correctMissing: "ch",
+        translation: "ребенок"
+      },
+      {
+        word: "bench",
+        maskedWord: "ben**",
+        correctMissing: "ch",
+        translation: "лавочка"
+      },
+      {
+        word: "cherry",
+        maskedWord: "ch**ry",
+        correctMissing: "er",
+        translation: "вишня"
+      },
+      {
+        word: "thin",
+        maskedWord: "**in",
+        correctMissing: "th",
+        translation: "тонкий"
+      },
+      {
+        word: "moth",
+        maskedWord: "mo**",
+        correctMissing: "th",
+        translation: "мотылек"
+      },
+      {
+        word: "smith",
+        maskedWord: "smi_",
+        correctMissing: "th",
+        translation: "кузнец"
+      },
+      {
+        word: "this",
+        maskedWord: "**is",
+        correctMissing: "th",
+        translation: "это"
+      },
+      {
+        word: "that",
+        maskedWord: "**at",
+        correctMissing: "th",
+        translation: "то"
+      },
+      {
+        word: "they",
+        maskedWord: "**ey",
+        correctMissing: "th",
+        translation: "они"
+      },
+      {
+        word: "photo",
+        maskedWord: "**oto",
+        correctMissing: "ph",
+        translation: "фото"
+      },
+      {
+        word: "alphabet",
+        maskedWord: "al**abet",
+        correctMissing: "ph",
+        translation: "алфавит"
+      },
+      {
+        word: "phone",
+        maskedWord: "**one",
+        correctMissing: "ph",
+        translation: "телефон"
+      },
+      {
+        word: "ring",
+        maskedWord: "ri**",
+        correctMissing: "ng",
+        translation: "кольцо"
+      },
+      {
+        word: "king",
+        maskedWord: "ki**",
+        correctMissing: "ng",
+        translation: "король"
+      },
+      {
+        word: "baking",
+        maskedWord: "baki**",
+        correctMissing: "ng",
+        translation: "выпечка"
+      },
+      {
+        word: "car",
+        maskedWord: "c**",
+        correctMissing: "ar",
+        translation: "автомобиль"
+      },
+      {
+        word: "star",
+        maskedWord: "st**",
+        correctMissing: "ar",
+        translation: "звезда"
+      },
+      {
+        word: "cigar",
+        maskedWord: "cig**",
+        correctMissing: "ar",
+        translation: "сигара"
+      },
+      {
+        word: "sister",
+        maskedWord: "sist**",
+        correctMissing: "er",
+        translation: "сестра"
+      },
+      {
+        word: "finger",
+        maskedWord: "fing**",
+        correctMissing: "er",
+        translation: "палец"
+      },
+      {
+        word: "driver",
+        maskedWord: "driv**",
+        correctMissing: "er",
+        translation: "водитель"
+      },
+      {
+        word: "sport",
+        maskedWord: "sp**t",
+        correctMissing: "or",
+        translation: "спорт"
+      },
+      {
+        word: "morning",
+        maskedWord: "morni**",
+        correctMissing: "ng",
+        translation: "утро"
+      },
+      {
+        word: "north",
+        maskedWord: "nor**",
+        correctMissing: "th",
+        translation: "север"
+      },
+      {
+        word: "north",
+        maskedWord: "n**th",
+        correctMissing: "or",
+        translation: "север"
+      },
+      {
+        word: "girl",
+        maskedWord: "g**l",
+        correctMissing: "ir",
+        translation: "девушка"
+      },
+      {
+        word: "bird",
+        maskedWord: "b**d",
+        correctMissing: "ir",
+        translation: "птица"
+      },
+      {
+        word: "skirt",
+        maskedWord: "sk**t",
+        correctMissing: "ir",
+        translation: "юбка"
+      },
+      {
+        word: "book",
+        maskedWord: "b**k",
+        correctMissing: "oo",
+        translation: "книга"
+      },
+      {
+        word: "look",
+        maskedWord: "l**k",
+        correctMissing: "oo",
+        translation: "взгляд"
+      },
+      {
+        word: "room",
+        maskedWord: "r**m",
+        correctMissing: "oo",
+        translation: "комната"
+      },
+      {
+        word: "moon",
+        maskedWord: "m**n",
+        correctMissing: "oo",
+        translation: "луна"
+      },
+      {
+        word: "spoon",
+        maskedWord: "sp**n",
+        correctMissing: "oo",
+        translation: "ложка"
+      },
+      {
+        word: "bamboo",
+        maskedWord: "bamb**",
+        correctMissing: "oo",
+        translation: "бамбук"
+      },
+      {
+        word: "green",
+        maskedWord: "gr**n",
+        correctMissing: "ee",
+        translation: "зеленый"
+      },
+      {
+        word: "cheese",
+        maskedWord: "che**se",
+        correctMissing: "ee",
+        translation: "сыр"
+      },
+      {
+        word: "tree",
+        maskedWord: "tr**",
+        correctMissing: "ee",
+        translation: "дерево"
+      },
+      {
+        word: "tea",
+        maskedWord: "t**",
+        correctMissing: "ea",
+        translation: "чай"
+      },
+      {
+        word: "sea",
+        maskedWord: "s**",
+        correctMissing: "ea",
+        translation: "море"
+      },
+      {
+        word: "please",
+        maskedWord: "pl**se",
+        correctMissing: "ea",
+        translation: "пожалуйста"
+      },
+      {
+        word: "mouth",
+        maskedWord: "m**th",
+        correctMissing: "ou",
+        translation: "рот"
+      },
+      {
+        word: "cloud",
+        maskedWord: "cl**d",
+        correctMissing: "ou",
+        translation: "облако"
+      },
+      {
+        word: "house",
+        maskedWord: "h**se",
+        correctMissing: "ou",
+        translation: "дом"
+      },
+      {
+        word: "town",
+        maskedWord: "t**n",
+        correctMissing: "ow",
+        translation: "город"
+      },
+      {
+        word: "crown",
+        maskedWord: "cr**n",
+        correctMissing: "ow",
+        translation: "корона"
+      },
+      {
+        word: "brown",
+        maskedWord: "br**n",
+        correctMissing: "ow",
+        translation: "коричневый"
+      },
+      {
+        word: "snow",
+        maskedWord: "sn**",
+        correctMissing: "ow",
+        translation: "снег"
+      },
+      {
+        word: "pillow",
+        maskedWord: "pill**",
+        correctMissing: "ow",
+        translation: "подушка"
+      },
+      {
+        word: "flow",
+        maskedWord: "fl**",
+        correctMissing: "ow",
+        translation: "поток"
+      },
+      {
+        word: "air",
+        maskedWord: "***",
+        correctMissing: "air",
+        translation: "воздух"
+      },
+      {
+        word: "chair",
+        maskedWord: "ch**",
+        correctMissing: "air",
+        translation: "стул"
+      },
+      {
+        word: "hair",
+        maskedWord: "h***",
+        correctMissing: "air",
+        translation: "волосы"
+      },
+      {
+        word: "cure",
+        maskedWord: "c***",
+        correctMissing: "ure",
+        translation: "лечение"
+      },
+      {
+        word: "pure",
+        maskedWord: "p***",
+        correctMissing: "ure",
+        translation: "беспримесный"
+      },
+      {
+        word: "sure",
+        maskedWord: "s***",
+        correctMissing: "ure",
+        translation: "уверенный"
+      },
+      {
+        word: "ear",
+        maskedWord: "***",
+        correctMissing: "e",
+        translation: "ухо"
+      },
+      {
+        word: "fear",
+        maskedWord: "f***",
+        correctMissing: "ear",
+        translation: "страх"
+      },
+      {
+        word: "year",
+        maskedWord: "y**",
+        correctMissing: "ear",
+        translation: "год"
+      },
+      {
+        word: "coin",
+        maskedWord: "c**n",
+        correctMissing: "oi",
+        translation: "монета"
+      },
+      {
+        word: "voice",
+        maskedWord: "v**ce",
+        correctMissing: "oi",
+        translation: "голос"
+      },
+      {
+        word: "oil",
+        maskedWord: "**l",
+        correctMissing: "oi",
+        translation: "масло"
+      },
+      {
+        word: "boy",
+        maskedWord: "b**",
+        correctMissing: "oy",
+        translation: "мальчик"
+      },
+      {
+        word: "toy",
+        maskedWord: "t**",
+        correctMissing: "oy",
+        translation: "игрушка"
+      },
+      {
+        word: "joy",
+        maskedWord: "j**",
+        correctMissing: "oy",
+        translation: "радость"
+      }
+    ];
+
+    // Генерируем единый список incorrectOptions
+    const allCorrectValues = [...new Set(tasks.map(task => task.correctMissing))];
+    tasks.forEach(task => {
+      task.incorrectOptions = allCorrectValues.filter(val => val !== task.correctMissing);
+    });
+
+    let score = 0;
+    let timeLeft = 60;
+    let currentTask;
+    let fallingLetters = [];
+    let gameInterval;
+    let timerInterval;
+    let isPaused = false;
+
+    const taskElement = document.getElementById("task");
+    const scoreDisplay = document.getElementById("score");
+    const timerDisplay = document.getElementById("timer");
+    const pauseButton = document.getElementById("pauseButton");
+    const resultScreen = document.getElementById("result");
+    const resultText = document.getElementById("resultText");
+    const restartButton = document.getElementById("restartButton");
+    const statsDiv = document.getElementById("stats");
+    const recordDisplay = document.getElementById("record");
+
+    let correctAnswers = [];
+    let wrongAnswers = [];
+
+    function getRecord() {
+      return parseInt(localStorage.getItem("record")) || 0;
+    }
+
+    function updateRecord() {
+      const record = Math.max(getRecord(), score);
+      localStorage.setItem("record", record);
+      recordDisplay.textContent = `Рекорд: ${record}`;
+    }
+
+    function speak(word) {
+      if ('speechSynthesis' in window) {
+        return new Promise(resolve => {
+          const utterance = new SpeechSynthesisUtterance(word);
+          utterance.lang = 'en-US';
+          utterance.onend = resolve;
+          speechSynthesis.speak(utterance);
+        });
+      } else {
+        console.warn("Web Speech API не поддерживается");
+        return Promise.resolve();
+      }
+    }
+
+    function playSound(type) {
+      try {
+        const audio = new Audio(type === 'correct' ? '2right.mp3' : 'wrong.mp3');
+        audio.play();
+      } catch (e) {
+        console.log("Не удалось воспроизвести звук");
+      }
+    }
+
+    function startGame() {
+      score = 0;
+      timeLeft = 60;
+      correctAnswers = [];
+      wrongAnswers = [];
+      updateScore();
+      updateTimer();
+      resultScreen.style.display = "none";
+      stopIntervals();
+      clearFallingLetters();
+      newTask();
+      startIntervals();
+      moveLetters();
+    }
+
+    function newTask() {
+      currentTask = tasks[Math.floor(Math.random() * tasks.length)];
+      taskElement.textContent = `${currentTask.maskedWord} — ${currentTask.translation}`;
+    }
+
+    function createLetter(option) {
+      if (isPaused || fallingLetters.length >= 15) return;
+      const element = document.createElement("div");
+      element.className = "letter";
+      element.textContent = option;
+      element.dataset.value = option;
+      element.dataset.correct = option === currentTask.correctMissing ? "true" : "false";
+
+      const x = Math.random() * (window.innerWidth - 120);
+      const y = Math.random() * (window.innerHeight / 2);
+      element.style.left = `${x}px`;
+      element.style.top = `${y}px`;
+
+      document.getElementById("gameContainer").appendChild(element);
+
+      const speed = 1 + Math.random() * 1;
+      const angle = Math.random() * 2 * Math.PI;
+      const dx = Math.cos(angle) * speed;
+      const dy = Math.sin(angle) * speed;
+
+      fallingLetters.push({ el: element, dx, dy, width: 120, height: 40 });
+    }
+
+    function moveLetters() {
+      const containerWidth = window.innerWidth;
+      const containerHeight = window.innerHeight;
+      for (let i = 0; i < fallingLetters.length; i++) {
+        const letter = fallingLetters[i];
+        let x = parseFloat(letter.el.style.left);
+        let y = parseFloat(letter.el.style.top);
+        x += letter.dx;
+        y += letter.dy;
+
+        if (x <= 0 || x + letter.width >= containerWidth) letter.dx *= -1;
+        if (y <= 0 || y + letter.height >= containerHeight) letter.dy *= -1;
+
+        letter.el.style.left = `${x}px`;
+        letter.el.style.top = `${y}px`;
+      }
+      requestAnimationFrame(moveLetters);
+    }
+
+    function startIntervals() {
+      gameInterval = setInterval(() => {
+        if (!isPaused) createLetter(currentTask.correctMissing);
+        if (!isPaused && Math.random() > 0.5) createLetter(getRandomIncorrectOption());
+      }, 1000);
+
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft <= 0) endGame();
+      }, 1000);
+    }
+
+    function getRandomIncorrectOption() {
+      return currentTask.incorrectOptions[
+        Math.floor(Math.random() * currentTask.incorrectOptions.length)
+      ];
+    }
+
+    function stopIntervals() {
+      clearInterval(gameInterval);
+      clearInterval(timerInterval);
+    }
+
+    function updateScore() {
+      scoreDisplay.textContent = score;
+    }
+
+    function updateTimer() {
+      timerDisplay.textContent = timeLeft;
+    }
+
+    function clearFallingLetters() {
+      fallingLetters.forEach(obj => obj.el.remove());
+      fallingLetters = [];
+    }
+
+    function endGame() {
+      stopIntervals();
+      updateRecord();
+      resultText.textContent = `Вы набрали ${score} очков!`;
+      statsDiv.innerHTML = "";
+
+      correctAnswers.forEach(w => {
+        const div = document.createElement("div");
+        div.className = "stat-correct";
+        div.textContent = `✔ ${w.word} → Выбрали: "${w.answer}"`;
+        statsDiv.appendChild(div);
+      });
+
+      wrongAnswers.forEach(w => {
+        const div = document.createElement("div");
+        div.className = "stat-wrong";
+        div.textContent = `✘ ${w.word} → Выбрали: "${w.answer}" (правильно: "${w.correct}")`;
+        statsDiv.appendChild(div);
+      });
+
+      resultScreen.style.display = "flex";
+    }
+
+    function checkAnswer(element, value) {
+      if (isPaused) return;
+
+      const isCorrect = value === currentTask.correctMissing;
+
+      if (isCorrect) {
+        score += 2;
+        correctAnswers.push({ word: currentTask.word, answer: value });
+        updateScore();
+        playSound("correct");
+        speak(currentTask.word).then(() => {
+          element.classList.add("correct");
+          setTimeout(() => element.remove(), 500);
+          fallingLetters = fallingLetters.filter(obj => obj.el !== element);
+        });
+        newTask();
+      } else {
+        score--;
+        wrongAnswers.push({ word: currentTask.word, answer: value, correct: currentTask.correctMissing });
+        updateScore();
+        playSound("wrong");
+        element.classList.add("wrong");
+        setTimeout(() => element.remove(), 500);
+        fallingLetters = fallingLetters.filter(obj => obj.el !== element);
+      }
+    }
+
+    pauseButton.addEventListener("click", () => {
+      isPaused = !isPaused;
+      pauseButton.textContent = isPaused ? "▶ Продолжить" : "⏸ Пауза";
+      if (isPaused) {
+        stopIntervals();
+      } else {
+        startIntervals();
+      }
+    });
+
+    restartButton.addEventListener("click", () => {
+      startGame();
+    });
+
+    window.onload = () => {
+      startGame();
+      updateRecord();
+      document.getElementById("gameContainer").addEventListener("click", (e) => {
+        if (e.target.classList.contains("letter")) {
+          checkAnswer(e.target, e.target.dataset.value);
+        }
+      });
+    };
+  </script>
+</body>
+</html>
