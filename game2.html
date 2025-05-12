@@ -1,949 +1,530 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Правописание слов - Восстанови пропущенное</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron :wght@500&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Правописание слов</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap ');
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
-            color: #fff;
-            height: 100vh;
-            overflow: hidden;
-        }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(180deg, #1a1a1a, #0d0d0d);
+      color: #fff;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-        #gameContainer {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
+    h1 {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      z-index: 10;
+      color: #ffd700;
+      text-shadow: 0 0 10px #ff4500;
+    }
 
+    .hud {
+      position: fixed;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 60px;
+      z-index: 10;
+      font-weight: bold;
+    }
 
+    .hud div {
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.7);
+    }
 
-        @keyframes float {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
+    #scoreboard { color: #FFD700; }
+    #timer { color: #FF4500; }
+    #level-number { color: #00ffcc; }
 
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
+    #pause-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      font-size: 24px;
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s ease-in-out;
+    }
 
-        .letter {
-            position: absolute;
-            font-size: 28px;
-            padding: 15px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            user-select: none;
-            touch-action: manipulation;
-            transition: transform 0.2s ease-in-out;
-            white-space: nowrap;
-            z-index: 1;
+    #pause-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+    }
 
-            /* Постоянная обводка и свечение */
-            border: 2px solid #ffd700;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 10px #ff4500;
-        }
+    #record {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 18px;
+      color: #aaa;
+      z-index: 10;
+    }
 
-        .letter:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px #ff3300;
-            z-index: 2;
-        }
+    #word-area {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
 
-        .letter.correct,
-        .letter.wrong {
-            animation: explode 0.5s forwards;
-            pointer-events: none;
-            color: transparent !important;
-        }
+    .word {
+      --start-top: 100px;
+      position: absolute;
+      font-size: 28px;
+      padding: 20px 30px;
+      border-radius: 30px;
+      cursor: pointer;
+      animation: fall linear infinite;
+      user-select: none;
+      backdrop-filter: blur(4px);
+      border: 2px solid transparent;
+      z-index: 1;
+      opacity: 0.9;
+      transition: transform 0.2s ease;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 160px;
+      min-height: 80px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
 
-        @keyframes explode {
-            0% {
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-            }
+    .word:hover {
+      transform: scale(1.1) rotate(-2deg);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
 
-            100% {
-                transform: scale(2) rotate(0deg);
-                opacity: 0;
-            }
-        }
+    .word .translation {
+      font-size: 18px;
+      color: #ccc;
+      margin-top: 5px;
+    }
 
-        /* Задание сверху */
-        #task {
-            position: fixed;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.7);
-            color: #ffd700;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 28px;
-            text-shadow: 0 0 10px #ff4500;
-            z-index: 10;
-            border: 2px solid #ff4500;
-            animation: pulse 2s infinite;
-        }
+    @keyframes fall {
+      from { transform: translateY(-50px); opacity: 0.8; }
+      to { transform: translateY(calc(100vh + 50px)); opacity: 1; }
+    }
 
-        @keyframes pulse {
+    .explode {
+      animation: explode 0.6s forwards;
+    }
 
-            0%,
-            100% {
-                box-shadow: 0 0 10px #ffd700;
-            }
+    @keyframes explode {
+      0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2) rotate(360deg);
+        opacity: 0;
+      }
+    }
 
-            50% {
-                box-shadow: 0 0 25px #ffd700, 0 0 50px #ff4500;
-            }
-        }
+    #final-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+      animation: fadeIn 0.6s ease-out;
+      display: none;
+      backdrop-filter: blur(5px);
+    }
 
-        /* HUD - счёт и таймер */
-        #hud {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 50px;
-            z-index: 10;
-            font-weight: bold;
-        }
+    #final-stats {
+      max-height: 400px;
+      overflow-y: auto;
+      text-align: left;
+      margin-bottom: 20px;
+      padding: 0 20px;
+    }
 
-        .hud-item {
-            text-align: center;
-        }
+    #restart-btn,
+    #reset-record-btn {
+      padding: 12px 24px;
+      font-size: 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.3s ease;
+    }
 
-        .hud-label {
-            font-size: 20px;
-            color: #aaa;
-            margin-bottom: 5px;
-        }
+    #restart-btn {
+      background: #2ecc71;
+      color: white;
+    }
 
-        #score,
-        #timer {
-            font-size: 64px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
+    #restart-btn:hover {
+      background: #27ae60;
+    }
 
-        #score {
-            color: #FFD700;
-        }
+    #reset-record-btn {
+      background: #95a5a6;
+      color: white;
+    }
 
-        #timer {
-            color: #FF4500;
-        }
+    #reset-record-btn:hover {
+      background: #7f8c8d;
+    }
 
-        /* Кнопка паузы */
-        #pauseButton {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.3s ease-in-out;
-        }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 20px;
+      }
 
-        #pauseButton:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-        }
+      .word {
+        font-size: 22px;
+        padding: 15px 25px;
+        min-width: 140px;
+        min-height: 70px;
+      }
 
-        /* Экран окончания */
-        #result {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.95);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 20;
-            backdrop-filter: blur(5px);
-        }
+      .hud {
+        flex-direction: column;
+        gap: 10px;
+        top: 70px;
+      }
 
-        #result h1 {
-            font-size: 48px;
-            margin-bottom: 30px;
-            color: #ffd700;
-            text-shadow: 0 0 10px #ffd700;
-        }
-
-        #result button {
-            padding: 15px 30px;
-            font-size: 20px;
-            background: #ffd700;
-            color: #000;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 0 10px #ffd700;
-        }
-
-        #result button:hover {
-            background: #ffeb3b;
-            transform: scale(1.05);
-        }
-
-        @media (max-width: 600px) {
-            .letter {
-                font-size: 22px;
-                padding: 10px 20px;
-            }
-
-            #task {
-                font-size: 20px;
-                padding: 10px 20px;
-            }
-
-            #score,
-            #timer {
-                font-size: 32px;
-            }
-
-            #pauseButton {
-                font-size: 20px;
-                padding: 10px 20px;
-            }
-        }
-    </style>
+      #pause-btn {
+        font-size: 20px;
+        padding: 10px 20px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <h1>Кликни на ПРАВИЛЬНО написанные слова!</h1>
 
-    <div id="task">_ _ _</div>
-    <div id="pauseButton">⏸ Пауза</div>
-    <div id="gameContainer"></div>
-    <div id="hud">
-        <div class="hud-item">
-            <div class="hud-label">Очки</div>
-            <div id="score">0</div>
-        </div>
-        <div class="hud-item">
-            <div class="hud-label">Время</div>
-            <div id="timer">60</div>
-        </div>
-    </div>
-    <div id="result">
-        <h1 id="resultText">Игра окончена!</h1>
-        <button id="restartButton">Начать заново</button>
-    </div>
+  <div class="hud">
+    <div id="scoreboard">Очки: <span id="score">0</span></div>
+    <div id="level">Уровень: <span id="level-number">1</span></div>
+    <div id="timer">Время: <span id="time">60</span>s</div>
+  </div>
 
-    <script>
-        // Слова с пропусками и вариантами
-        const tasks = [
-            {
-                word: "shop",
-                maskedWord: "**op",
-                correctMissing: "sh",
-                incorrectOptions: ["op", "s", "oi", "io"],
-                translation: "магазин"
-            },
-            {
-                word: "she",
-                maskedWord: "**e",
-                correctMissing: "sh",
-                incorrectOptions: ["s", "ea", "er", "ie"],
-                translation: "она"
-            },
-            {
-                word: "fish",
-                maskedWord: "fi**",
-                correctMissing: "sh",
-                incorrectOptions: ["ph", "ei", "ai", "ɪ"],
-                translation: "рыба"
-            },
-            {
-                word: "child",
-                maskedWord: "**ild",
-                correctMissing: "ch",
-                incorrectOptions: ["al", "tc", "ol", "ul"],
-                translation: "ребенок"
-            },
-            {
-                word: "bench",
-                maskedWord: "ben**",
-                correctMissing: "ch",
-                incorrectOptions: ["sh", "st", "th", "sk"],
-                translation: "лавочка"
-            },
-            {
-                word: "cherry",
-                maskedWord: "ch**ry",
-                correctMissing: "er",
-                incorrectOptions: ["ir", "eri", "ari", "ir"],
-                translation: "вишня"
-            },
-            {
-                word: "thin",
-                maskedWord: "**in",
-                correctMissing: "th",
-                incorrectOptions: ["s", "c", "ph", "an"],
-                translation: "тонкий"
-            },
-            {
-                word: "moth",
-                maskedWord: "mo**",
-                correctMissing: "th",
-                incorrectOptions: ["ph", "tch", "dh", "te"],
-                translation: "мотылек"
-            },
-            {
-                word: "smith",
-                maskedWord: "smi_",
-                correctMissing: "th",
-                incorrectOptions: ["s", "ai", "a", "e"],
-                translation: "кузнец"
-            },
-            {
-                word: "this",
-                maskedWord: "**is",
-                correctMissing: "th",
-                incorrectOptions: ["as", "ch", "os", "us"],
-                translation: "это"
-            },
-            {
-                word: "that",
-                maskedWord: "**at",
-                correctMissing: "th",
-                incorrectOptions: ["et", "ph", "it", "ut"],
-                translation: "то"
-            },
-            {
-                word: "they",
-                maskedWord: "**ey",
-                correctMissing: "th",
-                incorrectOptions: ["ay", "oy", "iy", "uy"],
-                translation: "они"
-            },
-            {
-                word: "photo",
-                maskedWord: "**oto",
-                correctMissing: "ph",
-                incorrectOptions: ["f", "f", "oe", "th"],
-                translation: "фото"
-            },
-            {
-                word: "alphabet",
-                maskedWord: "al**abet",
-                correctMissing: "ph",
-                incorrectOptions: ["f", "f", "th", "ub"],
-                translation: "алфавит"
-            },
-            {
-                word: "phone",
-                maskedWord: "**one",
-                correctMissing: "ph",
-                incorrectOptions: ["an", "f", "un", "en"],
-                translation: "телефон"
-            },
-            {
-                word: "ring",
-                maskedWord: "ri**",
-                correctMissing: "ng",
-                incorrectOptions: ["en", "n", "on", "un"],
-                translation: "кольцо"
-            },
-            {
-                word: "king",
-                maskedWord: "ki**",
-                correctMissing: "ng",
-                incorrectOptions: ["n", "an", "on", "un"],
-                translation: "король"
-            },
-            {
-                word: "baking",
-                maskedWord: "baki**",
-                correctMissing: "ng",
-                incorrectOptions: ["n", "an", "on", "un"],
-                translation: "выпечка"
-            },
-            {
-                word: "car",
-                maskedWord: "c**",
-                correctMissing: "ar",
-                incorrectOptions: ["a", "a", "ir", "er"],
-                translation: "автомобиль"
-            },
-            {
-                word: "star",
-                maskedWord: "st**",
-                correctMissing: "ar",
-                incorrectOptions: ["a", "er", "ir", "ur"],
-                translation: "звезда"
-            },
-            {
-                word: "cigar",
-                maskedWord: "cig**",
-                correctMissing: "ar",
-                incorrectOptions: ["er", "or", "ir", "ur"],
-                translation: "сигара"
-            },
-            {
-                word: "sister",
-                maskedWord: "sist**",
-                correctMissing: "er",
-                incorrectOptions: ["a", "ar", "e", "r"],
-                translation: "сестра"
-            },
-            {
-                word: "finger",
-                maskedWord: "fing**",
-                correctMissing: "er",
-                incorrectOptions: ["ga", "gi", "go", "gu"],
-                translation: "палец"
-            },
-            {
-                word: "driver",
-                maskedWord: "driv**",
-                correctMissing: "er",
-                incorrectOptions: ["a", "ar", "e", "r"],
-                translation: "водитель"
-            },
-            {
-                word: "sport",
-                maskedWord: "sp**t",
-                correctMissing: "or",
-                incorrectOptions: ["ar", "er", "ir", "ur"],
-                translation: "спорт"
-            },
-            {
-                word: "morning",
-                maskedWord: "morni**",
-                correctMissing: "ng",
-                incorrectOptions: ["n", "ing", "ong", "ung"],
-                translation: "утро"
-            },
-            {
-                word: "north",
-                maskedWord: "nor**",
-                correctMissing: "th",
-                incorrectOptions: ["ch", "sh", "ph", "tt"],
-                translation: "север"
-            },
-            {
-                word: "north",
-                maskedWord: "n**th",
-                correctMissing: "or",
-                incorrectOptions: ["o", "er", "th", "o"],
-                translation: "север"
-            },
-            {
-                word: "girl",
-                maskedWord: "g**l",
-                correctMissing: "ir",
-                incorrectOptions: ["ai", "ei", "ui", "oi"],
-                translation: "девушка"
-            },
-            {
-                word: "bird",
-                maskedWord: "b**d",
-                correctMissing: "ir",
-                incorrectOptions: ["ar", "er", "or", "ur"],
-                translation: "птица"
-            },
-            {
-                word: "skirt",
-                maskedWord: "sk**t",
-                correctMissing: "ir",
-                incorrectOptions: ["ar", "er", "or", "ur"],
-                translation: "юбка"
-            },
-            {
-                word: "book",
-                maskedWord: "b**k",
-                correctMissing: "oo",
-                incorrectOptions: ["oa", "u", "oe", "ow"],
-                translation: "книга"
-            },
-            {
-                word: "look",
-                maskedWord: "l**k",
-                correctMissing: "oo",
-                incorrectOptions: ["oa", "u", "oe", "ow"],
-                translation: "взгляд"
-            },
-            {
-                word: "room",
-                maskedWord: "r**m",
-                correctMissing: "oo",
-                incorrectOptions: ["oa", "oe", "oe", "ow"],
-                translation: "комната"
-            },
-            {
-                word: "moon",
-                maskedWord: "m**n",
-                correctMissing: "oo",
-                incorrectOptions: ["oa", "u", "oi", "ow"],
-                translation: "луна"
-            },
-            {
-                word: "spoon",
-                maskedWord: "sp**n",
-                correctMissing: "oo",
-                incorrectOptions: ["u", "oi", "ow", "oe"],
-                translation: "ложка"
-            },
-            {
-                word: "bamboo",
-                maskedWord: "bamb**",
-                correctMissing: "oo",
-                incorrectOptions: ["u", "o", "io", "ow"],
-                translation: "бамбук"
-            },
-            {
-                word: "green",
-                maskedWord: "gr**n",
-                correctMissing: "ee",
-                incorrectOptions: ["ea", "ei", "ai", "ie"],
-                translation: "зеленый"
-            },
-            {
-                word: "cheese",
-                maskedWord: "che**se",
-                correctMissing: "ee",
-                incorrectOptions: ["ea", "ei", "ai", "ie"],
-                translation: "сыр"
-            },
-            {
-                word: "tree",
-                maskedWord: "tr**",
-                correctMissing: "ee",
-                incorrectOptions: ["ea", "ei", "ai", "ie"],
-                translation: "дерево"
-            },
-            {
-                word: "tea",
-                maskedWord: "t**",
-                correctMissing: "ea",
-                incorrectOptions: ["ee", "ei", "ai", "ie"],
-                translation: "чай"
-            },
-            {
-                word: "sea",
-                maskedWord: "s**",
-                correctMissing: "ea",
-                incorrectOptions: ["ee", "ei", "ai", "ie"],
-                translation: "море"
-            },
-            {
-                word: "please",
-                maskedWord: "pl**se",
-                correctMissing: "ea",
-                incorrectOptions: ["ee", "ei", "ai", "ie"],
-                translation: "пожалуйста"
-            },
-            {
-                word: "mouth",
-                maskedWord: "m**th",
-                correctMissing: "ou",
-                incorrectOptions: ["oa", "oe", "oe", "ia"],
-                translation: "рот"
-            },
-            {
-                word: "cloud",
-                maskedWord: "cl**d",
-                correctMissing: "ou",
-                incorrectOptions: ["oa", "oe", "oe", "ia"],
-                translation: "облако"
-            },
-            {
-                word: "house",
-                maskedWord: "h**se",
-                correctMissing: "ou",
-                incorrectOptions: ["oa", "oe", "oe", "ia"],
-                translation: "дом"
-            },
-            {
-                word: "town",
-                maskedWord: "t**n",
-                correctMissing: "ow",
-                incorrectOptions: ["aw", "ou", "uw", "oy"],
-                translation: "город"
-            },
-            {
-                word: "crown",
-                maskedWord: "cr**n",
-                correctMissing: "ow",
-                incorrectOptions: ["aw", "ew", "iw", "oy"],
-                translation: "корона"
-            },
-            {
-                word: "brown",
-                maskedWord: "br**n",
-                correctMissing: "ow",
-                incorrectOptions: ["aw", "o", "au", "ou"],
-                translation: "коричневый"
-            },
-            {
-                word: "snow",
-                maskedWord: "sn**",
-                correctMissing: "ow",
-                incorrectOptions: ["aw", "o", "iw", "ay"],
-                translation: "снег"
-            },
-            {
-                word: "pillow",
-                maskedWord: "pill**",
-                correctMissing: "ow",
-                incorrectOptions: ["li", "ov", "le", "lu"],
-                translation: "подушка"
-            },
-            {
-                word: "flow",
-                maskedWord: "fl**",
-                correctMissing: "ow",
-                incorrectOptions: ["aw", "o", "ow", "ay"],
-                translation: "поток"
-            },
-            {
-                word: "air",
-                maskedWord: "***",
-                correctMissing: "air",
-                incorrectOptions: ["ar", "ure", "er", "ur"],
-                translation: "воздух"
-            },
-            {
-                word: "chair",
-                maskedWord: "ch**",
-                correctMissing: "air",
-                incorrectOptions: ["ei", "ee", "ea", "er"],
-                translation: "стул"
-            },
-            {
-                word: "hair",
-                maskedWord: "h***",
-                correctMissing: "air",
-                incorrectOptions: ["ei", "ee", "ea", "er"],
-                translation: "волосы"
-            },
-            {
-                word: "cure",
-                maskedWord: "c***",
-                correctMissing: "ure",
-                incorrectOptions: ["ar", "er", "air", "o"],
-                translation: "лечение"
-            },
-            {
-                word: "pure",
-                maskedWord: "p***",
-                correctMissing: "ure",
-                incorrectOptions: ["ar", "air", "ir", "o"],
-                translation: "беспримесный"
-            },
-            {
-                word: "sure",
-                maskedWord: "s***",
-                correctMissing: "ure",
-                incorrectOptions: ["a", "air", "", "o"],
-                translation: "уверенный"
-            },
-            {
-                word: "ear",
-                maskedWord: "***",
-                correctMissing: "e",
-                incorrectOptions: ["a", "i", "o", "u"],
-                translation: "ухо"
-            },
-            {
-                word: "fear",
-                maskedWord: "f***",
-                correctMissing: "ear",
-                incorrectOptions: ["ee", "ir", "ar", "ai"],
-                translation: "страх"
-            },
-            {
-                word: "year",
-                maskedWord: "y**",
-                correctMissing: "ear",
-                incorrectOptions: ["ee", "ure", "oi", "ir"],
-                translation: "год"
-            },
-            {
-                word: "coin",
-                maskedWord: "c**n",
-                correctMissing: "oi",
-                incorrectOptions: ["ai", "ee", "ei", "oy"],
-                translation: "монета"
-            },
-            {
-                word: "voice",
-                maskedWord: "v**ce",
-                correctMissing: "oi",
-                incorrectOptions: ["ai", "ee", "ei", "oy"],
-                translation: "голос"
-            },
-            {
-                word: "oil",
-                maskedWord: "**l",
-                correctMissing: "oi",
-                incorrectOptions: ["al", "el", "ol", "ul"],
-                translation: "масло"
-            },
-            {
-                word: "boy",
-                maskedWord: "b**",
-                correctMissing: "oy",
-                incorrectOptions: ["ay", "ey", "iy", "uy"],
-                translation: "мальчик"
-            },
-            {
-                word: "toy",
-                maskedWord: "t**",
-                correctMissing: "oy",
-                incorrectOptions: ["ay", "ey", "iy", "uy"],
-                translation: "игрушка"
-            },
-            {
-                word: "joy",
-                maskedWord: "j**",
-                correctMissing: "oy",
-                incorrectOptions: ["ay", "ey", "iy", "uy"],
-                translation: "радость"
-            }
-        ]
+  <div id="pause-btn">⏸ Пауза</div>
+  <div id="record">Рекорд: <span id="record-value">0</span></div>
 
+  <div id="word-area"></div>
 
-        let score = 0;
-        let timeLeft = 60;
-        let currentTask;
-        let fallingLetters = [];
-        let gameInterval;
-        let timerInterval;
-        let isPaused = false;
+  <div id="final-screen">
+    <h2 id="final-stats"></h2>
+    <button id="restart-btn">🔄 Перезапустить</button>
+    <button id="reset-record-btn">🗑 Сбросить рекорд</button>
+  </div>
 
-        // DOM элементы
-        const taskElement = document.getElementById("task");
-        const scoreDisplay = document.getElementById("score");
-        const timerDisplay = document.getElementById("timer");
-        const pauseButton = document.getElementById("pauseButton");
-        const resultScreen = document.getElementById("result");
-        const resultText = document.getElementById("resultText");
-        const restartButton = document.getElementById("restartButton");
+  <!-- Звуки -->
+  <audio id="sound-right" src="2right.mp3"></audio>
+  <audio id="sound-wrong" src="wrong.mp3"></audio>
+  <audio id="sound-away" src="away.mp3"></audio>
+  <audio id="sound-level" src="level.mp3"></audio>
 
-        function speak(word) {
-            if ('speechSynthesis' in window) {
-                return new Promise(resolve => {
-                    const utterance = new SpeechSynthesisUtterance(word);
-                    utterance.lang = 'en-US';
-                    utterance.onend = resolve;
-                    speechSynthesis.speak(utterance);
-                });
-            } else {
-                console.warn("Web Speech API не поддерживается");
-                return Promise.resolve();
-            }
+  <script>
+    const correctWords = [
+      "shop", "she", "fish", "child", "bench", "cherry", "thin", "moth", "smith",
+      "this", "that", "they", "photo", "alphabet", "phone", "ring", "king", "baking",
+      "car", "star", "cigar", "sister", "finger", "driver", "sport", "morning", "north",
+      "girl", "bird", "skirt", "book", "look", "room", "moon", "spoon", "bamboo", "green",
+      "cheese", "tree", "tea", "sea", "please", "mouth", "cloud", "house", "town", "crown",
+      "brown", "snow", "pillow", "flow", "air", "chair", "hair", "cure", "pure", "sure",
+      "ear", "fear", "year", "coin", "voice", "oil", "boy", "toy", "joy"
+    ];
+
+    const incorrectWords = [
+      "shope", "shi", "feesh", "chaild", "banch", "charry", "theen", "mose", "smeeth",
+      "thees", "thet", "thei", "foto", "fone", "rin", "keeng", "bakin", "kar", "ctar",
+      "cegar", "siste", "phinger", "draiver", "sporte", "moning", "noth", "gerl", "berd",
+      "skert", "buk", "luk", "rum", "mun", "spun", "bemboo", "grin", "chize", "tri", "tee",
+      "see", "pleeze", "mauth", "claud", "houze", "tovn", "crovn", "brovn", "snov", "pelow",
+      "flov", "eir", "cheir", "heir", "kure", "puere", "shure", "eer", "phear", "yea", "koin",
+      "voise", "oel", "boi", "toi", "goy"
+    ];
+
+    const translations = {
+      "shop": "магазин", "she": "она", "fish": "рыба", "child": "ребёнок", "bench": "скамейка",
+      "cherry": "вишня", "thin": "тонкий", "moth": "моль", "smith": "кузнец", "this": "этот",
+      "that": "тот", "they": "они", "photo": "фотография", "alphabet": "алфавит", "phone": "телефон",
+      "ring": "кольцо", "king": "король", "baking": "выпечка", "car": "машина", "star": "звезда",
+      "cigar": "сигара", "sister": "сестра", "finger": "палец", "driver": "водитель", "sport": "спорт",
+      "morning": "утро", "north": "север", "girl": "девочка", "bird": "птица", "skirt": "юбка",
+      "book": "книга", "look": "смотреть", "room": "комната", "moon": "луна", "spoon": "ложка",
+      "bamboo": "бамбук", "green": "зелёный", "cheese": "сыр", "tree": "дерево", "tea": "чай",
+      "sea": "море", "please": "пожалуйста", "mouth": "рот", "cloud": "облако", "house": "дом",
+      "town": "город", "crown": "корона", "brown": "коричневый", "snow": "снег", "pillow": "подушка",
+      "flow": "течение", "air": "воздух", "chair": "стул", "hair": "волосы", "cure": "лечение",
+      "pure": "чистый", "sure": "уверенный", "ear": "ухо", "fear": "страх", "year": "год",
+      "coin": "монета", "voice": "голос", "oil": "масло", "boy": "мальчик", "toy": "игрушка", "joy": "радость"
+    };
+
+    const incorrectTranslations = {
+      "shope": "магазин", "shi": "она", "feesh": "рыба", "chaild": "ребёнок", "banch": "скамейка",
+      "charry": "вишня", "theen": "тонкий", "mose": "моль", "smeeth": "кузнец", "thees": "этот",
+      "thet": "тот", "thei": "они", "foto": "фотография", "fone": "телефон", "rin": "кольцо",
+      "keeng": "король", "bakin": "выпечка", "kar": "машина", "ctar": "звезда", "cegar": "сигара",
+      "siste": "сестра", "phinger": "палец", "draiver": "водитель", "sporte": "спорт", "moning": "утро",
+      "noth": "север", "gerl": "девочка", "berd": "птица", "skert": "юбка", "buk": "книга", "luk": "смотреть",
+      "rum": "комната", "mun": "луна", "spun": "ложка", "bemboo": "бамбук", "grin": "зелёный", "chize": "сыр",
+      "tri": "дерево", "tee": "чай", "see": "море", "pleeze": "пожалуйста", "mauth": "рот", "claud": "облако",
+      "houze": "дом", "tovn": "город", "crovn": "корона", "brovn": "коричневый", "snov": "снег", "pelow": "подушка",
+      "flov": "течение", "eir": "воздух", "cheir": "стул", "heir": "волосы", "kure": "лечение", "puere": "чистый",
+      "shure": "уверенный", "eer": "ухо", "phear": "страх", "yea": "год", "koin": "монета", "voise": "голос",
+      "oel": "масло", "boi": "мальчик", "toi": "игрушка", "goy": "радость"
+    };
+
+    let score = 0;
+    let timeLeft = 60;
+    let gameRunning = true;
+    let spawnInterval, timerInterval;
+    let currentLevel = 1;
+    let fallDuration = 5;
+    const stats = {
+      missedCorrect: [],
+      clickedWrong: [],
+      clickedCorrect: []
+    };
+
+    const wordArea = document.getElementById("word-area");
+    const scoreDisplay = document.getElementById("score");
+    const timerDisplay = document.getElementById("time");
+    const levelDisplay = document.getElementById("level-number");
+    const pauseBtn = document.getElementById("pause-btn");
+    const finalScreen = document.getElementById("final-screen");
+    const finalStats = document.getElementById("final-stats");
+    const restartBtn = document.getElementById("restart-btn");
+    const resetRecordBtn = document.getElementById("reset-record-btn");
+    const recordValue = document.getElementById("record-value");
+
+    const soundRight = document.getElementById("sound-right");
+    const soundWrong = document.getElementById("sound-wrong");
+    const soundAway = document.getElementById("sound-away");
+    const soundLevel = document.getElementById("sound-level");
+
+    function speak(word) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.lang = 'en-US';
+        speechSynthesis.speak(utterance);
+      }
+    }
+
+    function updateScore() {
+      scoreDisplay.textContent = score;
+    }
+
+    function updateTimer() {
+      timerDisplay.textContent = timeLeft;
+    }
+
+    function updateLevel(level) {
+      levelDisplay.textContent = level;
+    }
+
+    function createWord() {
+      if (!gameRunning || wordArea.querySelectorAll('.word.correct').length >= 1) return;
+
+      const isCorrect = Math.random() > 0.5;
+      const word = isCorrect
+        ? correctWords[Math.floor(Math.random() * correctWords.length)]
+        : incorrectWords[Math.floor(Math.random() * incorrectWords.length)];
+
+      const wordEl = document.createElement("div");
+      wordEl.className = `word ${isCorrect ? 'correct' : 'incorrect'}`;
+      wordEl.dataset.word = word;
+      wordEl.dataset.clicked = "false";
+
+      // Получаем перевод
+      const translation = isCorrect
+        ? translations[word] || "перевод не найден"
+        : incorrectTranslations[word] || "перевод не найден";
+
+      wordEl.innerHTML = `<span>${word}</span><br><small>${translation}</small>`;
+      wordEl.style.left = Math.random() * (window.innerWidth - 160) + "px";
+      wordEl.style.top = "-50px";
+      wordEl.style.animationDuration = `${fallDuration}s`;
+
+      wordEl.addEventListener("click", () => {
+        if (!gameRunning || wordEl.dataset.clicked === "true") return;
+
+        if (isCorrect) {
+          score += currentLevel >= 4 ? 2 : 1;
+          updateScore();
+          stats.clickedCorrect.push(word);
+          playSound('correct');
+          speak(word);
+          wordEl.classList.add("explode");
+          setTimeout(() => wordEl.remove(), 600);
+        } else {
+          score -= 2;
+          updateScore();
+          stats.clickedWrong.push(word);
+          playSound('wrong');
+          wordEl.classList.add("clicked-wrong");
         }
 
-        function playSound(type) {
-            try {
-                const audio = new Audio(type === 'correct' ? 'right.mp3' : 'wrong.mp3');
-                audio.play();
-            } catch (e) {
-                console.log("Не удалось воспроизвести звук");
-            }
-        }
+        wordEl.dataset.clicked = "true";
+      });
 
-        function startGame() {
-            score = 0;
-            timeLeft = 60;
+      wordArea.appendChild(wordEl);
+
+      setTimeout(() => {
+        if (wordArea.contains(wordEl)) {
+          wordEl.remove();
+          if (isCorrect && wordEl.dataset.clicked === "false") {
+            stats.missedCorrect.push(word);
+            playSound('away');
+            score--;
             updateScore();
-            updateTimer();
-            resultScreen.style.display = "none";
-            stopIntervals();
-            clearFallingLetters();
-            newTask();
-            startIntervals();
-            moveLetters();
+          }
         }
+      }, fallDuration * 1000);
+    }
 
-        function newTask() {
-            currentTask = tasks[Math.floor(Math.random() * tasks.length)];
-            taskElement.textContent = `${currentTask.maskedWord} — ${currentTask.translation}`;
+    function changeBackgroundAndSpeed() {
+      if ([45, 30, 15].includes(timeLeft)) {
+        const bgIndex = currentLevel % 4;
+        document.body.style.background = [
+        "linear-gradient(135deg, #1b1b2f, #162447, #1f4068)", // Сине-фиолетовая тьма
+    "linear-gradient(135deg, #000000, #434343)",         // Черный + серый
+   
+
+       "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",// Морская глубина
+    "linear-gradient(135deg, #1c1c1c, #2d2d2d)",         // Темная сталь
+ 
+  
+][bgIndex];
+        playSound('level');
+        currentLevel++;
+        updateLevel(currentLevel);
+        fallDuration *= 0.8;
+      }
+    }
+
+    function startGame() {
+      score = 0;
+      timeLeft = 60;
+      currentLevel = 1;
+      fallDuration = 6;
+      gameRunning = true;
+      updateScore();
+      updateTimer();
+      updateLevel(currentLevel);
+      document.body.style.background =  "linear-gradient(135deg, #1b1b2f, #162447, #1f4068)", // Сине-фиолетовая тьма
+      stats.missedCorrect = [];
+      stats.clickedWrong = [];
+      stats.clickedCorrect = [];
+      wordArea.innerHTML = "";
+      finalScreen.style.display = "none";
+
+      spawnInterval = setInterval(createWord, 1200);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          clearInterval(spawnInterval);
+          endGame();
         }
+        changeBackgroundAndSpeed();
+      }, 1000);
+    }
 
-        function createLetter(option) {
-            if (isPaused || fallingLetters.length >= 10) return; // ← Максимум 6 букв на экране
-            const element = document.createElement("div");
-            element.className = "letter";
-            element.textContent = option;
-            element.dataset.value = option;
-            element.dataset.correct = option === currentTask.correctMissing ? "true" : "false";
+    function endGame() {
+      gameRunning = false;
+      finalStats.innerHTML = `
+        <div>🚫 Неправильно: [${stats.clickedWrong.length}]</div>
+        <div>❌ Пропущены: [${stats.missedCorrect.length}]</div>
+        <div>✅ Правильно: [${stats.clickedCorrect.length}]</div>
+        <div>💰 Очки: ${score}</div>
+      `;
+      finalScreen.style.display = "flex";
+      saveRecord(score);
+    }
 
+    function saveRecord(newScore) {
+      const record = parseInt(localStorage.getItem("word-game-record")) || 0;
+      if (newScore > record) localStorage.setItem("word-game-record", newScore);
+      recordValue.textContent = localStorage.getItem("word-game-record") || 0;
+    }
 
+    function playSound(type) {
+      const audio = { correct: soundRight, wrong: soundWrong, away: soundAway, level: soundLevel }[type];
+      try {
+        audio.currentTime = 0;
+        audio.play();
+      } catch {}
+    }
 
-
-            // Начальные координаты
-            const x = Math.random() * (window.innerWidth - 120);
-            const y = Math.random() * (window.innerHeight / 2);
-
-            element.style.left = `${x}px`;
-            element.style.top = `${y}px`;
-
-            document.getElementById("gameContainer").appendChild(element);
-
-            const speed = 1 + Math.random() * 1; //         == speed
-            const angle = Math.random() * 2 * Math.PI;
-            const dx = Math.cos(angle) * speed;
-            const dy = Math.sin(angle) * speed;
-
-            fallingLetters.push({
-                el: element,
-                dx,
-                dy,
-                width: 120,
-                height: 40
-            });
-        }
-
-        function moveLetters() {
-            const containerWidth = window.innerWidth;
-            const containerHeight = window.innerHeight;
-
-            for (let i = 0; i < fallingLetters.length; i++) {
-                const letter = fallingLetters[i];
-                let x = parseFloat(letter.el.style.left);
-                let y = parseFloat(letter.el.style.top);
-
-                x += letter.dx;
-                y += letter.dy;
-
-                // Отскок от границ
-                if (x <= 0 || x + letter.width >= containerWidth) letter.dx *= -1;
-                if (y <= 0 || y + letter.height >= containerHeight) letter.dy *= -1;
-
-                letter.el.style.left = `${x}px`;
-                letter.el.style.top = `${y}px`;
-            }
-
-            requestAnimationFrame(moveLetters);
-        }
-
-        function startIntervals() {
-            gameInterval = setInterval(() => {
-                if (!isPaused) createLetter(currentTask.correctMissing);
-                if (!isPaused && Math.random() > 0.5) createLetter(getRandomIncorrectOption());
-            }, 1000);
-
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                updateTimer();
-                if (timeLeft <= 0) endGame();
-            }, 1000);
-        }
-
-        function getRandomIncorrectOption() {
-            return currentTask.incorrectOptions[
-                Math.floor(Math.random() * currentTask.incorrectOptions.length)
-            ];
-        }
-
-        function stopIntervals() {
-            clearInterval(gameInterval);
+    pauseBtn.addEventListener("click", () => {
+      if (gameRunning) {
+        gameRunning = false;
+        clearInterval(timerInterval);
+        clearInterval(spawnInterval);
+        pauseBtn.textContent = "▶ Возобновить";
+      } else {
+        gameRunning = true;
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          updateTimer();
+          if (timeLeft <= 0) {
             clearInterval(timerInterval);
-        }
+            clearInterval(spawnInterval);
+            endGame();
+          }
+          changeBackgroundAndSpeed();
+        }, 1000);
+        spawnInterval = setInterval(createWord, 1200);
+        pauseBtn.textContent = "⏸ Пауза";
+      }
+    });
 
-        function updateScore() {
-            scoreDisplay.textContent = score;
-        }
+    restartBtn.addEventListener("click", startGame);
+    resetRecordBtn.addEventListener("click", () => {
+      if (confirm("Вы уверены, что хотите сбросить рекорд?")) {
+        localStorage.removeItem("word-game-record");
+        recordValue.textContent = "0";
+        alert("Рекорд успешно сброшен!");
+      }
+    });
 
-        function updateTimer() {
-            timerDisplay.textContent = timeLeft;
-        }
-
-        function clearFallingLetters() {
-            fallingLetters.forEach(obj => obj.el.remove());
-            fallingLetters = [];
-        }
-
-        function endGame() {
-            stopIntervals();
-            resultText.textContent = `Вы набрали ${score} очков!`;
-            resultScreen.style.display = "flex";
-        }
-
-        function checkAnswer(element, value) {
-            if (isPaused) return;
-
-            const isCorrect = value === currentTask.correctMissing;
-
-            if (isCorrect) {
-                score += 2; // Теперь +2 за правильный ответ
-                updateScore();
-                playSound("correct");
-                speak(currentTask.word).then(() => {
-                    element.classList.add("correct");
-                    setTimeout(() => element.remove(), 500);
-                    fallingLetters = fallingLetters.filter(obj => obj.el !== element);
-                });
-                newTask();
-            } else {
-                score--; // Минус 1 очко за неправильный ответ (может уйти в минус)
-                updateScore();
-
-                playSound("wrong");
-                element.classList.add("wrong");
-                setTimeout(() => element.remove(), 500);
-                fallingLetters = fallingLetters.filter(obj => obj.el !== element);
-            }
-        }
-
-        function stopAnimationLoop() {
-            cancelAnimationFrame(animationLoopId);
-        }
-
-        // Обработчики событий
-        pauseButton.addEventListener("click", () => {
-            isPaused = !isPaused;
-            pauseButton.textContent = isPaused ? "▶ Продолжить" : "⏸ Пауза";
-
-            if (isPaused) {
-                stopIntervals();
-            } else {
-                startIntervals();
-            }
-        });
-
-        restartButton.addEventListener("click", () => {
-            startGame();
-        });
-
-        // Инициализация
-        window.onload = () => {
-            startGame();
-
-            // Добавляем обработчики клика динамически
-            document.getElementById("gameContainer").addEventListener("click", (e) => {
-                if (e.target.classList.contains("letter")) {
-                    checkAnswer(e.target, e.target.dataset.value);
-                }
-            });
-        };
-    </script>
+    window.onload = () => {
+      saveRecord();
+      startGame();
+    };
+  </script>
 </body>
-
 </html>
