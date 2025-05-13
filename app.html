@@ -14,9 +14,10 @@
 
         body {
             font-family: 'Orbitron', sans-serif;
-            background-color: #0a0a0a;
-            color: #f0f0f0;
-            min-height: 100vh;
+            background: linear-gradient(180deg, #413f3f, #0a0a0a);
+            /* background-color: #6b6969; */
+            /* color: #f0f0f0; */
+            /* min-height: 100vh; */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,20 +25,22 @@
         }
 
         .container {
-            width: 56.25vh;
-            height: 100vh;
-            max-width: 450px;
-            padding: 20px;
-            background: linear-gradient(145deg, #0f0f0f, #1c1c1c);
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            /* animation: fadeIn 1s ease-in-out; */
-            overflow: hidden;
-        }
+    width: 100vw;
+    height: calc(100vw * 16 / 9); /* Соотношение 9:16 */
+    max-height: 100vh;
+    max-width: calc(100vh * 9 / 16); /* Ограничение по ширине */
+    margin: auto;
+    padding: 20px;
+    background: linear-gradient(180deg, #0f0f0f, #3b3b3b);
+    border-radius: 20px;
+    box-shadow: 0 0 120px rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(150px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
+}
 
         @keyframes fadeIn {
             from {
@@ -83,12 +86,13 @@
             transition: all 0.3s ease;
             background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.1);
-            color: #00ffff;
+            /* color: #00ffff; */
+            color: #ffaa00;
         }
 
         .transcription-symbol {
             font-family: 'Charis SIL';
-            font-size: 28px;
+            font-size: 40px;
             font-weight: bold;
             letter-spacing: 1px;
         }
@@ -114,7 +118,7 @@
             border-radius: 15px;
             white-space: normal;
             /* Позволяет тексту переноситься */
-            width: 300px;
+            width: 380px;
             /* Ширина тултипа */
             text-align: center;
             opacity: 0;
@@ -279,7 +283,7 @@
             display: none;
             /* Скрыто до первого вызова */
             border-radius: 15px;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
         }
     </style>
 </head>
@@ -316,7 +320,7 @@
             {
                 soundFile: "sh.mp3",
                 alphabetButton: "sh",
-                transcriptionButton: "[ʃ]",
+                transcriptionButton: "ʃ",
                 tooltip: "глухой мягкий русский звук [ш]",
                 example1: "shop", word1: "sh", transcription1: "[ʃɒp]", translation1: "магазин", image1: "shop.jpg",
                 example2: "she", word2: "sh", transcription2: "[ʃiː]", translation2: "она", image2: "she.jpg",
@@ -325,7 +329,7 @@
             {
                 soundFile: "ch.mp3",
                 alphabetButton: "ch",
-                transcriptionButton: "[tʃ]",
+                transcriptionButton: "tʃ",
                 tooltip: "русский звук [ч]",
                 example1: "child", word1: "ch", transcription1: "[tʃaɪld]", translation1: "ребенок", image1: "child.jpg",
                 example2: "bench", word2: "ch", transcription2: "[bentʃ]", translation2: "лавочка", image2: "bench.jpg",
@@ -334,7 +338,7 @@
             {
                 soundFile: "th1.mp3",
                 alphabetButton: "th",
-                transcriptionButton: "[θ]",
+                transcriptionButton: "θ",
                 tooltip: "глухой звук отличный от русского [с] тем, что образуется струей воздуха, проходящей между кончиком языка, находящимся между зубами при слегка выдвинутой нижней челюсти",
                 example1: "thin", word1: "th", transcription1: "[θɪn]", translation1: "тонкий", image1: "thin.jpg",
                 example2: "moth", word2: "th", transcription2: "[mɒθ]", translation2: "мотылек", image2: "moth.jpg",
@@ -343,7 +347,7 @@
             {
                 soundFile: "th2.mp3",
                 alphabetButton: "th",
-                transcriptionButton: "[ð]",
+                transcriptionButton: "ð",
                 tooltip: "звонкий звук отличный от русского [з] тем, что образуется струей воздуха, проходящей между кончиком языка, находящимся между зубами при слегка выдвинутой нижней челюсти",
                 example1: "this", word1: "th", transcription1: "[ðɪs]", translation1: "это", image1: "this.jpg",
                 example2: "that", word2: "th", transcription2: "[ðæ]", translation2: "то", image2: "that.jpg",
@@ -352,7 +356,7 @@
             {
                 soundFile: "f.mp3",
                 alphabetButton: "ph",
-                transcriptionButton: "[f]",
+                transcriptionButton: "f",
                 tooltip: "близок русскому звуку [ ф ], но энергичнее, с бо́льшим напряжением губ",
                 example1: "photo", word1: "ph", transcription1: "[foʊtoʊ]", translation1: "фото", image1: "photo.jpg",
                 example2: "alphabet", word2: "ph", transcription2: "[ælfəbet]", translation2: "алфавит", image2: "alphabet.jpg",
@@ -361,7 +365,7 @@
             {
                 soundFile: "ng.mp3",
                 alphabetButton: "ng",
-                transcriptionButton: "[ŋ]",
+                transcriptionButton: "ŋ",
                 tooltip: "носовой звук [н] – задняя часть языка поднята к опущенному мягкому нёбу, и струя воздуха протяжно проходит через полость носа",
                 example1: "ring", word1: "ng", transcription1: "[rɪŋ]", translation1: "кольцо", image1: "ring.jpg",
                 example2: "king", word2: "ng", transcription2: "[kɪŋ]", translation2: "король", image2: "king.jpg",
@@ -370,7 +374,7 @@
             {
                 soundFile: "zch.mp3",
                 alphabetButton: "sio",
-                transcriptionButton: "[ʒ]",
+                transcriptionButton: "ʒ",
                 tooltip: "звонкий мягкий русский [ж]",
                 example1: "vision", word1: "sio", transcription1: "[vɪʒn]", translation1: "зрение", image1: "vision.jpg",
                 example2: "collision", word2: "sio", transcription2: "[kɒlɪʒn]", translation2: "стролкновение", image2: "collision.jpg",
@@ -379,7 +383,7 @@
             {
                 soundFile: "ar.mp3",
                 alphabetButton: "ar",
-                transcriptionButton: "[ɑː]",
+                transcriptionButton: "ɑ:",
                 tooltip: "открытый долгий звук [а] ",
                 example1: "car", word1: "ar", transcription1: "[kɑːr]", translation1: "автомобиль", image1: "car.jpg",
                 example2: "star", word2: "ar", transcription2: "[stɑːr]", translation2: "звезда", image2: "star.jpg",
@@ -388,7 +392,7 @@
             {
                 soundFile: "er.mp3",
                 alphabetButton: "er",
-                transcriptionButton: "[ə]",
+                transcriptionButton: "ə",
                 tooltip: "неясный, короткий безударный звук между [а] и [э]",
                 example1: "sister", word1: "er", transcription1: "[sɪstɚ]", translation1: "сестра", image1: "sister.jpg",
                 example2: "finger", word2: "er", transcription2: "[fɪŋgɚ]", translation2: "палец", image2: "finger.jpg",
@@ -397,7 +401,7 @@
             {
                 soundFile: "or.mp3",
                 alphabetButton: "or",
-                transcriptionButton: "[ɔː]",
+                transcriptionButton: "ɔ",
                 tooltip: "долгий открытый протяжный звук [о], но язык опущен и оттянут назад и губы не округлены и не вытянуты",
                 example1: "sport", word1: "or", transcription1: "[spɔːt]", translation1: "спорт", image1: "sport.jpg",
                 example2: "morning", word2: "or", transcription2: "[mɔːnɪŋ]", translation2: "утро", image2: "morning.jpg",
@@ -406,7 +410,7 @@
             {
                 soundFile: "ir.mp3",
                 alphabetButton: "ir",
-                transcriptionButton: "[ɜ:]",
+                transcriptionButton: "ɜ:",
                 tooltip: "произносится изнутри с полузакрытым ртом средний между русскими звуками [о] и [э]",
                 example1: "girl", word1: "ir", transcription1: "[ɡɜːl]", translation1: "девушка", image1: "girl.jpg",
                 example2: "bird", word2: "ir", transcription2: "[bɜːd]", translation2: "птица", image2: "bird.jpg",
@@ -415,7 +419,7 @@
             {
                 soundFile: "oo1mp3",
                 alphabetButton: "oo",
-                transcriptionButton: "[ʊ]",
+                transcriptionButton: "ʊ",
                 tooltip: "краткий русский звук [у]",
                 example1: "book", word1: "oo", transcription1: "[bʊk]", translation1: "книга", image1: "book.jpg",
                 example2: "look", word2: "oo", transcription2: "[lʊk]", translation2: "взгляд", image2: "look.jpg",
@@ -424,7 +428,7 @@
             {
                 soundFile: "oo2.mp3",
                 alphabetButton: "oo",
-                transcriptionButton: "[uː]",
+                transcriptionButton: "u:",
                 tooltip: "закрытый долгий русский звук [у], но губы не вытянуты и не сужены",
                 example1: "moon", word1: "oo", transcription1: "[muːn]", translation1: "луна", image1: "moon.jpg",
                 example2: "spoon", word2: "oo", transcription2: "[spuːn]", translation2: "ложка", image2: "spoon.jpg",
@@ -433,7 +437,7 @@
             {
                 soundFile: "oi.mp3",
                 alphabetButton: "oi",
-                transcriptionButton: "[ɔɪ]",
+                transcriptionButton: "ɔɪ",
                 tooltip: "близок русскому звуку [ой] с ударением на первом звуке",
                 example1: "coin", word1: "oi", transcription1: "[kɔɪn]", translation1: "монета", image1: "coin.jpg",
                 example2: "voice", word2: "oi", transcription2: "[vɔɪs]", translation2: "голос", image2: "voice.jpg",
@@ -442,7 +446,7 @@
             {
                 soundFile: "oy.mp3",
                 alphabetButton: "oy",
-                transcriptionButton: "[ɔɪ]",
+                transcriptionButton: "ɔɪ",
                 tooltip: "близок русскому звуку [ой] с ударением на первом звуке",
                 example1: "boy", word1: "oy", transcription1: "[bɔɪ]", translation1: "луна", image1: "boy.jpg",
                 example2: "toy", word2: "oy", transcription2: "[tɔɪ]", translation2: "ложка", image2: "toy.jpg",
@@ -451,7 +455,7 @@
             {
                 soundFile: "ii.mp3",
                 alphabetButton: "ee",
-                transcriptionButton: "[iː]",
+                transcriptionButton: "i:",
                 tooltip: "длительный звук, средний между [и] и [ы]",
                 example1: "green", word1: "ee", transcription1: "[gri:n]", translation1: "зеленый", image1: "green.jpg",
                 example2: "cheese", word2: "ee", transcription2: "[tʃi:z]", translation2: "сыр", image2: "cheese.jpg",
@@ -460,7 +464,7 @@
             {
                 soundFile: "ii.mp3",
                 alphabetButton: "ea",
-                transcriptionButton: "[iː]",
+                transcriptionButton: "i:",
                 tooltip: "длительный звук, средний между [и] и [ы]",
                 example1: "tea", word1: "ea", transcription1: "[ti:]", translation1: "чай", image1: "tea.jpg",
                 example2: "sea", word2: "ea", transcription2: "[si:]", translation2: "море", image2: "sea.jpg",
@@ -469,25 +473,26 @@
             {
                 soundFile: "au.mp3",
                 alphabetButton: "ou",
-                transcriptionButton: "[aʊ]",
+                transcriptionButton: "aʊ",
                 tooltip: "близок русскому звуку [ау], протяжно и с ударением на первом звуке",
                 example1: "mouth", word1: "ou", transcription1: "[maʊθ]", translation1: "рот", image1: "mouth.jpg",
                 example2: "cloud", word2: "ou", transcription2: "[klaʊd]", translation2: "облако", image2: "cloud.jpg",
                 example3: "house", word3: "ou", transcription3: "[haʊz]", translation3: "дом", image3: "house.jpg",
+             
             },
-            {
-                soundFile: "au.mp3",
-                alphabetButton: "ow",
-                transcriptionButton: "[aʊ]",
-                tooltip: "близок русскому звуку [ау], протяжно и с ударением на первом звуке",
-                example1: "town", word1: "ow", transcription1: "[taʊn]", translation1: "город", image1: "town.jpg",
-                example2: "crown", word2: "ow", transcription2: "[kraʊn]", translation2: "корона", image2: "crown.jpg",
-                example3: "brown", word3: "ow", transcription3: "[braʊn]", translation3: "коричневый", image3: "brown.jpg",
-            },
+            // {
+            //     soundFile: "au.mp3",
+            //     alphabetButton: "ow",
+            //     transcriptionButton: "aʊ",
+            //     tooltip: "близок русскому звуку [ау], протяжно и с ударением на первом звуке",
+            //     example1: "town", word1: "ow", transcription1: "[taʊn]", translation1: "город", image1: "town.jpg",
+            //     example2: "crown", word2: "ow", transcription2: "[kraʊn]", translation2: "корона", image2: "crown.jpg",
+            //     example3: "brown", word3: "ow", transcription3: "[braʊn]", translation3: "коричневый", image3: "brown.jpg",
+            // },
             {
                 soundFile: "ou.mp3",
                 alphabetButton: "ow",
-                transcriptionButton: "[oʊ]",
+                transcriptionButton: "oʊ",
                 tooltip: "близок русскому звуку [oу], протяжно и с ударением на первом звуке",
                 example1: "snow", word1: "ow", transcription1: "[snoʊ]", translation1: "снег", image1: "snow.jpg",
                 example2: "pillow", word2: "ow", transcription2: "[piloʊ]", translation2: "подушка", image2: "pillow.jpg",
@@ -496,7 +501,7 @@
             {
                 soundFile: "ear.mp3",
                 alphabetButton: "ear",
-                transcriptionButton: "[ɪə]",
+                transcriptionButton: "ɪə",
                 tooltip: "сочетание английских звуков [ɪ] и [ə] c ударением на [ə], близкое к русскому [иэ]",
                 example1: "ear", word1: "ear", transcription1: "[ɪə]", translation1: "ухо", image1: "ear.jpg",
                 example2: "fear", word2: "ear", transcription2: "[fɪə]", translation2: "страх", image2: "fear.jpg",
@@ -504,7 +509,7 @@
             },
             {
                 alphabetButton: "ure",
-                transcriptionButton: "[ʊə]",
+                transcriptionButton: "ʊə",
                 tooltip: "сочетание английских звуков [ʊ] и [ə] c ударением на [ʊ], близкое к русскому [уэ]",
                 example1: "cure", word1: "ure", transcription1: "[kjʊə]", translation1: "лечение", image1: "cure.jpg",
                 example2: "pure", word2: "ure", transcription2: "[pjʊə]", translation2: "беспримесный", image2: "pure.jpg",
@@ -512,7 +517,7 @@
             },
             {
                 alphabetButton: "air",
-                transcriptionButton: "[eə]",
+                transcriptionButton: "eə",
                 tooltip: "сочетание английских звуков [e] и [ə] c оттенком [ʌ], близкое к русскому [эа], с ударением на первом звуке",
                 example1: "air", word1: "air", transcription1: "[eə]", translation1: "воздух", image1: "air.jpg",
                 example2: "chair", word2: "air", transcription2: "[tʃeə]", translation2: "стул", image2: "chair.jpg",
@@ -560,6 +565,9 @@
                 { word: current.example1, part: current.word1, transcr: current.transcription1, transl: current.translation1, img: current.image1 },
                 { word: current.example2, part: current.word2, transcr: current.transcription2, transl: current.translation2, img: current.image2 },
                 { word: current.example3, part: current.word3, transcr: current.transcription3, transl: current.translation3, img: current.image3 },
+                // { word: current.example4, part: current.word4, transcr: current.transcription4, transl: current.translation4, img: current.image4 },
+                // { word: current.example5, part: current.word5, transcr: current.transcription5, transl: current.translation5, img: current.image5 },
+                // { word: current.example6, part: current.word6, transcr: current.transcription6, transl: current.translation6, img: current.image6 },
             ];
 
             currentExample = examples[Math.floor(Math.random() * examples.length)];
