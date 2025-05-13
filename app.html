@@ -74,7 +74,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 180px;
+            width: 150px;
             height: 80px;
             font-size: 18px;
             cursor: pointer;
@@ -138,7 +138,7 @@
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
-      
+
 
         .examples-container {
             display: flex;
@@ -154,47 +154,10 @@
             position: relative;
         }
 
-        .word-tooltip-img {
-            position: absolute;
-            top: 120%;
-            /* Размещаем тултип под кнопкой */
-            left: 50%;
-            /* Центрируем по горизонтали */
-            transform: translateX(-50%);
-            background: #0f0f0f;
-            /* padding: 10px; */
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
-            z-index: 20;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            transition-delay: 0.5s;
-            max-width: 80vw;
-            max-height: 80vh;
-            
-        }
 
-        .word-tooltip-img img {
-            width: 150px;
-            height: 150px;
-            object-fit: contain;
-            border-radius: 10px;
-            display: block;
-            margin: 0 auto;
-        }
-
-
-        .example-button:hover+.word-tooltip-img,
-        .example-button:focus+.word-tooltip-img,
-        .word-tooltip-img:hover {
-            opacity: 1;
-            visibility: visible;
-
-        }
 
         .example-button {
-           width: 300px;
+            width: 380px;
             background: linear-gradient(145deg, #111111, #1e1e1e);
             border: none;
             border-radius: 15px;
@@ -207,6 +170,7 @@
             font-size: 18px;
             cursor: pointer;
             position: relative;
+            /* margin-bottom: 20px; */
         }
 
         .word {
@@ -236,14 +200,17 @@
         .nav-buttons {
             display: flex;
             justify-content: space-between;
-            gap: 10px;
+            gap: 180px;
         }
 
         .nav-buttons button {
             padding: 15px 15px;
             font-size: 1rem;
             background: linear-gradient(145deg, #00ffff, #00aaaa);
-            color: #000;
+            background: transparent;
+   
+            /* color: #000; */
+            color: #00aaaa;
             border: none;
             border-radius: 20px;
             cursor: pointer;
@@ -290,6 +257,30 @@
                 width: 90vw;
             }
         }
+
+        /* #centeredImage {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    transition: opacity 0.3s ease;
+}*/
+
+        #centeredImageContainer {
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            /* margin: 20px 0; */
+
+        }
+
+        #centeredImage {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            display: none;
+            /* Скрыто до первого вызова */
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+        }
     </style>
 </head>
 
@@ -306,15 +297,17 @@
                     <span class="transcription" id="wordTranscr"></span><br>
                     <span class="translation" id="wordTransl"></span>
                 </button>
-                <div class="word-tooltip-img" id="wordTooltipImg">
-                    <img id="tooltipImage" src="" alt="Изображение примера" />
+                <div style="text-align: center; margin: 20px 0;">
+                    <img id="centeredImage" src="" alt="Пример изображения"
+                        style="width: 150px; height: 150px; display: none;" />
+                </div>
+                <div class="nav-buttons">
+                    <button onclick="prevSound()">Назад</button>
+                    <button onclick="nextSound()">Вперед</button>
                 </div>
             </div>
         </div>
-        <div class="nav-buttons">
-            <button onclick="prevSound()">Назад</button>
-            <button onclick="nextSound()">Вперед</button>
-        </div>
+        
         <div class="full-nav" id="fullNav"></div>
     </div>
     <audio id="audioPlayer"></audio>
@@ -559,21 +552,27 @@
         function updateContent() {
             const current = sounds[currentIndex];
             document.getElementById("transcriptionButton").innerHTML = `
-            <span class="transcription-symbol">${current.transcriptionButton}</span>
-            <div class="tooltip">${current.tooltip}</div>
-        `;
+        <span class="transcription-symbol">${current.transcriptionButton}</span>
+        <div class="tooltip">${current.tooltip}</div>
+    `;
 
             const examples = [
                 { word: current.example1, part: current.word1, transcr: current.transcription1, transl: current.translation1, img: current.image1 },
                 { word: current.example2, part: current.word2, transcr: current.transcription2, transl: current.translation2, img: current.image2 },
                 { word: current.example3, part: current.word3, transcr: current.transcription3, transl: current.translation3, img: current.image3 },
             ];
+
             currentExample = examples[Math.floor(Math.random() * examples.length)];
+
             const highlightedWord = highlightPart(currentExample.word, currentExample.part);
             document.getElementById("wordText").innerHTML = highlightedWord;
             document.getElementById("wordTranscr").textContent = currentExample.transcr;
             document.getElementById("wordTransl").textContent = currentExample.transl;
-            document.getElementById("tooltipImage").src = currentExample.img;
+
+            const centeredImage = document.getElementById("centeredImage");
+            centeredImage.src = currentExample.img;
+            centeredImage.style.display = "block";
+
             updateActiveNav();
         }
 
@@ -614,50 +613,12 @@
             }
         }
 
-        function adjustTooltipPosition() {
-            // const buttons = document.querySelectorAll('.transcription-button');
-            // buttons.forEach(button => {
-            //     const tooltip = button.querySelector('.tooltip');
-            //     if (!tooltip) return;
 
-            //     // Remove inline styles to get correct dimensions
-            //     tooltip.style.bottom = '';
-            //     tooltip.style.top = '';
-            //     tooltip.style.left = '';
-            //     tooltip.style.transform = '';
 
-            //     // Set initial position
-            //     tooltip.style.bottom = '120%';
-            //     tooltip.style.left = '50%';
-            //     tooltip.style.transform = 'translateX(-50%)';
-
-            //     // Check if tooltip is outside viewport
-            //     const rect = tooltip.getBoundingClientRect();
-            //     const viewportWidth = window.innerWidth;
-            //     const viewportHeight = window.innerHeight;
-
-            //     // Adjust horizontal position
-            //     if (rect.right > viewportWidth) {
-            //         tooltip.style.left = '100%';
-            //         tooltip.style.transform = 'translateX(-100%)';
-            //     }
-
-            //     // Adjust vertical position if needed
-            //     if (rect.top < 0) {
-            //         tooltip.style.bottom = '';
-            //         tooltip.style.top = '120%';
-            //     }
-            // });
-        }
-
-        // Add resize event listener to adjust tooltips on window resize
-        window.addEventListener('resize', adjustTooltipPosition);
 
         window.onload = () => {
             updateContent();
             createFullNavigation();
-            // Initial adjustment
-            setTimeout(adjustTooltipPosition, 100);
         };
     </script>
 </body>
