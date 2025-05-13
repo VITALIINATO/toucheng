@@ -763,7 +763,7 @@
             const navContainer = document.getElementById("fullNav");
             navContainer.innerHTML = "";
             
-            const chunkSize = 22;
+            const chunkSize = 24;
             const chunks = [];
             for (let i = 0; i < sounds.length; i += chunkSize) {
                 chunks.push(sounds.slice(i, i + chunkSize));
@@ -802,7 +802,7 @@
             allSlides.forEach((slide, slideIndex) => {
                 const items = slide.querySelectorAll(".nav-item");
                 items.forEach((item, idx) => {
-                    const globalIndex = slideIndex * 22 + idx;
+                    const globalIndex = slideIndex * 24 + idx;
                     item.classList.toggle("active", globalIndex === currentIndex);
                 });
             });
@@ -822,7 +822,7 @@
         }
         
         function nextSlide() {
-            const totalSlides = Math.ceil(sounds.length / 22);
+            const totalSlides = Math.ceil(sounds.length / 24);
             if (currentSlide < totalSlides - 1) {
                 currentSlide++;
                 updateSlidePosition();
@@ -834,7 +834,7 @@
                 currentIndex--;
                 
                 // Проверяем нужно ли переключить слайд
-                const itemsPerSlide = 22;
+                const itemsPerSlide = 24;
                 const currentSlideIndex = Math.floor(currentIndex / itemsPerSlide);
                 if (currentSlide !== currentSlideIndex) {
                     currentSlide = currentSlideIndex;
@@ -850,7 +850,7 @@
                 currentIndex++;
                 
                 // Проверяем нужно ли переключить слайд
-                const itemsPerSlide = 22;
+                const itemsPerSlide = 24;
                 const currentSlideIndex = Math.floor(currentIndex / itemsPerSlide);
                 if (currentSlide !== currentSlideIndex) {
                     currentSlide = currentSlideIndex;
