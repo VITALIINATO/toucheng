@@ -22,21 +22,23 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-        
+      
         .container {
-            width: 95vw;
-            max-width: 100%;
-            height: auto;
-            min-height: 100vh;
-            margin: 0 auto;
-            padding: 16px;
+            width: 100vw;
+            height: calc(100vw * 16 / 9);
+            /* Соотношение 9:16 */
+            max-height: 100vh;
+            max-width: calc(100vh * 9 / 16);
+            /* Ограничение по ширине */
+            margin: auto;
+            padding: 20px;
             background: linear-gradient(180deg, #0f0f0f, #3b3b3b);
             border-radius: 20px;
-            box-shadow: 0 0 40px rgba(0, 255, 255, 0.2);
-            backdrop-filter: blur(15px);
+            box-shadow: 0 0 120px rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(150px);
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            justify-content: space-between;
             overflow: hidden;
             position: relative;
         }
