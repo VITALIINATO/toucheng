@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>English Sounds</title>
+    <link href="https://fonts.googleapis.com/css2?family=Charis+SIL&display=swap " rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 56.25vh;
+            height: 100vh;
+            max-width: 450px;
+            padding: 20px;
+            background: linear-gradient(145deg, #0f0f0f, #1c1c1c);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            animation: fadeIn 1s ease-in-out;
+            overflow: hidden;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            font-weight: bold;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            margin-bottom: 20px;
+        }
+
+        .sound {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .transcription-button {
+            font-family: 'Charis SIL';
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 180px;
+            height: 80px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+        }
+
+        .transcription-symbol {
+            font-family: 'Charis SIL';
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+
+        .tooltip {
+            z-index: 10;
+
+            background: #0f0f0f;
+            color: #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            position: absolute;
+            top: 100%;
+            /* Размещаем тултип под кнопкой */
+            left: 50%;
+            /* Центрируем по горизонтали */
+            transform: translateX(-50%);
+            margin-top: 10px;
+            /* Отступ от кнопки */
+
+            padding: 15px;
+            border-radius: 15px;
+            white-space: normal;
+            /* Позволяет тексту переноситься */
+            width: 300px;
+            /* Ширина тултипа */
+            text-align: center;
+            opacity: 0;
+            /* Начальная прозрачность */
+            visibility: hidden;
+            /* Начальное состояние */
+
+            pointer-events: none;
+            /* Отключаем взаимодействие */
+            transition-delay: 1s;
+
+        }
+
+
+
+
+        .transcription-button:hover .tooltip,
+        .transcription-button:focus .tooltip {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+      
+
+        .examples-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .example-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .word-tooltip-img {
+            position: absolute;
+            top: 120%;
+            /* Размещаем тултип под кнопкой */
+            left: 50%;
+            /* Центрируем по горизонтали */
+            transform: translateX(-50%);
+            background: #0f0f0f;
+            /* padding: 10px; */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+            z-index: 20;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition-delay: 0.5s;
+            max-width: 80vw;
+            max-height: 80vh;
+            
+        }
+
+        .word-tooltip-img img {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
+        }
+
+
+        .example-button:hover+.word-tooltip-img,
+        .example-button:focus+.word-tooltip-img,
+        .word-tooltip-img:hover {
+            opacity: 1;
+            visibility: visible;
+
+        }
+
+        .example-button {
+           width: 300px;
+            background: linear-gradient(145deg, #111111, #1e1e1e);
+            border: none;
+            border-radius: 15px;
+            padding: 15px;
+            /* width: 100%; */
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+            color: #ffffff;
+            font-size: 18px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .word {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #00ffff;
+        }
+
+        .highlighted {
+            /* font-family: 'ChariSs SIL'; */
+            /* font-weight: bold; */
+            color: #ffaa00;
+        }
+
+        .transcription {
+            font-size: 1.2em;
+            color: #00ffaa;
+        }
+
+        .translation {
+            font-size: 0.9em;
+            color: #cccccc;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .nav-buttons button {
+            padding: 15px 15px;
+            font-size: 1rem;
+            background: linear-gradient(145deg, #00ffff, #00aaaa);
+            color: #000;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 0 10px #00ffff, 0 0 10px #00ffff;
+            transition: all 0.3s ease;
+        }
+
+        .nav-buttons button:hover {
+            transform: scale(1.05) rotate(1deg);
+            box-shadow: 0 0 20px #00ffff, 0 0 20px #00ffff;
+            background: linear-gradient(145deg, #00aaaa, #00ffff);
+        }
+
+        .full-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .nav-item {
+            padding: 10px;
+            background: linear-gradient(145deg, #111111, #1e1e1e);
+            color: #00ffff;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: linear-gradient(145deg, #00ffff, #00aaaa);
+            color: #000;
+            box-shadow: 0 0 15px #00ffff, 0 0 25px #00ffff;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 90vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sound">
+            <button class="transcription-button" onclick="playSound(sounds[currentIndex].soundFile)"
+                id="transcriptionButton"></button>
+        </div>
+        <div class="examples-container">
+            <div class="example-section">
+                <button class="example-button" id="wordButton1" onclick="speakCurrentWord()">
+                    <span class="word" id="wordText"></span><br>
+                    <span class="transcription" id="wordTranscr"></span><br>
+                    <span class="translation" id="wordTransl"></span>
+                </button>
+                <div class="word-tooltip-img" id="wordTooltipImg">
+                    <img id="tooltipImage" src="" alt="Изображение примера" />
+                </div>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button onclick="prevSound()">Назад</button>
+            <button onclick="nextSound()">Вперед</button>
+        </div>
+        <div class="full-nav" id="fullNav"></div>
+    </div>
+    <audio id="audioPlayer"></audio>
+    <script>
+        const sounds = [
+            {
+                soundFile: "sh.mp3",
+                alphabetButton: "sh",
+                transcriptionButton: "[ʃ]",
+                tooltip: "глухой мягкий русский звук [ш]",
+                example1: "shop", word1: "sh", transcription1: "[ʃɒp]", translation1: "магазин", image1: "shop.jpg",
+                example2: "she", word2: "sh", transcription2: "[ʃiː]", translation2: "она", image2: "she.jpg",
+                example3: "fish", word3: "sh", transcription3: "[fɪʃ]", translation3: "рыба", image3: "fish.jpg",
+            },
+            {
+                soundFile: "ch.mp3",
+                alphabetButton: "ch",
+                transcriptionButton: "[tʃ]",
+                tooltip: "русский звук [ч]",
+                example1: "child", word1: "ch", transcription1: "[tʃaɪld]", translation1: "ребенок", image1: "child.jpg",
+                example2: "bench", word2: "ch", transcription2: "[bentʃ]", translation2: "лавочка", image2: "bench.jpg",
+                example3: "cherry", word3: "ch", transcription3: "[ˈtʃeri]", translation3: "вишня", image3: "cherry.jpg",
+            },
+            {
+                soundFile: "th1.mp3",
+                alphabetButton: "th",
+                transcriptionButton: "[θ]",
+                tooltip: "глухой звук отличный от русского [с] тем, что образуется струей воздуха, проходящей между кончиком языка, находящимся между зубами при слегка выдвинутой нижней челюсти",
+                example1: "thin", word1: "th", transcription1: "[θɪn]", translation1: "тонкий", image1: "thin.jpg",
+                example2: "moth", word2: "th", transcription2: "[mɒθ]", translation2: "мотылек", image2: "moth.jpg",
+                example3: "smith", word3: "th", transcription3: "[smɪθ]", translation3: "кузнец", image3: "smith.jpg",
+            },
+            {
+                soundFile: "th2.mp3",
+                alphabetButton: "th",
+                transcriptionButton: "[ð]",
+                tooltip: "звонкий звук отличный от русского [з] тем, что образуется струей воздуха, проходящей между кончиком языка, находящимся между зубами при слегка выдвинутой нижней челюсти",
+                example1: "this", word1: "th", transcription1: "[ðɪs]", translation1: "это", image1: "this.jpg",
+                example2: "that", word2: "th", transcription2: "[ðæ]", translation2: "то", image2: "that.jpg",
+                example3: "they", word3: "th", transcription3: "[ðeɪ]", translation3: "они", image3: "they.jpg",
+            },
+            {
+                soundFile: "f.mp3",
+                alphabetButton: "ph",
+                transcriptionButton: "[f]",
+                tooltip: "близок русскому звуку [ ф ], но энергичнее, с бо́льшим напряжением губ",
+                example1: "photo", word1: "ph", transcription1: "[foʊtoʊ]", translation1: "фото", image1: "photo.jpg",
+                example2: "alphabet", word2: "ph", transcription2: "[ælfəbet]", translation2: "алфавит", image2: "alphabet.jpg",
+                example3: "phone", word3: "ph", transcription3: "[foʊn]", translation3: "телефон", image3: "phone.jpg",
+            },
+            {
+                soundFile: "ng.mp3",
+                alphabetButton: "ng",
+                transcriptionButton: "[ŋ]",
+                tooltip: "носовой звук [н] – задняя часть языка поднята к опущенному мягкому нёбу, и струя воздуха протяжно проходит через полость носа",
+                example1: "ring", word1: "ng", transcription1: "[rɪŋ]", translation1: "кольцо", image1: "ring.jpg",
+                example2: "king", word2: "ng", transcription2: "[kɪŋ]", translation2: "король", image2: "king.jpg",
+                example3: "baking", word3: "ng", transcription3: "[beɪkɪŋ]", translation3: "выпечка", image3: "baking.jpg",
+            },
+            {
+                soundFile: "zch.mp3",
+                alphabetButton: "sion",
+                transcriptionButton: "[ʒ]",
+                tooltip: "звонкий мягкий русский [ж]",
+                example1: "vision", word1: "sion", transcription1: "[vɪʒn]", translation1: "зрение", image1: "vision.jpg",
+                example2: "collision", word2: "sion", transcription2: "[kɒlɪʒn]", translation2: "стролкновение", image2: "collision.jpg",
+                example3: "division", word3: "sion", transcription3: "[dɪvɪʒn]", translation3: "подразделение", image3: "division.jpg",
+            },
+            {
+                soundFile: "ar.mp3",
+                alphabetButton: "ar",
+                transcriptionButton: "[ɑː]",
+                tooltip: "открытый долгий звук [а] ",
+                example1: "car", word1: "ar", transcription1: "[kɑːr]", translation1: "автомобиль", image1: "car.jpg",
+                example2: "star", word2: "ar", transcription2: "[stɑːr]", translation2: "звезда", image2: "star.jpg",
+                example3: "cigar", word3: "ar", transcription3: "[sɪˈɡɑːr]", translation3: "сигара", image3: "cigar.jpg",
+            },
+            {
+                soundFile: "er.mp3",
+                alphabetButton: "er",
+                transcriptionButton: "[ə]",
+                tooltip: "неясный, короткий безударный звук между [а] и [э]",
+                example1: "sister", word1: "er", transcription1: "[sɪstɚ]", translation1: "сестра", image1: "sister.jpg",
+                example2: "finger", word2: "er", transcription2: "[fɪŋgɚ]", translation2: "палец", image2: "finger.jpg",
+                example3: "driver", word3: "er", transcription3: "[draɪvɚ]", translation3: "водитель", image3: "driver.jpg",
+            },
+            {
+                soundFile: "or.mp3",
+                alphabetButton: "or",
+                transcriptionButton: "[ɔː]",
+                tooltip: "долгий открытый протяжный звук [о], но язык опущен и оттянут назад и губы не округлены и не вытянуты",
+                example1: "sport", word1: "or", transcription1: "[spɔːt]", translation1: "спорт", image1: "sport.jpg",
+                example2: "morning", word2: "or", transcription2: "[mɔːnɪŋ]", translation2: "утро", image2: "morning.jpg",
+                example3: "north", word3: "or", transcription3: "[nɔːθ]", translation3: "север", image3: "north.jpg",
+            },
+            {
+                soundFile: "ir.mp3",
+                alphabetButton: "ir",
+                transcriptionButton: "[ɜ:]",
+                tooltip: "произносится изнутри с полузакрытым ртом средний между русскими звуками [о] и [э]",
+                example1: "girl", word1: "ir", transcription1: "[ɡɜːl]", translation1: "девушка", image1: "girl.jpg",
+                example2: "bird", word2: "ir", transcription2: "[bɜːd]", translation2: "птица", image2: "bird.jpg",
+                example3: "skirt", word3: "ir", transcription3: "[skɜːt]", translation3: "платье", image3: "skirt.jpg",
+            },
+            {
+                soundFile: "oo1mp3",
+                alphabetButton: "oo",
+                transcriptionButton: "[ʊ]",
+                tooltip: "краткий русский звук [у]",
+                example1: "book", word1: "oo", transcription1: "[bʊk]", translation1: "книга", image1: "book.jpg",
+                example2: "look", word2: "oo", transcription2: "[lʊk]", translation2: "взгляд", image2: "look.jpg",
+                example3: "room", word3: "oo", transcription3: "[ruːm]", translation3: "комната", image3: "room.jpg",
+            },
+            {
+                soundFile: "oo2.mp3",
+                alphabetButton: "oo",
+                transcriptionButton: "[uː]",
+                tooltip: "закрытый долгий русский звук [у], но губы не вытянуты и не сужены",
+                example1: "moon", word1: "oo", transcription1: "[muːn]", translation1: "луна", image1: "moon.jpg",
+                example2: "spoon", word2: "oo", transcription2: "[spuːn]", translation2: "ложка", image2: "spoon.jpg",
+                example3: "bamboo", word3: "oo", transcription3: "[bæmˈbuː]", translation3: "бамбук", image3: "bamboo.jpg",
+            },
+            {
+                soundFile: "oi.mp3",
+                alphabetButton: "oi",
+                transcriptionButton: "[ɔɪ]",
+                tooltip: "близок русскому звуку [ой] с ударением на первом звуке",
+                example1: "coin", word1: "oi", transcription1: "[kɔɪn]", translation1: "монета", image1: "coin.jpg",
+                example2: "voice", word2: "oi", transcription2: "[vɔɪs]", translation2: "голос", image2: "voice.jpg",
+                example3: "oil", word3: "oi", transcription3: "[ɔɪl]", translation3: "масло", image3: "oil.jpg",
+            },
+            {
+                soundFile: "oy.mp3",
+                alphabetButton: "oy",
+                transcriptionButton: "[ɔɪ]",
+                tooltip: "близок русскому звуку [ой] с ударением на первом звуке",
+                example1: "boy", word1: "oy", transcription1: "[bɔɪ]", translation1: "луна", image1: "boy.jpg",
+                example2: "toy", word2: "oy", transcription2: "[tɔɪ]", translation2: "ложка", image2: "toy.jpg",
+                example3: "joy", word3: "oy", transcription3: "[dʒɔɪ]", translation3: "бамбук", image3: "joy.jpg",
+            },
+            {
+                soundFile: "ii.mp3",
+                alphabetButton: "ee",
+                transcriptionButton: "[iː]",
+                tooltip: "длительный звук, средний между [и] и [ы]",
+                example1: "green", word1: "ee", transcription1: "[gri:n]", translation1: "зеленый", image1: "green.jpg",
+                example2: "cheese", word2: "ee", transcription2: "[tʃi:z]", translation2: "сыр", image2: "cheese.jpg",
+                example3: "tree", word3: "ee", transcription3: "[tri:]", translation3: "дерево", image3: "tree.jpg",
+            },
+            {
+                soundFile: "ii.mp3",
+                alphabetButton: "ea",
+                transcriptionButton: "[iː]",
+                tooltip: "длительный звук, средний между [и] и [ы]",
+                example1: "tea", word1: "ea", transcription1: "[ti:]", translation1: "чай", image1: "tea.jpg",
+                example2: "sea", word2: "ea", transcription2: "[si:]", translation2: "море", image2: "sea.jpg",
+                example3: "please", word3: "ea", transcription3: "[pli:z]", translation3: "пожалуйста", image3: "please.jpg",
+            },
+            {
+                soundFile: "au.mp3",
+                alphabetButton: "ou",
+                transcriptionButton: "[aʊ]",
+                tooltip: "близок русскому звуку [ау], протяжно и с ударением на первом звуке",
+                example1: "mouth", word1: "ou", transcription1: "[maʊθ]", translation1: "рот", image1: "mouth.jpg",
+                example2: "cloud", word2: "ou", transcription2: "[klaʊd]", translation2: "облако", image2: "cloud.jpg",
+                example3: "house", word3: "ou", transcription3: "[haʊz]", translation3: "дом", image3: "house.jpg",
+            },
+            {
+                soundFile: "au.mp3",
+                alphabetButton: "ow",
+                transcriptionButton: "[aʊ]",
+                tooltip: "близок русскому звуку [ау], протяжно и с ударением на первом звуке",
+                example1: "town", word1: "ow", transcription1: "[taʊn]", translation1: "город", image1: "town.jpg",
+                example2: "crown", word2: "ow", transcription2: "[kraʊn]", translation2: "корона", image2: "crown.jpg",
+                example3: "brown", word3: "ow", transcription3: "[braʊn]", translation3: "коричневый", image3: "brown.jpg",
+            },
+            {
+                soundFile: "ou.mp3",
+                alphabetButton: "ow",
+                transcriptionButton: "[oʊ]",
+                tooltip: "близок русскому звуку [oу], протяжно и с ударением на первом звуке",
+                example1: "snow", word1: "ow", transcription1: "[snoʊ]", translation1: "снег", image1: "snow.jpg",
+                example2: "pillow", word2: "ow", transcription2: "[piloʊ]", translation2: "подушка", image2: "pillow.jpg",
+                example3: "flow", word3: "ow", transcription3: "[floʊ]", translation3: "поток", image3: "flow.jpg",
+            },
+            {
+                soundFile: "ear.mp3",
+                alphabetButton: "ear",
+                transcriptionButton: "[ɪə]",
+                tooltip: "сочетание английских звуков [ɪ] и [ə] c ударением на [ə], близкое к русскому [иэ]",
+                example1: "ear", word1: "ear", transcription1: "[ɪə]", translation1: "ухо", image1: "ear.jpg",
+                example2: "fear", word2: "ear", transcription2: "[fɪə]", translation2: "страх", image2: "fear.jpg",
+                example3: "year", word3: "ear", transcription3: "[jɪə]", translation3: "год", image3: "year.jpg",
+            },
+            {
+                alphabetButton: "ure",
+                transcriptionButton: "[ʊə]",
+                tooltip: "сочетание английских звуков [ʊ] и [ə] c ударением на [ʊ], близкое к русскому [уэ]",
+                example1: "cure", word1: "ure", transcription1: "[kjʊə]", translation1: "лечение", image1: "cure.jpg",
+                example2: "pure", word2: "ure", transcription2: "[pjʊə]", translation2: "беспримесный", image2: "pure.jpg",
+                example3: "sure", word3: "ure", transcription3: "[ʃʊə]", translation3: "уверенный", image3: "sure.jpg",
+            },
+            {
+                alphabetButton: "air",
+                transcriptionButton: "[eə]",
+                tooltip: "сочетание английских звуков [e] и [ə] c оттенком [ʌ], близкое к русскому [эа], с ударением на первом звуке",
+                example1: "air", word1: "air", transcription1: "[eə]", translation1: "воздух", image1: "air.jpg",
+                example2: "chair", word2: "air", transcription2: "[tʃeə]", translation2: "стул", image2: "chair.jpg",
+                example3: "hair", word3: "air", transcription3: "[heə]", translation3: "волосы", image3: "hair.jpg",
+            },
+        ];
+        let currentIndex = 0;
+        let currentExample = null;
+
+        function playSound(file) {
+            const audio = document.getElementById("audioPlayer");
+            audio.src = file;
+            audio.play().catch(error => console.error("Ошибка воспроизведения:", error));
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = "en-US";
+                speechSynthesis.speak(utterance);
+            } else {
+                alert('Синтез речи не поддерживается в вашем браузере');
+            }
+        }
+
+        function speakCurrentWord() {
+            if (currentExample) {
+                speak(currentExample.word);
+            }
+        }
+
+        function highlightPart(word, part) {
+            if (!part || !word.includes(part)) return word;
+            return word.replace(new RegExp(part, 'gi'), `<span class="highlighted">${part}</span>`);
+        }
+
+        function updateContent() {
+            const current = sounds[currentIndex];
+            document.getElementById("transcriptionButton").innerHTML = `
+            <span class="transcription-symbol">${current.transcriptionButton}</span>
+            <div class="tooltip">${current.tooltip}</div>
+        `;
+
+            const examples = [
+                { word: current.example1, part: current.word1, transcr: current.transcription1, transl: current.translation1, img: current.image1 },
+                { word: current.example2, part: current.word2, transcr: current.transcription2, transl: current.translation2, img: current.image2 },
+                { word: current.example3, part: current.word3, transcr: current.transcription3, transl: current.translation3, img: current.image3 },
+            ];
+            currentExample = examples[Math.floor(Math.random() * examples.length)];
+            const highlightedWord = highlightPart(currentExample.word, currentExample.part);
+            document.getElementById("wordText").innerHTML = highlightedWord;
+            document.getElementById("wordTranscr").textContent = currentExample.transcr;
+            document.getElementById("wordTransl").textContent = currentExample.transl;
+            document.getElementById("tooltipImage").src = currentExample.img;
+            updateActiveNav();
+        }
+
+        function createFullNavigation() {
+            const navContainer = document.getElementById("fullNav");
+            navContainer.innerHTML = "";
+            sounds.forEach((sound, index) => {
+                const button = document.createElement("div");
+                button.classList.add("nav-item");
+                button.textContent = sound.transcriptionButton;
+                if (index === currentIndex) button.classList.add("active");
+                button.addEventListener("click", () => {
+                    currentIndex = index;
+                    updateContent();
+                });
+                navContainer.appendChild(button);
+            });
+        }
+
+        function updateActiveNav() {
+            const navItems = document.querySelectorAll(".nav-item");
+            navItems.forEach((item, index) => {
+                item.classList.toggle("active", index === currentIndex);
+            });
+        }
+
+        function prevSound() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateContent();
+            }
+        }
+
+        function nextSound() {
+            if (currentIndex < sounds.length - 1) {
+                currentIndex++;
+                updateContent();
+            }
+        }
+
+        function adjustTooltipPosition() {
+            // const buttons = document.querySelectorAll('.transcription-button');
+            // buttons.forEach(button => {
+            //     const tooltip = button.querySelector('.tooltip');
+            //     if (!tooltip) return;
+
+            //     // Remove inline styles to get correct dimensions
+            //     tooltip.style.bottom = '';
+            //     tooltip.style.top = '';
+            //     tooltip.style.left = '';
+            //     tooltip.style.transform = '';
+
+            //     // Set initial position
+            //     tooltip.style.bottom = '120%';
+            //     tooltip.style.left = '50%';
+            //     tooltip.style.transform = 'translateX(-50%)';
+
+            //     // Check if tooltip is outside viewport
+            //     const rect = tooltip.getBoundingClientRect();
+            //     const viewportWidth = window.innerWidth;
+            //     const viewportHeight = window.innerHeight;
+
+            //     // Adjust horizontal position
+            //     if (rect.right > viewportWidth) {
+            //         tooltip.style.left = '100%';
+            //         tooltip.style.transform = 'translateX(-100%)';
+            //     }
+
+            //     // Adjust vertical position if needed
+            //     if (rect.top < 0) {
+            //         tooltip.style.bottom = '';
+            //         tooltip.style.top = '120%';
+            //     }
+            // });
+        }
+
+        // Add resize event listener to adjust tooltips on window resize
+        window.addEventListener('resize', adjustTooltipPosition);
+
+        window.onload = () => {
+            updateContent();
+            createFullNavigation();
+            // Initial adjustment
+            setTimeout(adjustTooltipPosition, 100);
+        };
+    </script>
+</body>
+
+</html>
