@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
     <title>English Sounds</title>
@@ -12,7 +11,6 @@
             margin: 0;
             padding: 0;
         }
-        
         body {
             font-family: 'Orbitron', sans-serif;
             background: linear-gradient(180deg, #413f3f, #0a0a0a);
@@ -22,14 +20,11 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-      
         .container {
             width: 100vw;
             height: calc(100vw * 16 / 9);
-            /* Соотношение 9:16 */
             max-height: 100vh;
             max-width: calc(100vh * 9 / 16);
-            /* Ограничение по ширине */
             margin: auto;
             padding: 20px;
             background: linear-gradient(180deg, #0f0f0f, #3b3b3b);
@@ -42,7 +37,6 @@
             overflow: hidden;
             position: relative;
         }
-        
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -53,7 +47,6 @@
                 transform: translateY(0);
             }
         }
-        
         h1,
         h2 {
             text-align: center;
@@ -63,14 +56,12 @@
             margin-bottom: 16px;
             font-size: 1.5rem;
         }
-        
         .sound {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 16px;
         }
-        
         .transcription-button {
             font-family: 'Charis SIL';
             position: relative;
@@ -91,14 +82,12 @@
             color: #ffaa00;
             margin: 20px;
         }
-        
         .transcription-symbol {
             font-family: 'Charis SIL';
             font-size: 50px;
             font-weight: bold;
             letter-spacing: 1px;
         }
-        
         .tooltip {
             z-index: 10;
             background: #0f0f0f;
@@ -120,21 +109,18 @@
             visibility: hidden;
             pointer-events: none;
         }
-        
         .transcription-button:hover .tooltip,
         .transcription-button:focus .tooltip {
             opacity: 1;
             visibility: visible;
             transition-delay: 0.3s;
         }
-        
         .examples-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 20px;
         }
-        
         .example-section {
             display: flex;
             flex-direction: column;
@@ -142,7 +128,6 @@
             position: relative;
             width: 100%;
         }
-        
         .example-button {
             width: 100%;
             max-width: 400px;
@@ -158,29 +143,24 @@
             cursor: pointer;
             position: relative;
         }
-        
         .word {
             font-size: 1.8em;
             font-weight: bold;
             color: #00ffff;
         }
-        
         .highlighted {
             color: #ffaa00;
         }
-        
         .transcription {
             font-size: 1.3em;
             color: #00ffaa;
         }
-        
         .translation {
             font-size: 1em;
             color: #cccccc;
             font-style: italic;
             margin-top: 8px;
         }
-        
         .nav-buttons {
             display: flex;
             justify-content: space-between;
@@ -190,7 +170,6 @@
             padding: 0 16px;
             gap: 20px;
         }
-        
         .nav-buttons button {
             flex: 1;
             padding: 12px 16px;
@@ -204,21 +183,67 @@
             box-shadow: 0 0 10px #00ffff, 0 0 10px #00ffff;
             transition: all 0.3s ease;
         }
-        
         .nav-buttons button:hover {
             transform: scale(1.05) rotate(1deg);
             box-shadow: 0 0 20px #00ffff, 0 0 20px #00ffff;
             background: linear-gradient(145deg, #00aaaa, #00ffff);
         }
-        
-        .full-nav {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-            gap: 8px;
+
+        /* Навигация с 3 рядами */
+        .scroll-nav-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
             margin-top: 16px;
-            padding: 0 16px;
+            position: relative;
         }
-        
+
+        .arrow-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+        }
+
+        .arrow-buttons button {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(0, 255, 255, 0.3);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 8px;
+            transition: all 0.3s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .arrow-buttons button:hover {
+            background: rgba(0, 255, 255, 0.15);
+            color: rgba(0, 255, 255, 0.7);
+        }
+
+        .grid-nav {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-auto-rows: 60px;
+           
+            width: 100%;
+            max-width: 400px;
+            gap: 10px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
         .nav-item {
             padding: 10px;
             background: linear-gradient(145deg, #111111, #1e1e1e);
@@ -226,26 +251,25 @@
             text-align: center;
             border-radius: 10px;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 20px;
             transition: all 0.3s ease;
             box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
         }
-        
         .nav-item:hover,
         .nav-item.active {
             background: linear-gradient(145deg, #00ffff, #00aaaa);
             color: #000;
-            box-shadow: 0 0 15px #00ffff, 0 0 25px #00ffff;
+            box-shadow: 0 0 5px #00ffff, 0 0 25px #00ffff;
             transform: scale(1.05);
         }
-        
+
         #centeredImageContainer {
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 20px 0;
         }
-        
+
         #centeredImage {
             width: 200px;
             height: 200px;
@@ -254,47 +278,43 @@
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
         }
-        
+
         @media (max-width: 480px) {
             .transcription-button {
                 height: 80px;
                 font-size: 20px;
             }
-            
             .transcription-symbol {
                 font-size: 40px;
             }
-            
             .word {
                 font-size: 1.5em;
             }
-            
             .transcription {
                 font-size: 1.1em;
             }
-            
             .translation {
                 font-size: 0.9em;
             }
-            
             .nav-buttons {
                 max-width: 100%;
             }
-            
             .nav-buttons button {
                 font-size: 1rem;
                 padding: 10px 12px;
             }
-            
-            .full-nav {
-                gap: 6px;
+            .grid-nav {
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: 50px;
             }
-            
             .nav-item {
                 font-size: 16px;
             }
+            .arrow-buttons {
+                right: -20px;
+            }
         }
-        
+
         @media (min-width: 768px) {
             .container {
                 width: 90vw;
@@ -306,8 +326,7 @@
 <body>
     <div class="container">
         <div class="sound">
-            <button class="transcription-button" onclick="playSound(sounds[currentIndex].soundFile)"
-                id="transcriptionButton"></button>
+            <button class="transcription-button" onclick="playSound(sounds[currentIndex].soundFile)" id="transcriptionButton"></button>
         </div>
         <div class="examples-container">
             <div class="example-section">
@@ -326,10 +345,19 @@
                 </div>
             </div>
         </div>
-        
-        <div class="full-nav" id="fullNav"></div>
+
+        <!-- Навигация с 3 рядами -->
+        <div class="scroll-nav-container">
+            <div class="arrow-buttons">
+                <button onclick="prevPage()">&#9650;</button>
+                <button onclick="nextPage()">&#9660;</button>
+            </div>
+            <div class="grid-nav" id="fullNav"></div>
+        </div>
     </div>
+
     <audio id="audioPlayer"></audio>
+
     <script>
         const sounds = [
             {
@@ -409,14 +437,14 @@
                 alphabetButton: "er",
                 transcriptionButton: "ə",
                 tooltip: "неясный, короткий безударный звук между [а] и [э]",
-                example1: "sister", word1: "er", transcription1: "[sɪstɚ]", translation1: "сестра", image1: "sister.jpg",
-                example2: "finger", word2: "er", transcription2: "[fɪŋgɚ]", translation2: "палец", image2: "finger.jpg",
-                example3: "driver", word3: "er", transcription3: "[draɪvɚ]", translation3: "водитель", image3: "driver.jpg",
+                example1: "sister", word1: "er", transcription1: "[sɪstə]", translation1: "сестра", image1: "sister.jpg",
+                example2: "finger", word2: "er", transcription2: "[fɪŋgə]", translation2: "палец", image2: "finger.jpg",
+                example3: "driver", word3: "er", transcription3: "[draɪvə]", translation3: "водитель", image3: "driver.jpg",
             },
             {
                 soundFile: "or.mp3",
                 alphabetButton: "or",
-                transcriptionButton: "ɔ",
+                transcriptionButton: "ɔ:",
                 tooltip: "долгий открытый протяжный звук [о], но язык опущен и оттянут назад и губы не округлены и не вытянуты",
                 example1: "sport", word1: "or", transcription1: "[spɔːt]", translation1: "спорт", image1: "sport.jpg",
                 example2: "morning", word2: "or", transcription2: "[mɔːnɪŋ]", translation2: "утро", image2: "morning.jpg",
@@ -493,17 +521,7 @@
                 example1: "mouth", word1: "ou", transcription1: "[maʊθ]", translation1: "рот", image1: "mouth.jpg",
                 example2: "cloud", word2: "ou", transcription2: "[klaʊd]", translation2: "облако", image2: "cloud.jpg",
                 example3: "house", word3: "ou", transcription3: "[haʊz]", translation3: "дом", image3: "house.jpg",
-             
             },
-            // {
-            //     soundFile: "au.mp3",
-            //     alphabetButton: "ow",
-            //     transcriptionButton: "aʊ",
-            //     tooltip: "близок русскому звуку [ау], протяжно и с ударением на первом звуке",
-            //     example1: "town", word1: "ow", transcription1: "[taʊn]", translation1: "город", image1: "town.jpg",
-            //     example2: "crown", word2: "ow", transcription2: "[kraʊn]", translation2: "корона", image2: "crown.jpg",
-            //     example3: "brown", word3: "ow", transcription3: "[braʊn]", translation3: "коричневый", image3: "brown.jpg",
-            // },
             {
                 soundFile: "ou.mp3",
                 alphabetButton: "ow",
@@ -539,8 +557,11 @@
                 example3: "hair", word3: "air", transcription3: "[heə]", translation3: "волосы", image3: "hair.jpg",
             },
         ];
+
         let currentIndex = 0;
         let currentExample = null;
+        let navPageIndex = 0;
+        const ITEMS_PER_PAGE = 12;
 
         function playSound(file) {
             const audio = document.getElementById("audioPlayer");
@@ -572,53 +593,49 @@
         function updateContent() {
             const current = sounds[currentIndex];
             document.getElementById("transcriptionButton").innerHTML = `
-        <span class="transcription-symbol">${current.transcriptionButton}</span>
-        <div class="tooltip">${current.tooltip}</div>
-    `;
-
+                <span class="transcription-symbol">${current.transcriptionButton}</span>
+                <div class="tooltip">${current.tooltip}</div>
+            `;
             const examples = [
                 { word: current.example1, part: current.word1, transcr: current.transcription1, transl: current.translation1, img: current.image1 },
                 { word: current.example2, part: current.word2, transcr: current.transcription2, transl: current.translation2, img: current.image2 },
                 { word: current.example3, part: current.word3, transcr: current.transcription3, transl: current.translation3, img: current.image3 },
-                // { word: current.example4, part: current.word4, transcr: current.transcription4, transl: current.translation4, img: current.image4 },
-                // { word: current.example5, part: current.word5, transcr: current.transcription5, transl: current.translation5, img: current.image5 },
-                // { word: current.example6, part: current.word6, transcr: current.transcription6, transl: current.translation6, img: current.image6 },
             ];
-
             currentExample = examples[Math.floor(Math.random() * examples.length)];
-
             const highlightedWord = highlightPart(currentExample.word, currentExample.part);
             document.getElementById("wordText").innerHTML = highlightedWord;
             document.getElementById("wordTranscr").textContent = currentExample.transcr;
             document.getElementById("wordTransl").textContent = currentExample.transl;
-
             const centeredImage = document.getElementById("centeredImage");
             centeredImage.src = currentExample.img;
             centeredImage.style.display = "block";
-
             updateActiveNav();
         }
 
         function createFullNavigation() {
             const navContainer = document.getElementById("fullNav");
             navContainer.innerHTML = "";
-            sounds.forEach((sound, index) => {
+            const start = navPageIndex * ITEMS_PER_PAGE;
+            const end = Math.min(start + ITEMS_PER_PAGE, sounds.length);
+            for (let i = start; i < end; i++) {
+                const sound = sounds[i];
                 const button = document.createElement("div");
                 button.classList.add("nav-item");
                 button.textContent = sound.transcriptionButton;
-                if (index === currentIndex) button.classList.add("active");
+                if (i === currentIndex) button.classList.add("active");
                 button.addEventListener("click", () => {
-                    currentIndex = index;
+                    currentIndex = i;
                     updateContent();
                 });
                 navContainer.appendChild(button);
-            });
+            }
         }
 
         function updateActiveNav() {
             const navItems = document.querySelectorAll(".nav-item");
+            const offset = navPageIndex * ITEMS_PER_PAGE;
             navItems.forEach((item, index) => {
-                item.classList.toggle("active", index === currentIndex);
+                item.classList.toggle("active", index + offset === currentIndex);
             });
         }
 
@@ -636,8 +653,20 @@
             }
         }
 
+        function prevPage() {
+            if (navPageIndex > 0) {
+                navPageIndex--;
+                createFullNavigation();
+            }
+        }
 
-
+        function nextPage() {
+            const totalPages = Math.ceil(sounds.length / ITEMS_PER_PAGE);
+            if (navPageIndex < totalPages - 1) {
+                navPageIndex++;
+                createFullNavigation();
+            }
+        }
 
         window.onload = () => {
             updateContent();
@@ -645,5 +674,4 @@
         };
     </script>
 </body>
-
 </html>
