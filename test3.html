@@ -194,76 +194,40 @@
             localStorage.setItem('testLogs', logs);
         }
         let questions = [
-            { word: "shop", correct: "shop", translation: "магазин" },
-            { word: "she", correct: "she", translation: "она" },
-            { word: "fish", correct: "fish", translation: "рыба" },
-            { word: "child", correct: "child", translation: "ребенок" },
-            { word: "bench", correct: "bench", translation: "лавочка" },
-            { word: "cherry", correct: "cherry", translation: "вишня" },
-            { word: "thin", correct: "thin", translation: "тонкий" },
-            { word: "moth", correct: "moth", translation: "мотылек" },
-            { word: "smith", correct: "smith", translation: "кузнец" },
-            { word: "this", correct: "this", translation: "это" },
-            { word: "that", correct: "that", translation: "то" },
-            { word: "they", correct: "they", translation: "они" },
-            { word: "photo", correct: "photo", translation: "фото" },
-            { word: "alphabet", correct: "alphabet", translation: "алфавит" },
-            { word: "phone", correct: "phone", translation: "телефон" },
-            { word: "ring", correct: "ring", translation: "кольцо" },
-            { word: "king", correct: "king", translation: "король" },
-            { word: "baking", correct: "baking", translation: "выпечка" },
-            { word: "vision", correct: "vision", translation: "зрение" },
-            { word: "collision", correct: "collision", translation: "стролкновение" },
-            { word: "division", correct: "division", translation: "подразделение" },
-            { word: "car", correct: "car", translation: "автомобиль" },
-            { word: "star", correct: "star", translation: "звезда" },
-            { word: "cigar", correct: "cigar", translation: "сигара" },
-            { word: "sister", correct: "sister", translation: "сестра" },
-            { word: "finger", correct: "finger", translation: "палец" },
-            { word: "driver", correct: "driver", translation: "водитель" },
-            { word: "sport", correct: "sport", translation: "спорт" },
-            { word: "morning", correct: "morning", translation: "утро" },
-            { word: "north", correct: "north", translation: "север" },
-            { word: "girl", correct: "girl", translation: "девушка" },
-            { word: "bird", correct: "bird", translation: "птица" },
-            { word: "skirt", correct: "skirt", translation: "платье" },
-            { word: "book", correct: "book", translation: "книга" },
-            { word: "look", correct: "look", translation: "взгляд" },
-            { word: "room", correct: "room", translation: "комната" },
-            { word: "moon", correct: "moon", translation: "луна" },
-            { word: "spoon", correct: "spoon", translation: "ложка" },
-            { word: "bamboo", correct: "bamboo", translation: "бамбук" },
-            { word: "green", correct: "green", translation: "зеленый" },
-            { word: "cheese", correct: "cheese", translation: "сыр" },
-            { word: "tree", correct: "tree", translation: "дерево" },
-            { word: "tea", correct: "tea", translation: "чай" },
-            { word: "sea", correct: "sea", translation: "море" },
-            { word: "please", correct: "please", translation: "пожалуйста" },
-            { word: "mouth", correct: "mouth", translation: "рот" },
-            { word: "cloud", correct: "cloud", translation: "облако" },
-            { word: "house", correct: "house", translation: "дом" },
-            { word: "town", correct: "town", translation: "город" },
-            { word: "crown", correct: "crown", translation: "корона" },
-            { word: "brown", correct: "brown", translation: "коричневый" },
-            { word: "snow", correct: "snow", translation: "снег" },
-            { word: "pillow", correct: "pillow", translation: "подушка" },
-            { word: "flow", correct: "flow", translation: "поток" },
-            { word: "air", correct: "air", translation: "воздух" },
-            { word: "chair", correct: "chair", translation: "стул" },
-            { word: "hair", correct: "hair", translation: "волосы" },
-            { word: "cure", correct: "cure", translation: "лечение" },
-            { word: "pure", correct: "pure", translation: "беспримесный" },
-            { word: "sure", correct: "sure", translation: "уверенный" },
-            { word: "ear", correct: "ear", translation: "ухо" },
-            { word: "fear", correct: "fear", translation: "страх" },
-            { word: "year", correct: "year", translation: "год" },
-            { word: "coin", correct: "coin", translation: "монета" },
-            { word: "voice", correct: "voice", translation: "голос" },
-            { word: "oil", correct: "oil", translation: "масло" },
-            { word: "boy", correct: "boy", translation: "мальчик" },
-            { word: "toy", correct: "toy", translation: "игрушка" },
-            { word: "joy", correct: "joy", translation: "радость" },
-        ]
+      
+            { word: "hype", correct: "hype", translation: "ажиотаж" },
+            { word: "fake", correct: "fake", translation: "подделка" },
+            { word: "chill", correct: "chill", translation: "отдыхать" },
+            { word: "drink", correct: "drink", translation: "напиток" },
+            { word: "shopping", correct: "shopping", translation: "покупки" },
+            { word: "tattoo", correct: "tattoo", translation: "татуировка" },
+            { word: "makeup", correct: "makeup", translation: "макияж" },
+            { word: "manager", correct: "manager", translation: "управляющий" },
+            { word: "brand", correct: "brand", translation: "торговая марка" },
+            { word: "market", correct: "market", translation: "рынок" },
+            { word: "cashback", correct: "cashback", translation: "возврат части денег" },
+            { word: "smartphone", correct: "smartphone", translation: "умный телефон" },
+            { word: "gadget", correct: "gadget", translation: "электронное устройство" },
+            { word: "chat", correct: "chat", translation: "переписка" },
+            { word: "computer", correct: "computer", translation: "компьютер " },
+            { word: "stream", correct: "stream", translation: "трансляция" },
+
+            { word: "mother", correct: "general", translation: "генерал" },
+            { word: "father", correct: "gel", translation: "гель" },
+            { word: "sister", correct: "quest", translation: "поиск" },
+            { word: "brother", correct: "queen", translation: "королева" },
+            { word: "son ", correct: "son ", translation: "сын" },
+            { word: "dauther ", correct: "dauther ", translation: "дочка" },
+
+            { word: "easy ", correct: "easy ", translation: "легко" },
+            { word: "sale", correct: "sale", translation: "распродажа" },
+            { word: "clean", correct: "clean", translation: "чистый" },
+
+            { word: "skin ", correct: "skin ", translation: "кожа" },
+            { word: "shoes ", correct: "shoes ", translation: "обувь" },
+            { word: "security ", correct: "security ", translation: "безопасность" },
+           
+        ];
 
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -315,7 +279,7 @@
             if (userAnswer === correctAnswer) {
                 // Правильный ответ
                 const successAudio = new Audio('right.mp3');
-                successAudio.volume = 0.2;
+                successAudio.volume = 0.1;
                 successAudio.play();
                 resultDiv.textContent = "Правильно!";
                 resultDiv.style.color = "green";
@@ -329,7 +293,7 @@
             } else {
                 // Неправильный ответ
                 const errorAudio = new Audio('wrong.mp3');
-                errorAudio.volume = 0.2;
+                errorAudio.volume = 0.1;
                 errorAudio.play();
                 resultDiv.textContent = `Что-то не то!`;
                 resultDiv.style.color = "red";
