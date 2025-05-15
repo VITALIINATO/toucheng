@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
             margin: 0;
             padding: 0;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -25,6 +27,7 @@
             background-color: #685962;
             transition: background 0.5s ease;
         }
+
         .container {
             text-align: center;
             background: rgba(255, 255, 255, 0.85);
@@ -36,19 +39,23 @@
             min-width: 600px;
             animation: fadeInContainer 1s ease-in-out;
         }
+
         @keyframes fadeInContainer {
             from {
                 opacity: 0;
                 transform: scale(0.9);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1);
             }
         }
+
         .hidden {
             display: none !important;
         }
+
         /* Стили для контейнера итогового результата */
         #finalResult {
             position: relative;
@@ -62,6 +69,7 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
             background: linear-gradient(135deg, #f3b29a, #ffa07a);
         }
+
         /* Стили для кнопки "Начать заново" */
         #finalResult button {
             display: inline-block;
@@ -77,22 +85,26 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
+
         #finalResult button:hover {
             background: linear-gradient(135deg, #388e3c, #2e7d32);
             transform: scale(1.05);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
+
         /* Медиа-запросы для мобильных устройств */
         @media only screen and (max-width: 510px) {
             #finalResult {
                 font-size: 22px;
                 padding: 20px;
             }
+
             #finalResult button {
                 font-size: 16px;
                 padding: 10px 25px;
             }
         }
+
         button {
             padding: 12px 25px;
             margin: 10px;
@@ -103,30 +115,37 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         #playButton {
             background: linear-gradient(135deg, #b3e5fc, #81d4fa);
             color: #0277bd;
         }
+
         #playButton:hover {
             background: linear-gradient(135deg, #4fc3f7, #29b6f6);
             transform: scale(1.05);
         }
+
         #submitButton {
             background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
             color: #1b5e20;
         }
+
         #submitButton:hover {
             background: linear-gradient(135deg, #81c784, #66bb6a);
             transform: scale(1.05);
         }
+
         #nextButton {
             background: linear-gradient(135deg, #ffe0b2, #ffcc80);
             color: #8d6e63;
         }
+
         #nextButton:hover {
             background: linear-gradient(135deg, #ffb74d, #ffa726);
             transform: scale(1.05);
         }
+
         input[type="text"] {
             padding: 12px;
             font-size: 16px;
@@ -136,16 +155,19 @@
             border-radius: 10px;
             transition: border-color 0.3s ease;
         }
+
         input[type="text"]:focus {
             border-color: #4caf50;
             outline: none;
         }
+
         .translation-buttons {
             display: flex;
             justify-content: center;
             gap: 10px;
             margin-top: 15px;
         }
+
         .translation-buttons button {
             padding: 10px 20px;
             font-size: 18px;
@@ -157,16 +179,19 @@
             transition: all 0.3s ease;
             width: 120px;
         }
+
         .translation-buttons button:hover {
             background: linear-gradient(135deg, #ba68c8, #9c27b0);
             transform: scale(1.05);
         }
+
         #translationResult,
         #result {
             font-size: 24px;
             margin-top: 20px;
             color: #333;
         }
+
         #progressBarContainer {
             width: 100%;
             background: rgba(255, 255, 255, 0.5);
@@ -176,6 +201,7 @@
             overflow: hidden;
             position: relative;
         }
+
         #progressBar {
             width: 0%;
             height: 100%;
@@ -183,29 +209,36 @@
             border-radius: 10px;
             transition: width 0.3s ease;
         }
+
         @media only screen and (max-width: 510px) {
             body {
                 padding: 10px;
             }
+
             .container {
                 min-width: 90%;
                 padding: 20px;
             }
+
             button {
                 padding: 10px 15px;
                 font-size: 14px;
             }
+
             #playButton {
                 width: 100%;
             }
+
             input[type="text"] {
                 width: 100%;
                 font-size: 14px;
             }
+
             .translation-buttons button {
                 width: 48%;
                 font-size: 16px;
             }
+
             #finalResult {
                 font-size: 16px;
                 padding: 15px;
@@ -213,6 +246,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div id="progressBarContainer">
@@ -246,8 +280,8 @@
         }
 
         let questions = [
-        { word: "cringe", correct: "cringe", translation: "съеживаться" },
-        { word: "hype", correct: "hype", translation: "ажиотаж" },
+            { word: "cringe", correct: "cringe", translation: "съеживаться" },
+            { word: "hype", correct: "hype", translation: "ажиотаж" },
             { word: "fake", correct: "fake", translation: "подделка" },
             { word: "chill", correct: "chill", translation: "отдыхать" },
             { word: "drink", correct: "drink", translation: "напиток" },
@@ -264,12 +298,12 @@
             { word: "computer", correct: "computer", translation: "компьютер " },
             { word: "stream", correct: "stream", translation: "трансляция" },
 
-            { word: "mother", correct: "general", translation: "генерал" },
-            { word: "father", correct: "father", translation: "гель" },
-            { word: "sister", correct: "sister", translation: "поиск" },
-            { word: "brother", correct: "brother", translation: "королева" },
+            { word: "mother", correct: "mother", translation: "мать" },
+            { word: "father", correct: "father", translation: "отец" },
+            { word: "sister", correct: "sister", translation: "сестра" },
+            { word: "brother", correct: "brother", translation: "брат" },
             { word: "son", correct: "son", translation: "сын" },
-            { word: "dauther", correct: "dauther", translation: "дочка" },
+            { word: "dauther", correct: "dauther", translation: "дочь" },
 
             { word: "easy", correct: "easy", translation: "легко" },
             { word: "sale", correct: "sale", translation: "распродажа" },
@@ -278,7 +312,7 @@
             { word: "skin", correct: "skin", translation: "кожа" },
             { word: "shoes", correct: "shoes", translation: "обувь" },
             { word: "security", correct: "security", translation: "безопасность" },
-           
+
         ];
 
 
@@ -310,17 +344,17 @@
             const currentQuestion = questions[currentQuestionIndex];
             logEvent(`Загружено слово: ${currentQuestion.word} (Перевод: ${currentQuestion.translation})`);
             counterDiv.textContent = `${currentQuestionIndex + 1} из ${questions.length}`;
-            
+
             // Скрываем ненужные элементы
             playButton.classList.add('hidden');
             userInput.classList.add('hidden');
             submitButton.classList.add('hidden');
             nextButton.classList.remove('hidden');
-            
+
             // Отображаем перевод
             translationResultDiv.textContent = currentQuestion.translation;
             translationResultDiv.style.color = "#333";
-            
+
             // Показываем варианты ответов
             showEnglishOptions(currentQuestion);
             updateProgressBar();
@@ -354,23 +388,23 @@
                 button.textContent = option;
                 button.addEventListener("click", () => {
                     logEvent(`Пользователь выбрал: "${option}" для перевода "${question.translation}"`);
-                    
+
                     if (option === question.word) {
                         const audio = new Audio('right.mp3');
                         audio.volume = 0.2;
                         audio.play();
                         speak(question.word);
-                        
+
                         if (!hadError) {
                             score++;
                             logEvent(`ПРАВИЛЬНЫЙ ОТВЕТ: ${option}`);
                         } else {
                             logEvent(`ПРАВИЛЬНЫЙ ОТВЕТ ПОСЛЕ ОШИБКИ: ${option}`);
                         }
-                        
+
                         translationResultDiv.textContent = "Правильно!";
                         translationResultDiv.style.color = "green";
-                        
+
                         setTimeout(() => {
                             currentQuestionIndex++;
                             hadError = false;
@@ -388,7 +422,7 @@
                         } else {
                             logEvent(`ПОВТОРНАЯ ОШИБКА: выбрано ${option}`);
                         }
-                        
+
                         const audio = new Audio('wrong.mp3');
                         audio.volume = 0.2;
                         audio.play();
@@ -414,13 +448,13 @@
 
         nextButton.addEventListener("click", () => {
             const currentQuestion = questions[currentQuestionIndex];
-            
+
             // Если вопрос не был ответен правильно
             if (!hadError) {
                 wrongAnswers.push(currentQuestion);
                 logEvent(`Пользователь пропустил вопрос: "${currentQuestion.word}"`);
             }
-            
+
             currentQuestionIndex++;
             if (currentQuestionIndex < questions.length) {
                 loadQuestion();
@@ -432,23 +466,23 @@
         function showFinalResult() {
             document.querySelector(".container").classList.add("hidden");
             finalResultDiv.classList.remove("hidden");
-            
+
             finalResultDiv.innerHTML = `<p>Результат теста: ${score} из ${questions.length}</p>`;
-            
+
             const wrongWordsDiv = document.createElement("div");
             wrongWordsDiv.style.marginTop = "20px";
             wrongWordsDiv.style.fontSize = "18px";
             wrongWordsDiv.style.color = "#d32f2f";
-            
+
             if (wrongAnswers.length > 0) {
                 const wrongWordsList = [...new Set(wrongAnswers.map(q => `${q.word} (${q.translation})`))].join(", ");
                 wrongWordsDiv.innerHTML = `<strong>Слова, в которых были ошибки:</strong><br>${wrongWordsList}`;
             } else {
                 wrongWordsDiv.textContent = "Ошибок нет! Отличная работа!";
             }
-            
+
             finalResultDiv.appendChild(wrongWordsDiv);
-            
+
             const restartButton = document.createElement("button");
             restartButton.textContent = "Начать заново";
             restartButton.style.display = "block";
@@ -471,7 +505,7 @@
                 finalResultDiv.classList.add("hidden");
                 loadQuestion();
             });
-            
+
             finalResultDiv.appendChild(restartButton);
         }
 
@@ -482,4 +516,5 @@
         };
     </script>
 </body>
+
 </html>
