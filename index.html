@@ -5,30 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English</title>
-    <style>
-        /* ОБЩИЕ НАСТРОЙКИ */
+    <style>/* ОБЩИЕ НАСТРОЙКИ */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-
         }
-
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #685962, #4b3f4e);
+            background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             transition: background 0.5s ease;
-            /* background: #685962 url('fonstart3.jpg') no-repeat center fixed;
-            background-size: cover; */
+            color: #fff;
         }
-
+        
         .container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -38,63 +35,43 @@
             padding: 0px;
             animation: fadeInContainer 1s ease-in-out;
             grid-template-columns: 37% 35% 25%;
-
-            /* grid-template-columns: 
-        calc(40% - 20px) 
-        calc(35% - 20px) 
-        25%;
-  */
         }
-
+        
         @keyframes fadeInContainer {
             from {
                 opacity: 0;
                 transform: scale(0.95);
             }
-
             to {
                 opacity: 1;
                 transform: scale(1);
             }
         }
-
+        
         .column {
-
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 10px;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(25, 25, 25, 0.8);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.1);
             transition: transform 0.3s ease;
+            border: 1px solid rgba(0, 255, 255, 0.2);
         }
-
-        /* .column:hover {
-            /* transform: translateY(-5px); 
-        } 
-            */
-
+        
         /* ЛЕВАЯ КОЛОНКА - ЗВУКИ */
         .left-column {
             flex: 0.4;
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* overflow: hidden; Убираем прокрутку */
             padding: 20px;
-            overflow: visible !important;
-            /* Убираем обрезку содержимого */
             position: relative;
-            /* Создаем контекст позиционирования */
             z-index: 2;
-            /* Поднимаем левую колонку над другими */
         }
-
-
-
-
+        
         .row1,
         .row2,
         .row3 {
@@ -104,16 +81,14 @@
             width: 100%;
             margin-bottom: 20px;
         }
-
+        
         .sound-btn {
-            position: relative;
-            /* Обеспечиваем корректное позиционирование тултипа */
             position: relative;
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ffab91, #ffccbc);
-            color: #4d2c0d;
+            background: linear-gradient(135deg, #1f1f1f, #2c2c2c);
+            color: #00ffff;
             border: none;
             cursor: pointer;
             display: flex;
@@ -123,88 +98,65 @@
             font-weight: bold;
             transition: all 0.3s ease;
             margin: 0;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.2);
+            border: 2px solid #00ffff44;
         }
-
+        
         .sound-btn:hover {
             transform: scale(1.1);
-            background: linear-gradient(135deg, #ff7043, #ff8a65);
+            background: linear-gradient(135deg, #00ffff, #b12ce0);
+            color: #000;
+            box-shadow: 0 0 15px #00ffff, 0 0 30px #b12ce0;
         }
-
-        /* Корректируем стили для тултипов */
+        
         .tooltip {
             z-index: 10;
-            /* Гарантируем, что тултип выше всех элементов */
-
-
-
             position: absolute;
             bottom: 120%;
-            /* Позиция над кнопкой */
             left: 50%;
             transform: translateX(-50%);
-            background: #424242;
-            color: #fff;
+            background: rgba(20, 20, 20, 0.95);
+            color: #00ffff;
             padding: 10px;
-            /* Уменьшаем padding */
             border-radius: 8px;
             white-space: normal;
-            /* Разрешаем перенос текста */
-            /* max-width: 480px; Максимальная ширина */
-            width: 500px;
-            /* Автоматическая ширина */
+            width: 250px;
             text-align: center;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease 0.4s, visibility 0.3s ease 0.4s;
-            /* Задержка 1с */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            z-index: 10;
-            /* Убедимся, что тултип поверх других элементов */
+            transition: opacity 0.3s ease 0.2s, visibility 0.3s ease 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            font-size: 0.9rem;
         }
-
-
+        
         .sound-btn:hover .tooltip {
             opacity: 1;
             visibility: visible;
         }
-
-        .row1 .sound-btn {
-            background: linear-gradient(135deg, #b3e5fc, #81d4fa);
-            color: #0277bd;
-        }
-
-        .row2 .sound-btn {
-            background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
-            color: #1b5e20;
-        }
-
-        .row3 .sound-btn {
-            background: linear-gradient(135deg, #ffe0b2, #ffcc80);
-            color: #8d6e63;
-        }
-
+        
         /* ЦЕНТРАЛЬНАЯ КОЛОНКА - БУКВЫ */
         .center-column {
             flex: 1;
             padding: 20px;
         }
-
+        
         .two h1,
         .two h2 {
             font-size: 2rem;
-            color: #333;
+            color: #00ffff;
             margin-bottom: 20px;
             text-align: center;
+            text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
         }
-
+        
         .center-buttons-container {
             display: flex;
             justify-content: center;
             gap: 20px;
             margin-bottom: 20px;
         }
-
+        
         .adult-btn,
         .kid-btn {
             padding: 15px 25px;
@@ -213,147 +165,149 @@
             border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.1);
+            font-weight: bold;
         }
-
+        
         .adult-btn {
-            background: linear-gradient(135deg, #ce93d8, #f48fb1);
-            color: #4a148c;
+            background: linear-gradient(135deg, #01c9c9, #027d8d);
+            color: #fff;
         }
-
+        
         .adult-btn:hover {
-            background: linear-gradient(135deg, #ba68c8, #f06292);
+            background: linear-gradient(135deg, #c940ff, #880b7d);
             transform: scale(1.05);
+            box-shadow: 0 0 15px #b940ff, 0 0 30px #790355;
         }
-
+        
         .kid-btn {
-            background: linear-gradient(135deg, #b3e5fc, #81d4fa);
-            color: #0277bd;
+            background: linear-gradient(135deg, #00ffff, #00bcd4);
+            color: #000;
         }
-
+        
         .kid-btn:hover {
-            background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+            background: linear-gradient(135deg, #00bcd4, #0097a7);
             transform: scale(1.05);
+            box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
         }
-
+        
         .buttons-container button {
             font-size: 1.5rem;
             padding: 15px;
             border: none;
             border-radius: 15px;
-            background: linear-gradient(135deg, #ffab91, #ffccbc);
-            color: #4d2c0d;
+            background: linear-gradient(135deg, #1f1f1f, #2c2c2c);
+            color: #00ffff;
             cursor: pointer;
             transition: all 0.3s ease;
             margin: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.1);
+            border: 2px solid #00ffff44;
         }
-
+        
         .buttons-container button:hover {
-            background: linear-gradient(135deg, #ff7043, #ff8a65);
+            background: linear-gradient(135deg, #00ffff, #b12ce0);
+            color: #000;
             transform: scale(1.1);
+            box-shadow: 0 0 15px #00ffff, 0 0 30px #b12ce0;
         }
-
+        
         /* ПРАВАЯ КОЛОНКА - ТЕСТЫ И ССЫЛКИ */
         .right-column {
             flex: 1;
             padding: 20px;
         }
-
-        .left-column h1,
-        .left-column h2 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
+        
         .right-column h1,
         .right-column h2 {
             font-size: 2rem;
-            color: #333;
+            color: #00ffff;
             margin-bottom: 20px;
             text-align: center;
+            text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
         }
-
+        
         .links-row {
             display: flex;
             justify-content: center;
             gap: 20px;
             margin-bottom: 20px;
         }
-
+        
         .letters-link,
         .test-link {
             padding: 15px 25px;
-        margin: 10px;
+            margin: 10px;
             font-size: 1rem;
             text-decoration: none;
             border-radius: 15px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.1);
+            font-weight: bold;
         }
-
+        
         .letters-link {
-            background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
-            color: #1b5e20;
+            background: linear-gradient(135deg, #00ffff, #00bcd4);
+            color: #000;
         }
-
+        
         .letters-link:hover {
-            background: linear-gradient(135deg, #81c784, #66bb6a);
+            background: linear-gradient(135deg, #00bcd4, #0097a7);
             transform: scale(1.05);
+            box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
         }
-
+        
         .test-link {
-            background: linear-gradient(135deg, #ffe0b2, #ffcc80);
-            color: #8d6e63;
+            background: linear-gradient(135deg, #b12ce0, #ff4081);
+            color: #fff;
         }
-
+        
         .test-link:hover {
-            background: linear-gradient(135deg, #ffb74d, #ffa726);
+            background: linear-gradient(135deg, #ff4081, #e91e63);
             transform: scale(1.05);
+            box-shadow: 0 0 15px #ff4081, 0 0 30px #ff4081;
         }
-
+        
         .links-row2,
         .links-row3,
         .links-row4,
         .links-row5 {
             margin-top: 20px;
         }
-
+        
+        /* АДАПТИВНОСТЬ */
         @media only screen and (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
             }
-
+        
             .column {
                 padding: 10px;
             }
-
+        
             .sound-btn {
                 width: 50px;
                 height: 50px;
                 font-size: 16px;
             }
-
+        
             .adult-btn,
             .kid-btn {
                 padding: 10px 20px;
                 font-size: 0.9rem;
             }
-
+        
             .buttons-container button {
                 font-size: 1.2rem;
                 padding: 10px;
             }
-
+        
             .letters-link,
             .test-link {
                 padding: 10px 20px;
                 font-size: 0.9rem;
             }
-        }
-    </style>
+        }</style>
 </head>
 
 <body>
@@ -362,7 +316,7 @@
         <div class="column left-column">
             <h1>🎵</h1>
             <h1>Звуки:</h1>
-
+<br>
             <div class="row1">
                 <button class="sound-btn" data-sound="2p.mp3"
                     data-description="близок русскому звуку [ п ], но энергичнее и с придыханием (губы сначала смыкаются, а потом резко размыкаются сильной струей воздуха)">[
@@ -600,7 +554,7 @@
                 <br><br>
                  
                   <a href="game3.html" class="test-link">🧬 Game-3</a>
-                  <a href="app.html" class="test-link">📲 app</a>
+                  <a href="app.html" class="test-link">APP</a>
                  
               </div>
 
