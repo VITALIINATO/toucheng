@@ -1,20 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word Drop Clicker - Enhanced</title>
     <style>
         @keyframes fall {
-            from { transform: translateY(-50px); opacity: 0.8; }
-            to { transform: translateY(calc(100vh + 50px)); opacity: 1; }
+            from {
+                transform: translateY(-50px);
+                opacity: 0.8;
+            }
+
+            to {
+                transform: translateY(calc(100vh + 50px));
+                opacity: 1;
+            }
         }
+
         @keyframes shake {
-            0%, 100% { transform: translateX(0) rotate(0); }
-            25% { transform: translateX(-5px) rotate(-3deg); }
-            50% { transform: translateX(5px) rotate(3deg); }
-            75% { transform: translateX(-5px) rotate(-3deg); }
+
+            0%,
+            100% {
+                transform: translateX(0) rotate(0);
+            }
+
+            25% {
+                transform: translateX(-5px) rotate(-3deg);
+            }
+
+            50% {
+                transform: translateX(5px) rotate(3deg);
+            }
+
+            75% {
+                transform: translateX(-5px) rotate(-3deg);
+            }
         }
+
         @keyframes explosion {
             0% {
                 transform: scale(1);
@@ -22,22 +45,40 @@
                 box-shadow: 0 0 20px #ff4444;
                 opacity: 1;
             }
+
             50% {
                 transform: scale(2);
                 opacity: 0.8;
             }
+
             100% {
                 transform: scale(3);
                 opacity: 0;
             }
         }
+
         @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 10px #ffd700; }
-            50% { box-shadow: 0 0 25px #ffd700, 0 0 50px #ff4500; }
+
+            0%,
+            100% {
+                box-shadow: 0 0 10px #ffd700;
+            }
+
+            50% {
+                box-shadow: 0 0 25px #ffd700, 0 0 50px #ff4500;
+            }
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         * {
@@ -147,7 +188,8 @@
             margin-bottom: 5px;
         }
 
-        #score, #timer {
+        #score,
+        #timer {
             font-size: 64px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
@@ -217,23 +259,24 @@
                 font-size: 20px;
                 padding: 10px 20px;
             }
-            
+
             .word {
                 font-size: 20px;
                 padding: 8px 16px;
             }
-            
+
             #score,
             #timer {
                 font-size: 32px;
             }
-            
+
             #levelIndicator {
                 display: none;
             }
         }
     </style>
 </head>
+
 <body>
     <div id="levelIndicator">Уровень: 1</div>
     <div id="task"></div>
@@ -256,8 +299,8 @@
 
     <script>
         const words = [
-       
-            { word: "body", correct: "body", translation: "тело" },           
+
+            { word: "body", correct: "body", translation: "тело" },
             { word: "head", correct: "head", translation: "голова" },
             { word: "face", correct: "face", translation: "лицо" },
             { word: "eye", correct: "eye", translation: "глаз" },
@@ -277,8 +320,6 @@
             { word: "day", correct: "day", translation: "день" },
             { word: "week", correct: "week", translation: "неделя" },
             { word: "month", correct: "month", translation: "месяц" },
-            { word: "life", correct: "life", translation: "жизнь" },
-
         ];
 
         let score = 0;
@@ -294,11 +335,11 @@
 
         // Настройки уровня
         const levelSettings = [
-            { speed: 8000, spawnInterval: 700, maxFallingWords: 8 },
-            { speed: 7000, spawnInterval: 650, maxFallingWords: 9 },
-            { speed: 6000, spawnInterval: 600, maxFallingWords: 10 },
-            { speed: 5000, spawnInterval: 550, maxFallingWords: 11 },
-            { speed: 4000, spawnInterval: 500, maxFallingWords: 12 }
+            { speed: 10000, spawnInterval: 700, maxFallingWords: 8 },
+            { speed: 9000, spawnInterval: 650, maxFallingWords: 9 },
+            { speed: 8000, spawnInterval: 600, maxFallingWords: 10 },
+            { speed: 7000, spawnInterval: 550, maxFallingWords: 11 },
+            { speed: 6000, spawnInterval: 500, maxFallingWords: 12 }
         ];
 
         function getCurrentSettings() {
@@ -610,10 +651,10 @@
             if (newLevel > currentLevel) {
                 currentLevel = newLevel;
                 updateLevelIndicator();
-                
+
                 // Останавливаем текущие таймеры
                 stopIntervals();
-                
+
                 // Если игра не на паузе, запускаем новые таймеры с новыми настройками
                 if (!isPaused) {
                     startIntervals();
@@ -652,4 +693,5 @@
         startGame();
     </script>
 </body>
+
 </html>
