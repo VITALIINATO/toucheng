@@ -411,6 +411,7 @@
             { word: "cherry", correct: "cherry", translation: "вишня" },
             { word: "strawberry", correct: "strawberry", translation: "клубника" },
             { word: "grape", correct: "grape", translation: "виноград" },
+
             { word: "animal", correct: "animal", translation: "животное" },
             // { word: "beast", correct: "beast", translation: "зверь" },
             { word: "bird", correct: "bird", translation: "птица" },
@@ -785,7 +786,7 @@
             restartButton.addEventListener("click", () => {
                 logEvent('--- ПОВТОРНЫЙ ТЕСТ ---');
                 shuffleArray(questions);
-                questions = questions.slice(0, 20);
+                questions = questions.slice(0, 30);
                 currentQuestionIndex = 0;
                 score = 0;
                 wrongAnswers = [];
