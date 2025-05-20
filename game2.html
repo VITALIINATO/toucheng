@@ -5,36 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Word Building Test</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: #1a1a1a;
-      color: #f5f5f5;
-    }
+ /* Киберпанковые цвета */
+        :root {
+            --neon-purple: #c700ff;
+            --neon-blue: #00f0ff;
+            --neon-pink: #ff00c8;
+            --neon-green: #00ff44;
+            --neon-red: #ff0033;
+            --dark-bg: #0a0a0a;
+        }
 
-    h1 {
-      margin-bottom: 20px;
-      font-size: 2rem;
+        body {
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--dark-bg);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        h1 {
+             font-size: 2.5rem;
+      color: var(--neon-blue);
+      text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+      margin-bottom: 1rem;
+      animation: flicker 2s infinite;
       text-align: center;
-      color: #00e676;
-      text-shadow: 0 0 10px rgba(0, 230, 118, 0.3);
-    }
+      width: 100%;
+        }
 
-    #instruction {
+       #instruction {
       font-size: 2.5rem;
       font-weight: bold;
       text-align: center;
       margin-bottom: 20px;
-      color: #2faaa4;
+  color: var(--neon-purple);
+            text-shadow: 0 0 10px var(--neon-purple);
       min-height: 50px;
     }
+
 
     #sentenceContainer,
     #wordBank {
@@ -127,6 +141,8 @@
     }
 
     #feedback {
+           display: flex;
+      justify-content: center;
       padding: 10px 18px;
       min-width: 80px;
       min-height: 24px;
@@ -183,6 +199,42 @@
     .time {
       color: #2979ff;
     }
+/* 
+    .glow-word {
+       --neon-blue: #00f0ff;
+      text-shadow: 0 0 10px rgb(0, 110, 255), 0 0 20px rgb(0, 132, 255);
+      font-size: 3rem;
+      font-weight: bold;
+      animation: glow 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px rgb(0, 153, 255), 0 0 20px rgb(0, 81, 255);
+      }
+      to {
+        text-shadow: 0 0 20px rgb(0, 140, 255), 0 0 40px rgb(0, 153, 255);
+      }
+    } */
+
+    .glow-word {
+       --neon-blue: #00f0ff;
+      text-shadow: 0 0 10px rgb(0, 110, 255), 0 0 20px rgb(0, 132, 255);
+      font-size: 3rem;
+      font-weight: bold;
+      animation: glow 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px rgb(0, 153, 255), 0 0 20px rgb(0, 81, 255);
+      }
+      to {
+        text-shadow: 0 0 20px rgb(0, 140, 255), 0 0 40px rgb(0, 153, 255);
+      }
+    }
+   
+   
   </style>
 </head>
 <body>
@@ -202,11 +254,16 @@
     <div class="check-container">
       <button id="checkSentence">Проверить</button>
       <button id="resetButton">Сбросить</button>
-      <p id="feedback"></p>
+    
     </div>
+      <p id="feedback"></p>
   </div>
   <!-- Итог -->
   <div id="finalResult"></div>
+  
+  <!-- Звуки -->
+  <audio id="rightSound" src="2right.mp3"></audio>
+  <audio id="wrongSound" src="wrong.mp3"></audio>
 
   <script>
     // Массив слов с буквами
@@ -290,7 +347,7 @@
     let currentQuestionIndex = 0;
     let score = 0;
     let failedAttempts = 0;
-    let totalQuestions = 3;
+    let totalQuestions = 12;
     let testSet = [];
     let startTime = null;
     let timerInterval = null;
@@ -358,19 +415,18 @@
 
           // Озвучка
           speak(correctWord);
+           // Звук
+          document.getElementById("rightSound").play();
+          
 
-          // Анимация правильного ответа
-          const fullWord = document.createElement("span");
-          fullWord.className = "word";
-          fullWord.textContent = correctWord;
-          fullWord.style.fontSize = "3.0rem";
-          fullWord.style.fontWeight = "bold";
-          fullWord.style.background = "transparent";
-          fullWord.style.color = "yellow";
-          fullWord.style.pointerEvents = "none";
+          // Анимация объединения букв
+          Array.from(sentenceContainer.children).forEach((el, i) => {
+            el.classList.remove("letter");
+            el.classList.add("glow-word");
+            el.style.transition = `transform 0.5s ease ${i * 0.1}s`;
+            el.style.transform = "scale(1.5)";
+          });
 
-          sentenceContainer.innerHTML = "";
-          sentenceContainer.appendChild(fullWord);
 
           score++;
 
