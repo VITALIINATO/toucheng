@@ -147,6 +147,8 @@
     }
 
     #feedback {
+          display: flex;
+      justify-content: center;
       padding: 10px 18px;
       min-width: 80px;
       min-height: 24px;
@@ -220,6 +222,8 @@
         text-shadow: 0 0 20px rgb(0, 140, 255), 0 0 40px rgb(0, 153, 255);
       }
     }
+   
+
   </style>
 </head>
 <body>
@@ -240,8 +244,9 @@
     <div class="check-container">
       <button id="checkSentence">Проверить</button>
       <button id="resetButton">Сбросить</button>
-      <p id="feedback"></p>
+    
     </div>
+      <p id="feedback"></p>
   </div>
   <!-- Итог -->
   <div id="finalResult"></div>
