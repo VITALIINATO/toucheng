@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Правописание слов — Восстанови пропущенное</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron :wght@500&display=swap');
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      color: #fff;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #gameContainer {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .letter {
+      position: absolute;
+      font-size: 28px;
+      padding: 15px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      user-select: none;
+      touch-action: manipulation;
+      transition: transform 0.2s ease-in-out;
+      white-space: nowrap;
+      z-index: 1;
+      border: 2px solid #ffd700;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 10px #ff4500;
+    }
+    .letter:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #ff3300;
+      z-index: 2;
+    }
+    .letter.correct,
+    .letter.wrong {
+      animation: explode 0.5s forwards;
+      pointer-events: none;
+      color: transparent !important;
+    }
+    @keyframes explode {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(2); opacity: 0; }
+    }
+    #task {
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffd700;
+      padding: 15px 30px;
+      border-radius: 25px;
+      font-size: 28px;
+      text-shadow: 0 0 10px #ff4500;
+      z-index: 10;
+      border: 2px solid #ff4500;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 10px #ffd700; }
+      50% { box-shadow: 0 0 25px #ffd700, 0 0 50px #ff4500; }
+    }
+    #hud {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 50px;
+      z-index: 10;
+      font-weight: bold;
+    }
+    .hud-item {
+      text-align: center;
+    }
+    .hud-label {
+      font-size: 20px;
+      color: #aaa;
+      margin-bottom: 5px;
+    }
+    #score,
+    #timer {
+      font-size: 64px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    #score { color: #FFD700; }
+    #timer { color: #FF4500; }
+    #pauseButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s ease-in-out;
+    }
+    #pauseButton:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+    }
+    #result {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 20;
+      backdrop-filter: blur(5px);
+    }
+    #record {
+      position: fixed;
+      bottom: 20px;
+      right: 150px;
+      font-size: 24px;
+      color: #ffd700;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 20px;
+      border-radius: 20px;
+    }
+    #stats {
+      max-height: 300px;
+      overflow-y: auto;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+    .stat-correct {
+      color: #0f0;
+    }
+    .stat-wrong {
+      color: #f00;
+    }
+    @media (max-width: 600px) {
+      .letter {
+        font-size: 22px;
+        padding: 10px 20px;
+      }
+      #task {
+        font-size: 20px;
+        padding: 10px 20px;
+      }
+      #score,
+      #timer {
+        font-size: 32px;
+      }
+      #pauseButton {
+        font-size: 20px;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="task">_ _ _</div>
+  <div id="pauseButton">⏸ Пауза</div>
+  <div id="gameContainer"></div>
+  <div id="hud">
+    <div class="hud-item">
+      <div class="hud-label">Очки</div>
+      <div id="score">0</div>
+    </div>
+    <div class="hud-item">
+      <div class="hud-label">Время</div>
+      <div id="timer">60</div>
+    </div>
+  </div>
+  <div id="record">Рекорд: 0</div>
+  <div id="result">
+    <h1 id="resultText">Игра окончена!</h1>
+    <div id="stats"></div>
+    <button id="restartButton">Начать заново</button>
+  </div>
+  <script>
+    // Список задач с пропущенными буквами
+    const tasks = [
+      { word: "shop", maskedWord: "**op", correctMissing: "ʃ", translation: "магазин" },
+      { word: "she", maskedWord: "**e", correctMissing: "ʃ", translation: "она" },
+      { word: "fish", maskedWord: "fi**", correctMissing: "ʃ", translation: "рыба" },
+
+      { word: "child", maskedWord: "**ild", correctMissing: "tʃ", translation: "ребенок" },
+      { word: "bench", maskedWord: "ben**", correctMissing: "tʃ", translation: "лавочка" },
+      { word: "cherry", maskedWord: "ch**ry", correctMissing: "tʃ", translation: "вишня" },
+
+      { word: "thin", maskedWord: "**in", correctMissing: "θ", translation: "тонкий" },
+      { word: "moth", maskedWord: "mo**", correctMissing: "θ", translation: "мотылек" },
+      { word: "smith", maskedWord: "smi**", correctMissing: "θ", translation: "кузнец" },
+
+      { word: "this", maskedWord: "**is", correctMissing: "ð", translation: "это" },
+      { word: "that", maskedWord: "**at", correctMissing: "ð", translation: "то" },      
+      { word: "they", maskedWord: "**ey", correctMissing: "ð", translation: "они" },
+
+      { word: "photo", maskedWord: "**oto", correctMissing: "f", translation: "фото" },
+      { word: "alphabet", maskedWord: "al**abet", correctMissing: "f", translation: "алфавит" },
+      { word: "phone", maskedWord: "**one", correctMissing: "f", translation: "телефон" },
+
+      { word: "ring", maskedWord: "ri**", correctMissing: "ŋ", translation: "кольцо" },
+      { word: "king", maskedWord: "ki**", correctMissing: "ŋ", translation: "король" },
+      { word: "baking", maskedWord: "baki**", correctMissing: "ŋ", translation: "выпечка" },
+
+      { word: "vision", maskedWord: "vi***n", correctMissing: "ʒ", translation: "зрение" },
+      { word: "collision", maskedWord: "colli***n", correctMissing: "ʒ", translation: "коллизия" },
+      { word: "division", maskedWord: "divi***n", correctMissing: "ʒ", translation: "дивизион" },
+
+       { word: "sister", maskedWord: "sist**", correctMissing: "ə", translation: "сестра" },
+      { word: "finger", maskedWord: "fing**", correctMissing: "ə", translation: "палец" },
+      { word: "driver", maskedWord: "driv**", correctMissing: "ə", translation: "водитель" },
+
+       { word: "sport", maskedWord: "c**", correctMissing: "ɔː", translation: "автомобиль" },
+      { word: "morning", maskedWord: "st**", correctMissing: "ɔː", translation: "звезда" },
+      { word: "north", maskedWord: "cig**", correctMissing: "ɔː", translation: "сигара" },
+
+      { word: "car", maskedWord: "c**", correctMissing: "ɑː", translation: "автомобиль" },
+      { word: "star", maskedWord: "st**", correctMissing: "ɑː", translation: "звезда" },
+      { word: "cigar", maskedWord: "cig**", correctMissing: "ɑː", translation: "сигара" },
+
+      { word: "girl", maskedWord: "g**l", correctMissing: "ɜ:", translation: "девушка" },
+      { word: "bird", maskedWord: "b**d", correctMissing: "ɜ:", translation: "птица" },
+      { word: "skirt", maskedWord: "sk**t", correctMissing: "ɜ:", translation: "платье" },
+
+      { word: "book", maskedWord: "b**k", correctMissing: "ʊ", translation: "книга" },
+      { word: "look", maskedWord: "l**k", correctMissing: "ʊ", translation: "взгляд" },
+      { word: "room", maskedWord: "r**m", correctMissing: "ʊ", translation: "комната" },
+
+      { word: "moon", maskedWord: "m**n", correctMissing: "ʊ:", translation: "луна" },
+      { word: "spoon", maskedWord: "sp**n", correctMissing: "ʊ:", translation: "ложка" },
+      { word: "bamboo", maskedWord: "bamb**", correctMissing: "ʊ:", translation: "бамбук" },
+
+      
+     
+
+     
+
+      { word: "coin", maskedWord: "c**n", correctMissing: "ɔɪ", translation: "монета" },
+      { word: "voice", maskedWord: "v**ce", correctMissing: "ɔɪ", translation: "голос" },
+      { word: "boy", maskedWord: "b**y", correctMissing: "ɔɪ", translation: "мальчик" },
+      { word: "toy", maskedWord: "t**y", correctMissing: "ɔɪ", translation: "игрушка" },
+      { word: "joy", maskedWord: "j**y", correctMissing: "ɔɪ", translation: "радость" },
+
+      { word: "green", maskedWord: "gr**n", correctMissing: "i:", translation: "зелёный" },
+      { word: "cheese", maskedWord: "ch**se", correctMissing: "i:", translation: "сыр" },
+      { word: "tea", maskedWord: "t**", correctMissing: "i:", translation: "чай" },
+      { word: "sea", maskedWord: "s**", correctMissing: "i:", translation: "море" },
+
+       { word: "mouth", maskedWord: "m**th", correctMissing: "aʊ", translation: "рот" },
+      { word: "cloud", maskedWord: "cl**d", correctMissing: "aʊ", translation: "облако" },
+      { word: "town", maskedWord: "t**n", correctMissing: "aʊ", translation: "город" },
+
+       { word: "snow", maskedWord: "sn**", correctMissing: "oʊ", translation: "снег" },
+      { word: "pillow", maskedWord: "pill**", correctMissing: "oʊ", translation: "подушка" },
+      { word: "nose", maskedWord: "n**se", correctMissing: "oʊ", translation: "нос" },
+
+
+       { word: "ear", maskedWord: "***", correctMissing: "ɪə", translation: "ухо" },
+      { word: "fear", maskedWord: "f***", correctMissing: "ɪə", translation: "страх" },
+      { word: "year", maskedWord: "y***", correctMissing: "ɪə", translation: "год" },
+
+       { word: "cure", maskedWord: "c***", correctMissing: "ʊə", translation: "лечение" },
+      { word: "pure", maskedWord: "p***", correctMissing: "ʊə", translation: "чистый" },
+      { word: "sure", maskedWord: "s***", correctMissing: "ʊə", translation: "уверенный" },
+
+       { word: "air", maskedWord: "***", correctMissing: "eə", translation: "воздух" },
+      { word: "chair", maskedWord: "ch***", correctMissing: "eə", translation: "стул" },
+      { word: "hair", maskedWord: "h***", correctMissing: "eə", translation: "волосы" },
+
+    ];
+
+    // === Игровые переменные ===
+    let score = 0;
+    let timeLeft = 60;
+    let currentTask;
+    let fallingLetters = [];
+    let gameInterval;
+    let timerInterval;
+    let isPaused = false;
+
+    // === DOM элементы ===
+    const taskElement = document.getElementById("task");
+    const scoreDisplay = document.getElementById("score");
+    const timerDisplay = document.getElementById("timer");
+    const pauseButton = document.getElementById("pauseButton");
+    const resultScreen = document.getElementById("result");
+    const resultText = document.getElementById("resultText");
+    const restartButton = document.getElementById("restartButton");
+    const statsDiv = document.getElementById("stats");
+    const recordDisplay = document.getElementById("record");
+
+    // === История пройденных заданий ===
+    let seenTasks = new Set(); // Храним уже показанные буквы
+    let correctAnswers = [];
+    let wrongAnswers = [];
+
+    // === Настройки игры (можно менять здесь) ===
+    const SETTINGS = {
+      MAX_LETTERS_ON_SCREEN: 5,       // Максимальное количество букв на экране
+      LETTER_LIFETIME: 8000,          // Время жизни буквы в мс
+      SPAWN_INTERVAL: 750,            // Интервал появления новых букв в мс
+      LETTER_SPEED_MIN: 1,            // Минимальная скорость движения
+      LETTER_SPEED_MAX: 1             // Максимальная скорость движения
+    };
+
+    // === Логика ===
+    function getRecord() {
+      return parseInt(localStorage.getItem("record")) || 0;
+    }
+
+    function updateRecord() {
+      const record = Math.max(getRecord(), score);
+      localStorage.setItem("record", record);
+      recordDisplay.textContent = `Рекорд: ${record}`;
+    }
+
+    function speak(word) {
+      if ('speechSynthesis' in window) {
+        return new Promise(resolve => {
+          const utterance = new SpeechSynthesisUtterance(word);
+          utterance.lang = 'en-US';
+          utterance.onend = resolve;
+          speechSynthesis.speak(utterance);
+        });
+      } else {
+        console.warn("Web Speech API не поддерживается");
+        return Promise.resolve();
+      }
+    }
+
+    function playSound(type) {
+      try {
+        const audio = new Audio(type === 'correct' ? 'right.mp3' : 'wrong.mp3');
+        audio.play();
+      } catch (e) {
+        console.log("Не удалось воспроизвести звук");
+      }
+    }
+
+    function startGame() {
+      score = 0;
+      timeLeft = 60;
+      correctAnswers = [];
+      wrongAnswers = [];
+      seenTasks.clear();
+      updateScore();
+      updateTimer();
+      resultScreen.style.display = "none";
+      stopIntervals();
+      clearFallingLetters();
+      newTask();
+      startIntervals();
+      moveLetters();
+    }
+
+    function newTask() {
+      // Выбираем новую задачу
+      currentTask = tasks[Math.floor(Math.random() * tasks.length)];
+      taskElement.textContent = `${currentTask.maskedWord} — ${currentTask.translation}`;
+      
+      // Добавляем правильный вариант в историю использованных
+      seenTasks.add(currentTask.correctMissing);
+      
+      // Проверяем наличие правильного варианта на экране
+      const hasCorrect = fallingLetters.some(obj => 
+        obj.el.dataset.value === currentTask.correctMissing
+      );
+      
+      // Если его нет — принудительно добавляем
+      if (!hasCorrect) {
+        createLetter(currentTask.correctMissing);
+      }
+      
+      // Очищаем использованные варианты для следующего случайного выбора
+      usedOptions.clear();
+    }
+
+    // === Улучшенная логика появления вариантов ответов ===
+    const usedOptions = new Set(); // Храним уже использованные варианты (кроме правильного)
+    const allOptions = ["ʃ", "tʃ", "θ", "ð", "f", "ŋ", "n","ɑː", "ɜ:", "ʊ", "i:", "aʊ", "oʊ", "ɔɪ"];
+
+    function getRandomOption() {
+      // Получаем список возможных вариантов без использованных и без правильного
+      const availableOptions = allOptions.filter(option => 
+        option !== currentTask.correctMissing && !usedOptions.has(option)
+      );
+
+      // Если варианты закончились - сбрасываем использованные
+      if (availableOptions.length === 0) {
+        usedOptions.clear();
+        return getRandomOption();
+      }
+
+      // Выбираем случайный вариант из доступных
+      const randomOption = availableOptions[Math.floor(Math.random() * availableOptions.length)];
+      
+      // Добавляем его в использованные
+      usedOptions.add(randomOption);
+      
+      return randomOption;
+    }
+
+ function createLetter(option) {
+  if (isPaused || fallingLetters.length >= SETTINGS.MAX_LETTERS_ON_SCREEN) return;
+  
+  const element = document.createElement("div");
+  element.className = "letter";
+  element.textContent = option;
+  element.dataset.value = option;
+  element.dataset.correct = option === currentTask.correctMissing ? "true" : "false";
+  
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight / 2);
+  
+  element.style.left = `${x}px`;
+  element.style.top = `${y}px`;
+  
+  document.getElementById("gameContainer").appendChild(element);
+  
+  // Рандомная скорость с учетом настроек
+  const speed = SETTINGS.LETTER_SPEED_MIN + Math.random() * 
+               (SETTINGS.LETTER_SPEED_MAX - SETTINGS.LETTER_SPEED_MIN);
+  const angle = Math.random() * 2 * Math.PI;
+  
+  const dx = Math.cos(angle) * speed;
+  const dy = Math.sin(angle) * speed;
+  
+  fallingLetters.push({ el: element, dx, dy, width: 120, height: 40 });
+  
+  // Удаление буквы по истечении времени
+  setTimeout(() => {
+    element.classList.add("wrong");
+    element.remove();
+    fallingLetters = fallingLetters.filter(obj => obj.el !== element);
+    
+    // Если это была правильная буква - немедленно добавляем ее снова
+    if (option === currentTask.correctMissing) {
+      createLetter(option);  // Убрана задержка 500мс
+    }
+  }, SETTINGS.LETTER_LIFETIME);
+}
+
+    function moveLetters() {
+      const containerWidth = window.innerWidth;
+      const containerHeight = window.innerHeight;
+      
+      for (let i = 0; i < fallingLetters.length; i++) {
+        const letter = fallingLetters[i];
+        let x = parseFloat(letter.el.style.left);
+        let y = parseFloat(letter.el.style.top);
+        
+        x += letter.dx;
+        y += letter.dy;
+        
+        // Отражение от стен
+        if (x <= 0 || x + letter.width >= containerWidth) letter.dx *= -1;
+        if (y <= 0 || y + letter.height >= containerHeight) letter.dy *= -1;
+        
+        letter.el.style.left = `${x}px`;
+        letter.el.style.top = `${y}px`;
+      }
+      
+      requestAnimationFrame(moveLetters);
+    }
+
+    function startIntervals() {
+      gameInterval = setInterval(() => {
+        if (isPaused || fallingLetters.length >= SETTINGS.MAX_LETTERS_ON_SCREEN) return;
+        
+        // Добавляем случайный вариант
+        const randomOption = getRandomOption();
+        createLetter(randomOption);
+      }, SETTINGS.SPAWN_INTERVAL);
+      
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft <= 0) endGame();
+      }, 1000);
+    }
+
+    function stopIntervals() {
+      clearInterval(gameInterval);
+      clearInterval(timerInterval);
+    }
+
+    function updateScore() {
+      scoreDisplay.textContent = score;
+    }
+
+    function updateTimer() {
+      timerDisplay.textContent = timeLeft;
+    }
+
+    function clearFallingLetters() {
+      fallingLetters.forEach(obj => obj.el.remove());
+      fallingLetters = [];
+    }
+
+    function checkAnswer(element, value) {
+  if (isPaused) return;
+  
+  const isCorrect = value === currentTask.correctMissing;
+  
+  if (isCorrect) {
+    score += 2;
+    correctAnswers.push({ word: currentTask.word, answer: value });
+    updateScore();
+    playSound("correct");
+    
+    speak(currentTask.word).then(() => {
+      element.classList.add("correct");
+      setTimeout(() => element.remove(), 500);
+      fallingLetters = fallingLetters.filter(obj => obj.el !== element);
+      
+      // После правильного ответа создаем новую задачу и гарантируем наличие правильного варианта
+      newTask();
+    });
+  } else {
+    score--;
+    wrongAnswers.push({ word: currentTask.word, answer: value, correct: currentTask.correctMissing });
+    updateScore();
+    playSound("wrong");
+    
+    element.classList.add("wrong");
+    setTimeout(() => element.remove(), 500);
+    fallingLetters = fallingLetters.filter(obj => obj.el !== element);
+    
+    // Проверяем наличие правильного варианта на экране после удаления неправильного
+    const hasCorrect = fallingLetters.some(obj => 
+      obj.el.dataset.value === currentTask.correctMissing
+    );
+    
+    // Если его нет - немедленно добавляем
+    if (!hasCorrect) {
+      createLetter(currentTask.correctMissing);
+    }
+  }
+}
+
+    function endGame() {
+      stopIntervals();
+      updateRecord();
+      resultText.textContent = `Вы набрали ${score} очков!`;
+      statsDiv.innerHTML = "";
+      
+      correctAnswers.forEach(w => {
+        const div = document.createElement("div");
+        div.className = "stat-correct";
+        div.textContent = `✔ ${w.word} → Выбрали: "${w.answer}"`;
+        statsDiv.appendChild(div);
+      });
+      
+      wrongAnswers.forEach(w => {
+        const div = document.createElement("div");
+        div.className = "stat-wrong";
+        div.textContent = `✘ ${w.word} → Выбрали: "${w.answer}" (правильно: "${w.correct}")`;
+        statsDiv.appendChild(div);
+      });
+      
+      resultScreen.style.display = "flex";
+    }
+
+    // === Обработчики событий ===
+    pauseButton.addEventListener("click", () => {
+      isPaused = !isPaused;
+      pauseButton.textContent = isPaused ? "▶ Продолжить" : "⏸ Пауза";
+      
+      if (!isPaused) startIntervals();
+      else stopIntervals();
+    });
+
+    restartButton.addEventListener("click", () => {
+      startGame();
+    });
+
+    window.onload = () => {
+      startGame();
+      updateRecord();
+      
+      document.getElementById("gameContainer").addEventListener("click", e => {
+        if (e.target.classList.contains("letter")) {
+          checkAnswer(e.target, e.target.dataset.value);
+        }
+      });
+      
+      moveLetters();
+    };
+  </script>
+</body>
+</html>
