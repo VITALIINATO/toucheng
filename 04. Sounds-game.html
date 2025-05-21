@@ -251,18 +251,14 @@
 
       { word: "coin", maskedWord: "c**n", correctMissing: "ɔɪ", translation: "монета" },
       { word: "voice", maskedWord: "v**ce", correctMissing: "ɔɪ", translation: "голос" },
-      { word: "boy", maskedWord: "b*y", correctMissing: "ɔɪ", translation: "мальчик" },
-      { word: "toy", maskedWord: "t*y", correctMissing: "ɔɪ", translation: "игрушка" },
-      { word: "joy", maskedWord: "j*y", correctMissing: "ɔɪ", translation: "радость" },
+      { word: "boy", maskedWord: "b**y", correctMissing: "ɔɪ", translation: "мальчик" },
+      { word: "toy", maskedWord: "t**y", correctMissing: "ɔɪ", translation: "игрушка" },
+      { word: "joy", maskedWord: "j**y", correctMissing: "ɔɪ", translation: "радость" },
 
       { word: "green", maskedWord: "gr**n", correctMissing: "i:", translation: "зелёный" },
       { word: "cheese", maskedWord: "ch**se", correctMissing: "i:", translation: "сыр" },
       { word: "tea", maskedWord: "t**", correctMissing: "i:", translation: "чай" },
       { word: "sea", maskedWord: "s**", correctMissing: "i:", translation: "море" },
-        { word: "be", maskedWord: "b*", correctMissing: "i:", translation: "быть" },
-      { word: "leo", maskedWord: "l*o", correctMissing: "i:", translation: "лев" },
-      { word: "me", maskedWord: "m*", correctMissing: "i:", translation: "я" },
-
 
        { word: "mouth", maskedWord: "m**th", correctMissing: "aʊ", translation: "рот" },
       { word: "cloud", maskedWord: "cl**d", correctMissing: "aʊ", translation: "облако" },
@@ -270,7 +266,7 @@
 
        { word: "snow", maskedWord: "sn**", correctMissing: "oʊ", translation: "снег" },
       { word: "pillow", maskedWord: "pill**", correctMissing: "oʊ", translation: "подушка" },
-      { word: "nose", maskedWord: "n*se", correctMissing: "oʊ", translation: "нос" },
+      { word: "nose", maskedWord: "n**se", correctMissing: "oʊ", translation: "нос" },
 
 
        { word: "ear", maskedWord: "***", correctMissing: "ɪə", translation: "ухо" },
@@ -284,7 +280,8 @@
        { word: "air", maskedWord: "***", correctMissing: "eə", translation: "воздух" },
       { word: "chair", maskedWord: "ch***", correctMissing: "eə", translation: "стул" },
       { word: "hair", maskedWord: "h***", correctMissing: "eə", translation: "волосы" },
- //======== Aa
+
+       //======== Aa
        { word: "lake", maskedWord: "l*ke", correctMissing: "eɪ", translation: "озеро" },
       { word: "game", maskedWord: "g*me", correctMissing: "eɪ", translation: "игра" },
       { word: "blaze", maskedWord: "bl*ze", correctMissing: "eɪ", translation: "блеск" },
@@ -342,7 +339,6 @@
       { word: "joy", maskedWord: "*oy", correctMissing: "dʒ", translation: "радость" },
       { word: "jam", maskedWord: "*am", correctMissing: "dʒ", translation: "варенье" },
 
-      
 
     ];
 
@@ -454,7 +450,7 @@
 
     // === Улучшенная логика появления вариантов ответов ===
     const usedOptions = new Set(); // Храним уже использованные варианты (кроме правильного)
-    const allOptions = ["ʃ", "tʃ", "θ", "ð", "ʒ", "f", "ŋ", "n","ɑː", "ə", "ɜ:", "ʊ", "i:", "aʊ", "oʊ", "ɔɪ", "ʊə", "eə", "ɪə", "æ", "eɪ", "aɪ", "ɪ", "ɒ", "ʌ" ];
+     const allOptions = ["ʃ", "tʃ", "θ", "ð", "ʒ", "f", "ŋ", "n","ɑː", "ə", "ɜ:", "ʊ", "i:", "aʊ", "oʊ", "ɔɪ", "ʊə", "eə", "ɪə", "æ", "eɪ", "aɪ", "ɪ", "ɒ", "ʌ" ];
 
     function getRandomOption() {
       // Получаем список возможных вариантов без использованных и без правильного
