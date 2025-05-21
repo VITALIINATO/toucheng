@@ -259,6 +259,10 @@
       { word: "cheese", maskedWord: "ch**se", correctMissing: "i:", translation: "сыр" },
       { word: "tea", maskedWord: "t**", correctMissing: "i:", translation: "чай" },
       { word: "sea", maskedWord: "s**", correctMissing: "i:", translation: "море" },
+        { word: "be", maskedWord: "b*", correctMissing: "i:", translation: "быть" },
+      { word: "leo", maskedWord: "l*o", correctMissing: "i:", translation: "лев" },
+      { word: "me", maskedWord: "m*", correctMissing: "i:", translation: "я" },
+
 
        { word: "mouth", maskedWord: "m**th", correctMissing: "aʊ", translation: "рот" },
       { word: "cloud", maskedWord: "cl**d", correctMissing: "aʊ", translation: "облако" },
@@ -280,6 +284,57 @@
        { word: "air", maskedWord: "***", correctMissing: "eə", translation: "воздух" },
       { word: "chair", maskedWord: "ch***", correctMissing: "eə", translation: "стул" },
       { word: "hair", maskedWord: "h***", correctMissing: "eə", translation: "волосы" },
+ //======== Aa
+       { word: "lake", maskedWord: "l*ke", correctMissing: "eɪ", translation: "озеро" },
+      { word: "game", maskedWord: "g*me", correctMissing: "eɪ", translation: "игра" },
+      { word: "blaze", maskedWord: "bl*ze", correctMissing: "eɪ", translation: "блеск" },
+
+       { word: "sand", maskedWord: "s*nd", correctMissing: "æ", translation: "песок" },
+      { word: "flat", maskedWord: "fl*t", correctMissing: "æ", translation: "квартира" },
+      { word: "bag", maskedWord: "b*g", correctMissing: "æ", translation: "сумка" },
+
+      //======== Ee
+    
+       { word: "legs", maskedWord: "l*gs", correctMissing: "e", translation: "ноги" },
+      { word: "nest", maskedWord: "n*st", correctMissing: "e", translation: "гнездо" },
+      { word: "desk", maskedWord: "d*sk", correctMissing: "e", translation: "доска" },
+
+       //======== Ii
+    
+       { word: "bike", maskedWord: "b*ke", correctMissing: "aɪ", translation: "велосипед" },
+      { word: "five", maskedWord: "f*ve", correctMissing: "aɪ", translation: "5" },
+      { word: "smile", maskedWord: "sm*le", correctMissing: "aɪ", translation: "улыбка" },
+        { word: "kid", maskedWord: "k*d", correctMissing: "ɪ", translation: "ребенок" },
+      { word: "zip", maskedWord: "z*p", correctMissing: "ɪ", translation: "застежка" },
+      { word: "pig", maskedWord: "p*g", correctMissing: "ɪ", translation: "свинка" },
+
+       //======== Yy
+    
+       { word: "my", maskedWord: "m*", correctMissing: "aɪ", translation: "мое" },
+      { word: "fly", maskedWord: "fl*", correctMissing: "aɪ", translation: "муха" },
+      { word: "sky", maskedWord: "sk*", correctMissing: "aɪ", translation: "небо" },
+        { word: "city", maskedWord: "cit*", correctMissing: "ɪ", translation: "город" },
+      { word: "fantasy", maskedWord: "fantas*", correctMissing: "ɪ", translation: "фантазия" },
+      { word: "enemy", maskedWord: "enem*", correctMissing: "ɪ", translation: "враг" },
+
+      //======== Oo
+    
+       { word: "note", maskedWord: "n*te", correctMissing: "əʊ", translation: "нота" },
+      { word: "nose", maskedWord: "n*se", correctMissing: "əʊ", translation: "нос" },
+      { word: "smoke", maskedWord: "sm*ke", correctMissing: "əʊ", translation: "дым" },
+        { word: "dog", maskedWord: "d*g", correctMissing: "ɒ", translation: "пес" },
+      { word: "pot", maskedWord: "p*t", correctMissing: "ɒ", translation: "горшок" },
+      { word: "top", maskedWord: "t*p", correctMissing: "ɒ", translation: "вершина" },
+//======== Uu
+    
+       { word: "tube", maskedWord: "t*be", correctMissing: "u:", translation: "труба" },
+      { word: "duty", maskedWord: "d*ty", correctMissing: "u:", translation: "долг" },
+      { word: "music", maskedWord: "m*sic", correctMissing: "u:", translation: "музыка" },
+        { word: "mum", maskedWord: "m*m", correctMissing: "ʌ", translation: "мама" },
+      { word: "gun", maskedWord: "g*n", correctMissing: "ʌ", translation: "оружие" },
+      { word: "bus", maskedWord: "b*s", correctMissing: "ʌ", translation: "автобус" },
+
+      
 
     ];
 
@@ -391,7 +446,7 @@
 
     // === Улучшенная логика появления вариантов ответов ===
     const usedOptions = new Set(); // Храним уже использованные варианты (кроме правильного)
-    const allOptions = ["ʃ", "tʃ", "θ", "ð", "f", "ŋ", "n","ɑː", "ɜ:", "ʊ", "i:", "aʊ", "oʊ", "ɔɪ"];
+    const allOptions = ["ʃ", "tʃ", "θ", "ð", "ʒ", "f", "ŋ", "n","ɑː", "ə", "ɜ:", "ʊ", "i:", "aʊ", "oʊ", "ɔɪ", "ʊə", "eə", "ɪə", "æ", "eɪ", "aɪ", "ɪ", "ɒ", "ʌ" ];
 
     function getRandomOption() {
       // Получаем список возможных вариантов без использованных и без правильного
