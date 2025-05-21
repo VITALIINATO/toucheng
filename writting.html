@@ -4,296 +4,197 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Word Building Test</title>
+    <title>Test</title>
     <style>
-        :root {
-            --neon-purple: #c700ff;
-            --neon-blue: #00f0ff;
-            --neon-pink: #ff00c8;
-            --neon-green: #00ff44;
-            --neon-red: #ff0033;
-            --dark-bg: #0a0a0a;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Orbitron', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: var(--dark-bg);
-            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
-            overflow: hidden;
+            background-image: url('fontest.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-color: #685962;
+            transition: background 0.5s ease;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            color: var(--neon-blue);
-            text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
-            margin-bottom: 1rem;
-            animation: flicker 2s infinite;
+        .container {
             text-align: center;
-            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            min-height: 340px;
+            min-width: 600px;
+            animation: fadeInContainer 1s ease-in-out;
         }
 
-        #instruction {
-            font-size: 2.5rem;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-            color: var(--neon-purple);
-            text-shadow: 0 0 10px var(--neon-purple);
-            min-height: 50px;
-        }
-
-        #sentenceContainer,
-        #wordBank {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            padding: 10px;
-            min-height: 100px;
-            width: 90%;
-            min-width: 800px;
-            margin: 10px auto;
-            border: 2px dashed #00aaff;
-            background-color: transparent;
-            overflow-y: auto;
-            border-radius: 10px;
-            align-items: center;
-        }
-
-        #sentenceContainer {
-            border-color: #00ff99;
-        }
-
-        .word {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px 10px;
-            background: #00aaff;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            user-select: none;
-            text-align: center;
-            min-width: 50px;
-            height: 40px;
-            transition: background 0.3s, transform 0.2s;
-            font-size: 28px;
-        }
-
-        .word:hover {
-            background: #007acc;
-            transform: scale(1.05);
-        }
-
-        .check-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        #checkSentence {
-            min-width: 80px;
-            min-height: 44px;
-            padding: 10px 18px;
-            background: #00c853;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background 0.3s, transform 0.2s;
-        }
-
-        #checkSentence:hover {
-            background: #00e676;
-            transform: scale(1.1);
-        }
-
-        #resetButton {
-            min-width: 80px;
-            min-height: 44px;
-            padding: 10px 18px;
-            background: #666;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s, transform 0.2s;
-        }
-
-        #resetButton:hover {
-            background: #888;
-            transform: scale(1.1);
-        }
-
-        #feedback {
-            display: flex;
-            justify-content: center;
-            padding: 10px 18px;
-            min-width: 80px;
-            min-height: 24px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #f5f5f5;
-            transition: opacity 0.3s ease;
-        }
-
-        #timer {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #cccccc;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        #questionNumber {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #cccccc;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        #finalResult {
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 30px;
-            color: #00e676;
-            display: none;
-            animation: fadeIn 1s ease forwards;
-        }
-
-        @keyframes fadeIn {
+        @keyframes fadeInContainer {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: scale(0.9);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1);
             }
         }
 
-        .result-item {
-            font-size: 1.2rem;
-            margin: 10px 0;
+        .hidden {
+            display: none !important;
         }
 
-        .correct {
-            color: #00c853;
-        }
-
-        .wrong {
-            color: #d50000;
-        }
-
-        .time {
-            color: #2979ff;
-        }
-
-        .glow-word {
-            text-shadow: 0 0 10px rgb(0, 110, 255), 0 0 20px rgb(0, 132, 255);
-            font-size: 3rem;
+        #finalResult {
+            margin-top: 20px;
+            font-size: 18px;
             font-weight: bold;
-            animation: glow 1s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px rgb(0, 153, 255), 0 0 20px rgb(0, 81, 255);
-            }
-
-            to {
-                text-shadow: 0 0 20px rgb(0, 140, 255), 0 0 40px rgb(0, 153, 255);
-            }
-        }
-
-        #recordDisplay {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 15px 25px;
+            color: #fff;
+            background: linear-gradient(135deg, #ffab91, #ffccbc);
+            padding: 20px;
             border-radius: 10px;
-            border: 2px solid var(--neon-blue);
-            box-shadow: 0 0 10px var(--neon-blue);
-            font-size: 1.2rem;
-            color: var(--neon-green);
-            text-align: center;
-            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        #recordDisplay h3 {
-            margin: 0 0 10px 0;
-            color: var(--neon-pink);
+        .final-score {
+            font-size: 24px;
+            color: #2e7d32;
+            background: linear-gradient(135deg, #a5d6a7, #81c784);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
 
-        #recordDisplay p {
-            margin: 5px 0;
+        .wrong-words {
+            font-size: 18px;
+            color: #c62828;
+            background: linear-gradient(135deg, #ef9a9a, #e57373);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
 
-        #resetRecordsButton {
-            margin-top: 15px;
-            padding: 8px 16px;
-            background: var(--neon-red);
-            color: white;
+        button {
+            padding: 12px 25px;
+            margin: 10px;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 14px;
-            transition: background 0.3s, transform 0.2s;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        #resetRecordsButton:hover {
-            background: #ff3366;
+        #playButton,
+        #submitButton,
+        #nextButton {
+            background: linear-gradient(135deg, #b3e5fc, #81d4fa);
+            color: #0277bd;
+        }
+
+        #playButton:hover,
+        #submitButton:hover,
+        #nextButton:hover {
+            background: linear-gradient(135deg, #4fc3f7, #29b6f6);
             transform: scale(1.05);
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            font-size: 16px;
+            width: 200px;
+            margin-bottom: 15px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #4caf50;
+            outline: none;
+        }
+
+        #progressBarContainer {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            margin: 20px 0;
+            height: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #progressBar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #00ff55, #03b80c);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        #result {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #333;
+        }
+
+      
+
+        @media only screen and (max-width: 510px) {
+            .container {
+                min-width: 90%;
+                padding: 20px;
+            }
+
+            input[type="text"] {
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
-    <p id="questionNumber">Задание 1 из 12</p>
-    <h1>Собери слово</h1>
-    <div id="gameContainer">
-        <p id="timer">Время: 0 секунд</p>
-        <p id="instruction"></p>
-        <div id="sentenceContainer"></div>
-        <div id="wordBank"></div>
-        <div class="check-container">
-            <button id="checkSentence">Проверить</button>
-            <button id="resetButton">Сбросить</button>
+    <div class="container">
+        <div id="progressBarContainer">
+            <div id="progressBar"></div>
         </div>
-        <p id="feedback"></p>
+        <h1>Тест</h1>
+        <div id="counter"></div>
+        <div id="russianWord" style="font-size: 28px; margin: 20px 0;"></div>
+        <input type="text" id="userInput" placeholder="Напиши на английском..." />
+        <br />
+        <button id="submitButton">Подтвердить</button>
+        <br />
+        <div id="result"></div>
     </div>
-    <div id="finalResult"></div>
-    <audio id="rightSound" src="2right.mp3"></audio>
-    <audio id="wrongSound" src="wrong.mp3"></audio>
-
-    <!-- Рекорды -->
-    <div id="recordDisplay">
-        <h3>Рекорды</h3>
-        <p id="bestScore">Лучший результат: 0</p>
-        <p id="fastestTime">Лучшее время: Нет данных</p>
-        <button id="resetRecordsButton">Сброс рекорда</button>
-    </div>
+    <div id="finalResult" class="hidden"></div>
 
     <script>
-        const words = [
-               { word: "lake", correct: "lake", translation: "озеро" },
+        function logEvent(message) {
+            const timestamp = new Date().toISOString();
+            const logMessage = `${timestamp} - ${message}`;
+            let logs = localStorage.getItem('testLogs') || '';
+            logs += logMessage + '\n';
+            localStorage.setItem('testLogs', logs);
+        }
+        let questions = [
+      { word: "lake", correct: "lake", translation: "озеро" },
     { word: "game", correct: "game", translation: "игра" },
     { word: "blaze", correct: "blaze", translation: "блеск" },
     { word: "sand", correct: "sand", translation: "песок" },
@@ -444,149 +345,9 @@
     { word: "air", correct: "air", translation: "воздух" },
     { word: "chair", correct: "chair", translation: "стул" },
     { word: "hair", correct: "hair", translation: "волосы" }
+
+
         ];
-
-        words.forEach(wordObj => {
-            wordObj.letters = wordObj.correct.split('');
-        });
-
-        let currentQuestionIndex = 0;
-        let scoreWithoutErrors = 0;
-        let totalQuestions = 20;
-        let testSet = [];
-        let startTime = null;
-        let timerInterval = null;
-        let hasAttempted = false;
-
-        function startTimer() {
-            clearInterval(timerInterval);
-            if (!startTime) startTime = new Date();
-            const timerElement = document.getElementById("timer");
-            timerInterval = setInterval(() => {
-                const elapsed = Math.floor((new Date() - startTime) / 1000);
-                timerElement.textContent = `Время: ${elapsed} секунд`;
-            }, 1000);
-        }
-
-        function setupGame() {
-            const questionNumberEl = document.getElementById("questionNumber");
-            const instruction = document.getElementById("instruction");
-            const wordBank = document.getElementById("wordBank");
-            const sentenceContainer = document.getElementById("sentenceContainer");
-            const feedback = document.getElementById("feedback");
-
-            if (currentQuestionIndex >= testSet.length) {
-                showFinalResult();
-                return;
-            }
-
-            const wordObj = testSet[currentQuestionIndex];
-            const letters = [...wordObj.letters];
-            shuffleArray(letters);
-            hasAttempted = false;
-
-            questionNumberEl.textContent = `${currentQuestionIndex + 1} из ${testSet.length}`;
-            instruction.textContent = `"${wordObj.translation}"`;
-            feedback.textContent = "";
-            wordBank.innerHTML = "";
-            sentenceContainer.innerHTML = "";
-
-            letters.forEach(letter => {
-                const letterEl = document.createElement("span");
-                letterEl.className = "word";
-                letterEl.textContent = letter;
-                letterEl.addEventListener("click", () => {
-                    if (letterEl.parentElement === wordBank) {
-                        sentenceContainer.appendChild(letterEl);
-                    } else {
-                        wordBank.appendChild(letterEl);
-                    }
-                });
-                wordBank.appendChild(letterEl);
-            });
-
-            document.getElementById("checkSentence").onclick = () => {
-                const userWord = Array.from(sentenceContainer.children).map(el => el.textContent).join("");
-                const correctWord = wordObj.correct;
-
-                if (userWord === correctWord) {
-                    feedback.textContent = "Верно! 👍";
-                    feedback.style.color = "#00c853";
-                    speak(correctWord);
-                    document.getElementById("rightSound").play();
-
-                    Array.from(sentenceContainer.children).forEach((el, i) => {
-                        el.classList.remove("letter");
-                        el.classList.add("glow-word");
-                        el.style.transition = `transform 0.5s ease ${i * 0.1}s`;
-                        el.style.transform = "scale(1.5)";
-                    });
-
-                    if (!hasAttempted) {
-                        scoreWithoutErrors++;
-                    }
-
-                    setTimeout(() => {
-                        currentQuestionIndex++;
-                        setupGame();
-                    }, 1500);
-                } else {
-                    feedback.textContent = "Неверно 👎";
-                    feedback.style.color = "#d50000";
-                    document.getElementById("wrongSound").play();
-                    hasAttempted = true;
-                }
-            };
-
-            document.getElementById("resetButton").onclick = () => {
-                const letters = [...testSet[currentQuestionIndex].letters];
-                shuffleArray(letters);
-                wordBank.innerHTML = "";
-                sentenceContainer.innerHTML = "";
-                letters.forEach(letter => {
-                    const letterEl = document.createElement("span");
-                    letterEl.className = "word";
-                    letterEl.textContent = letter;
-                    letterEl.addEventListener("click", () => {
-                        if (letterEl.parentElement === wordBank) {
-                            sentenceContainer.appendChild(letterEl);
-                        } else {
-                            wordBank.appendChild(letterEl);
-                        }
-                    });
-                    wordBank.appendChild(letterEl);
-                });
-                feedback.textContent = "";
-            };
-
-            startTimer();
-        }
-
-        function speak(text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'en-US';
-                window.speechSynthesis.speak(utterance);
-            }
-        }
-
-        function showFinalResult() {
-            clearInterval(timerInterval);
-            const totalTime = Math.floor((new Date() - startTime) / 1000);
-            const finalResultDiv = document.getElementById("finalResult");
-            const gameContainer = document.getElementById("gameContainer");
-            gameContainer.style.display = "none";
-            finalResultDiv.style.display = "flex";
-            finalResultDiv.style.flexDirection = "column";
-            finalResultDiv.innerHTML = `
-        <h2 style="color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green);">Тест завершён!</h2>
-        <div class="result-item time">Общее время: <span class="time">${totalTime}</span> секунд</div>
-        <div class="result-item correct">Без ошибок: <span class="correct">${scoreWithoutErrors}</span></div>
-        <div class="result-item wrong">С ошибками: <span class="wrong">${totalQuestions - scoreWithoutErrors}</span></div>
-      `;
-
-            updateRecords(scoreWithoutErrors, totalTime);
-        }
 
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -596,91 +357,147 @@
             return array;
         }
 
-        function startTest() {
-            const shuffled = [...words].sort(() => Math.random() - 0.5);
-            testSet = shuffled.slice(0, totalQuestions);
-            currentQuestionIndex = 0;
-            scoreWithoutErrors = 0;
-            setupGame();
+        const QUESTIONS_TO_ASK = 20;
+        let selectedQuestions = shuffleArray([...questions]).slice(0, QUESTIONS_TO_ASK);
+        selectedQuestions.forEach(q => q.answered = false);
+        questions = selectedQuestions;
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let wrongAnswers = [];
+
+        const russianWordDiv = document.getElementById("russianWord");
+        const userInput = document.getElementById("userInput");
+        const resultDiv = document.getElementById("result");
+        const submitButton = document.getElementById("submitButton");
+        const counterDiv = document.getElementById("counter");
+        const progressBar = document.getElementById("progressBar");
+        const finalResultDiv = document.getElementById("finalResult");
+
+        function loadQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            russianWordDiv.textContent = currentQuestion.translation;
+            counterDiv.textContent = `${currentQuestionIndex + 1} из ${questions.length}`;
+            userInput.value = "";
+            resultDiv.textContent = "";
+            updateProgressBar();
+            userInput.focus();
         }
 
-        function updateRecords(score, time) {
-            const storedBestScore = localStorage.getItem('bestScore');
-            const storedFastestTime = localStorage.getItem('fastestTime');
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = "en-US";
+            speechSynthesis.speak(utterance);
+        }
+        submitButton.addEventListener("click", () => {
+            const currentQuestion = questions[currentQuestionIndex];
+            const userAnswer = userInput.value.trim().toLowerCase();
+            const correctAnswer = currentQuestion.correct.toLowerCase();
+            let isCorrect = false;
 
-            let bestScore = storedBestScore ? parseInt(storedBestScore) : 0;
-            let fastestTime = storedFastestTime ? parseInt(storedFastestTime) : Infinity;
+            // Проверка ответа
+            if (userAnswer === correctAnswer) {
+                // Правильный ответ
+                const successAudio = new Audio('right.mp3');
+                successAudio.volume = 0.1;
+                successAudio.play();
+                resultDiv.textContent = "Правильно!";
+                resultDiv.style.color = "green";
+                score++;
+                isCorrect = true;
 
-            if (isNaN(fastestTime)) {
-                fastestTime = Infinity;
-            }
-
-            // Update best score if current score is better
-            if (score > bestScore) {
-                localStorage.setItem('bestScore', score);
-                bestScore = score;
-            }
-
-            // Update fastest time if current time is better
-            if (time < fastestTime) {
-                localStorage.setItem('fastestTime', time);
-                fastestTime = time;
-            }
-
-            // Update UI
-            document.getElementById('bestScore').textContent = `Лучший результат: ${bestScore}`;
-
-            let timeText;
-            if (storedFastestTime === null || isNaN(parseInt(storedFastestTime))) {
-                timeText = 'Нет данных';
+                // Проговаривание слова с задержкой
+                setTimeout(() => {
+                    speak(currentQuestion.word);
+                }, 1000);
             } else {
-                timeText = `${parseInt(storedFastestTime)} с`;
+                // Неправильный ответ
+                const errorAudio = new Audio('wrong.mp3');
+                errorAudio.volume = 0.1;
+                errorAudio.play();
+                resultDiv.textContent = `Что-то не то!`;
+                resultDiv.style.color = "red";
+
+                // Добавляем ошибку только если её ещё нет в списке
+                if (!wrongAnswers.some(w => w.word === currentQuestion.word)) {
+                    wrongAnswers.push(currentQuestion);
+                }
             }
 
-            document.getElementById('fastestTime').textContent = `Лучшее время: ${timeText}`;
-        }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const storedBestScore = localStorage.getItem('bestScore');
-            const storedFastestTime = localStorage.getItem('fastestTime');
-
-            // Initialize best score display
-            document.getElementById('bestScore').textContent = `Лучший результат: ${storedBestScore || 0}`;
-
-            // Initialize fastest time display
-            let fastestTimeDisplay = 'Нет данных';
-            if (storedFastestTime && !isNaN(parseInt(storedFastestTime))) {
-                fastestTimeDisplay = `${parseInt(storedFastestTime)} с`;
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showFinalResult();
             }
-            document.getElementById('fastestTime').textContent = `Лучшее время: ${fastestTimeDisplay}`;
-
-            // Add reset records button listener
-            document.getElementById('resetRecordsButton').addEventListener('click', resetRecords);
-
-            // Start the test
-            startTest();
         });
 
-        function resetRecords() {
-            localStorage.removeItem('bestScore');
-            localStorage.removeItem('fastestTime');
-            document.getElementById('bestScore').textContent = 'Лучший результат: 0';
-            document.getElementById('fastestTime').textContent = 'Лучшее время: Нет данных';
+        userInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                submitButton.click();
+            }
+        });
+
+        function showFinalResult() {
+            document.querySelector(".container").classList.add("hidden");
+            finalResultDiv.classList.remove("hidden");
+
+            const scoreDiv = document.createElement("div");
+            scoreDiv.textContent = `Результат теста: ${score} из ${questions.length}`;
+            scoreDiv.classList.add("final-score");
+            finalResultDiv.appendChild(scoreDiv);
+
+            if (wrongAnswers.length > 0) {
+                const wrongWordsList = wrongAnswers.map(q => `${q.word}`).join(", ");
+                const wrongWordsDiv = document.createElement("div");
+                wrongWordsDiv.innerHTML = `<strong>Ошибки:</strong> ${wrongWordsList}`;
+                wrongWordsDiv.classList.add("wrong-words");
+                finalResultDiv.appendChild(wrongWordsDiv);
+            } else {
+                const noErrorsDiv = document.createElement("div");
+                noErrorsDiv.textContent = "Ошибок нет! Отличная работа!";
+                noErrorsDiv.classList.add("final-score");
+                finalResultDiv.appendChild(noErrorsDiv);
+            }
+
+            const restartButton = document.createElement("button");
+            restartButton.textContent = "Начать заново";
+            restartButton.style.display = "block";
+            restartButton.style.margin = "25px auto 0";
+            restartButton.style.padding = "10px 20px";
+            restartButton.style.fontSize = "16px";
+            restartButton.style.backgroundColor = "#5c8dc2";
+            restartButton.style.color = "#fff";
+            restartButton.style.border = "none";
+            restartButton.style.borderRadius = "5px";
+            restartButton.style.cursor = "pointer";
+
+            restartButton.addEventListener("click", () => {
+                logEvent('--- ПОВТОРНЫЙ ТЕСТ ---');
+                shuffleArray(questions);
+                currentQuestionIndex = 0;
+                score = 0;
+                wrongAnswers = [];
+                document.querySelector(".container").classList.remove("hidden");
+                finalResultDiv.classList.add("hidden");
+                finalResultDiv.innerHTML = "";
+                loadQuestion();
+            });
+
+            finalResultDiv.appendChild(restartButton);
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const storedBestScore = localStorage.getItem('bestScore');
-            const storedFastestTime = localStorage.getItem('fastestTime');
+        function updateProgressBar() {
+            const progressPercentage = (currentQuestionIndex / questions.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+        }
 
-            document.getElementById('bestScore').textContent = `Лучший результат: ${storedBestScore || 0}`;
-
-            const isTimeValid = storedFastestTime && !isNaN(parseInt(storedFastestTime));
-            const fastestTimeDisplay = isTimeValid ? `${parseInt(storedFastestTime)} с` : 'Нет данных';
-            document.getElementById('fastestTime').textContent = `Лучшее время: ${fastestTimeDisplay}`;
-
-            document.getElementById('resetRecordsButton').addEventListener('click', resetRecords);
-            startTest();
-        });
+        window.onload = function () {
+            logEvent('--- НАЧАЛО ТЕСТА ---');
+            logEvent(`Список слов в тесте: ${questions.map(q => `${q.word} (${q.translation})`).join(', ')}`);
+            loadQuestion();
+        };
     </script>
 </body>
 
