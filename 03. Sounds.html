@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест на распознавание звуков</title>
+    <style>
+        /* Основные стили */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 10px;
+            background: #121212;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #e0e0e0;
+            transition: background 0.5s ease;
+        }
+        .container {
+            text-align: center;
+           
+            backdrop-filter: blur(10px);
+            padding: 30px;
+         
+          
+            max-height: 480px;
+            min-width: 750px;
+          
+
+            background: #1e1e1e;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 255, 255, 0.2);
+         
+            margin: 0 auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            animation: fadeInContainer 1s ease-in-out;
+        }
+        @keyframes fadeInContainer {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .sound {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .transcription-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 15px;
+            text-align: center;
+            width: 180px;
+            height: 80px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #00bcd4, #26c6da);
+            color: #004d40;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 255, 255, 0.4);
+        }
+        .transcription-button:hover {
+            background: linear-gradient(135deg, #26c6da, #4dd0e1);
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        .examples-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .example-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .example-button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #388e3c, #66bb6a);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 255, 0, 0.4);
+        }
+        .example-button:hover {
+            background: linear-gradient(135deg, #66bb6a, #81c784);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 255, 0, 0.5);
+        }
+        .example-button.selected {
+            background: linear-gradient(135deg, #1e88e5, #42a5f5);
+            box-shadow: 0 0 15px rgba(30, 136, 229, 0.6);
+        }
+        .final-result .error-list {
+            font-size: 24px;
+            color: #ef5350;
+            margin-top: 20px;
+        }
+        .nav-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .nav-buttons button {
+            width: 100%;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #42a5f5, #64b5f6);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 150, 255, 0.4);
+        }
+        .nav-buttons button:hover {
+            background: linear-gradient(135deg, #1e88e5, #1976d2);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 150, 255, 0.5);
+        }
+        .final-result {
+            font-size: 2em;
+            font-weight: 600;
+            text-align: center;
+            margin: 0 auto;
+            padding: 25px 30px;
+            position: relative;
+            display: inline-block;
+            background: #263238;
+            color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+        }
+        .final-result::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #29b6f6, transparent);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .restart-button {
+            display: inline-block;
+            margin: 35px auto 0;
+            padding: 12px 28px;
+            font-size: 12px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #263238, #37474f);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            outline: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            white-space: nowrap;
+        }
+        .restart-button:hover,
+        .restart-button:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #37474f, #455a64);
+        }
+        .restart-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 0.5; }
+        }
+        .result {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px auto;
+            padding: 15px;
+            border-radius: 10px;
+            color: #fff;
+            background: linear-gradient(135deg, #43a047, #66bb6a);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 255, 0, 0.4);
+            max-width: 600px;
+            display: none;
+            transition: all 0.3s ease;
+        }
+        .result.success {
+            background: linear-gradient(135deg, #43a047, #66bb6a);
+        }
+        .result.error {
+            background: linear-gradient(135deg, #e53935, #ef5350);
+        }
+        .task-number {
+            font-size: 1em;
+            font-weight: bold;
+            text-align: center;
+            color: #66bb6a;
+            margin: 0 auto;
+        }
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: #303030;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #00e5ff, #6200ea);
+            transition: width 0.3s ease;
+        }
+        .result-detail {
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        .audio-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .repeat-button {
+            width: 40px;
+            height: 40px;
+            background: #009688;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        .repeat-button:hover {
+            background: #00796b;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+        }
+        .repeat-button::after {
+            content: "🔁";
+            font-size: 1.2em;
+            color: white;
+        }
+        #confirmButton {
+            max-width: 700px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="testContainer">
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="sound">
+            <div class="task-number" id="taskNumber">Задание 1</div>
+            <button class="transcription-button" id="currentSoundButton">
+                <span class="transcription-label">звук</span>
+                <span class="transcription-symbol" id="currentSoundSymbol"></span>
+            </button>
+        </div>
+        <div class="examples-container" id="testExamples"></div>
+        <div class="nav-buttons">
+            <button id="confirmButton" disabled>Подтвердить</button>
+        </div>
+        <div class="result" id="testResult"></div>
+    </div>
+    <div class="final-result" id="finalResult" style="display: none;"></div>
+    <audio id="audioPlayer"></audio>
+    <script>
+        const sounds = [
+            {
+                transcriptionButton: "[ʃ]",
+                correctExamples: [
+                    { word: "shop", transcription: "[ʃɒп]" },
+                    { word: "she", transcription: "[ʃiː]" },
+                    { word: "fish", transcription: "[fɪʃ]" }
+                ],
+                incorrectExamples: [
+                    { word: "child", transcription: "[tʃaɪld]" },
+                    { word: "bench", transcription: "[bentʃ]" },
+                    { word: "cherry", transcription: "[ˈtʃeri]" },
+                    { word: "sand", transcription: "[sænd]" },
+                    { word: "sun", transcription: "[sʌn]" },
+                    { word: "smile", transcription: "['smaɪl]" }
+                ]
+            },
+            {
+                transcriptionButton: "[tʃ]",
+                correctExamples: [
+                    { word: "child", transcription: "[tʃaɪld]" },
+                    { word: "bench", transcription: "[bentʃ]" },
+                    { word: "cherry", transcription: "[ˈtʃeri]" }
+                ],
+                incorrectExamples: [
+                    { word: "shop", transcription: "[ʃɒп]" },
+                    { word: "she", transcription: "[ʃiː]" },
+                    { word: "fish", transcription: "[fɪʃ]" },
+                    { word: "mice", transcription: "[maɪs]" },
+                    { word: "face", transcription: "['feɪs]" }
+                ]
+            },
+            {
+                transcriptionButton: "[ð]",
+                correctExamples: [
+                    { word: "this", transcription: "[ðɪs]" },
+                    { word: "that", transcription: "[ðæ]" },
+                    { word: "they", transcription: "[ðeɪ]" }
+                ],
+                incorrectExamples: [
+                    { word: "thin", transcription: "[θɪn]" },
+                    { word: "moth", transcription: "[mɒθ]" },
+                    { word: "smith", transcription: "[smɪθ]" },
+                    { word: "blaze", transcription: "[bleɪz]" },
+                    { word: "zip", transcription: "[zɪp]" },
+                    { word: "zone", transcription: "[zoun]" }
+                ]
+            },
+            {
+                transcriptionButton: "[θ]",
+                correctExamples: [
+                    { word: "thin", transcription: "[θɪn]" },
+                    { word: "moth", transcription: "[mɒθ]" },
+                    { word: "smith", transcription: "[smɪθ]" }
+                ],
+                incorrectExamples: [
+                    { word: "this", transcription: "[ðɪs]" },
+                    { word: "that", transcription: "[ðæ]" },
+                    { word: "they", transcription: "[ðeɪ]" },
+                    { word: "cell", transcription: "[sel]" },
+                    { word: "smile", transcription: "['smaɪl]" },
+                    { word: "mice", transcription: "[maɪs]" }
+                ]
+            },
+            {
+                transcriptionButton: "[f]",
+                correctExamples: [
+                    { word: "photo", transcription: "[foʊtoʊ]" },
+                    { word: "alphabet", transcription: "[ælfəbet]" },
+                    { word: "phone", transcription: "[foʊn]" }
+                ],
+                incorrectExamples: [
+                    { word: "pen", transcription: "[pen]" },
+                    { word: "pet", transcription: "[pet]" },
+                    { word: "plate", transcription: "['pleɪt]" },
+                    { word: "hand", transcription: "[hænd]" },
+                    { word: "home", transcription: "[houm]" },
+                    { word: "hat", transcription: "[hæt]" }
+                ]
+            },
+            {
+                transcriptionButton: "[ŋ]",
+                correctExamples: [
+                    { word: "ring", transcription: "[rɪŋ]" },
+                    { word: "king", transcription: "[kɪŋ]" },
+                    { word: "baking", transcription: "[beɪkɪŋ]" }
+                ],
+                incorrectExamples: [
+                    { word: "name", transcription: "[neɪm]" },
+                    { word: "nest", transcription: "[nest]" },
+                    { word: "nine", transcription: "[naɪn]" },
+                    { word: "van", transcription: "[væn]" },
+                    { word: "phone", transcription: "[foʊn]" },
+                    { word: "thin", transcription: "[θɪn]" }
+                ]
+            },
+            {
+                transcriptionButton: "[ʒ]",
+                correctExamples: [
+                    { word: "vision", transcription: "[vɪʒn]" },
+                    { word: "collision", transcription: "[kɒlɪʒn]" },
+                    { word: "division", transcription: "[dɪvɪʒn]" }
+                ],
+                incorrectExamples: [
+                    { word: "zip", transcription: "[zɪp]" },
+                    { word: "zone", transcription: "[zoun]" },
+                    { word: "blaze", transcription: "[bleɪz]" },
+                    { word: "child", transcription: "[tʃaɪld]" },
+                    { word: "this", transcription: "[ðɪs]" },
+                    { word: "fish", transcription: "[fɪʃ]" }
+                ]
+            },
+            {
+                transcriptionButton: "[ɑː]",
+                correctExamples: [
+                    { word: "car", transcription: "[kɑːr]" },
+                    { word: "star", transcription: "[stɑːr]" },
+                    { word: "cigar", transcription: "[sɪˈɡɑːr]" }
+                ],
+                incorrectExamples: [
+                    { word: "finger", transcription: "[fɪŋgə]" },
+                    { word: "driver", transcription: "[draɪvə]" },
+                    { word: "flat", transcription: "[flæt]" },
+                    { word: "map", transcription: "[mæp]" },
+                    { word: "sport", transcription: "[spɔːt]" },
+                    { word: "north", transcription: "[nɔːθ]" }
+                ]
+            },
+            {
+                transcriptionButton: "[ə]",
+                correctExamples: [
+                    { word: "sister", transcription: "[sɪstə]" },
+                    { word: "finger", transcription: "[fɪŋgə]" },
+                    { word: "driver", transcription: "[draɪvə]" }
+                ],
+                incorrectExamples: [
+                    { word: "car", transcription: "[kɑːr]" },
+                    { word: "star", transcription: "[stɑːr]" },
+                    { word: "cigar", transcription: "[sɪˈɡɑːr]" },
+                    { word: "legs", transcription: "[legz]" },
+                    { word: "nest", transcription: "[nest]" },
+                    { word: "desk", transcription: "[desk]" }
+                ]
+            },
+            {
+                transcriptionButton: "[ɔː]",
+                correctExamples: [
+                    { word: "sport", transcription: "[spɔːt]" },
+                    { word: "morning", transcription: "[mɔːnɪŋ]" },
+                    { word: "north", transcription: "[nɔːθ]" }
+                ],
+                incorrectExamples: [
+                    { word: "note", transcription: "[nəʊt]" },
+                    { word: "nose", transcription: "[nəʊz]" },
+                    { word: "smoke", transcription: "[sməʊk]" },
+                    { word: "dog", transcription: "[dɒg]" },
+                    { word: "pot", transcription: "[pɒt]" },
+                    { word: "top", transcription: "[tɒp]" }
+                ]
+            },
+            {
+                transcriptionButton: "[ɜ:]",
+                correctExamples: [
+                    { word: "girl", transcription: "[ɡɜ:l]" },
+                    { word: "bird", transcription: "[bɜ:d]" },
+                    { word: "skirt", transcription: "[skɜ:t]" }
+                ],
+                incorrectExamples: [
+                    { word: "sport", transcription: "[spɔːt]" },
+                    { word: "morning", transcription: "[mɔːnɪŋ]" },
+                    { word: "north", transcription: "[nɔːθ]" },
+                    { word: "sister", transcription: "[sɪstə]" },
+                    { word: "finger", transcription: "[fɪŋgə]" },
+                    { word: "driver", transcription: "[draɪvə]" }
+                ]
+            },
+            {
+                transcriptionButton: "[ʊ]",
+                correctExamples: [
+                    { word: "book", transcription: "[bʊk]" },
+                    { word: "look", transcription: "[lʊk]" },
+                    { word: "room", transcription: "[ruːm]" }
+                ],
+                incorrectExamples: [
+                    { word: "mouth", transcription: "[maʊθ]" },
+                    { word: "tube", transcription: "[tju:b]" },
+                    { word: "duty", transcription: "[dju:tɪ]" },
+                    { word: "music", transcription: "[mju:zik]" },
+                    { word: "mum", transcription: "[mʌm]" },
+                    { word: "bus", transcription: "[bʌs]" }
+                ]
+            },
+            {
+                transcriptionButton: "[uː]",
+                correctExamples: [
+                    { word: "moon", transcription: "[muːn]" },
+                    { word: "spoon", transcription: "[spuːn]" },
+                    { word: "bamboo", transcription: "[bæmˈbuː]" }
+                ],
+                incorrectExamples: [
+                    { word: "quest", transcription: "[kwest]" },
+                    { word: "queen", transcription: "[kwiːn]" },
+                    { word: "squirrel", transcription: "[skwɪrəl]" },
+                    { word: "gun", transcription: "[gʌn]" },
+                    { word: "cute", transcription: "[kju:t]" },
+                    { word: "sun", transcription: "[sʌn]" }
+                ]
+            },
+
+                {
+                transcriptionButton: "[ɔɪ]",
+                correctExamples: [
+                    { word: "coin", transcription: "[kɔɪn]" },
+                    { word: "voice", transcription: "[vɔɪs]" },
+                    { word: "oil", transcription: "[ɔɪl]" },
+                    { word: "boy", transcription: "[bɔɪ]" },
+                    { word: "toy", transcription: "[tɔɪ]" },
+                    { word: "joy", transcription: "[dʒɔɪ]" }
+                ],
+                incorrectExamples: [
+                    { word: "sport", transcription: "[spɔːt]" },
+                    { word: "morning", transcription: "[mɔːnɪŋ]" },
+                    { word: "note", transcription: "[nəʊt]" },
+                    { word: "nose", transcription: "[nəʊz]" },
+                    { word: "smoke", transcription: "[sməʊk]" },
+                    { word: "moth", transcription: "[mɒθ]" }
+                ]
+            },
+            
+            {
+                transcriptionButton: "[iː]",
+                correctExamples: [
+                    { word: "green", transcription: "[gri:n]" },
+                    { word: "cheese", transcription: "[tʃi:z]" },
+                    { word: "tree", transcription: "[tri:]" },
+                    { word: "tea", transcription: "[ti:]" },
+                    { word: "sea", transcription: "[si:]" },
+                    { word: "please", transcription: "[pli:z]" },
+                    { word: "be", transcription: "[bi:]" },
+                    { word: "leo", transcription: "[li:ou]" },
+                    { word: "me", transcription: "[mi:]" }
+                ],
+                incorrectExamples: [
+                    { word: "city", transcription: "[sɪtɪ]" },
+                    { word: "fantasy", transcription: "[fæntəsɪ]" },
+                    { word: "enemy", transcription: "[enəmɪ]" },
+                    { word: "kid", transcription: "[kɪd]" },
+                    { word: "zip", transcription: "[zɪp]" },
+                    { word: "pig", transcription: "[pɪg]" }
+                ]
+            },
+            {
+                transcriptionButton: "[aʊ]",
+                correctExamples: [
+                    { word: "mouth", transcription: "[maʊθ]" },
+                    { word: "cloud", transcription: "[klaʊd]" },
+                    { word: "house", transcription: "[haʊz]" },
+                    { word: "town", transcription: "[taʊn]" },
+                    { word: "crown", transcription: "[kraʊn]" },
+                    { word: "brown", transcription: "[braʊn]" }
+                ],
+                incorrectExamples: [
+                    { word: "bike", transcription: "[baɪk]" },
+                    { word: "five", transcription: "[faɪv]" },
+                    { word: "smile", transcription: "['smaɪl]" },
+                    { word: "my", transcription: "[maɪ]" },
+                    { word: "fly", transcription: "[flaɪ]" },
+                    { word: "sky", transcription: "[skaɪ]" }
+                ]
+            },
+            
+            {
+                transcriptionButton: "[oʊ]",
+                correctExamples: [
+                    { word: "snow", transcription: "[snoʊ]" },
+                    { word: "pillow", transcription: "[piloʊ]" },
+                    { word: "flow", transcription: "[floʊ]" },
+                    { word: "note", transcription: "[nəʊt]" },
+                    { word: "nose", transcription: "[nəʊz]" },
+                    { word: "smoke", transcription: "[sməʊk]" }
+                ],
+                incorrectExamples: [
+                    { word: "dog", transcription: "[dɒg]" },
+                    { word: "pot", transcription: "[pɒt]" },
+                    { word: "top", transcription: "[tɒp]" },
+                    { word: "book", transcription: "[bʊk]" },
+                    { word: "look", transcription: "[lʊk]" },
+                    { word: "room", transcription: "[ruːm]" },
+                    { word: "sport", transcription: "[spɔːt]" },
+                    { word: "morning", transcription: "[mɔːnɪŋ]" },
+                    { word: "north", transcription: "[nɔːθ]" }
+                ]
+            },
+            {
+                transcriptionButton: "[ɪə]",
+                correctExamples: [
+                    { word: "ear", transcription: "[ɪə]" },
+                    { word: "fear", transcription: "[fɪə]" },
+                    { word: "year", transcription: "[jɪə]" }
+                ],
+                incorrectExamples: [
+                    { word: "tea", transcription: "[ti:]" },
+                    { word: "sea", transcription: "[si:]" },
+                    { word: "please", transcription: "[pli:z]" },
+                    { word: "green", transcription: "[gri:n]" },
+                    { word: "cheese", transcription: "[tʃi:z]" },
+                    { word: "tree", transcription: "[tri:]" }
+                ]
+            },
+            {
+                transcriptionButton: "[ʊə]",
+                correctExamples: [
+                    { word: "cure", transcription: "[ʊə]" },
+                    { word: "pure", transcription: "[ʊə]" },
+                    { word: "sure", transcription: "[ʊə]" }
+                ],
+                incorrectExamples: [
+                    { word: "ear", transcription: "[ɪə]" },
+                    { word: "fear", transcription: "[fɪə]" },
+                    { word: "year", transcription: "[jɪə]" },
+                     { word: "air", transcription: "[eə]" },
+                    { word: "chair", transcription: "[eə]" },
+                    { word: "hair", transcription: "[eə]" }
+                   
+                ]
+            },
+             {
+                transcriptionButton: "[eə]",
+                correctExamples: [
+                    { word: "air", transcription: "[eə]" },
+                    { word: "chair", transcription: "[eə]" },
+                    { word: "hair", transcription: "[eə]" }
+                ],
+                incorrectExamples: [
+                    { word: "ear", transcription: "[ɪə]" },
+                    { word: "fear", transcription: "[fɪə]" },
+                    { word: "year", transcription: "[jɪə]" },
+                      { word: "tea", transcription: "[ti:]" },
+                    { word: "sea", transcription: "[si:]" },
+                    { word: "please", transcription: "[pli:z]" },
+                   
+                ]
+            },
+
+
+
+        ];
+        let shuffledSounds = [];
+        let currentSoundIndex = 0;
+        let selectedWords = [];
+        let correctCount = 0;
+        let wrongCount = 0;
+        let wrongSounds = [];
+        let maxTasks = 20;
+        function logEvent(message) {
+            try {
+                const timestamp = new Date().toISOString();
+                const logMessage = `${timestamp} - ${message}`;
+                let logs = localStorage.getItem('testLogs') || '';
+                logs += logMessage + '\n';
+                localStorage.setItem('testLogs', logs);
+            } catch (e) {
+                console.warn("Не удалось сохранить лог:", e);
+            }
+        }
+        function shuffleSounds() {
+            const uniqueSounds = sounds.filter((sound, index, self) =>
+                index === self.findIndex(s => s.transcriptionButton === sound.transcriptionButton)
+            );
+            shuffledSounds = [...uniqueSounds];
+            shuffleArray(shuffledSounds);
+            shuffledSounds = shuffledSounds.slice(0, maxTasks);
+            currentSoundIndex = 0;
+            wrongSounds = [];
+        }
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        function generateTest() {
+            const currentSound = shuffledSounds[currentSoundIndex];
+            const correctExamples = shuffleArray([...currentSound.correctExamples]);
+            const correct = [correctExamples[0]];
+            const incorrectExamples = shuffleArray([...currentSound.incorrectExamples]);
+            const incorrect = incorrectExamples.slice(0, 3);
+            const examples = shuffleArray([...correct, ...incorrect]);
+            const container = document.getElementById('testExamples');
+            container.innerHTML = examples.map(example => `
+                <div class="example-section">
+                    <button class="example-button" 
+                            data-correct="${currentSound.correctExamples.some(e => e.word === example.word)}"
+                            aria-label="Выбрать слово ${example.word}">
+                        ${example.word}
+                    </button>
+                </div>
+            `).join('');
+            document.querySelectorAll('.example-button').forEach(button => {
+                button.addEventListener('click', () => selectWord(button));
+                button.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        selectWord(button);
+                    }
+                });
+            });
+            document.getElementById('currentSoundSymbol').textContent = currentSound.transcriptionButton;
+            document.getElementById('taskNumber').textContent = `Задание ${currentSoundIndex + 1}`;
+            updateProgressBar();
+        }
+        function selectWord(button) {
+            document.querySelectorAll('.example-button').forEach(btn => {
+                btn.classList.remove("selected");
+                btn.setAttribute('aria-pressed', 'false');
+            });
+            selectedWords = [];
+            selectedWords.push(button);
+            button.classList.add("selected");
+            button.setAttribute('aria-pressed', 'true');
+            document.getElementById("confirmButton").disabled = selectedWords.length !== 1;
+        }
+        function confirmSelection() {
+            const currentSound = shuffledSounds[currentSoundIndex];
+            const correctAnswers = selectedWords.filter(button =>
+                button.getAttribute('data-correct') === 'true'
+            );
+            const resultDiv = document.getElementById("testResult");
+            if (correctAnswers.length === 1) {
+                playSound("right.mp3");
+                resultDiv.textContent = "Правильно!";
+                resultDiv.className = "result success";
+                correctCount++;
+            } else {
+                playSound("wrong.mp3");
+                resultDiv.textContent = "Что-то не то!";
+                resultDiv.className = "result error";
+                wrongCount++;
+                if (!wrongSounds.some(sound =>
+                    sound.transcriptionButton === currentSound.transcriptionButton
+                )) {
+                    wrongSounds.push(currentSound);
+                }
+            }
+            resultDiv.style.display = "block";
+            document.querySelectorAll('.example-button').forEach(btn => {
+                btn.disabled = true;
+            });
+            setTimeout(() => {
+                resultDiv.style.display = "none";
+                document.querySelectorAll('.example-button').forEach(btn => {
+                    btn.classList.remove("selected");
+                    btn.disabled = false;
+                });
+                selectedWords = [];
+                if (currentSoundIndex < shuffledSounds.length - 1) {
+                    currentSoundIndex++;
+                    generateTest();
+                } else {
+                    showFinalResult();
+                }
+            }, 1000);
+        }
+        function playSound(soundFile) {
+            const audioPlayer = document.getElementById('audioPlayer');
+            if (!audioPlayer) return;
+            audioPlayer.src = soundFile;
+            audioPlayer.volume = 0.3;
+            audioPlayer.play().catch(error => {
+                console.log("Автовоспроизведение заблокировано:", error);
+            });
+        }
+        function showFinalResult() {
+            document.getElementById("testContainer").style.display = "none";
+            const finalResultDiv = document.getElementById("finalResult");
+            finalResultDiv.innerHTML = "";
+            const resultText = document.createElement("div");
+            resultText.textContent = `Результат: ${correctCount}/${maxTasks}`;
+            resultText.style.fontSize = "24px";
+            resultText.style.marginBottom = "20px";
+            resultText.style.fontWeight = "bold";
+            finalResultDiv.appendChild(resultText);
+            const wrongSoundsDiv = document.createElement("div");
+            wrongSoundsDiv.className = "error-list";
+            wrongSoundsDiv.style.marginTop = "20px";
+            if (wrongSounds.length > 0) {
+                const wrongSoundsList = wrongSounds.map(sound => sound.transcriptionButton).join(", ");
+                wrongSoundsDiv.innerHTML = `<strong>Ошибки в:</strong> ${wrongSoundsList}`;
+            } else {
+                wrongSoundsDiv.textContent = "Ошибок нет! Отличная работа!";
+            }
+            finalResultDiv.appendChild(wrongSoundsDiv);
+            const restartButton = document.createElement("button");
+            restartButton.textContent = "Начать заново";
+            restartButton.className = "restart-button";
+            restartButton.addEventListener("click", () => {
+                logEvent('--- ПОВТОРНЫЙ ТЕСТ ---');
+                shuffleSounds();
+                generateTest();
+                currentSoundIndex = 0;
+                correctCount = 0;
+                wrongCount = 0;
+                wrongSounds = [];
+                document.getElementById("testContainer").style.display = "flex";
+                finalResultDiv.style.display = "none";
+            });
+            finalResultDiv.appendChild(restartButton);
+            finalResultDiv.style.display = "block";
+        }
+        function updateProgressBar() {
+            const progressBar = document.getElementById("progressBar");
+            const progressPercentage = (currentSoundIndex / maxTasks) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+        }
+        function initEventListeners() {
+            document.addEventListener('keydown', (e) => {
+                if ((e.key === ' ' || e.key === 'Enter') && !document.getElementById("confirmButton").disabled) {
+                    e.preventDefault();
+                    confirmSelection();
+                }
+                if (e.key === 'Escape' && document.getElementById("finalResult").style.display !== "none") {
+                    document.querySelector(".final-result button")?.click();
+                }
+            });
+        }
+        window.onload = () => {
+            try {
+                shuffleSounds();
+                generateTest();
+                wrongSounds = [];
+                logEvent('--- НАЧАЛО ТЕСТА ---');
+                initEventListeners();
+            } catch (error) {
+                console.error("Ошибка при инициализации теста:", error);
+                document.getElementById("testContainer").innerHTML =
+                    "<div class='error'>Произошла ошибка при загрузке теста. Пожалуйста, попробуйте перезагрузить страницу.</div>";
+            }
+        };
+        document.getElementById("confirmButton").onclick = confirmSelection;
+        try {
+            if (!localStorage.getItem('testLogs')) {
+                localStorage.setItem('testLogs', '');
+            }
+        } catch (e) {
+            console.warn("Локальное хранилище недоступно:", e);
+        }
+    </script>
+</body>
+</html>
