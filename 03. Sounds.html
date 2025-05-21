@@ -354,7 +354,7 @@
             <div class="progress-bar" id="progressBar"></div>
         </div>
         <div class="sound">
-            <div class="task-number" id="taskNumber">Задание 1</div>
+            <div class="task-number" id="taskNumber">1</div>
             <button class="transcription-button" id="currentSoundButton">
                 <span class="transcription-label">звук</span>
                 <span class="transcription-symbol" id="currentSoundSymbol"></span>
@@ -567,7 +567,7 @@
                     { word: "moon", transcription: "[muːn]" },
                     { word: "spoon", transcription: "[spuːn]" },
                     { word: "bamboo", transcription: "[bæmˈbuː]" },
-                     { word: "tube", transcription: "[uː]" },
+                    { word: "tube", transcription: "[uː]" },
                     { word: "duty", transcription: "[uː]" },
                     { word: "music", transcription: "[uː]" }
                 ],
@@ -855,6 +855,73 @@
                 ]
             },
 
+            {
+                transcriptionButton: "[dʒ]",
+                correctExamples: [
+                    { word: "gym" },
+                    { word: "general" },
+                    { word: "gel" },
+                    { word: "job" },
+                    { word: "joy" },
+                    { word: "gel" },
+
+                ],
+                incorrectExamples: [
+                    { word: "game" },
+                    { word: "gun" },
+                    { word: "gold" },
+                    { word: "legs" },
+                    { word: "pig" },
+                    { word: "dog" },
+
+                ]
+            },
+
+            {
+                transcriptionButton: "[w]",
+                correctExamples: [
+                    { word: "wine" },
+                    { word: "we" },
+                    { word: "way" },
+
+
+                ],
+                incorrectExamples: [
+                    { word: "town" },
+                    { word: "crown" },
+                    { word: "brown" },
+                    { word: "snow" },
+                    { word: "pillow" },
+                    { word: "flow" },
+
+                ]
+            },
+
+            {
+                transcriptionButton: "[j]",
+                correctExamples: [
+                    { word: "tube", transcription: "[j]" },
+                    { word: "duty", transcription: "[j]" },
+                    { word: "music", transcription: "[j]" },
+                    { word: "yellow", transcription: "[j]" },
+                    { word: "yes", transcription: "[j]" },
+                    { word: "you", transcription: "[j]" },
+
+
+                ],
+                incorrectExamples: [
+                    { word: "job" },
+                    { word: "joy" },
+                    { word: "gel" },
+                    { word: "way" },
+                    { word: "oil", transcription: "[ɔɪl]" },
+                    { word: "boy", transcription: "[bɔɪ]" },
+                    { word: "toy", transcription: "[tɔɪ]" },
+                    { word: "joy", transcription: "[dʒɔɪ]" }
+
+                ]
+            },
+
 
 
 
@@ -921,7 +988,7 @@
                 });
             });
             document.getElementById('currentSoundSymbol').textContent = currentSound.transcriptionButton;
-            document.getElementById('taskNumber').textContent = `Задание ${currentSoundIndex + 1}`;
+            document.getElementById('taskNumber').textContent = `${currentSoundIndex + 1}`;
             updateProgressBar();
         }
         function selectWord(button) {
