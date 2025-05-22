@@ -76,7 +76,7 @@
             justify-content: center;
             gap: 10px;
             padding: 15px 20px;
-            font-size: 18px;
+            font-size: 28px;
             cursor: pointer;
             border: none;
             border-radius: 15px;
@@ -116,7 +116,7 @@
         .example-button {
             width: 100%;
             padding: 15px;
-            font-size: 1rem;
+            font-size: 2rem;
             background: linear-gradient(135deg, #388e3c, #66bb6a);
             border: none;
             border-radius: 10px;
@@ -370,91 +370,539 @@
     <audio id="audioPlayer"></audio>
     <script>
         const sounds = [
+
             {
-                transcriptionButton: "[ʃ]",
+                transcriptionButton: "[eɪ]", // 1 ==================== Aa 1
                 correctExamples: [
-                    { word: "shop", transcription: "[ʃɒп]" },
-                    { word: "she", transcription: "[ʃiː]" },
-                    { word: "fish", transcription: "[fɪʃ]" }
+                    { word: "lake", correct: "lake", translation: "озеро", transcription: "[leɪk]" },
+                    { word: "game", correct: "game", translation: "игра", transcription: "[ɡeɪm]" },
+                    { word: "blaze", correct: "blaze", translation: "блеск", transcription: "[bleɪz]" },
+                    { word: "face", correct: "face", translation: "лицо", transcription: "[feɪs]" },
+                    { word: "plate", correct: "plate", translation: "тарелка", transcription: "[pleɪt]" },
+                    { word: "baby", correct: "baby", translation: "малыш", transcription: "[ˈbeɪbi]" },
+                    { word: "table", correct: "table", translation: "стол", transcription: "[ˈteɪbəl]" },
+                    { word: "baking", correct: "baking", translation: "выпечка", transcription: "[ˈbeɪkɪŋ]" },
                 ],
                 incorrectExamples: [
-                    { word: "child", transcription: "[tʃaɪld]" },
-                    { word: "bench", transcription: "[bentʃ]" },
-                    { word: "cherry", transcription: "[ˈtʃeri]" },
-                    { word: "sand", transcription: "[sænd]" },
-                    { word: "sun", transcription: "[sʌn]" },
-                    { word: "smile", transcription: "['smaɪl]" }
+                    { word: "sand", correct: "sand", translation: "песок", transcription: "[sænd]" },
+                    { word: "flat", correct: "flat", translation: "квартира", transcription: "[flæt]" },
+                    { word: "bag", correct: "bag", translation: "сумка", transcription: "[bæɡ]" },
+                    { word: "fantasy", correct: "fantasy", translation: "фантазия", transcription: "[ˈfæntəsi]" },
+                    { word: "cat", correct: "cat", translation: "кот", transcription: "[kæt]" },
+                    { word: "examine", correct: "examine", translation: "экзамен", transcription: "[ɪɡˈzæmɪn]" },
+                    { word: "example", correct: "example", translation: "пример", transcription: "[ɪɡˈzæmpəl]" },
+                    { word: "van", correct: "van", translation: "вагон", transcription: "[væn]" },
+                    { word: "map", correct: "map", translation: "карта", transcription: "[mæp]" },
+                    { word: "hand", correct: "hand", translation: "рука", transcription: "[hænd]" },
+                    { word: "hat", correct: "hat", translation: "шапка", transcription: "[hæt]" },
+                    { word: "rabbit", correct: "rabbit", translation: "кролик", transcription: "[ˈræbɪt]" },
+                    { word: "that", correct: "that", translation: "то", transcription: "[ðæt]" },
+                    { word: "alphabet", correct: "alphabet", translation: "алфавит", transcription: "[ˈælfəbet]" },
+                    { word: "bamboo", correct: "bamboo", translation: "бамбук", transcription: "[ˌbæmˈbuː]" },
+                    { word: "legs", correct: "legs", translation: "ноги", transcription: "[leɡz]" },
+                    { word: "nest", correct: "nest", translation: "гнездо", transcription: "[nest]" },
+                    { word: "desk", correct: "desk", translation: "доска", transcription: "[desk]" },
+
+                ]
+            },
+
+            {
+                transcriptionButton: "[æ]", // 2 ==================== Aa [æ]
+                correctExamples: [
+                    { word: "sand", correct: "sand", translation: "песок", transcription: "[sænd]" },
+                    { word: "flat", correct: "flat", translation: "квартира", transcription: "[flæt]" },
+                    { word: "bag", correct: "bag", translation: "сумка", transcription: "[bæɡ]" },
+                    { word: "fantasy", correct: "fantasy", translation: "фантазия", transcription: "[ˈfæntəsi]" },
+                    { word: "cat", correct: "cat", translation: "кот", transcription: "[kæt]" },
+                    { word: "examine", correct: "examine", translation: "экзамен", transcription: "[ɪɡˈzæmɪn]" },
+                    { word: "example", correct: "example", translation: "пример", transcription: "[ɪɡˈzæmpəl]" },
+                    { word: "van", correct: "van", translation: "вагон", transcription: "[væn]" },
+                    { word: "map", correct: "map", translation: "карта", transcription: "[mæp]" },
+                    { word: "hand", correct: "hand", translation: "рука", transcription: "[hænd]" },
+                    { word: "hat", correct: "hat", translation: "шапка", transcription: "[hæt]" },
+                    { word: "rabbit", correct: "rabbit", translation: "кролик", transcription: "[ˈræbɪt]" },
+                    { word: "that", correct: "that", translation: "то", transcription: "[ðæt]" },
+                    { word: "alphabet", correct: "alphabet", translation: "алфавит", transcription: "[ˈælfəbet]" },
+                    { word: "bamboo", correct: "bamboo", translation: "бамбук", transcription: "[ˌbæmˈbuː]" },
+                ],
+                incorrectExamples: [
+                    { word: "exit", correct: "exit", translation: "выход", transcription: "[ˈeksɪt]" },
+                    { word: "sex", correct: "sex", translation: "пол", transcription: "[seks]" },
+                    { word: "examine", correct: "examine", translation: "экзамен", transcription: "[ɪɡˈzæmɪn]" },
+                    { word: "pen", correct: "pen", translation: "ручка", transcription: "[pen]" },
+                    { word: "pet", correct: "pet", translation: "питомец", transcription: "[pet]" },
+                    { word: "red", correct: "red", translation: "красный", transcription: "[red]" },
+                    { word: "lake", correct: "lake", translation: "озеро", transcription: "[leɪk]" },
+                    { word: "game", correct: "game", translation: "игра", transcription: "[ɡeɪm]" },
+                    { word: "blaze", correct: "blaze", translation: "блеск", transcription: "[bleɪz]" },
+                    { word: "face", correct: "face", translation: "лицо", transcription: "[feɪs]" },
+                    { word: "plate", correct: "plate", translation: "тарелка", transcription: "[pleɪt]" },
+                    { word: "baby", correct: "baby", translation: "малыш", transcription: "[ˈbeɪbi]" },
+                    { word: "table", correct: "table", translation: "стол", transcription: "[ˈteɪbəl]" },
+                    { word: "baking", correct: "baking", translation: "выпечка", transcription: "[ˈbeɪkɪŋ]" },
+                    { word: "sister", correct: "sister", translation: "сестра", transcription: "[ˈsɪstər]" },
+                    { word: "finger", correct: "finger", translation: "палец", transcription: "[ˈfɪŋɡər]" },
+                    { word: "driver", correct: "driver", translation: "водитель", transcription: "[ˈdraɪvər]" },
+
+
+                ]
+            },
+
+
+            {
+                transcriptionButton: "[iː]", // 3 ========== Ii [iː]
+                correctExamples: [
+                    { word: "green", correct: "green", translation: "зеленый", transcription: "[ɡriːn]" },
+                    { word: "cheese", correct: "cheese", translation: "сыр", transcription: "[tʃiːz]" },
+                    { word: "tree", correct: "tree", translation: "дерево", transcription: "[triː]" },
+                    { word: "tea", correct: "tea", translation: "чай", transcription: "[tiː]" },
+                    { word: "sea", correct: "sea", translation: "море", transcription: "[siː]" },
+                    { word: "please", correct: "please", translation: "пожалуйста", transcription: "[pliːz]" },
+                    { word: "we", correct: "we", translation: "мы", transcription: "[wiː]" },
+                    { word: "me", correct: "me", translation: "я", transcription: "[miː]" },
+                    { word: "be", correct: "be", translation: "быть", transcription: "[biː]" },
+                    { word: "leo", correct: "leo", translation: "лев", transcription: "[ˈliːoʊ]" },
+                    { word: "she", correct: "she", translation: "она", transcription: "[ʃiː]" },
+                    { word: "queen", correct: "queen", translation: "королева", transcription: "[kwiːn]" },
+
+                ],
+                incorrectExamples: [
+                    { word: "pillow", correct: "pillow", translation: "подушка", transcription: "[ˈpɪloʊ]" },
+                    { word: "kid", correct: "kid", translation: "ребенок", transcription: "[kɪd]" },
+                    { word: "zip", correct: "zip", translation: "застежка", transcription: "[zɪp]" },
+                    { word: "pig", correct: "pig", translation: "свинка", transcription: "[pɪɡ]" },
+                    { word: "music", correct: "music", translation: "музыка", transcription: "[ˈmjuːzɪk]" },
+                    { word: "gym", correct: "gym", translation: "тренажерный зал", transcription: "[dʒɪm]" },
+                    { word: "exit", correct: "exit", translation: "выход", transcription: "[ˈeksɪt]" },
+                    { word: "examine", correct: "examine", translation: "экзамен", transcription: "[ɪɡˈzæmɪn]" },
+                    { word: "example", correct: "example", translation: "пример", transcription: "[ɪɡˈzæmpəl]" },
+                    { word: "milk", correct: "milk", translation: "молоко", transcription: "[mɪlk]" },
+                    { word: "kiss", correct: "kiss", translation: "поцелуй", transcription: "[kɪs]" },
+                ]
+            },
+
+            {
+                transcriptionButton: "[e]", // 4 ========================= Ee [e]
+                correctExamples: [
+                    { word: "legs", correct: "legs", translation: "ноги", transcription: "[leɡz]" },
+                    { word: "nest", correct: "nest", translation: "гнездо", transcription: "[nest]" },
+                    { word: "desk", correct: "desk", translation: "доска", transcription: "[desk]" },
+                    { word: "enemy", correct: "enemy", translation: "враг", transcription: "[ˈenəmi]" },
+                    { word: "cell", correct: "cell", translation: "сот", transcription: "[sel]" },
+                    { word: "general", correct: "general", translation: "генерал", transcription: "[ˈdʒenərəl]" },
+                    { word: "gel", correct: "gel", translation: "гель", transcription: "[dʒel]" },
+                    { word: "exit", correct: "exit", translation: "выход", transcription: "[ˈeksɪt]" },
+                    { word: "sex", correct: "sex", translation: "пол", transcription: "[seks]" },
+                    { word: "examine", correct: "examine", translation: "экзамен", transcription: "[ɪɡˈzæmɪn]" },
+                    { word: "pen", correct: "pen", translation: "ручка", transcription: "[pen]" },
+                    { word: "pet", correct: "pet", translation: "питомец", transcription: "[pet]" },
+                    { word: "red", correct: "red", translation: "красный", transcription: "[red]" },
+                    { word: "yellow", correct: "yellow", translation: "желтый", transcription: "[ˈjeləʊ]" },
+                    { word: "yes", correct: "yes", translation: "да", transcription: "[jes]" },
+                    { word: "bench", correct: "bench", translation: "лавочка", transcription: "[bentʃ]" },
+                    { word: "cherry", correct: "cherry", translation: "вишня", transcription: "[ˈtʃeri]" },
+                    { word: "alphabet", correct: "alphabet", translation: "алфавит", transcription: "[ˈælfəbet]" },
+                ],
+                incorrectExamples: [
+                    { word: "sand", correct: "sand", translation: "песок", transcription: "[sænd]" },
+                    { word: "flat", correct: "flat", translation: "квартира", transcription: "[flæt]" },
+                    { word: "bag", correct: "bag", translation: "сумка", transcription: "[bæɡ]" },
+                    { word: "fantasy", correct: "fantasy", translation: "фантазия", transcription: "[ˈfæntəsi]" },
+                    { word: "cat", correct: "cat", translation: "кот", transcription: "[kæt]" },
+                    { word: "examine", correct: "examine", translation: "экзамен", transcription: "[ɪɡˈzæmɪn]" },
+                    { word: "example", correct: "example", translation: "пример", transcription: "[ɪɡˈzæmpəl]" },
+                    { word: "van", correct: "van", translation: "вагон", transcription: "[væn]" },
+                    { word: "map", correct: "map", translation: "карта", transcription: "[mæp]" },
+                    { word: "hand", correct: "hand", translation: "рука", transcription: "[hænd]" },
+                    { word: "hat", correct: "hat", translation: "шапка", transcription: "[hæt]" },
+                    { word: "rabbit", correct: "rabbit", translation: "кролик", transcription: "[ˈræbɪt]" },
+                    { word: "that", correct: "that", translation: "то", transcription: "[ðæt]" },
+                    { word: "alphabet", correct: "alphabet", translation: "алфавит", transcription: "[ˈælfəbet]" },
+                    { word: "bamboo", correct: "bamboo", translation: "бамбук", transcription: "[ˌbæmˈbuː]" },
+
+                ]
+            },
+
+
+            {
+                transcriptionButton: "[aɪ]", // 5 ======================================= Ii Yy [aɪ]
+                correctExamples: [
+                    { word: "bike", correct: "bike", translation: "велосипед", transcription: "[baɪk]" },
+                    { word: "five", correct: "five", translation: "5", transcription: "[faɪv]" },
+                    { word: "smile", correct: "smile", translation: "улыбка", transcription: "[smaɪl]" },
+                    { word: "my", correct: "my", translation: "мое", transcription: "[maɪ]" },
+                    { word: "fly", correct: "fly", translation: "муха", transcription: "[flaɪ]" },
+                    { word: "sky", correct: "sky", translation: "небо", transcription: "[skaɪ]" },
+                    { word: "mice", correct: "mice", translation: "мыши", transcription: "[maɪs]" },
+                    { word: "vine", correct: "vine", translation: "лоза", transcription: "[vaɪn]" },
+                    { word: "kite", correct: "kite", translation: "змей", transcription: "[kaɪt]" },
+                    { word: "wine", correct: "wine", translation: "вино", transcription: "[waɪn]" },
+                    { word: "child", correct: "child", translation: "ребенок", transcription: "[tʃaɪld]" },
+                    { word: "driver", correct: "driver", translation: "водитель", transcription: "[ˈdraɪvər]" },
+                ],
+                incorrectExamples: [
+                    { word: "ring", correct: "ring", translation: "кольцо", transcription: "[rɪŋ]" },
+                    { word: "king", correct: "king", translation: "король", transcription: "[kɪŋ]" },
+                    { word: "baking", correct: "baking", translation: "выпечка", transcription: "[ˈbeɪkɪŋ]" },
+                    { word: "vision", correct: "vision", translation: "зрение", transcription: "[ˈvɪʒn]" },
+                    { word: "collision", correct: "collision", translation: "столкновение", transcription: "[kəˈlɪʒn]" },
+                    { word: "division", correct: "division", translation: "подразделение", transcription: "[dɪˈvɪʒn]" },
+                    { word: "cigar", correct: "cigar", translation: "сигара", transcription: "[sɪˈɡɑːr]" },
+                    { word: "sister", correct: "sister", translation: "сестра", transcription: "[ˈsɪstər]" },
+                    { word: "blaze", correct: "blaze", translation: "блеск", transcription: "[bleɪz]" },
+                    { word: "face", correct: "face", translation: "лицо", transcription: "[feɪs]" },
+                    { word: "plate", correct: "plate", translation: "тарелка", transcription: "[pleɪt]" },
+                    { word: "baby", correct: "baby", translation: "малыш", transcription: "[ˈbeɪbi]" },
+
+
+                ]
+            },
+
+
+            {
+                transcriptionButton: "[ɪ]", // 6 ================ [ɪ]
+                correctExamples: [
+                    { word: "pillow", correct: "pillow", translation: "подушка", transcription: "[ˈpɪloʊ]" },
+                    { word: "kid", correct: "kid", translation: "ребенок", transcription: "[kɪd]" },
+                    { word: "zip", correct: "zip", translation: "застежка", transcription: "[zɪp]" },
+                    { word: "pig", correct: "pig", translation: "свинка", transcription: "[pɪɡ]" },
+                    { word: "music", correct: "music", translation: "музыка", transcription: "[ˈmjuːzɪk]" },
+                    { word: "gym", correct: "gym", translation: "тренажерный зал", transcription: "[dʒɪm]" },
+                    { word: "exit", correct: "exit", translation: "выход", transcription: "[ˈeksɪt]" },
+                    { word: "examine", correct: "examine", translation: "экзамен", transcription: "[ɪɡˈzæmɪn]" },
+                    { word: "example", correct: "example", translation: "пример", transcription: "[ɪɡˈzæmpəl]" },
+                    { word: "milk", correct: "milk", translation: "молоко", transcription: "[mɪlk]" },
+                    { word: "kiss", correct: "kiss", translation: "поцелуй", transcription: "[kɪs]" },
+                    { word: "rabbit", correct: "rabbit", translation: "кролик", transcription: "[ˈræbɪt]" },
+                    { word: "squirrel", correct: "squirrel", translation: "белка", transcription: "[ˈskwɪrəl]" },
+                    { word: "fish", correct: "fish", translation: "рыба", transcription: "[fɪʃ]" },
+                    { word: "thin", correct: "thin", translation: "тонкий", transcription: "[θɪn]" },
+                    { word: "smith", correct: "smith", translation: "кузнец", transcription: "[smɪθ]" },
+                    { word: "this", correct: "this", translation: "это", transcription: "[ðɪs]" },
+                    { word: "ring", correct: "ring", translation: "кольцо", transcription: "[rɪŋ]" },
+                    { word: "king", correct: "king", translation: "король", transcription: "[kɪŋ]" },
+                    { word: "baking", correct: "baking", translation: "выпечка", transcription: "[ˈbeɪkɪŋ]" },
+                    { word: "vision", correct: "vision", translation: "зрение", transcription: "[ˈvɪʒn]" },
+                    { word: "collision", correct: "collision", translation: "столкновение", transcription: "[kəˈlɪʒn]" },
+                    { word: "division", correct: "division", translation: "подразделение", transcription: "[dɪˈvɪʒn]" },
+                    { word: "cigar", correct: "cigar", translation: "сигара", transcription: "[sɪˈɡɑːr]" },
+                    { word: "sister", correct: "sister", translation: "сестра", transcription: "[ˈsɪstər]" },
+                    { word: "finger", correct: "finger", translation: "палец", transcription: "[ˈfɪŋɡər]" },
+                    { word: "morning", correct: "morning", translation: "утро", transcription: "[ˈmɔːrnɪŋ]" },
+                    { word: "pillow", correct: "pillow", translation: "подушка", transcription: "[ˈpɪloʊ]" },
+                    { word: "lily", correct: "lily", translation: "лилия", transcription: "[ˈlɪli]" },
+                    { word: "fantasy", correct: "fantasy", translation: "фантазия", transcription: "[ˈfæntəsi]" },
+                    { word: "enemy", correct: "enemy", translation: "враг", transcription: "[ˈenəmi]" },
+                ],
+
+                incorrectExamples: [
+                    { word: "green", correct: "green", translation: "зеленый", transcription: "[ɡriːn]" },
+                    { word: "cheese", correct: "cheese", translation: "сыр", transcription: "[tʃiːz]" },
+                    { word: "tree", correct: "tree", translation: "дерево", transcription: "[triː]" },
+                    { word: "tea", correct: "tea", translation: "чай", transcription: "[tiː]" },
+                    { word: "sea", correct: "sea", translation: "море", transcription: "[siː]" },
+                    { word: "please", correct: "please", translation: "пожалуйста", transcription: "[pliːz]" },
+                    { word: "we", correct: "we", translation: "мы", transcription: "[wiː]" },
+                    { word: "me", correct: "me", translation: "я", transcription: "[miː]" },
+                    { word: "be", correct: "be", translation: "быть", transcription: "[biː]" },
+                    { word: "leo", correct: "leo", translation: "лев", transcription: "[ˈliːoʊ]" },
+                    { word: "she", correct: "she", translation: "она", transcription: "[ʃiː]" },
+                    { word: "queen", correct: "queen", translation: "королева", transcription: "[kwiːn]" },
+                    { word: "bike", correct: "bike", translation: "велосипед", transcription: "[baɪk]" },
+                    { word: "five", correct: "five", translation: "5", transcription: "[faɪv]" },
+                    { word: "smile", correct: "smile", translation: "улыбка", transcription: "[smaɪl]" },
+                    { word: "my", correct: "my", translation: "мое", transcription: "[maɪ]" },
+                    { word: "fly", correct: "fly", translation: "муха", transcription: "[flaɪ]" },
+                    { word: "sky", correct: "sky", translation: "небо", transcription: "[skaɪ]" },
+                    { word: "mice", correct: "mice", translation: "мыши", transcription: "[maɪs]" },
+                    { word: "vine", correct: "vine", translation: "лоза", transcription: "[vaɪn]" },
+                    { word: "kite", correct: "kite", translation: "змей", transcription: "[kaɪt]" },
+                    { word: "wine", correct: "wine", translation: "вино", transcription: "[waɪn]" },
+                    { word: "child", correct: "child", translation: "ребенок", transcription: "[tʃaɪld]" },
+                    { word: "driver", correct: "driver", translation: "водитель", transcription: "[ˈdraɪvər]" },
+
+                ]
+            },
+
+            {
+                transcriptionButton: "[oʊ]",  // 7 ///// 
+                correctExamples: [
+                    { word: "leo", correct: "leo", translation: "лев", transcription: "[ˈliːoʊ]" },
+                    { word: "note", correct: "note", translation: "нота", transcription: "[noʊt]" },
+                    { word: "nose", correct: "nose", translation: "нос", transcription: "[noʊz]" },
+                    { word: "smoke", correct: "smoke", translation: "дым", transcription: "[smoʊk]" },
+                    { word: "pose", correct: "pose", translation: "поза", transcription: "[poʊz]" },
+                    { word: "gold", correct: "gold", translation: "золото", transcription: "[ɡoʊld]" },
+                    { word: "zone", correct: "zone", translation: "зона", transcription: "[zoʊn]" },
+                    { word: "home", correct: "home", translation: "дом", transcription: "[hoʊm]" },
+                    { word: "rose", correct: "rose", translation: "роза", transcription: "[roʊz]" },
+                    { word: "photo", correct: "photo", translation: "фото", transcription: "[ˈfoʊtoʊ]" },
+                    { word: "phone", correct: "phone", translation: "телефон", transcription: "[foʊn]" },
+                    { word: "snow", correct: "snow", translation: "снег", transcription: "[snoʊ]" },
+                    { word: "pillow", correct: "pillow", translation: "подушка", transcription: "[ˈpɪloʊ]" },
+                    { word: "flow", correct: "flow", translation: "поток", transcription: "[floʊ]" },
+
+                ],
+                incorrectExamples: [
+                    { word: "dog", correct: "dog", translation: "пес", transcription: "[dɒɡ]" },
+                    { word: "pot", correct: "pot", translation: "горшок", transcription: "[pɒt]" },
+                    { word: "top", correct: "top", translation: "вершина", transcription: "[tɒp]" },
+                    { word: "shop", correct: "shop", translation: "магазин" },
+                    { word: "fox", correct: "fox", translation: "лиса", transcription: "/fɒks/" },
+                    { word: "moth", correct: "moth", translation: "мотылек", transcription: "/mɒθ/" },
+                    { word: "job", correct: "job", translation: "работа", transcription: "[dʒɒb]" },
+                ]
+            },
+
+            {
+                transcriptionButton: "[ɒ]", /// 8 /////////
+                correctExamples: [
+                    { word: "dog", correct: "dog", translation: "пес", transcription: "[dɒɡ]" },
+                    { word: "pot", correct: "pot", translation: "горшок", transcription: "[pɒt]" },
+                    { word: "top", correct: "top", translation: "вершина", transcription: "[tɒp]" },
+                    { word: "shop", correct: "shop", translation: "магазин" },
+                    { word: "fox", correct: "fox", translation: "лиса", transcription: "/fɒks/" },
+                    { word: "moth", correct: "moth", translation: "мотылек", transcription: "/mɒθ/" },
+                    { word: "job", correct: "job", translation: "работа", transcription: "[dʒɒb]" },
+                ],
+                incorrectExamples: [
+                    { word: "smoke", correct: "smoke", translation: "дым", transcription: "[smoʊk]" },
+                    { word: "pose", correct: "pose", translation: "поза", transcription: "[poʊz]" },
+                    { word: "gold", correct: "gold", translation: "золото", transcription: "[ɡoʊld]" },
+                    { word: "zone", correct: "zone", translation: "зона", transcription: "[zoʊn]" },
+                    { word: "home", correct: "home", translation: "дом", transcription: "[hoʊm]" },
+                    { word: "rose", correct: "rose", translation: "роза", transcription: "[roʊz]" },
+                    { word: "photo", correct: "photo", translation: "фото", transcription: "[ˈfoʊtoʊ]" },
+                    { word: "phone", correct: "phone", translation: "телефон", transcription: "[foʊn]" },
+                    { word: "snow", correct: "snow", translation: "снег", transcription: "[snoʊ]" },
+                    { word: "pillow", correct: "pillow", translation: "подушка", transcription: "[ˈpɪloʊ]" },
+                    { word: "flow", correct: "flow", translation: "поток", transcription: "[floʊ]" },
+                ]
+            },
+
+            {
+                transcriptionButton: "[uː]", // 9 ============ Uu Oo [uː]
+                correctExamples: [
+                    { word: "tube", correct: "tube", translation: "труба", transcription: "[tjuːb]" },
+                    { word: "duty", correct: "duty", translation: "долг", transcription: "[ˈduːti]" },
+                    { word: "music", correct: "music", translation: "музыка", transcription: "[ˈmjuːzɪk]" },
+                    { word: "cute", correct: "cute", translation: "милый", transcription: "[kjuːt]" },
+                    { word: "you", correct: "you", translation: "ты", transcription: "[juː]" },
+                    { word: "room", correct: "room", translation: "комната", transcription: "[ruːm]" },
+                    { word: "moon", correct: "moon", translation: "луна", transcription: "[muːn]" },
+                    { word: "spoon", correct: "spoon", translation: "ложка", transcription: "[spuːn]" },
+                    { word: "bamboo", correct: "bamboo", translation: "бамбук", transcription: "[ˌbæmˈbuː]" },
+                ],
+                incorrectExamples: [
+                    { word: "sun", correct: "sun", translation: "солнце", transcription: "[sʌn]" },
+                    { word: "gun", correct: "gun", translation: "оружие", transcription: "[ɡʌn]" },
+                    { word: "bus", correct: "bus", translation: "автобус", transcription: "[bʌs]" },
+                    { word: "mum", correct: "mum", translation: "мама", transcription: "[mʌm]" },
+                    { word: "jump", correct: "jump", translation: "прыжек", transcription: "[dʒʌmp]" },
+
+                ]
+            },
+
+            {
+                transcriptionButton: "[ʌ]", // 10 ================ Uu
+                correctExamples: [
+                    { word: "sun", correct: "sun", translation: "солнце", transcription: "[sʌn]" },
+                    { word: "gun", correct: "gun", translation: "оружие", transcription: "[ɡʌn]" },
+                    { word: "bus", correct: "bus", translation: "автобус", transcription: "[bʌs]" },
+                    { word: "mum", correct: "mum", translation: "мама", transcription: "[mʌm]" },
+                    { word: "jump", correct: "jump", translation: "прыжек", transcription: "[dʒʌmp]" }
+                ],
+                incorrectExamples: [
+                    { word: "tube", correct: "tube", translation: "труба", transcription: "[tjuːb]" },
+                    { word: "duty", correct: "duty", translation: "долг", transcription: "[ˈduːti]" },
+                    { word: "music", correct: "music", translation: "музыка", transcription: "[ˈmjuːzɪk]" },
+                    { word: "cute", correct: "cute", translation: "милый", transcription: "[kjuːt]" },
+                    { word: "you", correct: "you", translation: "ты", transcription: "[juː]" },
+                    { word: "room", correct: "room", translation: "комната", transcription: "[ruːm]" },
+                    { word: "moon", correct: "moon", translation: "луна", transcription: "[muːn]" },
+                    { word: "spoon", correct: "spoon", translation: "ложка", transcription: "[spuːn]" },
+                    { word: "bamboo", correct: "bamboo", translation: "бамбук", transcription: "[ˌbæmˈbuː]" },
+                    { word: "dog", correct: "dog", translation: "пес", transcription: "[dɒɡ]" },
+                    { word: "pot", correct: "pot", translation: "горшок", transcription: "[pɒt]" },
+                    { word: "top", correct: "top", translation: "вершина", transcription: "[tɒp]" },
+                    { word: "shop", correct: "shop", translation: "магазин" },
+                    { word: "fox", correct: "fox", translation: "лиса", transcription: "/fɒks/" },
+                    { word: "moth", correct: "moth", translation: "мотылек", transcription: "/mɒθ/" },
+                    { word: "job", correct: "job", translation: "работа", transcription: "[dʒɒb]" },
+
+                ]
+            },
+
+            {
+                transcriptionButton: "[dʒ]", // 11 ================= [dʒ]
+                correctExamples: [
+                    { word: "joy", correct: "joy", translation: "радость", transcription: "[dʒɔɪ]" },
+                    { word: "job", correct: "job", translation: "работа", transcription: "[dʒɒb]" },
+                    { word: "jump", correct: "jump", translation: "прыжек", transcription: "[dʒʌmp]" },
+                    { word: "gym", correct: "gym", translation: "тренажерный зал", transcription: "[dʒɪm]" },
+                    { word: "general", correct: "general", translation: "генерал", transcription: "[ˈdʒenərəl]" },
+                    { word: "gel", correct: "gel", translation: "гель", transcription: "[dʒel]" }
+                ],
+                incorrectExamples: [
+                    { word: "vision", correct: "vision", translation: "зрение", transcription: "[ˈvɪʒn]" },
+                    { word: "collision", correct: "collision", translation: "столкновение", transcription: "[kəˈlɪʒn]" },
+                    { word: "division", correct: "division", translation: "подразделение", transcription: "[dɪˈvɪʒn]" },
+                    { word: "game", correct: "game", translation: "игра", transcription: "[ɡeɪm]" },
+                    { word: "bag", correct: "bag", translation: "сумка", transcription: "[bæɡ]" },
+                    { word: "legs", correct: "legs", translation: "ноги", transcription: "[leɡz]" },
+                    { word: "pig", correct: "pig", translation: "свинка", transcription: "[pɪɡ]" },
+                    { word: "dog", correct: "dog", translation: "пес", transcription: "[dɒɡ]" },
+                    { word: "gun", correct: "gun", translation: "оружие", transcription: "[ɡʌn]" },
+                    { word: "gold", correct: "gold", translation: "золото", transcription: "[ɡoʊld]" },
+                    { word: "exotic", correct: "exotic", translation: "экзотика", transcription: "[ɪɡˈzɒtɪk]" },
+
+
+                ]
+            },
+
+
+
+            {
+                transcriptionButton: "[w]", /////   12
+                correctExamples: [
+                    { word: "wine", correct: "wine", translation: "вино", transcription: "[waɪn]" },
+                    { word: "we", correct: "we", translation: "мы", transcription: "[wiː]" },
+                    { word: "way", correct: "way", translation: "путь", transcription: "[weɪ]" },
+                    { word: "quest", correct: "quest", translation: "поиск", transcription: "[kwest]" },
+                    { word: "queen", correct: "queen", translation: "королева", transcription: "[kwiːn]" },
+                    { word: "squirrel", correct: "squirrel", translation: "белка", transcription: "[ˈskwɪrəl]" },
+
+
+
+                ],
+                incorrectExamples: [
+                    { word: "van", correct: "van", translation: "вагон", transcription: "[væn]" },
+                    { word: "vine", correct: "vine", translation: "лоза", transcription: "[vaɪn]" },
+                    { word: "vision", correct: "vision", translation: "зрение", transcription: "[ˈvɪʒn]" },
+                    { word: "driver", correct: "driver", translation: "водитель", transcription: "[ˈdraɪvər]" },
+                    { word: "voice", correct: "voice", translation: "голос", transcription: "[vɔɪs]" },
+                    { word: "town", correct: "town", translation: "город", transcription: "[taʊn]" },
+                    { word: "crown", correct: "crown", translation: "корона", transcription: "[kraʊn]" },
+                    { word: "brown", correct: "brown", translation: "коричневый", transcription: "[braʊn]" },
+                    { word: "snow", correct: "snow", translation: "снег", transcription: "[snoʊ]" },
+                    { word: "pillow", correct: "pillow", translation: "подушка", transcription: "[ˈpɪloʊ]" },
+                    { word: "flow", correct: "flow", translation: "поток", transcription: "[floʊ]" },
+
+
+                ]
+            },
+
+
+            {
+                transcriptionButton: "[j]", // 13  ================= [j]
+                correctExamples: [
+                    { word: "tube", correct: "tube", translation: "труба", transcription: "[tjuːb]" },
+                    { word: "music", correct: "music", translation: "музыка", transcription: "[ˈmjuːzɪk]" },
+                    { word: "cute", correct: "cute", translation: "милый", transcription: "[kjuːt]" },
+                    { word: "yellow", correct: "yellow", translation: "желтый", transcription: "[ˈjeləʊ]" },
+                    { word: "yes", correct: "yes", translation: "да", transcription: "[jes]" },
+                    { word: "you", correct: "you", translation: "ты", transcription: "[juː]" },
+
+
+                ],
+                incorrectExamples: [
+                    { word: "kid", correct: "kid", translation: "ребенок", transcription: "[kɪd]" },
+                    { word: "zip", correct: "zip", translation: "застежка", transcription: "[zɪp]" },
+                    { word: "pig", correct: "pig", translation: "свинка", transcription: "[pɪɡ]" },
+                    { word: "music", correct: "music", translation: "музыка", transcription: "[ˈmjuːzɪk]" },
+                    { word: "gym", correct: "gym", translation: "тренажерный зал", transcription: "[dʒɪm]" },
+                    { word: "joy", correct: "joy", translation: "радость", transcription: "[dʒɔɪ]" },
+                    { word: "job", correct: "job", translation: "работа", transcription: "[dʒɒb]" },
+                    { word: "jump", correct: "jump", translation: "прыжек", transcription: "[dʒʌmp]" },
+                    { word: "gym", correct: "gym", translation: "тренажерный зал", transcription: "[dʒɪm]" },
+                    { word: "general", correct: "general", translation: "генерал", transcription: "[ˈdʒenərəl]" },
+                    { word: "gel", correct: "gel", translation: "гель", transcription: "[dʒel]" }
+                ]
+            },
+
+            {
+                transcriptionButton: "[ʃ]", /// 14 /////////
+                correctExamples: [
+                    { word: "shop", correct: "shop", translation: "магазин", transcription: "[ʃɒp]" },
+                    { word: "she", correct: "she", translation: "она", transcription: "[ʃiː]" },
+                    { word: "fish", correct: "fish", translation: "рыба", transcription: "[fɪʃ]" },
+                    { word: "sure", correct: "sure", translation: "уверенный", transcription: "[ʃʊər]" },
+                ],
+                incorrectExamples: [
+                    { word: "thin", correct: "thin", translation: "тонкий", transcription: "[θɪn]" },
+                    { word: "moth", correct: "moth", translation: "мотылек", transcription: "[mɒθ]" },
+                    { word: "smith", correct: "smith", translation: "кузнец", transcription: "[smɪθ]" },
+                    { word: "north", correct: "north", translation: "север", transcription: "[nɔːrθ]" },
+                    { word: "mouth", correct: "mouth", translation: "рот", transcription: "[maʊθ]" },
+                    { word: "child", correct: "child", translation: "ребенок", transcription: "[tʃaɪld]" },
+                    { word: "bench", correct: "bench", translation: "лавочка", transcription: "[bentʃ]" },
+                    { word: "cherry", correct: "cherry", translation: "вишня", transcription: "[ˈtʃeri]" },
+                    { word: "cheese", correct: "cheese", translation: "сыр", transcription: "[tʃiːz]" },
+                    { word: "chair", correct: "chair", translation: "стул", transcription: "[tʃeər]" },
+
                 ]
             },
             {
-                transcriptionButton: "[tʃ]",
+                transcriptionButton: "[tʃ]", /// 15 ///////////
                 correctExamples: [
-                    { word: "child", transcription: "[tʃaɪld]" },
-                    { word: "bench", transcription: "[bentʃ]" },
-                    { word: "cherry", transcription: "[ˈtʃeri]" }
+                    { word: "child", correct: "child", translation: "ребенок", transcription: "[tʃaɪld]" },
+                    { word: "bench", correct: "bench", translation: "лавочка", transcription: "[bentʃ]" },
+                    { word: "cherry", correct: "cherry", translation: "вишня", transcription: "[ˈtʃeri]" },
+                    { word: "cheese", correct: "cheese", translation: "сыр", transcription: "[tʃiːz]" },
+                    { word: "chair", correct: "chair", translation: "стул", transcription: "[tʃeər]" },
                 ],
                 incorrectExamples: [
-                    { word: "shop", transcription: "[ʃɒп]" },
-                    { word: "she", transcription: "[ʃiː]" },
-                    { word: "fish", transcription: "[fɪʃ]" },
-                    { word: "mice", transcription: "[maɪs]" },
-                    { word: "face", transcription: "['feɪs]" }
+                    { word: "shop", correct: "shop", translation: "магазин", transcription: "[ʃɒp]" },
+                    { word: "she", correct: "she", translation: "она", transcription: "[ʃiː]" },
+                    { word: "fish", correct: "fish", translation: "рыба", transcription: "[fɪʃ]" },
+                    { word: "sure", correct: "sure", translation: "уверенный", transcription: "[ʃʊər]" },
+                    { word: "this", correct: "this", translation: "это", transcription: "[ðɪs]" },
+                    { word: "that", correct: "that", translation: "то", transcription: "[ðæt]" },
+                    { word: "they", correct: "they", translation: "они", transcription: "[ðeɪ]" },
                 ]
             },
             {
-                transcriptionButton: "[ð]",
+                transcriptionButton: "[ð]", ///// 16 
                 correctExamples: [
-                    { word: "this", transcription: "[ðɪs]" },
-                    { word: "that", transcription: "[ðæ]" },
-                    { word: "they", transcription: "[ðeɪ]" }
+                    { word: "this", correct: "this", translation: "это", transcription: "[ðɪs]" },
+                    { word: "that", correct: "that", translation: "то", transcription: "[ðæt]" },
+                    { word: "they", correct: "they", translation: "они", transcription: "[ðeɪ]" },
+
                 ],
                 incorrectExamples: [
-                    { word: "thin", transcription: "[θɪn]" },
-                    { word: "moth", transcription: "[mɒθ]" },
-                    { word: "smith", transcription: "[smɪθ]" },
-                    { word: "blaze", transcription: "[bleɪz]" },
-                    { word: "zip", transcription: "[zɪp]" },
-                    { word: "zone", transcription: "[zoun]" }
+                    { word: "thin", correct: "thin", translation: "тонкий", transcription: "[θɪn]" },
+                    { word: "moth", correct: "moth", translation: "мотылек", transcription: "[mɒθ]" },
+                    { word: "smith", correct: "smith", translation: "кузнец", transcription: "[smɪθ]" },
+                    { word: "north", correct: "north", translation: "север", transcription: "[nɔːrθ]" },
+                    { word: "mouth", correct: "mouth", translation: "рот", transcription: "[maʊθ]" },
                 ]
             },
             {
-                transcriptionButton: "[θ]",
+                transcriptionButton: "[θ]",///// 17 
                 correctExamples: [
-                    { word: "thin", transcription: "[θɪn]" },
-                    { word: "moth", transcription: "[mɒθ]" },
-                    { word: "smith", transcription: "[smɪθ]" }
+                    { word: "thin", correct: "thin", translation: "тонкий", transcription: "[θɪn]" },
+                    { word: "moth", correct: "moth", translation: "мотылек", transcription: "[mɒθ]" },
+                    { word: "smith", correct: "smith", translation: "кузнец", transcription: "[smɪθ]" },
+                    { word: "north", correct: "north", translation: "север", transcription: "[nɔːrθ]" },
+                    { word: "mouth", correct: "mouth", translation: "рот", transcription: "[maʊθ]" },
+
                 ],
                 incorrectExamples: [
-                    { word: "this", transcription: "[ðɪs]" },
-                    { word: "that", transcription: "[ðæ]" },
-                    { word: "they", transcription: "[ðeɪ]" },
-                    { word: "cell", transcription: "[sel]" },
-                    { word: "smile", transcription: "['smaɪl]" },
-                    { word: "mice", transcription: "[maɪs]" }
+                    { word: "this", correct: "this", translation: "это", transcription: "[ðɪs]" },
+                    { word: "that", correct: "that", translation: "то", transcription: "[ðæt]" },
+                    { word: "they", correct: "they", translation: "они", transcription: "[ðeɪ]" },
                 ]
             },
+
             {
-                transcriptionButton: "[f]",
+                transcriptionButton: "[ŋ]",////// 18 
                 correctExamples: [
-                    { word: "photo", transcription: "[foʊtoʊ]" },
-                    { word: "alphabet", transcription: "[ælfəbet]" },
-                    { word: "phone", transcription: "[foʊn]" }
-                ],
-                incorrectExamples: [
-                    { word: "pen", transcription: "[pen]" },
-                    { word: "pet", transcription: "[pet]" },
-                    { word: "plate", transcription: "['pleɪt]" },
-                    { word: "hand", transcription: "[hænd]" },
-                    { word: "home", transcription: "[houm]" },
-                    { word: "hat", transcription: "[hæt]" }
-                ]
-            },
-            {
-                transcriptionButton: "[ŋ]",
-                correctExamples: [
-                    { word: "ring", transcription: "[rɪŋ]" },
-                    { word: "king", transcription: "[kɪŋ]" },
-                    { word: "baking", transcription: "[beɪkɪŋ]" }
+                    { word: "ring", correct: "ring", translation: "кольцо", transcription: "[rɪŋ]" },
+                    { word: "king", correct: "king", translation: "король", transcription: "[kɪŋ]" },
+                    { word: "baking", correct: "baking", translation: "выпечка", transcription: "[ˈbeɪkɪŋ]" },
+                    { word: "finger", correct: "finger", translation: "палец", transcription: "[ˈfɪŋɡər]" },
+                    { word: "morning", correct: "morning", translation: "утро", transcription: "[ˈmɔːrnɪŋ]" },
+
                 ],
                 incorrectExamples: [
                     { word: "name", transcription: "[neɪm]" },
@@ -466,11 +914,12 @@
                 ]
             },
             {
-                transcriptionButton: "[ʒ]",
+                transcriptionButton: "[ʒ]", ////// 19
                 correctExamples: [
-                    { word: "vision", transcription: "[vɪʒn]" },
-                    { word: "collision", transcription: "[kɒlɪʒn]" },
-                    { word: "division", transcription: "[dɪvɪʒn]" }
+                    { word: "vision", correct: "vision", translation: "зрение", transcription: "[ˈvɪʒn]" },
+                    { word: "collision", correct: "collision", translation: "столкновение", transcription: "[kəˈlɪʒn]" },
+                    { word: "division", correct: "division", translation: "подразделение", transcription: "[dɪˈvɪʒn]" },
+
                 ],
                 incorrectExamples: [
                     { word: "zip", transcription: "[zɪp]" },
@@ -482,27 +931,40 @@
                 ]
             },
             {
-                transcriptionButton: "[ɑː]",
+                transcriptionButton: "[ɑː]", /////// 20
                 correctExamples: [
-                    { word: "car", transcription: "[kɑːr]" },
-                    { word: "star", transcription: "[stɑːr]" },
-                    { word: "cigar", transcription: "[sɪˈɡɑːr]" }
+                    { word: "car", correct: "car", translation: "автомобиль", transcription: "[kɑːr]" },
+                    { word: "star", correct: "star", translation: "звезда", transcription: "[stɑːr]" },
+                    { word: "cigar", correct: "cigar", translation: "сигара", transcription: "[sɪˈɡɑːr]" },
+
                 ],
                 incorrectExamples: [
-                    { word: "finger", transcription: "[fɪŋgə]" },
-                    { word: "driver", transcription: "[draɪvə]" },
-                    { word: "flat", transcription: "[flæt]" },
-                    { word: "map", transcription: "[mæp]" },
-                    { word: "sport", transcription: "[spɔːt]" },
-                    { word: "north", transcription: "[nɔːθ]" }
+                    { word: "sand", correct: "sand", translation: "песок", transcription: "[sænd]" },
+                    { word: "flat", correct: "flat", translation: "квартира", transcription: "[flæt]" },
+                    { word: "bag", correct: "bag", translation: "сумка", transcription: "[bæɡ]" },
+                    { word: "fantasy", correct: "fantasy", translation: "фантазия", transcription: "[ˈfæntəsi]" },
+                    { word: "cat", correct: "cat", translation: "кот", transcription: "[kæt]" },
+                    { word: "examine", correct: "examine", translation: "экзамен", transcription: "[ɪɡˈzæmɪn]" },
+                    { word: "example", correct: "example", translation: "пример", transcription: "[ɪɡˈzæmpəl]" },
+                    { word: "van", correct: "van", translation: "вагон", transcription: "[væn]" },
+                    { word: "map", correct: "map", translation: "карта", transcription: "[mæp]" },
+                    { word: "hand", correct: "hand", translation: "рука", transcription: "[hænd]" },
+                    { word: "hat", correct: "hat", translation: "шапка", transcription: "[hæt]" },
+                    { word: "sister", correct: "sister", translation: "сестра", transcription: "[ˈsɪstər]" },
+                    { word: "finger", correct: "finger", translation: "палец", transcription: "[ˈfɪŋɡər]" },
+                    { word: "driver", correct: "driver", translation: "водитель", transcription: "[ˈdraɪvər]" },
+                    { word: "girl", correct: "girl", translation: "девушка", transcription: "[ɡɜːrl]" },
+                    { word: "bird", correct: "bird", translation: "птица", transcription: "[bɜːrd]" },
+                    { word: "skirt", correct: "skirt", translation: "платье", transcription: "[skɜːrt]" },
                 ]
             },
             {
-                transcriptionButton: "[ə]",
+                transcriptionButton: "[ə]", //////// 21
                 correctExamples: [
-                    { word: "sister", transcription: "[sɪstə]" },
-                    { word: "finger", transcription: "[fɪŋgə]" },
-                    { word: "driver", transcription: "[draɪvə]" }
+                    { word: "sister", correct: "sister", translation: "сестра", transcription: "[ˈsɪstər]" },
+                    { word: "finger", correct: "finger", translation: "палец", transcription: "[ˈfɪŋɡər]" },
+                    { word: "driver", correct: "driver", translation: "водитель", transcription: "[ˈdraɪvər]" },
+
                 ],
                 incorrectExamples: [
                     { word: "car", transcription: "[kɑːr]" },
@@ -510,15 +972,19 @@
                     { word: "cigar", transcription: "[sɪˈɡɑːr]" },
                     { word: "legs", transcription: "[legz]" },
                     { word: "nest", transcription: "[nest]" },
-                    { word: "desk", transcription: "[desk]" }
+                    { word: "desk", transcription: "[desk]" },
+                     { word: "girl", correct: "girl", translation: "девушка", transcription: "[ɡɜːrl]" },
+                    { word: "bird", correct: "bird", translation: "птица", transcription: "[bɜːrd]" },
+                    { word: "skirt", correct: "skirt", translation: "платье", transcription: "[skɜːrt]" },
                 ]
             },
             {
-                transcriptionButton: "[ɔː]",
+                transcriptionButton: "[ɔː]", /// 22
                 correctExamples: [
-                    { word: "sport", transcription: "[spɔːt]" },
-                    { word: "morning", transcription: "[mɔːnɪŋ]" },
-                    { word: "north", transcription: "[nɔːθ]" }
+                    { word: "sport", correct: "sport", translation: "спорт", transcription: "[spɔːrt]" },
+                    { word: "morning", correct: "morning", translation: "утро", transcription: "[ˈmɔːrnɪŋ]" },
+                    { word: "north", correct: "north", translation: "север", transcription: "[nɔːrθ]" },
+
                 ],
                 incorrectExamples: [
                     { word: "sister", transcription: "[sɪstə]" },
@@ -526,15 +992,23 @@
                     { word: "driver", transcription: "[draɪvə]" },
                     { word: "girl", transcription: "[ɡɜ:l]" },
                     { word: "bird", transcription: "[bɜ:d]" },
-                    { word: "skirt", transcription: "[skɜ:t]" }
+                    { word: "skirt", transcription: "[skɜ:t]" },
+                    { word: "dog", correct: "dog", translation: "пес", transcription: "[dɒɡ]" },
+                    { word: "pot", correct: "pot", translation: "горшок", transcription: "[pɒt]" },
+                    { word: "top", correct: "top", translation: "вершина", transcription: "[tɒp]" },
+                    { word: "shop", correct: "shop", translation: "магазин" },
+                    { word: "fox", correct: "fox", translation: "лиса", transcription: "/fɒks/" },
+                    { word: "moth", correct: "moth", translation: "мотылек", transcription: "/mɒθ/" },
+                    { word: "job", correct: "job", translation: "работа", transcription: "[dʒɒb]" },
                 ]
             },
             {
-                transcriptionButton: "[ɜ:]",
+                transcriptionButton: "[ɜ:]", //// 23
                 correctExamples: [
-                    { word: "girl", transcription: "[ɡɜ:l]" },
-                    { word: "bird", transcription: "[bɜ:d]" },
-                    { word: "skirt", transcription: "[skɜ:t]" }
+                    { word: "girl", correct: "girl", translation: "девушка", transcription: "[ɡɜːrl]" },
+                    { word: "bird", correct: "bird", translation: "птица", transcription: "[bɜːrd]" },
+                    { word: "skirt", correct: "skirt", translation: "платье", transcription: "[skɜːrt]" },
+
                 ],
                 incorrectExamples: [
                     { word: "sport", transcription: "[spɔːt]" },
@@ -546,11 +1020,12 @@
                 ]
             },
             {
-                transcriptionButton: "[ʊ]",
+                transcriptionButton: "[ʊ]", ///// 24
                 correctExamples: [
-                    { word: "book", transcription: "[bʊk]" },
-                    { word: "look", transcription: "[lʊk]" },
-                    { word: "room", transcription: "[ruːm]" }
+                    { word: "book", correct: "book", translation: "книга", transcription: "[bʊk]" },
+                    { word: "look", correct: "look", translation: "взгляд", transcription: "[lʊk]" },
+                    { word: "foot", correct: "foot", translation: "стопа", transcription: "[fʊt]" },
+
                 ],
                 incorrectExamples: [
                     { word: "mouth", transcription: "[maʊθ]" },
@@ -561,35 +1036,18 @@
                     { word: "bus", transcription: "[bʌs]" }
                 ]
             },
-            {
-                transcriptionButton: "[uː]",
-                correctExamples: [
-                    { word: "moon", transcription: "[muːn]" },
-                    { word: "spoon", transcription: "[spuːn]" },
-                    { word: "bamboo", transcription: "[bæmˈbuː]" },
-                    { word: "tube", transcription: "[uː]" },
-                    { word: "duty", transcription: "[uː]" },
-                    { word: "music", transcription: "[uː]" }
-                ],
-                incorrectExamples: [
-                    { word: "quest", transcription: "[kwest]" },
-                    { word: "queen", transcription: "[kwiːn]" },
-                    { word: "squirrel", transcription: "[skwɪrəl]" },
-                    { word: "gun", transcription: "[gʌn]" },
-                    { word: "cute", transcription: "[kju:t]" },
-                    { word: "sun", transcription: "[sʌn]" }
-                ]
-            },
+
 
             {
-                transcriptionButton: "[ɔɪ]",
+                transcriptionButton: "[ɔɪ]", //////// 25
                 correctExamples: [
-                    { word: "coin", transcription: "[kɔɪn]" },
-                    { word: "voice", transcription: "[vɔɪs]" },
-                    { word: "oil", transcription: "[ɔɪl]" },
-                    { word: "boy", transcription: "[bɔɪ]" },
-                    { word: "toy", transcription: "[tɔɪ]" },
-                    { word: "joy", transcription: "[dʒɔɪ]" }
+                    { word: "coin", correct: "coin", translation: "монета", transcription: "[kɔɪn]" },
+                    { word: "voice", correct: "voice", translation: "голос", transcription: "[vɔɪs]" },
+                    { word: "oil", correct: "oil", translation: "масло", transcription: "[ɔɪl]" },
+                    { word: "boy", correct: "boy", translation: "мальчик", transcription: "[bɔɪ]" },
+                    { word: "toy", correct: "toy", translation: "игрушка", transcription: "[tɔɪ]" },
+                    { word: "joy", correct: "joy", translation: "радость", transcription: "[dʒɔɪ]" },
+
                 ],
                 incorrectExamples: [
                     { word: "sport", transcription: "[spɔːt]" },
@@ -602,36 +1060,15 @@
             },
 
             {
-                transcriptionButton: "[iː]",
+                transcriptionButton: "[aʊ]", ///// 26
                 correctExamples: [
-                    { word: "green", transcription: "[gri:n]" },
-                    { word: "cheese", transcription: "[tʃi:z]" },
-                    { word: "tree", transcription: "[tri:]" },
-                    { word: "tea", transcription: "[ti:]" },
-                    { word: "sea", transcription: "[si:]" },
-                    { word: "please", transcription: "[pli:z]" },
-                    { word: "be", transcription: "[bi:]" },
-                    { word: "leo", transcription: "[li:ou]" },
-                    { word: "me", transcription: "[mi:]" }
-                ],
-                incorrectExamples: [
-                    { word: "city", transcription: "[sɪtɪ]" },
-                    { word: "fantasy", transcription: "[fæntəsɪ]" },
-                    { word: "enemy", transcription: "[enəmɪ]" },
-                    { word: "kid", transcription: "[kɪd]" },
-                    { word: "zip", transcription: "[zɪp]" },
-                    { word: "pig", transcription: "[pɪg]" }
-                ]
-            },
-            {
-                transcriptionButton: "[aʊ]",
-                correctExamples: [
-                    { word: "mouth", transcription: "[maʊθ]" },
-                    { word: "cloud", transcription: "[klaʊd]" },
-                    { word: "house", transcription: "[haʊz]" },
-                    { word: "town", transcription: "[taʊn]" },
-                    { word: "crown", transcription: "[kraʊn]" },
-                    { word: "brown", transcription: "[braʊn]" }
+                    { word: "mouth", correct: "mouth", translation: "рот", transcription: "[maʊθ]" },
+                    { word: "cloud", correct: "cloud", translation: "облако", transcription: "[klaʊd]" },
+                    { word: "house", correct: "house", translation: "дом", transcription: "[haʊs]" },
+                    { word: "town", correct: "town", translation: "город", transcription: "[taʊn]" },
+                    { word: "crown", correct: "crown", translation: "корона", transcription: "[kraʊn]" },
+                    { word: "brown", correct: "brown", translation: "коричневый", transcription: "[braʊn]" },
+
                 ],
                 incorrectExamples: [
                     { word: "bike", transcription: "[baɪk]" },
@@ -643,37 +1080,14 @@
                 ]
             },
 
+
             {
-                transcriptionButton: "[oʊ]",
+                transcriptionButton: "[ɪə]", ///////////// 27
                 correctExamples: [
-                    { word: "snow", transcription: "[snoʊ]" },
-                    { word: "pillow", transcription: "[piloʊ]" },
-                    { word: "flow", transcription: "[floʊ]" },
-                    { word: "note", transcription: "[nəʊt]" },
-                    { word: "nose", transcription: "[nəʊz]" },
-                    { word: "smoke", transcription: "[sməʊk]" },
-                    { word: "note", transcription: "[əʊ]" },
-                    { word: "nose", transcription: "[əʊ]" },
-                    { word: "smoke", transcription: "[əʊ]" },
-                ],
-                incorrectExamples: [
-                    { word: "dog", transcription: "[dɒg]" },
-                    { word: "pot", transcription: "[pɒt]" },
-                    { word: "top", transcription: "[tɒp]" },
-                    { word: "book", transcription: "[bʊk]" },
-                    { word: "look", transcription: "[lʊk]" },
-                    { word: "room", transcription: "[ruːm]" },
-                    { word: "sport", transcription: "[spɔːt]" },
-                    { word: "morning", transcription: "[mɔːnɪŋ]" },
-                    { word: "north", transcription: "[nɔːθ]" }
-                ]
-            },
-            {
-                transcriptionButton: "[ɪə]",
-                correctExamples: [
-                    { word: "ear", transcription: "[ɪə]" },
-                    { word: "fear", transcription: "[fɪə]" },
-                    { word: "year", transcription: "[jɪə]" }
+                    { word: "ear", correct: "ear", translation: "ухо", transcription: "[ɪə]" },
+                    { word: "fear", correct: "fear", translation: "страх", transcription: "[fɪə]" },
+                    { word: "year", correct: "year", translation: "год", transcription: "[jɪə]" },
+
                 ],
                 incorrectExamples: [
                     { word: "tea", transcription: "[ti:]" },
@@ -685,11 +1099,12 @@
                 ]
             },
             {
-                transcriptionButton: "[ʊə]",
+                transcriptionButton: "[ʊə]",  ////// 28
                 correctExamples: [
-                    { word: "cure", transcription: "[ʊə]" },
-                    { word: "pure", transcription: "[ʊə]" },
-                    { word: "sure", transcription: "[ʊə]" }
+                    { word: "cure", correct: "cure", translation: "лечение", transcription: "[kjʊə]" },
+                    { word: "pure", correct: "pure", translation: "беспримесный", transcription: "[pjʊə]" },
+                    { word: "sure", correct: "sure", translation: "уверенный", transcription: "[ʃʊə]" },
+
                 ],
                 incorrectExamples: [
                     { word: "ear", transcription: "[ɪə]" },
@@ -702,11 +1117,12 @@
                 ]
             },
             {
-                transcriptionButton: "[eə]",
+                transcriptionButton: "[eə]", //// 29
                 correctExamples: [
-                    { word: "air", transcription: "[eə]" },
-                    { word: "chair", transcription: "[eə]" },
-                    { word: "hair", transcription: "[eə]" }
+                    { word: "air", correct: "air", translation: "воздух", transcription: "[eər]" },
+                    { word: "chair", correct: "chair", translation: "стул", transcription: "[tʃeər]" },
+                    { word: "hair", correct: "hair", translation: "волосы", transcription: "[heər]" }
+
                 ],
                 incorrectExamples: [
                     { word: "ear", transcription: "[ɪə]" },
@@ -719,208 +1135,8 @@
                 ]
             },
 
-            {
-                transcriptionButton: "[eɪ]",
-                correctExamples: [
-                    { word: "lake", transcription: "[eɪ]" },
-                    { word: "game", transcription: "[eɪ]" },
-                    { word: "blaze", transcription: "[eɪ]" },
-                ],
-                incorrectExamples: [
-                    { word: "sand", transcription: "[æ]" },
-                    { word: "flat", transcription: "[æ]" },
-                    { word: "bag", transcription: "[æ]" },
-                    { word: "car", transcription: "[kɑːr]" },
-                    { word: "star", transcription: "[stɑːr]" },
-                    { word: "cigar", transcription: "[sɪˈɡɑːr]" }
-                ]
-            },
-
-            {
-                transcriptionButton: "[æ]",
-                correctExamples: [
-                    { word: "sand", transcription: "[æ]" },
-                    { word: "flat", transcription: "[æ]" },
-                    { word: "bag", transcription: "[æ]" },
-                ],
-                incorrectExamples: [
-                    { word: "lake", transcription: "[eɪ]" },
-                    { word: "game", transcription: "[eɪ]" },
-                    { word: "blaze", transcription: "[eɪ]" },
-                    { word: "car", transcription: "[kɑːr]" },
-                    { word: "star", transcription: "[stɑːr]" },
-                    { word: "cigar", transcription: "[sɪˈɡɑːr]" },
-
-                ]
-            },
-
-            {
-                transcriptionButton: "[e]",
-                correctExamples: [
-                    { word: "legs", transcription: "[e]" },
-                    { word: "nest", transcription: "[e]" },
-                    { word: "desk", transcription: "[e]" },
-                ],
-                incorrectExamples: [
-                    { word: "lake", transcription: "[eɪ]" },
-                    { word: "game", transcription: "[eɪ]" },
-                    { word: "blaze", transcription: "[eɪ]" },
-                    { word: "sand", transcription: "[æ]" },
-                    { word: "flat", transcription: "[æ]" },
-                    { word: "bag", transcription: "[æ]" },
-
-                ]
-            },
 
 
-            {
-                transcriptionButton: "[aɪ]",
-                correctExamples: [
-                    { word: "bike", transcription: "[aɪ]" },
-                    { word: "five", transcription: "[aɪ]" },
-                    { word: "smile", transcription: "[aɪ]" },
-                    { word: "my", transcription: "[aɪ]" },
-                    { word: "fly", transcription: "[aɪ]" },
-                    { word: "sky", transcription: "[aɪ]" },
-                ],
-                incorrectExamples: [
-                    { word: "kid", transcription: "[ɪ]" },
-                    { word: "zip", transcription: "[ɪ]" },
-                    { word: "pig", transcription: "[ɪ]" },
-                    { word: "lake", transcription: "[eɪ]" },
-                    { word: "game", transcription: "[eɪ]" },
-                    { word: "blaze", transcription: "[eɪ]" },
-
-                ]
-            },
-
-
-            {
-                transcriptionButton: "[ɪ]",
-                correctExamples: [
-                    { word: "kid", transcription: "[ɪ]" },
-                    { word: "zip", transcription: "[ɪ]" },
-                    { word: "pig", transcription: "[ɪ]" },
-                    { word: "city", transcription: "[ɪ]" },
-                    { word: "fantasy", transcription: "[ɪ]" },
-                    { word: "enemy", transcription: "[ɪ]" },
-                ],
-                incorrectExamples: [
-                    { word: "bike", transcription: "[aɪ]" },
-                    { word: "five", transcription: "[aɪ]" },
-                    { word: "smile", transcription: "[aɪ]" },
-                    { word: "green", transcription: "[gri:n]" },
-                    { word: "cheese", transcription: "[tʃi:z]" },
-                    { word: "tree", transcription: "[tri:]" },
-
-                ]
-            },
-            {
-                transcriptionButton: "[ɒ]",
-                correctExamples: [
-                    { word: "dog", transcription: "[ɒ]" },
-                    { word: "pot", transcription: "[ɒ]" },
-                    { word: "top", transcription: "[ɒ]" },
-
-                ],
-                incorrectExamples: [
-                    { word: "snow", transcription: "[snoʊ]" },
-                    { word: "pillow", transcription: "[piloʊ]" },
-                    { word: "flow", transcription: "[floʊ]" },
-                    { word: "note", transcription: "[nəʊt]" },
-                    { word: "nose", transcription: "[nəʊz]" },
-                    { word: "smoke", transcription: "[sməʊk]" },
-                    { word: "note", transcription: "[əʊ]" },
-                    { word: "nose", transcription: "[əʊ]" },
-                    { word: "smoke", transcription: "[əʊ]" },
-
-                ]
-            },
-
-            {
-                transcriptionButton: "[ʌ]",
-                correctExamples: [
-                    { word: "mum", transcription: "[ʌ]" },
-                    { word: "gun", transcription: "[ʌ]" },
-                    { word: "bus", transcription: "[ʌ]" },
-                ],
-                incorrectExamples: [
-                    { word: "car", transcription: "[kɑːr]" },
-                    { word: "star", transcription: "[stɑːr]" },
-                    { word: "cigar", transcription: "[sɪˈɡɑːr]" },
-                    { word: "sand", transcription: "[æ]" },
-                    { word: "flat", transcription: "[æ]" },
-                    { word: "bag", transcription: "[æ]" },
-
-                ]
-            },
-
-            {
-                transcriptionButton: "[dʒ]",
-                correctExamples: [
-                    { word: "gym" },
-                    { word: "general" },
-                    { word: "gel" },
-                    { word: "job" },
-                    { word: "joy" },
-                    { word: "gel" },
-
-                ],
-                incorrectExamples: [
-                    { word: "game" },
-                    { word: "gun" },
-                    { word: "gold" },
-                    { word: "legs" },
-                    { word: "pig" },
-                    { word: "dog" },
-
-                ]
-            },
-
-            {
-                transcriptionButton: "[w]",
-                correctExamples: [
-                    { word: "wine" },
-                    { word: "we" },
-                    { word: "way" },
-
-
-                ],
-                incorrectExamples: [
-                    { word: "town" },
-                    { word: "crown" },
-                    { word: "brown" },
-                    { word: "snow" },
-                    { word: "pillow" },
-                    { word: "flow" },
-
-                ]
-            },
-
-            {
-                transcriptionButton: "[j]",
-                correctExamples: [
-                    { word: "tube", transcription: "[j]" },
-                    { word: "duty", transcription: "[j]" },
-                    { word: "music", transcription: "[j]" },
-                    { word: "yellow", transcription: "[j]" },
-                    { word: "yes", transcription: "[j]" },
-                    { word: "you", transcription: "[j]" },
-
-
-                ],
-                incorrectExamples: [
-                    { word: "job" },
-                    { word: "joy" },
-                    { word: "gel" },
-                    { word: "way" },
-                    { word: "oil", transcription: "[ɔɪl]" },
-                    { word: "boy", transcription: "[bɔɪ]" },
-                    { word: "toy", transcription: "[tɔɪ]" },
-                    { word: "joy", transcription: "[dʒɔɪ]" }
-
-                ]
-            },
 
 
 
