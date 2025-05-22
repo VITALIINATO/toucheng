@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <title>English Sounds</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Charis+SIL&display=swap " rel="stylesheet">
-    <style>
+ <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
+
         body {
             margin: 0;
             padding: 0;
             background: transparent;
             overflow: hidden;
+
+
         }
+
         .container {
+
             z-index: 10;
+
+
+
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -26,6 +35,7 @@
             height: calc(100vw * 16 / 9);
             max-height: 100vh;
             max-width: calc(100vh * 9 / 16);
+
             background: linear-gradient(180deg, #0f0f0f, #3b3b3b);
             border-radius: 20px;
             box-shadow: 0 0 120px rgba(0, 255, 255, 0.2);
@@ -36,13 +46,24 @@
             overflow: hidden;
             position: absolute;
             padding-bottom: 10px;
+
         }
+
         .carousel-wrapper {
             position: relative;
+            /* width: calc(100% - 10px); */
             width: auto;
             height: auto;
+            /* height: calc(100% - 10px); */
+            margin-right: 10px;
+            overflow: hidden;
+            /* Добавляем скрытие переполнения */
+
+            /* padding-bottom: 10px; */
+            /* margin-bottom: 10px; */
             margin-left: 10px;
         }
+
         h1,
         h2 {
             text-align: center;
@@ -52,11 +73,15 @@
             margin-bottom: 16px;
             font-size: 1.5rem;
         }
+
         .sound {
+
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* gap: 16px; */
         }
+
         .transcription-button {
             font-family: 'Charis SIL';
             position: relative;
@@ -65,7 +90,9 @@
             align-items: center;
             justify-content: center;
             width: auto;
+            /* max-width: 240px; */
             height: 60px;
+
             cursor: pointer;
             border: none;
             border-radius: 15px;
@@ -75,12 +102,15 @@
             color: #ffaa00;
             margin-top: 20px;
         }
+
         .transcription-symbol {
             font-family: 'Charis SIL';
             font-size: 40px;
             font-weight: bold;
             padding: 20px;
+            /* letter-spacing: 1px; */
         }
+
         .tooltip {
             z-index: 10;
             background: #0f0f0f;
@@ -102,81 +132,119 @@
             visibility: hidden;
             pointer-events: none;
         }
+
         .transcription-button:hover .tooltip,
         .transcription-button:focus .tooltip {
             opacity: 1;
             visibility: visible;
             transition-delay: 0.3s;
         }
+
         .examples-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-top: 50px;
+
         }
+
         .example-section {
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
             width: 100%;
+
         }
+
         .example-button {
+
+            grid-template-rows: auto auto auto;
             width: 100%;
             max-width: 400px;
             background: transparent;
             border: none;
             border-radius: 15px;
+            /* padding: 20px; */
             text-align: center;
             transition: all 0.3s ease;
+            /* box-shadow: 0 0 10px rgba(0, 255, 255, 0.2); */
             color: #ffffff;
             font-size: 18px;
             cursor: pointer;
             position: relative;
+            /* row-gap: 10px;  */
+
         }
+
         .word {
+
+
             font-size: 30px;
             font-weight: bold;
             color: #00ffff;
         }
+
         .highlighted {
             color: #ffaa00;
         }
+
         .transcription {
+
             font-size: 30px;
             color: #00ffaa;
+
         }
+
         .translation {
+
             font-size: 20px;
             color: #cccccc;
             font-style: italic;
+
+
         }
+
         .nav-buttons {
             display: flex;
+
             justify-content: space-between;
+            /* Равномерное распределение */
             gap: 150px;
             width: 100%;
+            /* Занимает всю ширину родителя */
+            /* padding: 10px; */
+            /* margin: 0px; */
         }
+
         .nav-buttons button {
             flex: 1;
+            /* padding: 10px 10px; */
+            /* font-size: 14px; */
             background: transparent;
             color: #00aaaa;
             border: none;
             border-radius: 15px;
             cursor: pointer;
             font-weight: bold;
+            /* box-shadow: 0 0 10px #00ffff, 0 0 10px #00ffff; */
             transition: all 0.3s ease;
         }
+
         .nav-buttons button:hover {
             transform: scale(1.05) rotate(0deg);
             box-shadow: 0 0 10px #00ffff, 0 0 10px #00ffff;
             background: linear-gradient(145deg, #00aaaa, #00ffff);
         }
+
+
         .slides-container {
             display: flex;
             transition: transform 0.5s ease-in-out;
             width: 100%;
+
         }
+
         .slide {
             display: grid;
             grid-template-columns: repeat(6, minmax(40px, 1fr));
@@ -184,8 +252,11 @@
             width: 100%;
             flex-shrink: 0;
             min-width: 100%;
+            /* Добавляем минимальную ширину */
         }
+
         .nav-item {
+
             padding: 5px;
             background: linear-gradient(145deg, #111111, #1e1e1e);
             color: #00ffff;
@@ -195,7 +266,9 @@
             font-size: 18px;
             transition: all 0.3s ease;
             box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+
         }
+
         .nav-item:hover,
         .nav-item.active {
             background: linear-gradient(145deg, #00ffff, #00aaaa);
@@ -203,11 +276,21 @@
             box-shadow: 0 0 2px #00ffff, 0 0 2px #00ffff;
             transform: scale(1.05);
         }
+
         .carousel-controls {
             display: flex;
+
+
+            /* margin-top: 10px;
+            margin-bottom: 10px; */
             justify-content: space-between;
+            /* Равномерное распределение */
+
             width: 100%;
+            /* Занимает всю ширину родителя */
+            /* padding: 10px; */
         }
+
         .carousel-btn {
             background: transparent;
             color: #00ffff;
@@ -218,48 +301,61 @@
             font-size: 18px;
             transition: all 0.3s ease;
         }
+
         .carousel-btn:hover {
             background: linear-gradient(145deg, #00ffff, #00aaaa);
             color: #000;
             transform: scale(1.1);
         }
+
         @media (max-width: 480px) {
             .transcription-button {
                 height: 80px;
                 font-size: 20px;
                 margin-bottom: 10px;
             }
+
             .transcription-symbol {
                 font-size: 40px;
             }
+
             .word {
                 font-size: 1.5em;
             }
+
             .transcription {
                 font-size: 1.1em;
             }
+
             .translation {
                 font-size: 0.9em;
             }
+
             .nav-buttons {
                 max-width: 100%;
             }
+
             .nav-buttons button {
                 font-size: 1rem;
+                /* padding: 10px 12px; */
             }
+
             .slide {
                 gap: 6px;
             }
+
             .nav-item {
                 font-size: 16px;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="sound">
-            <button class="transcription-button" onclick="playSound(sounds[currentIndex].soundFile)" id="transcriptionButton"></button>
+            <button class="transcription-button" onclick="playSound(sounds[currentIndex].soundFile)"
+                id="transcriptionButton"></button>
         </div>
         <div class="examples-container">
             <div class="example-section">
@@ -269,7 +365,9 @@
                     <span class="translation" id="wordTransl"></span>
                 </button>
                 <div style="text-align: center; margin: 20px 0;">
-                    <img id="centeredImage" src="" alt="Пример изображения" style="width: 150px; height: 150px; display: none; border-radius: 15px; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.1);" onclick="nextExample()" />
+                    <img id="centeredImage" src="" alt="Пример изображения"
+                        style="width: 150px; height: 150px; display: none; border-radius: 15px; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.1);"
+                        onclick="nextExample()" />
                 </div>
                 <div class="nav-buttons">
                     <button onclick="prevSound()">Назад</button>
@@ -281,665 +379,629 @@
             <div class="carousel-controls">
                 <button class="carousel-btn" onclick="prevSlide()">←</button>
                 <button class="carousel-btn" onclick="nextSlide()">→</button>
+
             </div>
             <div class="full-nav" id="fullNav"></div>
+
         </div>
+
     </div>
     <audio id="audioPlayer"></audio>
     <script>
         const sounds = [
+
             {
                 soundFile: "b.mp3",
-                alphabetSoundFile: "B-b.mp3",
+                alphabetSoundFile: "B-b.mp3", // Файл для алфавита
                 tooltip: "близок русскому звуку [ б ], но энергичнее, с бо́льшим напряжением губ",
-                alphabetButton: "Bb",
-                transcriptionButton: "b",
-                examples: [
-                    { example: "baby", word: "b", transcription: "['beɪbɪ]", translation: "малыш", image: "baby.jpg" },
-                    { example: "bag", word: "b", transcription: "[bæg]", translation: "сумка", image: "bag.jpg" },
-                    { example: "bike", word: "b", transcription: "[baɪk]", translation: "велосипед", image: "bike.jpg" }
-                ]
+
+                alphabetButton: "Bb", // Название буквы
+                transcriptionButton: "b", // Транскрипция
+                example1: "baby", word1: "b", transcription1: "['beɪbɪ]", translation1: "малыш ", image1: "baby.jpg",
+                example2: "bag", word2: "b", transcription2: "[bæg]", translation2: "сумка", image2: "bag.jpg",
+                example3: "bike", word3: "b", transcription3: "[baɪk]", translation3: "велосипед", image3: "bike.jpg",
             },
+
             {
                 soundFile: "p.mp3",
-                alphabetSoundFile: "P-p.mp3",
+                alphabetSoundFile: "P-p.mp3", // Файл для алфавита
                 tooltip: "близок русскому звуку [ п ], но энергичнее и с придыханием (губы сначала смыкаются, а потом резко размыкаются сильной струей воздуха)",
-                alphabetButton: "Pp",
-                transcriptionButton: "p",
-                examples: [
-                    { example: "pen", word: "p", transcription: "[pen]", translation: "ручка", image: "pen.jpg" },
-                    { example: "pet", word: "p", transcription: "[pet]", translation: "питомец", image: "pet.jpg" },
-                    { example: "plate", word: "p", transcription: "['pleɪt]", translation: "тарелка", image: "plate.jpg" }
-                ]
+                alphabetButton: "Pp", // Название буквы
+                transcriptionButton: "p", // Транскрипция
+                example1: "pen", word1: "p", transcription1: "[pen]", translation1: "ручка", image1: "pen.jpg",
+                example2: "pet", word2: "p", transcription2: "[pet]", translation2: "питомец", image2: "pet.jpg",
+                example3: "plate", word3: "p", transcription3: "['pleɪt]", translation3: "тарелка ", image3: "plate.jpg"
             },
+
             {
                 soundFile: "v.mp3",
-                alphabetSoundFile: "V-v.mp3",
+                alphabetSoundFile: "V-v.mp3", // Файл для алфавита
                 tooltip: "близок русскому звуку [ в ], но энергичнее, с бо́льшим напряжением губ",
-                alphabetButton: "Vv",
-                transcriptionButton: "v",
-                examples: [
-                    { example: "visit", word: "v", transcription: "[vɪzɪt]", translation: "визит", image: "visit.jpg" },
-                    { example: "van", word: "v", transcription: "[væn]", translation: "вагон", image: "van.jpg" },
-                    { example: "vine", word: "v", transcription: "['vaɪn]", translation: "лоза", image: "vine.jpg" }
-                ]
+                alphabetButton: "Vv", // Название буквы
+                transcriptionButton: "v", // Транскрипция
+                example1: "visit", word1: "v", transcription1: "[vɪzɪt]", translation1: "визит", image1: "visit.jpg",
+                example2: "van", word2: "v", transcription2: "[væn]", translation2: "вагон", image2: "van.jpg",
+                example3: "vine", word3: "v", transcription3: "['vaɪn]", translation3: "лоза", image3: "vine.jpg"
             },
+
             {
                 soundFile: "f.mp3",
-                alphabetSoundFile: "f-f.mp3",
+                alphabetSoundFile: "f-f.mp3", // Файл для алфавита
                 tooltip: "близок русскому звуку [ ф ], но энергичнее, с бо́льшим напряжением губ",
-                alphabetButton: "Ff",
-                transcriptionButton: "f",
-                examples: [
-                    { example: "flat", word: "f", transcription: "[flæt]", translation: "квартира", image: "flat.jpg" },
-                    { example: "face", word: "f", transcription: "[feɪs]", translation: "лицо", image: "face.jpg" },
-                    { example: "five", word: "f", transcription: "['faɪv]", translation: "5 (пять)", image: "five.jpg" }
-                ]
+                alphabetButton: "Ff", // Название буквы
+                transcriptionButton: "f", // Транскрипция
+                example1: "flat", word1: "f", transcription1: "[flæt]", translation1: "квартира", image1: "flat.jpg",
+                example2: "face", word2: "f", transcription2: "[feɪs]", translation2: "лицо", image2: "face.jpg",
+                example3: "five", word3: "f", transcription3: "['faɪv]", translation3: "5 (пять)  ", image3: "five.jpg"
             },
+
+
             {
                 soundFile: "m.mp3",
-                alphabetSoundFile: "M-m.mp3",
+                alphabetSoundFile: "M-m.mp3", // Файл для алфавита
                 tooltip: "близок русскому звуку [ м ], но энергичнее, с бо́льшим напряжением губ",
-                alphabetButton: "Mm",
-                transcriptionButton: "m",
-                examples: [
-                    { example: "map", word: "m", transcription: "[mæp]", translation: "карта", image: "map.jpg" },
-                    { example: "mum", word: "m", transcription: "[mʌm]", translation: "мама", image: "mum.jpg" },
-                    { example: "milk", word: "m", transcription: "['mɪlk]", translation: "молоко", image: "milk.jpg" }
-                ]
+                alphabetButton: "Mm", // Название буквы
+                transcriptionButton: "m", // Транскрипция
+                example1: "map", word1: "m", transcription1: "[mæp]", translation1: "карта", image1: "map.jpg",
+                example2: "mum", word2: "m", transcription2: "[mʌm]", translation2: "мама", image2: "mum.jpg",
+                example3: "milk", word3: "m", transcription3: "['mɪlk]", translation3: "молоко", image3: "milk.jpg"
             },
+
             {
                 soundFile: "z.mp3",
-                alphabetSoundFile: "Z-z.mp3",
+                alphabetSoundFile: "Z-z.mp3", // Файл для алфавита
                 tooltip: "близок русскому звуку [ з ], но более энергично, с бо́льшим напряжением языка",
-                alphabetButton: "Zz",
-                transcriptionButton: "z",
-                examples: [
-                    { example: "zip", word: "z", transcription: "[zɪp]", translation: "застежка", image: "zip.jpg" },
-                    { example: "zone", word: "z", transcription: "[zoun]", translation: "зона", image: "zone.jpg" },
-                    { example: "blaze", word: "z", transcription: "['bleɪz]", translation: "блеск", image: "blaze.jpg" }
-                ]
+                alphabetButton: "Zz", // Название буквы
+                transcriptionButton: "z", // Транскрипция
+                example1: "zip", word1: "z", transcription1: "[zɪp]", translation1: "застежка", image1: "zip.jpg",
+                example2: "zone", word2: "z", transcription2: "[zoun]", translation2: "зона", image2: "zone.jpg",
+                example3: "blaze", word3: "z", transcription3: "['bleɪz]", translation3: "блеск", image3: "blaze.jpg"
             },
+
             {
                 soundFile: "s.mp3",
-                alphabetSoundFile: "S-s.mp3",
-                tooltip: "близок русскому звуку [ с ], но более энергично, с бо́льшим напряжением языка",
                 alphabetButton: "Ss",
                 transcriptionButton: "s",
-                examples: [
-                    { example: "sand", word: "s", transcription: "[sænd]", translation: "песок", image: "sand.jpg" },
-                    { example: "sun", word: "s", transcription: "[sʌn]", translation: "солнце", image: "sun.jpg" },
-                    { example: "smile", word: "s", transcription: "[smile]", translation: "улыбка", image: "smile.jpg" }
-                ]
+                tooltip: "близок русскому звуку [ с ], но более энергично, с бо́льшим напряжением языка",
+                example1: "sand", word1: "s", transcription1: "[sænd]", translation1: "песок", image1: "sand.jpg",
+                example2: "sun", word2: "s", transcription2: "[sʌn]", translation2: "солнце", image2: "sun.jpg",
+                example3: "smile", word3: "s", transcription3: "['smaɪl]", translation3: "улыбка", image3: "smile.jpg"
             },
+
             {
-                soundFile: "g.mp3",
-                alphabetSoundFile: "G-g.mp3",
-                tooltip: "близок русскому звуку [ г ], но более энергично, с бо́льшим напряжением верхней части языка",
                 alphabetButton: "Gg",
+                alphabetSoundFile: "G-g.mp3",
+                soundFile: "g.mp3",
                 transcriptionButton: "g",
-                examples: [
-                    { example: "game", word: "g", transcription: "[geɪm]", translation: "игра", image: "game.jpg" },
-                    { example: "gold", word: "g", transcription: "[gould]", translation: "золото", image: "gold.jpg" },
-                    { example: "gun", word: "g", transcription: "[gʌn]", translation: "оружие", image: "gun.jpg" }
-                ]
+                tooltip: "близок русскому звуку [ г ], но более энергично, с бо́льшим напряжением верхней части языка",
+                example1: "game", word1: "g", transcription1: "[geɪm]", translation1: "игра", image1: "game.jpg",
+                example2: "gold", word2: "g", transcription2: "[gould]", translation2: "золото", image2: "gold.jpg",
+                example3: "gun", word3: "g", transcription3: "['gʌn]", translation3: "оружие", image3: "gun.jpg"
             },
+
             {
                 soundFile: "k.mp3",
-                alphabetSoundFile: "K-k.mp3",
+                alphabetSoundFile: "K-k.mp3", // Файл для алфавита
                 tooltip: "близок русскому звуку [ к ], но более энергично и с придыханием (верхняя часть языка и нёбо смыкаются, а потом резко размыкаются сильной струей воздуха)",
-                alphabetButton: "Kk",
-                transcriptionButton: "k",
-                examples: [
-                    { example: "kiss", word: "k", transcription: "[kɪs]", translation: "поцелуй", image: "kiss.jpg" },
-                    { example: "kid", word: "k", transcription: "[kid]", translation: "ребенок", image: "kid.jpg" },
-                    { example: "kite", word: "k", transcription: "[kite]", translation: "змей", image: "kite.jpg" }
-                ]
+                alphabetButton: "Kk", // Название буквы
+                transcriptionButton: "k", // Транскрипция
+                example1: "kiss", word1: "k", transcription1: "[kɪs]", translation1: "поцелуй", image1: "kiss.jpg",
+                example2: "kid", word2: "k", transcription2: "[kɪd]", translation2: "ребенок", image2: "kid.jpg",
+                example3: "kite", word3: "k", transcription3: "['kaɪt]", translation3: "змей", image3: "kite.jpg"
             },
+
             {
                 soundFile: "t.mp3",
-                alphabetSoundFile: "T-t.mp3",
+                alphabetSoundFile: "T-t.mp3", // Файл для алфавита
                 tooltip: "отличается от русского звука [ т ], тем, что кончик языка приподнят, смыкается с альвеолами (бугорками верхнего нёба, расположенными за верхними зубами), а потом резко размыкается сильной струей воздуха",
-                alphabetButton: "Tt",
-                transcriptionButton: "t",
-                examples: [
-                    { example: "table", word: "t", transcription: "[teɪbl]", translation: "стол", image: "table.jpg" },
-                    { example: "tube", word: "t", transcription: "[tju:b]", translation: "труба", image: "tube.jpg" },
-                    { example: "top", word: "t", transcription: "[tɒp]", translation: "вершина", image: "top.jpg" }
-                ]
+                alphabetButton: "Tt", // Название буквы
+                transcriptionButton: "t", // Транскрипция
+                example1: "table", word1: "t", transcription1: "[teɪbl]", translation1: "стол", image1: "table.jpg",
+                example2: "tube", word2: "t", transcription2: "[tju:b]", translation2: "труба", image2: "tube.jpg",
+                example3: "top", word3: "t", transcription3: "['tɒp]", translation3: "вершина", image3: "top.jpg"
             },
+
+
             {
                 soundFile: "d.mp3",
-                alphabetSoundFile: "D-d.mp3",
+                alphabetSoundFile: "D-d.mp3", // Файл для алфавита
                 tooltip: "отличается от русского звука [ д ], тем, что кончик языка приподнят и касается альвеол – бугорков верхнего нёба, расположенных за верхними зубами",
-                alphabetButton: "Dd",
-                transcriptionButton: "d",
-                examples: [
-                    { example: "desk", word: "d", transcription: "[desk]", translation: "доска", image: "desk.jpg" },
-                    { example: "dog", word: "d", transcription: "[dɒg]", translation: "собака", image: "dog.jpg" },
-                    { example: "dad", word: "d", transcription: "[dæd]", translation: "папа", image: "dad.jpg" }
-                ]
+                alphabetButton: "Dd", // Название буквы
+                transcriptionButton: "d", // Транскрипция
+                example1: "desk", word1: "d", transcription1: "[desk]", translation1: "доска", image1: "desk.jpg",
+                example2: "dog", word2: "d", transcription2: "[dɒg]", translation2: "собака", image2: "dog.jpg",
+                example3: "dad", word3: "d", transcription3: "['dæd]", translation3: "папа", image3: "dad.jpg"
             },
+
             {
                 soundFile: "n.mp3",
-                alphabetSoundFile: "N-n.mp3",
-                tooltip: "отличается от русского звука [ н ], тем, что кончик языка приподнят и касается альвеол – бугорков верхнего нёба, расположенных за верхними зубами",
-                alphabetButton: "Nn",
-                transcriptionButton: "n",
-                examples: [
-                    { example: "name", word: "n", transcription: "[neɪm]", translation: "имя", image: "name.jpg" },
-                    { example: "nest", word: "n", transcription: "[nest]", translation: "гнездо", image: "nest.jpg" },
-                    { example: "nine", word: "n", transcription: "[naɪn]", translation: "девять (9)", image: "nine.jpg" }
-                ]
+                alphabetSoundFile: "N-n.mp3", // Файл для алфавита
+                tooltip: "отличается от русского звука [ н ], тем, что кончик языка приподнят и касается альвеол – бугорков верхнего нёба, расположенных за верхними зубами ",
+                alphabetButton: "Nn", // Название буквы
+                transcriptionButton: "n", // Транскрипция
+                example1: "name", word1: "n", transcription1: "[neɪm]", translation1: "имя", image1: "name.jpg",
+                example2: "nest", word2: "n", transcription2: "[nest]", translation2: "гнездо", image2: "nest.jpg",
+                example3: "nine", word3: "n", transcription3: "['naɪn]", translation3: "девять (9)", image3: "nine.jpg"
             },
+
             {
                 soundFile: "l.mp3",
-                alphabetSoundFile: "L-l.mp3",
-                tooltip: "отличается от русского звука [ л ], тем, что кончик языка приподнят и касается альвеол – бугорков верхнего нёба, расположенных за верхними зубами",
-                alphabetButton: "Ll",
-                transcriptionButton: "l",
-                examples: [
-                    { example: "lips", word: "l", transcription: "[lɪps]", translation: "губы", image: "lips.jpg" },
-                    { example: "lamp", word: "l", transcription: "[læmp]", translation: "лампа", image: "lamp.jpg" },
-                    { example: "lake", word: "l", transcription: "[leɪk]", translation: "озеро", image: "lake.jpg" }
-                ]
+                alphabetSoundFile: "L-l.mp3", // Файл для алфавита
+                tooltip: "отличается от русского звука [ л ], тем, что кончик языка приподнят и касается альвеол – бугорков верхнего нёба, расположенных за верхними зубами ",
+                alphabetButton: "Ll", // Название буквы
+                transcriptionButton: "l", // Транскрипция
+                example1: "lips", word1: "l", transcription1: "[lɪps]", translation1: "губы", image1: "lips.jpg",
+                example2: "lamp", word2: "l", transcription2: "[læmp]", translation2: "лампа", image2: "lamp.jpg",
+                example3: "lake", word3: "l", transcription3: "['leɪk]", translation3: "озеро", image3: "lake.jpg"
             },
+
+            // ====================================================================================================
+
             {
                 soundFile: "dj.mp3",
-                alphabetSoundFile: "J-j.mp3",
+                alphabetSoundFile: "J-j.mp3", // Файл для алфавита
                 tooltip: "русский звук [ дж ], [ ж ] - мягче",
-                alphabetButton: "Jj",
-                transcriptionButton: "dʒ",
-                examples: [
-                    { example: "joy", word: "dʒ", transcription: "[dʒɔɪ]", translation: "радость", image: "joy.jpg" },
-                    { example: "job", word: "dʒ", transcription: "[dʒɒb]", translation: "работа", image: "job.jpg" },
-                    { example: "jump", word: "dʒ", transcription: "[dʒʌmp]", translation: "прыжек", image: "jump.jpg" },
-                    { example: "gym", word: "dʒ", transcription: "[dʒɪm]", translation: "тренажерный зал", image: "gym.jpg" },
-                    { example: "general", word: "dʒ", transcription: "[ˈdʒenərəl]", translation: "генерал", image: "general.jpg" },
-                    { example: "gel", word: "dʒ", transcription: "[dʒel]", translation: "гель", image: "gel.jpg" }
-                ]
+                alphabetButton: "Jj", // Название буквы
+                transcriptionButton: "dʒ", // Транскрипция
+                example1: "joy", transcription1: "[dʒɔɪ]", translation1: "радость", image1: "joy.jpg",
+                example2: "job", transcription2: "[dʒɒb]", translation2: "работа", image2: "job.jpg",
+                example3: "jump", transcription3: "[dʒʌmp]", translation3: "прыжек", image3: "jump.jpg",
+                example4: "gym", transcription4: "[dʒɪm]", translation4: "тренажерный зал", image4: "gym.jpg",
+                example5: "general", transcription5: "[ˈdʒenərəl]", translation5: "генерал", image5: "general.jpg",
+                example6: "gel", transcription6: "[dʒel]", translation6: "гель", image6: "gel.jpg"
+
             },
+
+
+
             {
                 soundFile: "jj.mp3",
-                alphabetSoundFile: "Y-y.mp3",
+                alphabetSoundFile: "Y-y.mp3", // Файл для алфавита
                 tooltip: "русский звук [ й ]",
-                alphabetButton: "Yy",
-                transcriptionButton: "j",
-                examples: [
-                    { example: "tube", word: "j", transcription: "[tjuːb]", translation: "труба", image: "tube.jpg" },
-                    { example: "music", word: "j", transcription: "[ˈmjuːzɪk]", translation: "музыка", image: "music.jpg" },
-                    { example: "cute", word: "j", transcription: "[kjuːt]", translation: "милый", image: "cute.jpg" },
-                    { example: "yellow", word: "j", transcription: "[ˈjeləʊ]", translation: "желтый", image: "yellow.jpg" },
-                    { example: "yes", word: "j", transcription: "[jes]", translation: "да", image: "yes.jpg" },
-                    { example: "you", word: "j", transcription: "[juː]", translation: "ты", image: "you.jpg" }
-                ]
+                alphabetButton: "Yy", // Название буквы
+                transcriptionButton: "j", // Транскрипция
+                example1: "tube", transcription1: "[tjuːb]", translation1: "труба", image1: "tube.jpg",
+                example2: "music", transcription2: "[ˈmjuːzɪk]", translation2: "музыка", image2: "music.jpg",
+                example3: "cute", transcription3: "[kjuːt]", translation3: "милый", image3: "cute.jpg",
+                example4: "yellow", transcription4: "[ˈjeləʊ]", translation4: "желтый", image4: "yellow.jpg",
+                example5: "yes", transcription5: "[jes]", translation5: "да", image5: "yes.jpg",
+                example6: "you", transcription6: "[juː]", translation6: "ты", image6: "you.jpg"
             },
+
             {
                 soundFile: "h.mp3",
-                alphabetSoundFile: "H-h.mp3",
+                alphabetSoundFile: "H-h.mp3", // Файл для алфавита
                 tooltip: "близок русскому звуку [ х ], но почти беззвучен, как легкий выдох",
-                alphabetButton: "Hh",
-                transcriptionButton: "h",
-                examples: [
-                    { example: "hand", word: "h", transcription: "[hænd]", translation: "рука", image: "hand.jpg" },
-                    { example: "home", word: "h", transcription: "[hoʊm]", translation: "дом", image: "home.jpg" },
-                    { example: "hat", word: "h", transcription: "[hæt]", translation: "шапка", image: "hat.jpg" },
-                    { example: "house", word: "h", transcription: "[haʊs]", translation: "дом", image: "house.jpg" },
-                    { example: "hair", word: "h", transcription: "[heər]", translation: "волосы", image: "hair.jpg" }
-                ]
+                alphabetButton: "Hh", // Название буквы
+                transcriptionButton: "h", // Транскрипция
+                example1: "hand", transcription1: "[hænd]", translation1: "рука", image1: "hand.jpg",
+                example2: "home", transcription2: "[hoʊm]", translation2: "дом", image2: "home.jpg",
+                example3: "hat", transcription3: "[hæt]", translation3: "шапка", image3: "hat.jpg",
+                example4: "house", transcription4: "[haʊs]", translation4: "дом", image4: "house.jpg",
+                example5: "hair", transcription5: "[heər]", translation5: "волосы", image5: "hair.jpg"
             },
+
             {
                 soundFile: "w.mp3",
-                alphabetSoundFile: "W-w.mp3",
+                alphabetSoundFile: "W-w.mp3", // Файл для алфавита
                 tooltip: "губы округлены и слегка вытянуты вперед, как перед произнесением русского [ у ], а затем быстро и энергично произносится следующий гласный звук в слове после [ w ]",
-                alphabetButton: "Ww",
-                transcriptionButton: "w",
-                examples: [
-                    { example: "wine", word: "w", transcription: "[waɪn]", translation: "вино", image: "wine.jpg" },
-                    { example: "we", word: "w", transcription: "[wiː]", translation: "мы", image: "we.jpg" },
-                    { example: "way", word: "w", transcription: "[weɪ]", translation: "путь", image: "way.jpg" },
-                    { example: "quest", word: "w", transcription: "[kwest]", translation: "поиск", image: "quest.jpg" },
-                    { example: "queen", word: "w", transcription: "[kwiːn]", translation: "королева", image: "queen.jpg" },
-                    { example: "squirrel", word: "w", transcription: "[ˈskwɪrəl]", translation: "белка", image: "squirrel.jpg" }
-                ]
+                alphabetButton: "Ww", // Название буквы
+                transcriptionButton: "w", // Транскрипция
+                example1: "wine", transcription1: "[waɪn]", translation1: "вино", image1: "wine.jpg",
+                example2: "we", transcription2: "[wiː]", translation2: "мы", image2: "we.jpg",
+                example3: "way", transcription3: "[weɪ]", translation3: "путь", image3: "way.jpg",
+                example4: "quest", transcription4: "[kwest]", translation4: "поиск", image4: "quest.jpg",
+                example5: "queen", transcription5: "[kwiːn]", translation5: "королева", image5: "queen.jpg",
+                example6: "squirrel", transcription6: "[ˈskwɪrəl]", translation6: "белка", image6: "squirrel.jpg"
             },
+
             {
                 soundFile: "r.mp3",
-                alphabetSoundFile: "R-r.mp3",
+                alphabetSoundFile: "R-r.mp3", // Файл для алфавита
                 tooltip: "отличается от русского звука [ р ] тем, что лишен вибрации, а кончик языка заострен, поднят к нёбу, не касается его и остается неподвижным",
-                alphabetButton: "Rr",
-                transcriptionButton: "r",
-                examples: [
-                    { example: "general", word: "r", transcription: "[ˈdʒenərəl]", translation: "генерал", image: "general.jpg" },
-                    { example: "rabbit", word: "r", transcription: "[ˈræbɪt]", translation: "кролик", image: "rabbit.jpg" },
-                    { example: "rose", word: "r", transcription: "[roʊz]", translation: "роза", image: "rose.jpg" },
-                    { example: "red", word: "r", transcription: "[red]", translation: "красный", image: "red.jpg" },
-                    { example: "squirrel", word: "r", transcription: "[ˈskwɪrəl]", translation: "белка", image: "squirrel.jpg" },
-                    { example: "cherry", word: "r", transcription: "[ˈtʃeri]", translation: "вишня", image: "cherry.jpg" },
-                    { example: "ring", word: "r", transcription: "[rɪŋ]", translation: "кольцо", image: "ring.jpg" },
-                    { example: "driver", word: "r", transcription: "[ˈdraɪvər]", translation: "водитель", image: "driver.jpg" },
-                    { example: "room", word: "r", transcription: "[ruːm]", translation: "комната", image: "room.jpg" },
-                    { example: "tree", word: "r", transcription: "[triː]", translation: "дерево", image: "tree.jpg" },
-                    { example: "crown", word: "r", transcription: "[kraʊn]", translation: "корона", image: "crown.jpg" },
-                    { example: "brown", word: "r", transcription: "[braʊn]", translation: "коричневый", image: "brown.jpg" }
-                ]
+                alphabetButton: "Rr", // Название буквы
+                transcriptionButton: "r", // Транскрипция
+                example1: "general", transcription1: "[ˈdʒenərəl]", translation1: "генерал", image1: "general.jpg",
+                example2: "rabbit", transcription2: "[ˈræbɪt]", translation2: "кролик", image2: "rabbit.jpg",
+                example3: "rose", transcription3: "[roʊz]", translation3: "роза", image3: "rose.jpg",
+                example4: "red", transcription4: "[red]", translation4: "красный", image4: "red.jpg",
+                example5: "squirrel", transcription5: "[ˈskwɪrəl]", translation5: "белка", image5: "squirrel.jpg",
+                example6: "cherry", transcription6: "[ˈtʃeri]", translation6: "вишня", image6: "cherry.jpg",
+                example7: "ring", transcription7: "[rɪŋ]", translation7: "кольцо", image7: "ring.jpg",
+                example8: "driver", transcription8: "[ˈdraɪvər]", translation8: "водитель", image8: "driver.jpg",
+                example9: "room", transcription9: "[ruːm]", translation9: "комната", image9: "room.jpg",
+                example10: "tree", transcription10: "[triː]", translation10: "дерево", image10: "tree.jpg",
+                example11: "crown", transcription11: "[kraʊn]", translation11: "корона", image11: "crown.jpg",
+                example12: "brown", transcription12: "[braʊn]", translation12: "коричневый", image12: "brown.jpg"
             },
+            // ============ =================              ===================
+            // ============ =================              ===================
+            // ============ =================              ===================
+
             {
+                alphabetButton: "Aa",
+                alphabetSoundFile: "A-a.mp3",
                 soundFile: "ei.mp3",
-                alphabetSoundFile: "A-a.mp3",
-                tooltip: "близок русскому звуку [ эй ]",
-                alphabetButton: "Aa",
                 transcriptionButton: "eɪ",
-                examples: [
-                    { example: "lake", word: "eɪ", transcription: "[leɪk]", translation: "озеро", image: "lake.jpg" },
-                    { example: "game", word: "eɪ", transcription: "[ɡeɪm]", translation: "игра", image: "game.jpg" },
-                    { example: "blaze", word: "eɪ", transcription: "[bleɪz]", translation: "блеск", image: "blaze.jpg" },
-                    { example: "face", word: "eɪ", transcription: "[feɪs]", translation: "лицо", image: "face.jpg" },
-                    { example: "plate", word: "eɪ", transcription: "[pleɪt]", translation: "тарелка", image: "plate.jpg" },
-                    { example: "baby", word: "eɪ", transcription: "[ˈbeɪbi]", translation: "малыш", image: "baby.jpg" },
-                    { example: "table", word: "eɪ", transcription: "[ˈteɪbəl]", translation: "стол", image: "table.jpg" },
-                    { example: "baking", word: "eɪ", transcription: "[ˈbeɪkɪŋ]", translation: "выпечка", image: "baking.jpg" }
-                ]
+                tooltip: "близок русскому звуку [ эй ]",
+
+                example1: "lake", transcription1: "[leɪk]", translation1: "озеро", image1: "lake.jpg",
+                example2: "game", transcription2: "[ɡeɪm]", translation2: "игра", image2: "game.jpg",
+                example3: "blaze", transcription3: "[bleɪz]", translation3: "блеск", image3: "blaze.jpg",
+                example4: "face", transcription4: "[feɪs]", translation4: "лицо", image4: "face.jpg",
+                example5: "plate", transcription5: "[pleɪt]", translation5: "тарелка", image5: "plate.jpg",
+                example6: "baby", transcription6: "[ˈbeɪbi]", translation6: "малыш", image6: "baby.jpg",
+                example7: "table", transcription7: "[ˈteɪbəl]", translation7: "стол", image7: "table.jpg",
+                example8: "baking", transcription8: "[ˈbeɪkɪŋ]", translation8: "выпечка", image8: "baking.jpg"
             },
+
+
+
             {
-                soundFile: "ae.mp3",
-                alphabetSoundFile: "A-a.mp3",
-                tooltip: "между русскими звуками [ а ] и [ э ], нижняя челюсть значительно опущена, губы растянуты, кончик языка находится у основания нижних зубов",
                 alphabetButton: "Aa",
+                alphabetSoundFile: "A-a.mp3",
+                soundFile: "ae.mp3",
                 transcriptionButton: "æ",
-                examples: [
-                    { example: "sand", word: "æ", transcription: "[sænd]", translation: "песок", image: "sand.jpg" },
-                    { example: "flat", word: "æ", transcription: "[flæt]", translation: "квартира", image: "flat.jpg" },
-                    { example: "bag", word: "æ", transcription: "[bæɡ]", translation: "сумка", image: "bag.jpg" },
-                    { example: "fantasy", word: "æ", transcription: "[ˈfæntəsi]", translation: "фантазия", image: "fantasy.jpg" },
-                    { example: "cat", word: "æ", transcription: "[kæt]", translation: "кот", image: "cat.jpg" },
-                    { example: "examine", word: "æ", transcription: "[ɪɡˈzæmɪn]", translation: "экзамен", image: "examine.jpg" },
-                    { example: "example", word: "æ", transcription: "[ɪɡˈzæmpəl]", translation: "пример", image: "example.jpg" },
-                    { example: "van", word: "æ", transcription: "[væn]", translation: "вагон", image: "van.jpg" },
-                    { example: "map", word: "æ", transcription: "[mæp]", translation: "карта", image: "map.jpg" },
-                    { example: "hand", word: "æ", transcription: "[hænd]", translation: "рука", image: "hand.jpg" },
-                    { example: "hat", word: "æ", transcription: "[hæt]", translation: "шапка", image: "hat.jpg" },
-                    { example: "rabbit", word: "æ", transcription: "[ˈræbɪt]", translation: "кролик", image: "rabbit.jpg" },
-                    { example: "that", word: "æ", transcription: "[ðæt]", translation: "то", image: "that.jpg" },
-                    { example: "alphabet", word: "æ", transcription: "[ˈælfəbet]", translation: "алфавит", image: "alphabet.jpg" },
-                    { example: "bamboo", word: "æ", transcription: "[ˌbæmˈbuː]", translation: "бамбук", image: "bamboo.jpg" }
-                ]
+                tooltip: "между русскими звуками [ а ] и [ э ], нижняя челюсть значительно опущена, губы растянуты, кончик языка находится у основания нижних зубов",
+                example1: "sand", transcription1: "[sænd]", translation1: "песок", image1: "sand.jpg",
+                example2: "flat", transcription2: "[flæt]", translation2: "квартира", image2: "flat.jpg",
+                example3: "bag", transcription3: "[bæɡ]", translation3: "сумка", image3: "bag.jpg",
+                example4: "fantasy", transcription4: "[ˈfæntəsi]", translation4: "фантазия", image4: "fantasy.jpg",
+                example5: "cat", transcription5: "[kæt]", translation5: "кот", image5: "cat.jpg",
+                example6: "examine", transcription6: "[ɪɡˈzæmɪn]", translation6: "экзамен", image6: "examine.jpg",
+                example7: "example", transcription7: "[ɪɡˈzæmpəl]", translation7: "пример", image7: "example.jpg",
+                example8: "van", transcription8: "[væn]", translation8: "вагон", image8: "van.jpg",
+                example9: "map", transcription9: "[mæp]", translation9: "карта", image9: "map.jpg",
+                example10: "hand", transcription10: "[hænd]", translation10: "рука", image10: "hand.jpg",
+                example11: "hat", transcription11: "[hæt]", translation11: "шапка", image11: "hat.jpg",
+                example12: "rabbit", transcription12: "[ˈræbɪt]", translation12: "кролик", image12: "rabbit.jpg",
+                example13: "that", transcription13: "[ðæt]", translation13: "то", image13: "that.jpg",
+                example14: "alphabet", transcription14: "[ˈælfəbet]", translation14: "алфавит", image14: "alphabet.jpg",
+                example15: "bamboo", transcription15: "[ˌbæmˈbuː]", translation15: "бамбук", image15: "bamboo.jpg"
             },
+
             {
+                alphabetButton: "Ee",
+                alphabetSoundFile: "E-e.mp3",
                 soundFile: "ii.mp3",
-                alphabetSoundFile: "E-e.mp3",
-                tooltip: "длительный звук, средний между [ и ] и [ ы ]",
-                alphabetButton: "Ee",
                 transcriptionButton: "i:",
-                examples: [
-                    { example: "green", word: "i:", transcription: "[ɡriːn]", translation: "зеленый", image: "green.jpg" },
-                    { example: "cheese", word: "i:", transcription: "[tʃiːz]", translation: "сыр", image: "cheese.jpg" },
-                    { example: "tree", word: "i:", transcription: "[triː]", translation: "дерево", image: "tree.jpg" },
-                    { example: "tea", word: "i:", transcription: "[tiː]", translation: "чай", image: "tea.jpg" },
-                    { example: "sea", word: "i:", transcription: "[siː]", translation: "море", image: "sea.jpg" },
-                    { example: "please", word: "i:", transcription: "[pliːz]", translation: "пожалуйста", image: "please.jpg" },
-                    { example: "we", word: "i:", transcription: "[wiː]", translation: "мы", image: "we.jpg" },
-                    { example: "me", word: "i:", transcription: "[miː]", translation: "я", image: "me.jpg" },
-                    { example: "be", word: "i:", transcription: "[biː]", translation: "быть", image: "be.jpg" },
-                    { example: "leo", word: "i:", transcription: "[ˈliːoʊ]", translation: "лев", image: "leo.jpg" },
-                    { example: "she", word: "i:", transcription: "[ʃiː]", translation: "она", image: "she.jpg" },
-                    { example: "queen", word: "i:", transcription: "[kwiːn]", translation: "королева", image: "queen.jpg" }
-                ]
+                tooltip: "длительный звук, средний между [ и ] и [ ы ]",
+                example1: "green", transcription1: "[ɡriːn]", translation1: "зеленый", image1: "green.jpg",
+                example2: "cheese", transcription2: "[tʃiːz]", translation2: "сыр", image2: "cheese.jpg",
+                example3: "tree", transcription3: "[triː]", translation3: "дерево", image3: "tree.jpg",
+                example4: "tea", transcription4: "[tiː]", translation4: "чай", image4: "tea.jpg",
+                example5: "sea", transcription5: "[siː]", translation5: "море", image5: "sea.jpg",
+                example6: "please", transcription6: "[pliːz]", translation6: "пожалуйста", image6: "please.jpg",
+                example7: "we", transcription7: "[wiː]", translation7: "мы", image7: "we.jpg",
+                example8: "me", transcription8: "[miː]", translation8: "я", image8: "me.jpg",
+                example9: "be", transcription9: "[biː]", translation9: "быть", image9: "be.jpg",
+                example10: "leo", transcription10: "[ˈliːoʊ]", translation10: "лев", image10: "leo.jpg",
+                example11: "she", transcription11: "[ʃiː]", translation11: "она", image11: "she.jpg",
+                example12: "queen", transcription12: "[kwiːn]", translation12: "королева", image12: "queen.jpg"
             },
+
             {
-                soundFile: "e.mp3",
-                alphabetSoundFile: "E-e.mp3",
-                tooltip: "близок русскому звуку [ э ], но губы слегка растянуты, кончик языка касается нижних зубов",
                 alphabetButton: "Ee",
+                alphabetSoundFile: "E-e.mp3",
+                soundFile: "e.mp3",
                 transcriptionButton: "e",
-                examples: [
-                    { example: "legs", word: "e", transcription: "[leɡz]", translation: "ноги", image: "legs.jpg" },
-                    { example: "nest", word: "e", transcription: "[nest]", translation: "гнездо", image: "nest.jpg" },
-                    { example: "desk", word: "e", transcription: "[desk]", translation: "доска", image: "desk.jpg" },
-                    { example: "enemy", word: "e", transcription: "[ˈenəmi]", translation: "враг", image: "enemy.jpg" },
-                    { example: "cell", word: "e", transcription: "[sel]", translation: "сот", image: "cell.jpg" },
-                    { example: "general", word: "e", transcription: "[ˈdʒenərəl]", translation: "генерал", image: "general.jpg" },
-                    { example: "gel", word: "e", transcription: "[dʒel]", translation: "гель", image: "gel.jpg" },
-                    { example: "exit", word: "e", transcription: "[ˈeksɪt]", translation: "выход", image: "exit.jpg" },
-                    { example: "sex", word: "e", transcription: "[seks]", translation: "пол", image: "sex.jpg" },
-                    { example: "examine", word: "e", transcription: "[ɪɡˈzæmɪn]", translation: "экзамен", image: "examine.jpg" },
-                    { example: "pen", word: "e", transcription: "[pen]", translation: "ручка", image: "pen.jpg" },
-                    { example: "pet", word: "e", transcription: "[pet]", translation: "питомец", image: "pet.jpg" },
-                    { example: "red", word: "e", transcription: "[red]", translation: "красный", image: "red.jpg" },
-                    { example: "yellow", word: "e", transcription: "[ˈjeləʊ]", translation: "желтый", image: "yellow.jpg" },
-                    { example: "yes", word: "e", transcription: "[jes]", translation: "да", image: "yes.jpg" },
-                    { example: "bench", word: "e", transcription: "[bentʃ]", translation: "лавочка", image: "bench.jpg" },
-                    { example: "cherry", word: "e", transcription: "[ˈtʃeri]", translation: "вишня", image: "cherry.jpg" },
-                    { example: "alphabet", word: "e", transcription: "[ˈælfəbet]", translation: "алфавит", image: "alphabet.jpg" }
-                ]
+                tooltip: "близок русскому звуку [ э ], но губы слегка растянуты, кончик языка касается нижних зубов",
+                example1: "legs", transcription1: "[leɡz]", translation1: "ноги", image1: "legs.jpg",
+                example2: "nest", transcription2: "[nest]", translation2: "гнездо", image2: "nest.jpg",
+                example3: "desk", transcription3: "[desk]", translation3: "доска", image3: "desk.jpg",
+                example4: "enemy", transcription4: "[ˈenəmi]", translation4: "враг", image4: "enemy.jpg",
+                example5: "cell", transcription5: "[sel]", translation5: "сот", image5: "cell.jpg",
+                example6: "general", transcription6: "[ˈdʒenərəl]", translation6: "генерал", image6: "general.jpg",
+                example7: "gel", transcription7: "[dʒel]", translation7: "гель", image7: "gel.jpg",
+                example8: "exit", transcription8: "[ˈeksɪt]", translation8: "выход", image8: "exit.jpg",
+                example9: "sex", transcription9: "[seks]", translation9: "пол", image9: "sex.jpg",
+                example10: "examine", transcription10: "[ɪɡˈzæmɪn]", translation10: "экзамен", image10: "examine.jpg",
+                example11: "pen", transcription11: "[pen]", translation11: "ручка", image11: "pen.jpg",
+                example12: "pet", transcription12: "[pet]", translation12: "питомец", image12: "pet.jpg",
+                example13: "red", transcription13: "[red]", translation13: "красный", image13: "red.jpg",
+                example14: "yellow", transcription14: "[ˈjeləʊ]", translation14: "желтый", image14: "yellow.jpg",
+                example15: "yes", transcription15: "[jes]", translation15: "да", image15: "yes.jpg",
+                example16: "bench", transcription16: "[bentʃ]", translation16: "лавочка", image16: "bench.jpg",
+                example17: "cherry", transcription17: "[ˈtʃeri]", translation17: "вишня", image17: "cherry.jpg",
+                example18: "alphabet", transcription18: "[ˈælfəbet]", translation18: "алфавит", image18: "alphabet.jpg"
             },
+
             {
+                alphabetButton: "Ii",
+                alphabetSoundFile: "I-i.mp3",
                 soundFile: "ai.mp3",
-                alphabetSoundFile: "I-i.mp3",
-                tooltip: "близок русскому звуку [ ай ]",
-                alphabetButton: "Ii",
                 transcriptionButton: "aɪ",
-                examples: [
-                    { example: "bike", word: "aɪ", transcription: "[baɪk]", translation: "велосипед", image: "bike.jpg" },
-                    { example: "five", word: "aɪ", transcription: "[faɪv]", translation: "5", image: "five.jpg" },
-                    { example: "smile", word: "aɪ", transcription: "[smaɪl]", translation: "улыбка", image: "smile.jpg" },
-                    { example: "my", word: "aɪ", transcription: "[maɪ]", translation: "мое", image: "my.jpg" },
-                    { example: "fly", word: "aɪ", transcription: "[flaɪ]", translation: "муха", image: "fly.jpg" },
-                    { example: "sky", word: "aɪ", transcription: "[skaɪ]", translation: "небо", image: "sky.jpg" },
-                    { example: "mice", word: "aɪ", transcription: "[maɪs]", translation: "мыши", image: "mice.jpg" },
-                    { example: "vine", word: "aɪ", transcription: "[vaɪn]", translation: "лоза", image: "vine.jpg" },
-                    { example: "kite", word: "aɪ", transcription: "[kaɪt]", translation: "змей", image: "kite.jpg" },
-                    { example: "wine", word: "aɪ", transcription: "[waɪn]", translation: "вино", image: "wine.jpg" },
-                    { example: "child", word: "aɪ", transcription: "[tʃaɪld]", translation: "ребенок", image: "child.jpg" },
-                    { example: "driver", word: "aɪ", transcription: "[ˈdraɪvər]", translation: "водитель", image: "driver.jpg" }
-                ]
+                tooltip: "близок русскму звуку [ ай ]",
+                example1: "bike", transcription1: "[baɪk]", translation1: "велосипед", image1: "bike.jpg",
+                example2: "five", transcription2: "[faɪv]", translation2: "5", image2: "five.jpg",
+                example3: "smile", transcription3: "[smaɪl]", translation3: "улыбка", image3: "smile.jpg",
+                example4: "my", transcription4: "[maɪ]", translation4: "мое", image4: "my.jpg",
+                example5: "fly", transcription5: "[flaɪ]", translation5: "муха", image5: "fly.jpg",
+                example6: "sky", transcription6: "[skaɪ]", translation6: "небо", image6: "sky.jpg",
+                example7: "mice", transcription7: "[maɪs]", translation7: "мыши", image7: "mice.jpg",
+                example8: "vine", transcription8: "[vaɪn]", translation8: "лоза", image8: "vine.jpg",
+                example9: "kite", transcription9: "[kaɪt]", translation9: "змей", image9: "kite.jpg",
+                example10: "wine", transcription10: "[waɪn]", translation10: "вино", image10: "wine.jpg",
+                example11: "child", transcription11: "[tʃaɪld]", translation11: "ребенок", image11: "child.jpg",
+                example12: "driver", transcription12: "[ˈdraɪvər]", translation12: "водитель", image12: "driver.jpg"
             },
+
             {
-                soundFile: "i.mp3",
-                alphabetSoundFile: "I-i.mp3",
-                tooltip: "средний звук между русскими звуками [ и ] и [ ы ]",
                 alphabetButton: "Ii",
+                alphabetSoundFile: "I-i.mp3",
+                soundFile: "i.mp3",
                 transcriptionButton: "ɪ",
-                examples: [
-                    { example: "pillow", word: "ɪ", transcription: "[ˈpɪloʊ]", translation: "подушка", image: "pillow.jpg" },
-                    { example: "kid", word: "ɪ", transcription: "[kɪd]", translation: "ребенок", image: "kid.jpg" },
-                    { example: "zip", word: "ɪ", transcription: "[zɪp]", translation: "застежка", image: "zip.jpg" },
-                    { example: "pig", word: "ɪ", transcription: "[pɪɡ]", translation: "свинка", image: "pig.jpg" },
-                    { example: "music", word: "ɪ", transcription: "[ˈmjuːzɪk]", translation: "музыка", image: "music.jpg" },
-                    { example: "gym", word: "ɪ", transcription: "[dʒɪm]", translation: "тренажерный зал", image: "gym.jpg" },
-                    { example: "exit", word: "ɪ", transcription: "[ˈeksɪt]", translation: "выход", image: "exit.jpg" },
-                    { example: "examine", word: "ɪ", transcription: "[ɪɡˈzæmɪn]", translation: "экзамен", image: "examine.jpg" },
-                    { example: "example", word: "ɪ", transcription: "[ɪɡˈzæmpəl]", translation: "пример", image: "example.jpg" },
-                    { example: "milk", word: "ɪ", transcription: "[mɪlk]", translation: "молоко", image: "milk.jpg" },
-                    { example: "kiss", word: "ɪ", transcription: "[kɪs]", translation: "поцелуй", image: "kiss.jpg" },
-                    { example: "rabbit", word: "ɪ", transcription: "[ˈræbɪt]", translation: "кролик", image: "rabbit.jpg" },
-                    { example: "squirrel", word: "ɪ", transcription: "[ˈskwɪrəl]", translation: "белка", image: "squirrel.jpg" },
-                    { example: "fish", word: "ɪ", transcription: "[fɪʃ]", translation: "рыба", image: "fish.jpg" },
-                    { example: "thin", word: "ɪ", transcription: "[θɪn]", translation: "тонкий", image: "thin.jpg" },
-                    { example: "smith", word: "ɪ", transcription: "[smɪθ]", translation: "кузнец", image: "smith.jpg" },
-                    { example: "this", word: "ɪ", transcription: "[ðɪs]", translation: "это", image: "this.jpg" },
-                    { example: "ring", word: "ɪ", transcription: "[rɪŋ]", translation: "кольцо", image: "ring.jpg" },
-                    { example: "king", word: "ɪ", transcription: "[kɪŋ]", translation: "король", image: "king.jpg" },
-                    { example: "baking", word: "ɪ", transcription: "[ˈbeɪkɪŋ]", translation: "выпечка", image: "baking.jpg" },
-                    { example: "vision", word: "ɪ", transcription: "[ˈvɪʒn]", translation: "зрение", image: "vision.jpg" },
-                    { example: "collision", word: "ɪ", transcription: "[kəˈlɪʒn]", translation: "столкновение", image: "collision.jpg" },
-                    { example: "division", word: "ɪ", transcription: "[dɪˈvɪʒn]", translation: "подразделение", image: "division.jpg" },
-                    { example: "cigar", word: "ɪ", transcription: "[sɪˈɡɑːr]", translation: "сигара", image: "cigar.jpg" },
-                    { example: "sister", word: "ɪ", transcription: "[ˈsɪstər]", translation: "сестра", image: "sister.jpg" },
-                    { example: "finger", word: "ɪ", transcription: "[ˈfɪŋɡər]", translation: "палец", image: "finger.jpg" },
-                    { example: "morning", word: "ɪ", transcription: "[ˈmɔːrnɪŋ]", translation: "утро", image: "morning.jpg" },
-                    { example: "pillow", word: "ɪ", transcription: "[ˈpɪloʊ]", translation: "подушка", image: "pillow.jpg" },
-                    { example: "lily", word: "ɪ", transcription: "[ˈlɪli]", translation: "лилия", image: "lily.jpg" },
-                    { example: "fantasy", word: "ɪ", transcription: "[ˈfæntəsi]", translation: "фантазия", image: "fantasy.jpg" },
-                    { example: "enemy", word: "ɪ", transcription: "[ˈenəmi]", translation: "враг", image: "enemy.jpg" }
-                ]
+                tooltip: "средний звук между русскими звуками [ и ] и [ ы ]",
+                example1: "pillow", transcription1: "[ˈpɪloʊ]", translation1: "подушка", image1: "pillow.jpg",
+                example2: "kid", transcription2: "[kɪd]", translation2: "ребенок", image2: "kid.jpg",
+                example3: "zip", transcription3: "[zɪp]", translation3: "застежка", image3: "zip.jpg",
+                example4: "pig", transcription4: "[pɪɡ]", translation4: "свинка", image4: "pig.jpg",
+                example5: "music", transcription5: "[ˈmjuːzɪk]", translation5: "музыка", image5: "music.jpg",
+                example6: "gym", transcription6: "[dʒɪm]", translation6: "тренажерный зал", image6: "gym.jpg",
+                example7: "exit", transcription7: "[ˈeksɪt]", translation7: "выход", image7: "exit.jpg",
+                example8: "examine", transcription8: "[ɪɡˈzæmɪn]", translation8: "экзамен", image8: "examine.jpg",
+                example9: "example", transcription9: "[ɪɡˈzæmpəl]", translation9: "пример", image9: "example.jpg",
+                example10: "milk", transcription10: "[mɪlk]", translation10: "молоко", image10: "milk.jpg",
+                example11: "kiss", transcription11: "[kɪs]", translation11: "поцелуй", image11: "kiss.jpg",
+                example12: "rabbit", transcription12: "[ˈræbɪt]", translation12: "кролик", image12: "rabbit.jpg",
+                example13: "squirrel", transcription13: "[ˈskwɪrəl]", translation13: "белка", image13: "squirrel.jpg",
+                example14: "fish", transcription14: "[fɪʃ]", translation14: "рыба", image14: "fish.jpg",
+                example15: "thin", transcription15: "[θɪn]", translation15: "тонкий", image15: "thin.jpg",
+                example16: "smith", transcription16: "[smɪθ]", translation16: "кузнец", image16: "smith.jpg",
+                example17: "this", transcription17: "[ðɪs]", translation17: "это", image17: "this.jpg",
+                example18: "ring", transcription18: "[rɪŋ]", translation18: "кольцо", image18: "ring.jpg",
+                example19: "king", transcription19: "[kɪŋ]", translation19: "король", image19: "king.jpg",
+                example20: "baking", transcription20: "[ˈbeɪkɪŋ]", translation20: "выпечка", image20: "baking.jpg",
+                example21: "vision", transcription21: "[ˈvɪʒn]", translation21: "зрение", image21: "vision.jpg",
+                example22: "collision", transcription22: "[kəˈlɪʒn]", translation22: "столкновение", image22: "collision.jpg",
+                example23: "division", transcription23: "[dɪˈvɪʒn]", translation23: "подразделение", image23: "division.jpg",
+                example24: "cigar", transcription24: "[sɪˈɡɑːr]", translation24: "сигара", image24: "cigar.jpg",
+                example25: "sister", transcription25: "[ˈsɪstər]", translation25: "сестра", image25: "sister.jpg",
+                example26: "finger", transcription26: "[ˈfɪŋɡər]", translation26: "палец", image26: "finger.jpg",
+                example27: "morning", transcription27: "[ˈmɔːrnɪŋ]", translation27: "утро", image27: "morning.jpg",
+                example28: "pillow", transcription28: "[ˈpɪloʊ]", translation28: "подушка", image28: "pillow.jpg",
+                example29: "lily", transcription29: "[ˈlɪli]", translation29: "лилия", image29: "lily.jpg",
+                example30: "fantasy", transcription30: "[ˈfæntəsi]", translation30: "фантазия", image30: "fantasy.jpg",
+                example31: "enemy", transcription31: "[ˈenəmi]", translation31: "враг", image31: "enemy.jpg"
             },
             {
+                alphabetButton: "Oo",
+                alphabetSoundFile: "O-o.mp3",
                 soundFile: "ou.mp3",
-                alphabetSoundFile: "O-o.mp3",
-                tooltip: "близок русскому звуку [ оу ] протяжно и с ударением на первом звуке",
-                alphabetButton: "Oo",
                 transcriptionButton: "əʊ",
-                examples: [
-                    { example: "leo", word: "əʊ", transcription: "[ˈliːoʊ]", translation: "лев", image: "leo.jpg" },
-                    { example: "note", word: "əʊ", transcription: "[noʊt]", translation: "нота", image: "note.jpg" },
-                    { example: "nose", word: "əʊ", transcription: "[noʊz]", translation: "нос", image: "nose.jpg" },
-                    { example: "smoke", word: "əʊ", transcription: "[smoʊk]", translation: "дым", image: "smoke.jpg" },
-                    { example: "pose", word: "əʊ", transcription: "[poʊz]", translation: "поза", image: "pose.jpg" },
-                    { example: "gold", word: "əʊ", transcription: "[ɡoʊld]", translation: "золото", image: "gold.jpg" },
-                    { example: "zone", word: "əʊ", transcription: "[zoʊn]", translation: "зона", image: "zone.jpg" },
-                    { example: "home", word: "əʊ", transcription: "[hoʊm]", translation: "дом", image: "home.jpg" },
-                    { example: "rose", word: "əʊ", transcription: "[roʊz]", translation: "роза", image: "rose.jpg" },
-                    { example: "photo", word: "əʊ", transcription: "[ˈfoʊtoʊ]", translation: "фото", image: "photo.jpg" },
-                    { example: "phone", word: "əʊ", transcription: "[foʊn]", translation: "телефон", image: "phone.jpg" },
-                    { example: "snow", word: "əʊ", transcription: "[snoʊ]", translation: "снег", image: "snow.jpg" },
-                    { example: "pillow", word: "əʊ", transcription: "[ˈpɪloʊ]", translation: "подушка", image: "pillow.jpg" },
-                    { example: "flow", word: "əʊ", transcription: "[floʊ]", translation: "поток", image: "flow.jpg" }
-                ]
+                tooltip: "близок русскому звуку [ оу ] протяжно и с ударением на первом звуке",
+                example1: "leo", transcription1: "[ˈliːoʊ]", translation1: "лев", image1: "leo.jpg",
+                example2: "note", transcription2: "[noʊt]", translation2: "нота", image2: "note.jpg",
+                example3: "nose", transcription3: "[noʊz]", translation3: "нос", image3: "nose.jpg",
+                example4: "smoke", transcription4: "[smoʊk]", translation4: "дым", image4: "smoke.jpg",
+                example5: "pose", transcription5: "[poʊz]", translation5: "поза", image5: "pose.jpg",
+                example6: "gold", transcription6: "[ɡoʊld]", translation6: "золото", image6: "gold.jpg",
+                example7: "zone", transcription7: "[zoʊn]", translation7: "зона", image7: "zone.jpg",
+                example8: "home", transcription8: "[hoʊm]", translation8: "дом", image8: "home.jpg",
+                example9: "rose", transcription9: "[roʊz]", translation9: "роза", image9: "rose.jpg",
+                example10: "photo", transcription10: "[ˈfoʊtoʊ]", translation10: "фото", image10: "photo.jpg",
+                example11: "phone", transcription11: "[foʊn]", translation11: "телефон", image11: "phone.jpg",
+                example12: "snow", transcription12: "[snoʊ]", translation12: "снег", image12: "snow.jpg",
+                example13: "pillow", transcription13: "[ˈpɪloʊ]", translation13: "подушка", image13: "pillow.jpg",
+                example14: "flow", transcription14: "[floʊ]", translation14: "поток", image14: "flow.jpg"
             },
             {
-                soundFile: "o.mp3",
-                alphabetSoundFile: "O-o.mp3",
-                tooltip: "краткий русский звук [ о ] с оттенком [ а ]",
                 alphabetButton: "Oo",
+
+                soundFile: "o.mp3",
                 transcriptionButton: "ɒ",
-                examples: [
-                    { example: "dog", word: "ɒ", transcription: "[dɒɡ]", translation: "пес", image: "dog.jpg" },
-                    { example: "pot", word: "ɒ", transcription: "[pɒt]", translation: "горшок", image: "pot.jpg" },
-                    { example: "top", word: "ɒ", transcription: "[tɒp]", translation: "вершина", image: "top.jpg" },
-                    { example: "shop", word: "ɒ", transcription: "[ʃɒp]", translation: "магазин", image: "shop.jpg" },
-                    { example: "fox", word: "ɒ", transcription: "/fɒks/", translation: "лиса", image: "fox.jpg" },
-                    { example: "moth", word: "ɒ", transcription: "/mɒθ/", translation: "мотылек", image: "moth.jpg" },
-                    { example: "job", word: "ɒ", transcription: "[dʒɒb]", translation: "работа", image: "job.jpg" }
-                ]
+                tooltip: "краткий русский звук [ о ] с оттенком [ а ]",
+                example1: "dog", transcription1: "[dɒɡ]", translation1: "пес", image1: "dog.jpg",
+                example2: "pot", transcription2: "[pɒt]", translation2: "горшок", image2: "pot.jpg",
+                example3: "top", transcription3: "[tɒp]", translation3: "вершина", image3: "top.jpg",
+                example4: "shop", transcription4: "[ʃɒp]", translation4: "магазин", image4: "shop.jpg",
+                example5: "fox", transcription5: "/fɒks/", translation5: "лиса", image5: "fox.jpg",
+                example6: "moth", transcription6: "/mɒθ/", translation6: "мотылек", image6: "moth.jpg",
+                example7: "job", transcription7: "[dʒɒb]", translation7: "работа", image7: "job.jpg"
             },
+
             {
                 soundFile: "oo2.mp3",
-                alphabetSoundFile: "U-u.mp3",
-                tooltip: "закрытый долгий русский звук [у], но губы не вытянуты и не сужены",
                 alphabetButton: "oo",
                 transcriptionButton: "u:",
-                examples: [
-                    { example: "tube", word: "u:", transcription: "[tjuːb]", translation: "труба", image: "tube.jpg" },
-                    { example: "duty", word: "u:", transcription: "[ˈduːti]", translation: "долг", image: "duty.jpg" },
-                    { example: "music", word: "u:", transcription: "[ˈmjuːzɪk]", translation: "музыка", image: "music.jpg" },
-                    { example: "cute", word: "u:", transcription: "[kjuːt]", translation: "милый", image: "cute.jpg" },
-                    { example: "you", word: "u:", transcription: "[juː]", translation: "ты", image: "you.jpg" },
-                    { example: "room", word: "u:", transcription: "[ruːm]", translation: "комната", image: "room.jpg" },
-                    { example: "moon", word: "u:", transcription: "[muːn]", translation: "луна", image: "moon.jpg" },
-                    { example: "spoon", word: "u:", transcription: "[spuːn]", translation: "ложка", image: "spoon.jpg" },
-                    { example: "bamboo", word: "u:", transcription: "[ˌbæmˈbuː]", translation: "бамбук", image: "bamboo.jpg" }
-                ]
+                tooltip: "закрытый долгий русский звук [у], но губы не вытянуты и не сужены",
+                example1: "tube", transcription1: "[tjuːb]", translation1: "труба", image1: "tube.jpg",
+                example2: "duty", transcription2: "[ˈduːti]", translation2: "долг", image2: "duty.jpg",
+                example3: "music", transcription3: "[ˈmjuːzɪk]", translation3: "музыка", image3: "music.jpg",
+                example4: "cute", transcription4: "[kjuːt]", translation4: "милый", image4: "cute.jpg",
+                example5: "you", transcription5: "[juː]", translation5: "ты", image5: "you.jpg",
+                example6: "room", transcription6: "[ruːm]", translation6: "комната", image6: "room.jpg",
+                example7: "moon", transcription7: "[muːn]", translation7: "луна", image7: "moon.jpg",
+                example8: "spoon", transcription8: "[spuːn]", translation8: "ложка", image8: "spoon.jpg",
+                example9: "bamboo", transcription9: "[ˌbæmˈbuː]", translation9: "бамбук", image9: "bamboo.jpg"
             },
+
+
             {
-                soundFile: "a.mp3",
-                alphabetSoundFile: "U-u.mp3",
-                tooltip: "очень краткое [ а ]",
                 alphabetButton: "Uu",
+
+                soundFile: "a.mp3",
                 transcriptionButton: "ʌ",
-                examples: [
-                    { example: "sun", word: "ʌ", transcription: "[sʌn]", translation: "солнце", image: "sun.jpg" },
-                    { example: "gun", word: "ʌ", transcription: "[ɡʌn]", translation: "оружие", image: "gun.jpg" },
-                    { example: "bus", word: "ʌ", transcription: "[bʌs]", translation: "автобус", image: "bus.jpg" },
-                    { example: "mum", word: "ʌ", transcription: "[mʌm]", translation: "мама", image: "mum.jpg" },
-                    { example: "jump", word: "ʌ", transcription: "[dʒʌmp]", translation: "прыжек", image: "jump.jpg" }
-                ]
+                tooltip: "очень краткое [ а ]",
+                example1: "sun", transcription1: "[sʌn]", translation1: "солнце", image1: "sun.jpg",
+                example2: "gun", transcription2: "[ɡʌn]", translation2: "оружие", image2: "gun.jpg",
+                example3: "bus", transcription3: "[bʌs]", translation3: "автобус", image3: "bus.jpg",
+                example4: "mum", transcription4: "[mʌm]", translation4: "мама", image4: "mum.jpg",
+                example5: "jump", transcription5: "[dʒʌmp]", translation5: "прыжек", image5: "jump.jpg"
             },
+            // ====================================================================================================
+
+            // ==============
             {
                 soundFile: "sh.mp3",
                 alphabetButton: "sh",
                 transcriptionButton: "ʃ",
                 tooltip: "глухой мягкий русский звук [ш]",
-                examples: [
-                    { example: "shop", word: "ʃ", transcription: "[ʃɒp]", translation: "магазин", image: "shop.jpg" },
-                    { example: "she", word: "ʃ", transcription: "[ʃiː]", translation: "она", image: "she.jpg" },
-                    { example: "fish", word: "ʃ", transcription: "[fɪʃ]", translation: "рыба", image: "fish.jpg" },
-                    { example: "sure", word: "ʃ", transcription: "[ʃʊər]", translation: "уверенный", image: "sure.jpg" }
-                ]
+                example1: "shop", transcription1: "[ʃɒp]", translation1: "магазин", image1: "shop.jpg",
+                example2: "she", transcription2: "[ʃiː]", translation2: "она", image2: "she.jpg",
+                example3: "fish", transcription3: "[fɪʃ]", translation3: "рыба", image3: "fish.jpg",
+                example4: "sure", transcription4: "[ʃʊər]", translation4: "уверенный", image4: "sure.jpg"
             },
             {
                 soundFile: "ch.mp3",
                 alphabetButton: "ch",
                 transcriptionButton: "tʃ",
                 tooltip: "русский звук [ч]",
-                examples: [
-                    { example: "child", word: "tʃ", transcription: "[tʃaɪld]", translation: "ребенок", image: "child.jpg" },
-                    { example: "bench", word: "tʃ", transcription: "[bentʃ]", translation: "лавочка", image: "bench.jpg" },
-                    { example: "cherry", word: "tʃ", transcription: "[ˈtʃeri]", translation: "вишня", image: "cherry.jpg" },
-                    { example: "cheese", word: "tʃ", transcription: "[tʃiːz]", translation: "сыр", image: "cheese.jpg" },
-                    { example: "chair", word: "tʃ", transcription: "[tʃeər]", translation: "стул", image: "chair.jpg" }
-                ]
+                example1: "child", transcription1: "[tʃaɪld]", translation1: "ребенок", image1: "child.jpg",
+                example2: "bench", transcription2: "[bentʃ]", translation2: "лавочка", image2: "bench.jpg",
+                example3: "cherry", transcription3: "[ˈtʃeri]", translation3: "вишня", image3: "cherry.jpg",
+                example4: "cheese", transcription4: "[tʃiːz]", translation4: "сыр", image4: "cheese.jpg",
+                example5: "chair", transcription5: "[tʃeər]", translation5: "стул", image5: "chair.jpg"
             },
             {
                 soundFile: "th1.mp3",
                 alphabetButton: "th",
                 transcriptionButton: "θ",
                 tooltip: "глухой звук отличный от русского [с] тем, что образуется струей воздуха, проходящей между кончиком языка, находящимся между зубами при слегка выдвинутой нижней челюсти",
-                examples: [
-                    { example: "thin", word: "θ", transcription: "[θɪn]", translation: "тонкий", image: "thin.jpg" },
-                    { example: "moth", word: "θ", transcription: "[mɒθ]", translation: "мотылек", image: "moth.jpg" },
-                    { example: "smith", word: "θ", transcription: "[smɪθ]", translation: "кузнец", image: "smith.jpg" },
-                    { example: "north", word: "θ", transcription: "[nɔːrθ]", translation: "север", image: "north.jpg" },
-                    { example: "mouth", word: "θ", transcription: "[maʊθ]", translation: "рот", image: "mouth.jpg" }
-                ]
+                example1: "thin", transcription1: "[θɪn]", translation1: "тонкий", image1: "thin.jpg",
+                example2: "moth", transcription2: "[mɒθ]", translation2: "мотылек", image2: "moth.jpg",
+                example3: "smith", transcription3: "[smɪθ]", translation3: "кузнец", image3: "smith.jpg",
+                example4: "north", transcription4: "[nɔːrθ]", translation4: "север", image4: "north.jpg",
+                example5: "mouth", transcription5: "[maʊθ]", translation5: "рот", image5: "mouth.jpg"
             },
             {
                 soundFile: "th2.mp3",
                 alphabetButton: "th",
                 transcriptionButton: "ð",
                 tooltip: "звонкий звук отличный от русского [з] тем, что образуется струей воздуха, проходящей между кончиком языка, находящимся между зубами при слегка выдвинутой нижней челюсти",
-                examples: [
-                    { example: "this", word: "ð", transcription: "[ðɪs]", translation: "это", image: "this.jpg" },
-                    { example: "that", word: "ð", transcription: "[ðæt]", translation: "то", image: "that.jpg" },
-                    { example: "they", word: "ð", transcription: "[ðeɪ]", translation: "они", image: "they.jpg" }
-                ]
+                example1: "this", transcription1: "[ðɪs]", translation1: "это", image1: "this.jpg",
+                example2: "that", transcription2: "[ðæt]", translation2: "то", image2: "that.jpg",
+                example3: "they", transcription3: "[ðeɪ]", translation3: "они", image3: "they.jpg"
             },
+
             {
                 soundFile: "ng.mp3",
                 alphabetButton: "ng",
                 transcriptionButton: "ŋ",
                 tooltip: "носовой звук [н] – задняя часть языка поднята к опущенному мягкому нёбу, и струя воздуха протяжно проходит через полость носа",
-                examples: [
-                    { example: "ring", word: "ŋ", transcription: "[rɪŋ]", translation: "кольцо", image: "ring.jpg" },
-                    { example: "king", word: "ŋ", transcription: "[kɪŋ]", translation: "король", image: "king.jpg" },
-                    { example: "baking", word: "ŋ", transcription: "[ˈbeɪkɪŋ]", translation: "выпечка", image: "baking.jpg" },
-                    { example: "finger", word: "ŋ", transcription: "[ˈfɪŋɡər]", translation: "палец", image: "finger.jpg" },
-                    { example: "morning", word: "ŋ", transcription: "[ˈmɔːrnɪŋ]", translation: "утро", image: "morning.jpg" }
-                ]
+                example1: "ring", transcription1: "[rɪŋ]", translation1: "кольцо", image1: "ring.jpg",
+                example2: "king", transcription2: "[kɪŋ]", translation2: "король", image2: "king.jpg",
+                example3: "baking", transcription3: "[ˈbeɪkɪŋ]", translation3: "выпечка", image3: "baking.jpg",
+                example4: "finger", transcription4: "[ˈfɪŋɡər]", translation4: "палец", image4: "finger.jpg",
+                example5: "morning", transcription5: "[ˈmɔːrnɪŋ]", translation5: "утро", image5: "morning.jpg"
             },
             {
                 soundFile: "zch.mp3",
                 alphabetButton: "sio",
                 transcriptionButton: "ʒ",
                 tooltip: "звонкий мягкий русский [ж]",
-                examples: [
-                    { example: "vision", word: "ʒ", transcription: "[vɪʒn]", translation: "зрение", image: "vision.jpg" },
-                    { example: "collision", word: "ʒ", transcription: "[kɒlɪʒn]", translation: "стролкновение", image: "collision.jpg" },
-                    { example: "division", word: "ʒ", transcription: "[dɪvɪʒn]", translation: "подразделение", image: "division.jpg" }
-                ]
+                example1: "vision", word1: "sio", transcription1: "[vɪʒn]", translation1: "зрение", image1: "vision.jpg",
+                example2: "collision", word2: "sio", transcription2: "[kɒlɪʒn]", translation2: "стролкновение", image2: "collision.jpg",
+                example3: "division", word3: "sio", transcription3: "[dɪvɪʒn]", translation3: "подразделение", image3: "division.jpg",
             },
             {
                 soundFile: "ar.mp3",
                 alphabetButton: "ar",
                 transcriptionButton: "ɑ:",
-                tooltip: "открытый долгий звук [а]",
-                examples: [
-                    { example: "car", word: "ɑ:", transcription: "[kɑːr]", translation: "автомобиль", image: "car.jpg" },
-                    { example: "star", word: "ɑ:", transcription: "[stɑːr]", translation: "звезда", image: "star.jpg" },
-                    { example: "cigar", word: "ɑ:", transcription: "[sɪˈɡɑːr]", translation: "сигара", image: "cigar.jpg" }
-                ]
+                tooltip: "открытый долгий звук [а] ",
+                example1: "car", word1: "ar", transcription1: "[kɑːr]", translation1: "автомобиль", image1: "car.jpg",
+                example2: "star", word2: "ar", transcription2: "[stɑːr]", translation2: "звезда", image2: "star.jpg",
+                example3: "cigar", word3: "ar", transcription3: "[sɪˈɡɑːr]", translation3: "сигара", image3: "cigar.jpg",
             },
             {
                 soundFile: "er.mp3",
                 alphabetButton: "er",
                 transcriptionButton: "ə",
                 tooltip: "неясный, короткий безударный звук между [а] и [э]",
-                examples: [
-                    { example: "sister", word: "ə", transcription: "[sɪstə]", translation: "сестра", image: "sister.jpg" },
-                    { example: "finger", word: "ə", transcription: "[fɪŋgə]", translation: "палец", image: "finger.jpg" },
-                    { example: "driver", word: "ə", transcription: "[draɪvə]", translation: "водитель", image: "driver.jpg" }
-                ]
+                example1: "sister", word1: "er", transcription1: "[sɪstə]", translation1: "сестра", image1: "sister.jpg",
+                example2: "finger", word2: "er", transcription2: "[fɪŋgə]", translation2: "палец", image2: "finger.jpg",
+                example3: "driver", word3: "er", transcription3: "[draɪvə]", translation3: "водитель", image3: "driver.jpg",
             },
             {
                 soundFile: "or.mp3",
                 alphabetButton: "or",
                 transcriptionButton: "ɔ:",
                 tooltip: "долгий открытый протяжный звук [о], но язык опущен и оттянут назад и губы не округлены и не вытянуты",
-                examples: [
-                    { example: "sport", word: "ɔ:", transcription: "[spɔːt]", translation: "спорт", image: "sport.jpg" },
-                    { example: "morning", word: "ɔ:", transcription: "[mɔːnɪŋ]", translation: "утро", image: "morning.jpg" },
-                    { example: "north", word: "ɔ:", transcription: "[nɔːθ]", translation: "север", image: "north.jpg" }
-                ]
+                example1: "sport", word1: "or", transcription1: "[spɔːt]", translation1: "спорт", image1: "sport.jpg",
+                example2: "morning", word2: "or", transcription2: "[mɔːnɪŋ]", translation2: "утро", image2: "morning.jpg",
+                example3: "north", word3: "or", transcription3: "[nɔːθ]", translation3: "север", image3: "north.jpg",
             },
             {
                 soundFile: "ir.mp3",
                 alphabetButton: "ir",
                 transcriptionButton: "ɜ:",
                 tooltip: "произносится изнутри с полузакрытым ртом средний между русскими звуками [о] и [э]",
-                examples: [
-                    { example: "girl", word: "ɜ:", transcription: "[ɡɜːl]", translation: "девушка", image: "girl.jpg" },
-                    { example: "bird", word: "ɜ:", transcription: "[bɜːd]", translation: "птица", image: "bird.jpg" },
-                    { example: "skirt", word: "ɜ:", transcription: "[skɜːt]", translation: "платье", image: "skirt.jpg" }
-                ]
+                example1: "girl", word1: "ir", transcription1: "[ɡɜːl]", translation1: "девушка", image1: "girl.jpg",
+                example2: "bird", word2: "ir", transcription2: "[bɜːd]", translation2: "птица", image2: "bird.jpg",
+                example3: "skirt", word3: "ir", transcription3: "[skɜːt]", translation3: "платье", image3: "skirt.jpg",
             },
             {
                 soundFile: "oo1.mp3",
                 alphabetButton: "oo",
                 transcriptionButton: "ʊ",
                 tooltip: "краткий русский звук [у]",
-                examples: [
-                    { example: "book", word: "ʊ", transcription: "[bʊk]", translation: "книга", image: "book.jpg" },
-                    { example: "look", word: "ʊ", transcription: "[lʊk]", translation: "взгляд", image: "look.jpg" },
-                    { example: "foot", word: "ʊ", transcription: "[fʊt]", translation: "ступня", image: "foot.jpg" }
-                ]
+                example1: "book", word1: "oo", transcription1: "[bʊk]", translation1: "книга", image1: "book.jpg",
+                example2: "look", word2: "oo", transcription2: "[lʊk]", translation2: "взгляд", image2: "look.jpg",
+                example3: "foot", word3: "oo", transcription3: "[fʊt]", translation3: "ступня", image3: "foot.jpg",
             },
+
             {
                 soundFile: "oi.mp3",
                 alphabetButton: "oi",
                 transcriptionButton: "ɔɪ",
                 tooltip: "близок русскому звуку [ой] с ударением на первом звуке",
-                examples: [
-                    { example: "coin", word: "ɔɪ", transcription: "[kɔɪn]", translation: "монета", image: "coin.jpg" },
-                    { example: "voice", word: "ɔɪ", transcription: "[vɔɪs]", translation: "голос", image: "voice.jpg" },
-                    { example: "oil", word: "ɔɪ", transcription: "[ɔɪl]", translation: "масло", image: "oil.jpg" },
-                    { example: "boy", word: "ɔɪ", transcription: "[bɔɪ]", translation: "мальчик", image: "boy.jpg" },
-                    { example: "toy", word: "ɔɪ", transcription: "[tɔɪ]", translation: "игрушка", image: "toy.jpg" },
-                    { example: "joy", word: "ɔɪ", transcription: "[dʒɔɪ]", translation: "радость", image: "joy.jpg" }
-                ]
+                example1: "coin", transcription1: "[kɔɪn]", translation1: "монета", image1: "coin.jpg",
+                example2: "voice", transcription2: "[vɔɪs]", translation2: "голос", image2: "voice.jpg",
+                example3: "oil", transcription3: "[ɔɪl]", translation3: "масло", image3: "oil.jpg",
+                example4: "boy", transcription4: "[bɔɪ]", translation4: "мальчик", image4: "boy.jpg",
+                example5: "toy", transcription5: "[tɔɪ]", translation5: "игрушка", image5: "toy.jpg",
+                example6: "joy", transcription6: "[dʒɔɪ]", translation6: "радость", image6: "joy.jpg"
             },
+
             {
                 soundFile: "au.mp3",
                 alphabetButton: "ou",
                 transcriptionButton: "aʊ",
                 tooltip: "близок русскому звуку [ау], протяжно и с ударением на первом звуке",
-                examples: [
-                    { example: "mouth", word: "aʊ", transcription: "[maʊθ]", translation: "рот", image: "mouth.jpg" },
-                    { example: "cloud", word: "aʊ", transcription: "[klaʊd]", translation: "облако", image: "cloud.jpg" },
-                    { example: "house", word: "aʊ", transcription: "[haʊs]", translation: "дом", image: "house.jpg" },
-                    { example: "town", word: "aʊ", transcription: "[taʊn]", translation: "город", image: "town.jpg" },
-                    { example: "crown", word: "aʊ", transcription: "[kraʊn]", translation: "корона", image: "crown.jpg" },
-                    { example: "brown", word: "aʊ", transcription: "[braʊn]", translation: "коричневый", image: "brown.jpg" }
-                ]
+                example1: "mouth", transcription1: "[maʊθ]", translation1: "рот", image1: "mouth.jpg",
+                example2: "cloud", transcription2: "[klaʊd]", translation2: "облако", image2: "cloud.jpg",
+                example3: "house", transcription3: "[haʊs]", translation3: "дом", image3: "house.jpg",
+                example4: "town", transcription4: "[taʊn]", translation4: "город", image4: "town.jpg",
+                example5: "crown", transcription5: "[kraʊn]", translation5: "корона", image5: "crown.jpg",
+                example6: "brown", transcription6: "[braʊn]", translation6: "коричневый", image6: "brown.jpg"
             },
+
             {
                 soundFile: "ear.mp3",
                 alphabetButton: "ear",
                 transcriptionButton: "ɪə",
                 tooltip: "сочетание английских звуков [ɪ] и [ə] c ударением на [ə], близкое к русскому [иэ]",
-                examples: [
-                    { example: "ear", word: "ɪə", transcription: "[ɪə]", translation: "ухо", image: "ear.jpg" },
-                    { example: "fear", word: "ɪə", transcription: "[fɪə]", translation: "страх", image: "fear.jpg" },
-                    { example: "year", word: "ɪə", transcription: "[jɪə]", translation: "год", image: "year.jpg" }
-                ]
+                example1: "ear", word1: "ear", transcription1: "[ɪə]", translation1: "ухо", image1: "ear.jpg",
+                example2: "fear", word2: "ear", transcription2: "[fɪə]", translation2: "страх", image2: "fear.jpg",
+                example3: "year", word3: "ear", transcription3: "[jɪə]", translation3: "год", image3: "year.jpg",
             },
             {
                 soundFile: "ure.mp3",
                 alphabetButton: "ure",
                 transcriptionButton: "ʊə",
                 tooltip: "сочетание английских звуков [ʊ] и [ə] c ударением на [ʊ], близкое к русскому [уэ]",
-                examples: [
-                    { example: "cure", word: "ʊə", transcription: "[kjʊə]", translation: "лечение", image: "cure.jpg" },
-                    { example: "pure", word: "ʊə", transcription: "[pjʊə]", translation: "беспримесный", image: "pure.jpg" },
-                    { example: "sure", word: "ʊə", transcription: "[ʃʊə]", translation: "уверенный", image: "sure.jpg" }
-                ]
+                example1: "cure", word1: "ure", transcription1: "[kjʊə]", translation1: "лечение", image1: "cure.jpg",
+                example2: "pure", word2: "ure", transcription2: "[pjʊə]", translation2: "беспримесный", image2: "pure.jpg",
+                example3: "sure", word3: "ure", transcription3: "[ʃʊə]", translation3: "уверенный", image3: "sure.jpg",
             },
             {
                 soundFile: "air.mp3",
                 alphabetButton: "air",
                 transcriptionButton: "eə",
                 tooltip: "сочетание английских звуков [e] и [ə] c оттенком [ʌ], близкое к русскому [эа], с ударением на первом звуке",
-                examples: [
-                    { example: "air", word: "eə", transcription: "[eə]", translation: "воздух", image: "air.jpg" },
-                    { example: "chair", word: "eə", transcription: "[tʃeə]", translation: "стул", image: "chair.jpg" },
-                    { example: "hair", word: "eə", transcription: "[heə]", translation: "волосы", image: "hair.jpg" }
-                ]
+                example1: "air", word1: "air", transcription1: "[eə]", translation1: "воздух", image1: "air.jpg",
+                example2: "chair", word2: "air", transcription2: "[tʃeə]", translation2: "стул", image2: "chair.jpg",
+                example3: "hair", word3: "air", transcription3: "[heə]", translation3: "волосы", image3: "hair.jpg",
             },
-        ];
 
+
+
+        ];
         let currentIndex = 0;
-        let currentExampleIndex = 0;
-        let currentSlide = 0;
+
+
         let currentExample = null;
+        let currentSlide = 0;
 
         function playSound(file) {
             const audio = document.getElementById("audioPlayer");
@@ -959,7 +1021,7 @@
 
         function speakCurrentWord() {
             if (currentExample) {
-                speak(currentExample.example);
+                speak(currentExample.word);
             }
         }
 
@@ -968,35 +1030,66 @@
             return word.replace(new RegExp(part, 'gi'), `<span class="highlighted">${part}</span>`);
         }
 
-        function updateContent() {
-            const current = sounds[currentIndex];
-            const currentExample = current.examples[currentExampleIndex % current.examples.length];
+        let currentExampleIndex = 0; // Добавляем переменную для отслеживания текущего примера
 
-            document.getElementById("transcriptionButton").innerHTML = `
-                <span class="transcription-symbol">${current.transcriptionButton}</span>
-                <div class="tooltip">${current.tooltip}</div>
-            `;
 
-            const highlightedWord = highlightPart(currentExample.example, currentExample.word);
-            document.getElementById("wordText").innerHTML = highlightedWord;
-            document.getElementById("wordTranscr").textContent = currentExample.transcription;
-            document.getElementById("wordTransl").textContent = currentExample.translation;
-            const centeredImage = document.getElementById("centeredImage");
-            centeredImage.src = currentExample.image;
-            centeredImage.style.display = "block";
+        function getExamples(sound) {
+            const examples = [];
+            let i = 1;
+            while (sound.hasOwnProperty(`example${i}`)) {
+                examples.push({
+                    word: sound[`example${i}`],
+                    part: sound[`word${i}`],
+                    transcr: sound[`transcription${i}`],
+                    transl: sound[`translation${i}`],
+                    img: sound[`image${i}`]
+                });
+                i++;
+            }
+            return examples;
         }
 
+
+        function updateContent() {
+            const current = sounds[currentIndex];
+            document.getElementById("transcriptionButton").innerHTML = `
+        <span class="transcription-symbol">${current.transcriptionButton}</span>
+        <div class="tooltip">${current.tooltip}</div>
+    `;
+
+            // Получаем все доступные примеры для текущего звука
+            const examples = getExamples(current);
+
+            // Устанавливаем текущий пример
+            if (examples.length > 0) {
+                currentExample = examples[currentExampleIndex % examples.length];
+
+                const highlightedWord = highlightPart(currentExample.word, currentExample.part);
+                document.getElementById("wordText").innerHTML = highlightedWord;
+                document.getElementById("wordTranscr").textContent = currentExample.transcr;
+                document.getElementById("wordTransl").textContent = currentExample.transl;
+
+                const centeredImage = document.getElementById("centeredImage");
+                centeredImage.src = currentExample.img;
+                centeredImage.style.display = "block";
+            }
+
+            updateActiveNav();
+        }
+
+        // Функция для перехода к следующему примеру
         function nextExample() {
-            currentExampleIndex = (currentExampleIndex + 1) % sounds[currentIndex].examples.length;
+            const currentExamples = getExamples(sounds[currentIndex]);
+            currentExampleIndex = (currentExampleIndex + 1) % currentExamples.length;
             updateContent();
         }
 
         function createFullNavigation() {
             const navContainer = document.getElementById("fullNav");
             navContainer.innerHTML = "";
+
             const chunkSize = 24;
             const chunks = [];
-
             for (let i = 0; i < sounds.length; i += chunkSize) {
                 chunks.push(sounds.slice(i, i + chunkSize));
             }
@@ -1007,6 +1100,7 @@
             chunks.forEach((chunk, slideIndex) => {
                 const slide = document.createElement("div");
                 slide.classList.add("slide");
+
                 chunk.forEach((sound, indexInChunk) => {
                     const globalIndex = slideIndex * chunkSize + indexInChunk;
                     const button = document.createElement("div");
@@ -1015,12 +1109,12 @@
                     if (globalIndex === currentIndex) button.classList.add("active");
                     button.addEventListener("click", () => {
                         currentIndex = globalIndex;
-                        currentSlide = Math.floor(currentIndex / chunkSize);
                         updateContent();
                         updateActiveNav();
                     });
                     slide.appendChild(button);
                 });
+
                 slidesContainer.appendChild(slide);
             });
 
@@ -1041,7 +1135,6 @@
 
         function updateSlidePosition() {
             const slidesContainer = document.querySelector(".slides-container");
-            if (!slidesContainer) return;
             const slideWidth = document.querySelector('.carousel-wrapper').offsetWidth;
             slidesContainer.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
         }
@@ -1064,13 +1157,15 @@
         function prevSound() {
             if (currentIndex > 0) {
                 currentIndex--;
+
+                // Проверяем нужно ли переключить слайд
                 const itemsPerSlide = 24;
                 const currentSlideIndex = Math.floor(currentIndex / itemsPerSlide);
                 if (currentSlide !== currentSlideIndex) {
                     currentSlide = currentSlideIndex;
                     updateSlidePosition();
                 }
-                currentExampleIndex = 0;
+
                 updateContent();
             }
         }
@@ -1078,22 +1173,24 @@
         function nextSound() {
             if (currentIndex < sounds.length - 1) {
                 currentIndex++;
+
+                // Проверяем нужно ли переключить слайд
                 const itemsPerSlide = 24;
                 const currentSlideIndex = Math.floor(currentIndex / itemsPerSlide);
                 if (currentSlide !== currentSlideIndex) {
                     currentSlide = currentSlideIndex;
                     updateSlidePosition();
                 }
-                currentExampleIndex = 0;
+
                 updateContent();
             }
         }
 
         window.onload = () => {
-            currentExampleIndex = 0;
             updateContent();
             createFullNavigation();
         };
     </script>
 </body>
+
 </html>
