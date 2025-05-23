@@ -1080,12 +1080,63 @@
             }
         ];
         let currentIndex = 0;
-
-
-
-
         let currentExample = null;
         let currentSlide = 0;
+
+
+         const centeredImage = document.getElementById("centeredImage");
+
+    centeredImage.oncontextmenu = function (e) {
+        e.preventDefault();
+        prevExample();
+        return false;
+    };
+
+    centeredImage.onclick = function () {
+        nextExample();
+    };
+
+function updateExampleDisplay() {
+    const sound = sounds[currentIndex];
+    const example = sound.examples[currentExampleIndex];
+
+    if (example.image) {
+        centeredImage.src = `${example.image}`;
+        centeredImage.style.display = "inline-block";
+    }
+
+    // Подсветка буквы в слове
+    const wordRegex = new RegExp(`(${example.letter})`, 'i');
+    const highlightedWord = example.example.replace(wordRegex, `<span class="highlighted">$1</span>`);
+    document.getElementById("wordText").innerHTML = highlightedWord;
+
+    // Подсветка звука в транскрипции
+    const soundRegex = new RegExp(`(${sound.transcriptionButton})`, 'i');
+    const highlightedTranscr = example.transcription.replace(soundRegex, `<span class="highlighted">$1</span>`);
+    document.getElementById("wordTranscr").innerHTML = highlightedTranscr;
+
+    // Перевод
+    document.getElementById("wordTransl").textContent = example.translation;
+}
+
+
+
+
+    
+
+    function nextExample() {
+        if (currentExampleIndex < sounds[currentIndex].examples.length - 1) {
+            currentExampleIndex++;
+            updateExampleDisplay();
+        }
+    }
+
+    function prevExample() {
+        if (currentExampleIndex > 0) {
+            currentExampleIndex--;
+            updateExampleDisplay();
+        }
+    }
 
         function playSound(file) {
             const audio = document.getElementById("audioPlayer");
@@ -1093,7 +1144,7 @@
             audio.play().catch(error => console.error("Ошибка воспроизведения:", error));
         }
 
-        function speak(text) {
+         function speak(text) {
             if ('speechSynthesis' in window) {
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = "en-US";
@@ -1104,9 +1155,10 @@
         }
 
         function speakCurrentWord() {
-            if (currentExample) {
-                speak(currentExample.letter);
-            }
+           const utterance = new SpeechSynthesisUtterance(sounds[currentIndex].examples[currentExampleIndex].example);
+           utterance.lang = "en-US";
+             
+        speechSynthesis.speak(utterance);
         }
 
         // function highlightTranscription(transcr, part) {
@@ -1178,12 +1230,6 @@
             updateActiveNav();
         }
 
-        // Функция для перехода к следующему примеру
-        function nextExample() {
-            const currentExamples = getExamples(sounds[currentIndex]);
-            currentExampleIndex = (currentExampleIndex + 1) % currentExamples.length;
-            updateContent();
-        }
 
         function createFullNavigation() {
             const navContainer = document.getElementById("fullNav");
@@ -1291,6 +1337,7 @@
             updateContent();
             createFullNavigation();
         };
+         updateExampleDisplay();
     </script>
 </body>
 
