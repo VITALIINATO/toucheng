@@ -91,13 +91,18 @@
 
 
 
-        .container h1,
         .container h2 {
             font-size: 2rem;
-            color: #00ff6a;
-            margin-bottom: 20px;
+            color: #00ffb3;
+            margin-bottom: 30px;
             text-align: center;
             text-shadow: 0 0 15px #00ff73, 0 0 25px #00ff73;
+            animation: glow 2s infinite alternate;
+        }
+
+         @keyframes glow {
+            from { text-shadow: 0 0 10px #00ff73; }
+            to { text-shadow: 0 0 20px #00ff73, 0 0 30px #00ff73; }
         }
 
 
@@ -140,15 +145,48 @@
 
         }
 
+         .link::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.6s ease;
+            z-index: 0;
+        }
+         .link:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+
         .link {
+            background: transparent;
             color: rgb(250, 248, 248);
             font-weight: bolder;
-            /* background: linear-gradient(135deg, #2c5ce03f, #50309c71); */
-            background: transparent;
-             text-shadow: 0 0 15px #00ff73, 0 0 15px #00ff73;
-             font-size: 24px;
-             padding: 2px;
-            
+            text-shadow: 0 0 15px #00ff73, 0 0 15px #00ff73;
+            font-size: 24px;
+            padding: 8px;
+            position: relative;
+        }
+
+        .link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00ff73, transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(100%); }
         }
         
 
