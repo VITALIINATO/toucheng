@@ -242,33 +242,33 @@ const phrases = [
             let availablePhrases = [...phrases];
 
             function showRandomPhrase() {
-                const phraseContainer = document.getElementById('phrase-container');
-                phraseContainer.classList.remove('visible');
+    const phraseContainer = document.getElementById('phrase-container');
+    phraseContainer.classList.remove('visible');
 
-                setTimeout(() => {
-                    if (availablePhrases.length === 0) {
-                        availablePhrases = [...phrases];
-                    }
+    setTimeout(() => {
+        if (availablePhrases.length === 0) {
+            availablePhrases = [...phrases];
+        }
 
-                    const randomIndex = Math.floor(Math.random() * availablePhrases.length);
-                    currentPhrase = availablePhrases[randomIndex];
-                    availablePhrases.splice(randomIndex, 1);
+        const randomIndex = Math.floor(Math.random() * availablePhrases.length);
+        currentPhrase = availablePhrases[randomIndex];
+        availablePhrases.splice(randomIndex, 1);
 
-                    document.getElementById('phrase').textContent = currentPhrase.english;
-                    document.getElementById('transcription').textContent = currentPhrase.transcription;
-                    document.getElementById('translation').textContent = currentPhrase.russian;
-                    
-                    const imageElement = document.getElementById('phrase-image');
-                    if (currentPhrase.imageSrc) {
-                        imageElement.src = currentPhrase.imageSrc;
-                        imageElement.style.display = "block";
-                    } else {
-                        imageElement.style.display = "none";
-                    }
+        document.getElementById('phrase').textContent = currentPhrase.english;
+        document.getElementById('transcription').textContent = currentPhrase.transcription;
+        document.getElementById('translation').textContent = currentPhrase.translation; // ✅ Исправлено здесь
 
-                    phraseContainer.classList.add('visible');
-                }, 300);
-            }
+        const imageElement = document.getElementById('phrase-image');
+        if (currentPhrase.imageSrc) {
+            imageElement.src = currentPhrase.imageSrc;
+            imageElement.style.display = "block";
+        } else {
+            imageElement.style.display = "none";
+        }
+
+        phraseContainer.classList.add('visible');
+    }, 300);
+}
 
             function speakPhrase() {
                 if ('speechSynthesis' in window) {
