@@ -1,293 +1,331 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JUMP to ENG</title>
+    <title>English</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!-- В head -->
+<link href="https://fonts.googleapis.com/css2?family=Quicksand :wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- <link href="https://fonts.googleapis.com/css2?family=Inter :wght@400;600;700&display=swap" rel="stylesheet"> -->
+
+    <link rel="icon" href="icon.png" type="image/png">
     <style>
-        /* Современный дизайн с градиентами и анимацией */
+        :root {
+            /* Современная палитра с фиолетово-розовыми акцентами */
+            --primary-color: #8e2de2;
+            /* Глубокий фиолетовый */
+            --primary-color: #b270ec;
+            /* Глубокий фиолетовый */
+            --primary-gradient: linear-gradient(45deg, #8e2de2, #4a00e0);
+            /* --secondary-color: #ff6b6b; */
+            --secondary-color: #524a9c;
+            --third-color: #565181;
+
+            --highlight-main: #8e2de2;
+            --highlight-accent: #5e4949;
+            /*--success-color: #00ffaa;  Сохраняем салатовый для транскрипции */
+            --success-color: #29b875;
+            /* Сохраняем салатовый для транскрипции */
+            --bg-gradient: radial-gradient(circle at top left, #1a1a1a, #0f0f0f);
+            --border-radius: 15px;
+            --transition: all 0.3s ease;
+            --neon-glow: #a98bb3;
+            /* --neon-glow: 0 0 15px #8e2de2, 0 0 30px #8e2de2; */
+            --glass-effect: rgba(255, 255, 255, 1.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* body {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            overflow: hidden;
+        } */
+
         body {
-            font-family: 'Segoe UI', sans-serif;
-            display: flex;
+     /* font-family: 'Poppins', sans-serif; */
+      
+        /* font-family: 'Inter', sans-serif; */
+         font-family: 'Quicksand', sans-serif;    
+        display: flex;
+            background: radial-gradient(circle at top left, rgba(75, 26, 160, 0.2), rgba(10, 10, 10, 0.9)),
+                linear-gradient(180deg, #413f3f, #0a0a0a),
+                url('фоновая-текстура.png') no-repeat center center fixed;
+            background-size: cover;
+            backdrop-filter: brightness(1.1);
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #f4f4f9 0%, #e0eafc 100%);
-            padding: 20px;
+            overflow-x: hidden;
         }
 
         .container {
-            text-align: center;
-            background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
+            z-index: 10;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: calc(100vw * 16 / 9);
+            max-height: 100vh;
+            max-width: calc(100vh * 9 / 16);
+            background: var(--bg-gradient);
+            border-radius: var(--border-radius);
+            box-shadow: 0 0 120px rgba(142, 45, 226, 0.3), inset 0 0 10px rgba(142, 45, 226, 0.1);
+            backdrop-filter: blur(150px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            position: absolute;
+            padding-bottom: 40px;
+            padding-top: 40px;
         }
 
-        h1 {
-            color: #4a154b;
+
+
+
+        .container h2 {
             font-size: 2rem;
-            margin-bottom: 1.5rem;
-            font-weight: bold;
+            color: #00ffb3;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 0 15px #00ff73, 0 0 25px #00ff73;
+            animation: glow 2s infinite alternate;
         }
 
-        #phrase-container {
-            opacity: 0;
-            transition: all 0.6s ease-in-out;
-            margin-bottom: 1.5rem;
+         @keyframes glow {
+            from { text-shadow: 0 0 10px #00ff73; }
+            to { text-shadow: 0 0 20px #00ff73, 0 0 30px #00ff73; }
         }
 
-        #phrase-container.visible {
-            opacity: 1;
-            transform: translateY(0);
+
+
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            /* Кнопки друг под другом */
+            align-items: center;
+            /* Центрирование по горизонтали */
+            gap: 10px;
+            /* Расстояние между кнопками */
+            justify-content: center;
+            margin-top: 5px;
+            margin-bottom: 5px;
+
+            text-align: center
         }
 
-        #phrase-image {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
 
-        #phrase {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 0.5rem;
-        }
-
-        #transcription {
-            font-size: 1rem;
-            color: #888;
-            margin-bottom: 0.3rem;
-        }
-
-        #translation {
+        .link,
+        .link2,
+        .link3,
+        .link4,
+        .link5 {
+            padding: 15px 25px;
+            /* margin: 10px; */
             font-size: 1.1rem;
-            color: #34495e;
-            font-weight: 500;
-        }
-
-        button {
-            width: 140px;
-            padding: 0.6rem 1rem;
-            margin: 0.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
+            text-decoration: none;
+            border-radius: 15px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+            font-weight: bold;
+            color: #fff;
+            width: 155px;
+            background: linear-gradient(135deg, #2c5ce0, #51309c);
+            /* Начальный */
+
+           
+
         }
 
-        #speak-phrase-btn {
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            color: white;
+         .link::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.6s ease;
+            z-index: 0;
+        }
+         .link:hover::before {
+            transform: translate(-50%, -50%) scale(1);
         }
 
-        #speak-phrase-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(76, 175, 80, 0.3);
+
+        .link {
+            background: transparent;
+            color: rgb(250, 248, 248);
+            font-weight: bolder;
+            text-shadow: 0 0 15px #00ff73, 0 0 15px #00ff73;
+            font-size: 24px;
+            padding: 8px;
+            position: relative;
         }
 
-        #next-phrase-btn {
-            background: linear-gradient(135deg, #007BFF 0%, #0069d9 100%);
-            color: white;
-        }
-
-        #next-phrase-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
-        }
-
-        .slider-container {
-            margin-top: 1.5rem;
-            text-align: left;
-        }
-
-        input[type="range"] {
+        .link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
             width: 100%;
-            accent-color: #4a154b;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00ff73, transparent);
+            animation: shine 2s infinite;
         }
 
-        #speedDisplay {
-            margin-left: 0.5rem;
-            font-weight: 600;
-            color: #4a154b;
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+
+        .link2,
+        .link4 {
+            color: rgb(8, 8, 8);
+             box-shadow: 0 0 1px #00ff73, 0 0 15px #00ff73;
+        }
+        
+        .link3 {
+          
+             box-shadow: 0 0 1px #00ff73, 0 0 15px #00ff73;
         }
 
-        label {
-            font-weight: 600;
-            color: #4a154b;
-            display: block;
-            margin-bottom: 0.3rem;
+        .link:hover,
+        .link2:hover,
+        .link3:hover,
+        .link4:hover,
+        .link5:hover,
+        .link6:hover {
+            background: linear-gradient(135deg, #ff4081, #e91e63);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #ff4081, 0 0 30px #ff4081;
+        }
+
+        .link2 {
+            background: linear-gradient(135deg, #5a5fd6, #703ca1);
+        }
+
+        .link3 {
+            background: linear-gradient(135deg, #a46ac9, #a14f9f);
+        }
+
+        .link4 {
+            background: linear-gradient(135deg, #d96bbd, #c24b94);
+        }
+
+        .link5 {
+            background: linear-gradient(135deg, #ff4081, #e91e63);
+
+        }
+
+        .link5 {
+            background: linear-gradient(135deg, #df2261, #e91e1e);
+            /* Конечный */
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <h1>JUMP to ENG</h1>
-        <div id="phrase-container">
-            <img id="phrase-image" src="" alt="Phrase illustration">
-            <p id="phrase">Приветствие!</p>
-            <div id="translation-container">
-                <p id="transcription"></p>
-                <p id="translation"></p>
-            </div>
+        <h1></h1>
+        <h2>T o u c h 📗 E n g</h2>
+        <div class="links-container">
+            <a href="44 sounds.html" class="link">♫ ВСЕ ЗВУКИ</a><br>
+
+            <a href="01. Translate.html" class="link2">Перевод 👀 </a>
+            <a href="02. Translate-game.html" class="link2">Игра 👀</a><br>
+
+            <a href="03. Sounds.html" class="link3">Звуки 👂</a>
+            <a href="04. Sounds-game.html" class="link3">Игра 👂</a><br>
+
+            <a href="05. Writting.html" class="link4">Письмо ✍</a>
+            <a href="06. Writting-game.html" class="link4">Игра ✍</a>
         </div>
 
-        <button id="speak-phrase-btn">Озвучить</button>
-        <button id="next-phrase-btn">Next</button>
-
-        <div class="slider-container">
-            <label for="speedRange">Скорость речи:</label>
-            <input type="range" id="speedRange" min="0.3" max="1" value="1" step="0.1">
-            <span id="speedDisplay">1.0x</span>
-        </div>
     </div>
-
+    <audio id="audioPlayer"></audio>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          
-const phrases = [
-  { english: "big lake", transcription: "[bɪɡ leɪk]", translation: "большое озеро", imageSrc: "https://picsum.photos/id/13/200/200 " },
-  { english: "small lake", transcription: "[smɔːl leɪk]", translation: "маленькое озеро", imageSrc: "https://picsum.photos/id/14/200/200 " },
-  { english: "long legs", transcription: "[lɔːŋ leɡz]", translation: "длинные ноги", imageSrc: "https://picsum.photos/id/15/200/200 " },
-  { english: "short legs", transcription: "[ʃɔːrt leɡz]", translation: "короткие ноги", imageSrc: "https://picsum.photos/id/16/200/200 " },
-  { english: "happy smile", transcription: "[ˈhæpi smaɪl]", translation: "счастливая улыбка", imageSrc: "https://picsum.photos/id/17/200/200 " },
-  { english: "sad smile", transcription: "[sæd smaɪl]", translation: "грустная улыбка", imageSrc: "https://picsum.photos/id/18/200/200 " },
-  { english: "big flat", transcription: "[bɪɡ flæt]", translation: "большая квартира", imageSrc: "https://picsum.photos/id/19/200/200 " },
-  { english: "small flat", transcription: "[smɔːl flæt]", translation: "маленькая квартира", imageSrc: "https://picsum.photos/id/20/200/200 " },
-  { english: "dark sky", transcription: "[dɑːrk skaɪ]", translation: "тёмное небо", imageSrc: "https://picsum.photos/id/21/200/200 " },
-  { english: "light sky", transcription: "[laɪt skaɪ]", translation: "светлое небо", imageSrc: "https://picsum.photos/id/22/200/200 " },
-  { english: "old cat", transcription: "[oʊld kæt]", translation: "старый кот", imageSrc: "https://picsum.photos/id/23/200/200 " },
-  { english: "young cat", transcription: "[jʌŋ kæt]", translation: "молодой кот", imageSrc: "https://picsum.photos/id/24/200/200 " },
-  { english: "black cat", transcription: "[blæk kæt]", translation: "чёрный кот", imageSrc: "https://picsum.photos/id/25/200/200 " },
-  { english: "white cat", transcription: "[waɪt kæt]", translation: "белый кот", imageSrc: "https://picsum.photos/id/26/200/200 " },
-  { english: "new bike", transcription: "[njuː baɪk]", translation: "новый велосипед", imageSrc: "https://picsum.photos/id/27/200/200 " },
-  { english: "old bike", transcription: "[oʊld baɪk]", translation: "старый велосипед", imageSrc: "https://picsum.photos/id/28/200/200 " },
-  { english: "happy face", transcription: "[ˈhæpi feɪs]", translation: "веселое лицо", imageSrc: "https://picsum.photos/id/29/200/200 " },
-  { english: "sad face", transcription: "[sæd feɪs]", translation: "грустное лицо", imageSrc: "https://picsum.photos/id/30/200/200 " },
-  { english: "small phone", transcription: "[smɔːl foʊn]", translation: "маленький телефон", imageSrc: "https://picsum.photos/id/31/200/200 " },
-  { english: "big phone", transcription: "[bɪɡ foʊn]", translation: "большой телефон", imageSrc: "https://picsum.photos/id/32/200/200 " },
-  { english: "light bag", transcription: "[laɪt bæɡ]", translation: "лёгкая сумка", imageSrc: "https://picsum.photos/id/33/200/200 " },
-  { english: "heavy bag", transcription: "[ˈhɛvi bæɡ]", translation: "тяжёлая сумка", imageSrc: "https://picsum.photos/id/34/200/200 " },
-  { english: "old book", transcription: "[oʊld bʊk]", translation: "старая книга", imageSrc: "https://picsum.photos/id/37/200/200 " },
-  { english: "new book", transcription: "[njuː bʊk]", translation: "новая книга", imageSrc: "https://picsum.photos/id/38/200/200 " },
-  { english: "hot coffee", transcription: "[wɔːrm ˈkɔːfi]", translation: "горячий кофе", imageSrc: "https://picsum.photos/id/39/200/200 " },
-  { english: "cold coffee", transcription: "[koʊld ˈkɔːfi]", translation: "холодный кофе", imageSrc: "https://picsum.photos/id/40/200/200 " },
-  { english: "hot tea", transcription: "[wɔːrm tiː]", translation: "горячий чай", imageSrc: "https://picsum.photos/id/41/200/200 " },
-  { english: "cold tea", transcription: "[koʊld tiː]", translation: "холодный чай", imageSrc: "https://picsum.photos/id/42/200/200 " },
-  { english: "hot air", transcription: "[wɔːrm ɛr]", translation: "тёплый воздух", imageSrc: "https://picsum.photos/id/45/200/200 " },
-  { english: "cold air", transcription: "[koʊld ɛr]", translation: "холодный воздух", imageSrc: "https://picsum.photos/id/46/200/200 " },
-  { english: "old phone", transcription: "[oʊld foʊn]", translation: "старый телефон", imageSrc: "https://picsum.photos/id/49/200/200 " },
-  { english: "new phone", transcription: "[njuː foʊn]", translation: "новый телефон", imageSrc: "https://picsum.photos/id/50/200/200 " },
-  { english: "old car", transcription: "[oʊld kɑːr]", translation: "старая машина", imageSrc: "https://picsum.photos/id/51/200/200 " },
-  { english: "new car", transcription: "[njuː kɑːr]", translation: "новая машина", imageSrc: "https://picsum.photos/id/52/200/200 " },
-  { english: "old house", transcription: "[oʊld haʊs]", translation: "старый дом", imageSrc: "https://picsum.photos/id/53/200/200 " },
-  { english: "new house", transcription: "[njuː haʊs]", translation: "новый дом", imageSrc: "https://picsum.photos/id/54/200/200 " },
-  { english: "dark room", transcription: "[dɑːrk rum]", translation: "тёмная комната", imageSrc: "https://picsum.photos/id/55/200/200 " },
-  { english: "light room", transcription: "[laɪt rum]", translation: "светлая комната", imageSrc: "https://picsum.photos/id/56/200/200 " },
-  { english: "dark cloud", transcription: "[dɑːrk klaʊd]", translation: "тёмное облако", imageSrc: "https://picsum.photos/id/57/200/200 " },
-  { english: "light cloud", transcription: "[laɪt klaʊd]", translation: "светлое облако", imageSrc: "https://picsum.photos/id/58/200/200 " },
-  { english: "dark hair", transcription: "[dɑːrk hɛr]", translation: "тёмные волосы", imageSrc: "https://picsum.photos/id/59/200/200 " },
-  { english: "light hair", transcription: "[laɪt hɛr]", translation: "светлые волосы", imageSrc: "https://picsum.photos/id/60/200/200 " },
-  { english: "old photo", transcription: "[oʊld ˈfoʊtoʊ]", translation: "старое фото", imageSrc: "https://picsum.photos/id/61/200/200 " },
-  { english: "new photo", transcription: "[njuː ˈfoʊtoʊ]", translation: "новое фото", imageSrc: "https://picsum.photos/id/62/200/200 " },
-  { english: "black hair", transcription: "[blæk hɛr]", translation: "чёрные волосы", imageSrc: "https://picsum.photos/id/63/200/200 " },
-  { english: "white hair", transcription: "[waɪt hɛr]", translation: "белые волосы", imageSrc: "https://picsum.photos/id/64/200/200 " },
-  { english: "black skirt", transcription: "[blæk skɜːrt]", translation: "чёрная юбка", imageSrc: "https://picsum.photos/id/65/200/200 " },
-  { english: "white skirt", transcription: "[waɪt skɜːrt]", translation: "белая юбка", imageSrc: "https://picsum.photos/id/66/200/200 " },
-  { english: "black cloud", transcription: "[blæk klaʊd]", translation: "чёрное облако", imageSrc: "https://picsum.photos/id/67/200/200 " },
-  { english: "white cloud", transcription: "[waɪt klaʊd]", translation: "белое облако", imageSrc: "https://picsum.photos/id/68/200/200 " },
-  { english: "big shop", transcription: "[bɪɡ ʃɒp]", translation: "большой магазин", imageSrc: "https://picsum.photos/id/69/200/200 " },
-  { english: "small shop", transcription: "[smɔːl ʃɒp]", translation: "маленький магазин", imageSrc: "https://picsum.photos/id/70/200/200 " },
-  { english: "big fish", transcription: "[bɪɡ fɪʃ]", translation: "большая рыба", imageSrc: "https://picsum.photos/id/71/200/200 " },
-  { english: "small fish", transcription: "[smɔːl fɪʃ]", translation: "маленькая рыба", imageSrc: "https://picsum.photos/id/72/200/200 " },
-  { english: "big house", transcription: "[bɪɡ haʊs]", translation: "большой дом", imageSrc: "https://picsum.photos/id/73/200/200 " },
-  { english: "small house", transcription: "[smɔːl haʊs]", translation: "маленький дом", imageSrc: "https://picsum.photos/id/74/200/200 " },
-  { english: "big car", transcription: "[bɪɡ kɑːr]", translation: "большая машина", imageSrc: "https://picsum.photos/id/75/200/200 " },
-  { english: "small car", transcription: "[smɔːl kɑːr]", translation: "маленькая машина", imageSrc: "https://picsum.photos/id/76/200/200 " },
-  { english: "big tree", transcription: "[bɪɡ triː]", translation: "большое дерево", imageSrc: "https://picsum.photos/id/77/200/200 " },
-  { english: "small tree", transcription: "[smɔːl triː]", translation: "маленькое дерево", imageSrc: "https://picsum.photos/id/78/200/200 " },
-  { english: "big spoon", transcription: "[bɪɡ spuːn]", translation: "большая ложка", imageSrc: "https://picsum.photos/id/79/200/200 " },
-  { english: "small spoon", transcription: "[smɔːl spuːn]", translation: "маленькая ложка", imageSrc: "https://picsum.photos/id/80/200/200 " },
-  { english: "big ring", transcription: "[bɪɡ rɪŋ]", translation: "большое кольцо", imageSrc: "https://picsum.photos/id/81/200/200 " },
-  { english: "small ring", transcription: "[smɔːl rɪŋ]", translation: "маленькое кольцо", imageSrc: "https://picsum.photos/id/82/200/200 " },
-  { english: "happy child", transcription: "[ˈhæpi tʃaɪld]", translation: "счастливый ребёнок", imageSrc: "https://picsum.photos/id/83/200/200 " },
-  { english: "sad child", transcription: "[sæd tʃaɪld]", translation: "грустный ребёнок", imageSrc: "https://picsum.photos/id/84/200/200 " },
-  { english: "happy boy", transcription: "[ˈhæpi bɔɪ]", translation: "счастливый мальчик", imageSrc: "https://picsum.photos/id/85/200/200 " },
-  { english: "sad boy", transcription: "[sæd bɔɪ]", translation: "грустный мальчик", imageSrc: "https://picsum.photos/id/86/200/200 " },
-  { english: "happy girl", transcription: "[ˈhæpi ɡɜːrl]", translation: "счастливая девочка", imageSrc: "https://picsum.photos/id/87/200/200 " },
-  { english: "sad girl", transcription: "[sæd ɡɜːrl]", translation: "грустная девочка", imageSrc: "https://picsum.photos/id/88/200/200 " },
-  { english: "happy sister", transcription: "[ˈhæpi ˈsɪstər]", translation: "счастливая сестра", imageSrc: "https://picsum.photos/id/89/200/200 " },
-  { english: "sad sister", transcription: "[sæd ˈsɪstər]", translation: "грустная сестра", imageSrc: "https://picsum.photos/id/90/200/200 " },
-  { english: "happy voice", transcription: "[ˈhæpi vɔɪs]", translation: "счастливый голос", imageSrc: "https://picsum.photos/id/91/200/200 " },
-  { english: "sad voice", transcription: "[sæd vɔɪs]", translation: "грустный голос", imageSrc: "https://picsum.photos/id/92/200/200 " }
-];
-            
-            let currentPhrase = {};
-            let availablePhrases = [...phrases];
+        document.querySelectorAll('.sound-btn').forEach(btn => {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.innerHTML = btn.dataset.description.replace(/\n/g, '<br>');
+            btn.appendChild(tooltip);
 
-            function showRandomPhrase() {
-    const phraseContainer = document.getElementById('phrase-container');
-    phraseContainer.classList.remove('visible');
+            let audio = null;
+            let isPlaying = false;
 
-    setTimeout(() => {
-        if (availablePhrases.length === 0) {
-            availablePhrases = [...phrases];
-        }
-
-        const randomIndex = Math.floor(Math.random() * availablePhrases.length);
-        currentPhrase = availablePhrases[randomIndex];
-        availablePhrases.splice(randomIndex, 1);
-
-        document.getElementById('phrase').textContent = currentPhrase.english;
-        document.getElementById('transcription').textContent = currentPhrase.transcription;
-        document.getElementById('translation').textContent = currentPhrase.translation; // ✅ Исправлено здесь
-
-        const imageElement = document.getElementById('phrase-image');
-        if (currentPhrase.imageSrc) {
-            imageElement.src = currentPhrase.imageSrc;
-            imageElement.style.display = "block";
-        } else {
-            imageElement.style.display = "none";
-        }
-
-        phraseContainer.classList.add('visible');
-    }, 300);
-}
-
-            function speakPhrase() {
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                    const speech = new SpeechSynthesisUtterance();
-                    speech.text = currentPhrase.english;
-                    speech.lang = 'en-US';
-                    speech.rate = parseFloat(document.getElementById('speedRange').value);
-                    window.speechSynthesis.speak(speech);
+            // Проверка видимости подсказки
+            // Проверка видимости подсказки
+            btn.addEventListener('mouseenter', () => {
+                const rect = tooltip.getBoundingClientRect();
+                if (rect.left < 0) {
+                    tooltip.style.left = `${Math.abs(rect.left) + 50}px`;
                 } else {
-                    alert("Синтез речи не поддерживается вашим браузером.");
+                    tooltip.style.left = '50%';
                 }
-            }
-
-            const speedRange = document.getElementById('speedRange');
-            const speedDisplay = document.getElementById('speedDisplay');
-            speedRange.addEventListener('input', function() {
-                speedDisplay.textContent = `${speedRange.value}x`;
             });
 
-            document.getElementById('speak-phrase-btn').addEventListener('click', speakPhrase);
-            document.getElementById('next-phrase-btn').addEventListener('click', showRandomPhrase);
+            btn.addEventListener('mouseleave', () => {
+                tooltip.style.left = '50%';
+            });
 
-            showRandomPhrase();
+
+
+            btn.addEventListener('click', () => {
+                if (isPlaying) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                } else {
+                    audio = new Audio(btn.dataset.sound);
+                    audio.play().catch(err => console.error('Ошибка воспроизведения:', err));
+                }
+                isPlaying = !isPlaying;
+            });
         });
+
+        const audioFiles = {
+            adult: new Audio('abc26.mp3'),
+            child: new Audio('child.mp3')
+        };
+        // Устанавливаем скорость воспроизведения для обоих аудиофайлов
+        audioFiles.adult.playbackRate = 1.5; // Ускорение на 10%
+        audioFiles.child.playbackRate = 1.5; // Ускорение на 10%
+        const isPlayingAudio = { adult: false, child: false };
+
+        function toggleAudio(buttonId) {
+            const type = buttonId === 'adultButton' ? 'adult' : 'child';
+            const otherType = type === 'adult' ? 'child' : 'adult';
+
+            if (isPlayingAudio[type]) {
+                audioFiles[type].pause();
+                audioFiles[type].currentTime = 0;
+            } else {
+                audioFiles[type].play();
+                audioFiles[otherType].pause();
+                audioFiles[otherType].currentTime = 0;
+                isPlayingAudio[otherType] = false;
+            }
+            isPlayingAudio[type] = !isPlayingAudio[type];
+        }
+
+        document.getElementById('adultButton').addEventListener('click', () => toggleAudio('adultButton'));
+        document.getElementById('childButton').addEventListener('click', () => toggleAudio('childButton'));
+
+        function playSound(filename) {
+            new Audio(filename).play();
+        }
     </script>
 </body>
+
 </html>
