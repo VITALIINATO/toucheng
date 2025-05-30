@@ -2,12 +2,10 @@
 <html lang="ru">
 
 <head>
-  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English Sounds</title>
     <style>
-         
         /* Основные стили */
         * {
             box-sizing: border-box;
@@ -70,15 +68,10 @@
         /* Кнопки звука и транскрипции */
         .sound {
             display: flex;
-            /* flex-direction: column; */
-            align-items: center;
             gap: 30px;
             margin-bottom: 40px;
             justify-content: center;
         }
-
-        /* Подключение шрифта для IPA */
-      
 
         .alphabet-button,
         .transcription-button {
@@ -98,7 +91,6 @@
             background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.1);
             color: #00ffff;
-            /* text-transform: uppercase; */
         }
 
         .alphabet-symbol,
@@ -115,7 +107,6 @@
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), inset 0 0 20px rgba(0, 255, 255, 0.2);
             background: linear-gradient(145deg, #1e1e1e, #2d2d2d);
         }
-
 
         .tooltip {
             position: absolute;
@@ -199,6 +190,12 @@
             font-size: 1.5em;
             font-weight: bold;
             color: #00ffff;
+        }
+
+        .highlight,
+        .alphabet-symbol {
+            color: #04cc25;
+            /* Пример красного цвета текста */
         }
 
         .transcription {
@@ -391,36 +388,34 @@
             <!-- Кнопка для воспроизведения звука буквы -->
             <button class="alphabet-button" onclick="playAlphabetSound(sounds[currentIndex].alphabetSoundFile)"
                 id="alphabetButton"></button>
-
             <!-- Кнопка для воспроизведения звука транскрипции -->
             <button class="transcription-button" onclick="playSound(sounds[currentIndex].soundFile)"
                 id="transcriptionButton"></button>
-
         </div>
         <!-- Примеры слов -->
         <div class="examples-container">
             <div class="example-section">
                 <img class="example-image" id="image1" src="" alt="Изображение 1">
                 <button class="example-button" id="wordButton1" onclick="speak(sounds[currentIndex].example1)">
-                    <span class="word">${sounds[currentIndex].example1}</span><br>
-                    <span class="transcription">${sounds[currentIndex].transcription1}</span><br>
-                    <span class="translation">${sounds[currentIndex].translation1}</span>
+                    <span class="word" id="example1Text"></span><br>
+                    <span class="transcription" id="transcription1Text"></span><br>
+                    <span class="translation" id="translation1Text"></span>
                 </button>
             </div>
             <div class="example-section">
                 <img class="example-image" id="image2" src="" alt="Изображение 2">
                 <button class="example-button" id="wordButton2" onclick="speak(sounds[currentIndex].example2)">
-                    <span class="word">${sounds[currentIndex].example2}</span><br>
-                    <span class="transcription">${sounds[currentIndex].transcription2}</span><br>
-                    <span class="translation">${sounds[currentIndex].translation2}</span>
+                    <span class="word" id="example2Text"></span><br>
+                    <span class="transcription" id="transcription2Text"></span><br>
+                    <span class="translation" id="translation2Text"></span>
                 </button>
             </div>
             <div class="example-section">
                 <img class="example-image" id="image3" src="" alt="Изображение 3">
                 <button class="example-button" id="wordButton3" onclick="speak(sounds[currentIndex].example3)">
-                    <span class="word">${sounds[currentIndex].example3}</span><br>
-                    <span class="transcription">${sounds[currentIndex].transcription3}</span><br>
-                    <span class="translation">${sounds[currentIndex].translation3}</span>
+                    <span class="word" id="example3Text"></span><br>
+                    <span class="transcription" id="transcription3Text"></span><br>
+                    <span class="translation" id="translation3Text"></span>
                 </button>
             </div>
         </div>
@@ -438,88 +433,70 @@
         const sounds = [
             {
                 soundFile: "ew.mp3",
-                alphabetButton: "ew", // Название буквы
-                transcriptionButton: "[juː]", // Транскрипция
+                alphabetButton: "ew",
+                transcriptionButton: "[juː]",
                 tooltip: "juː",
                 example1: "new", transcription1: "[njuː]", translation1: "новый", image1: "new.jpg",
                 example2: "few", transcription2: "[fjuː]", translation2: "несколько", image2: "few.jpg",
-                example3: "dew ", transcription3: "[djuː]", translation3: "роса", image3: "dew.jpg",
-
+                example3: "dew", transcription3: "[djuː]", translation3: "роса", image3: "dew.jpg",
             },
-
-             {
+            {
                 soundFile: "igh.mp3",
-                alphabetButton: "igh", // Название буквы
-                transcriptionButton: "[aɪ]", // Транскрипция
+                alphabetButton: "igh",
+                transcriptionButton: "[aɪ]",
                 tooltip: "aɪ",
                 example1: "light", transcription1: "[laɪt]", translation1: "светлый", image1: "light.jpg",
                 example2: "night", transcription2: "[naɪt]", translation2: "ночь", image2: "night.jpg",
-                example3: "high ", transcription3: "[haɪ]", translation3: "высокий", image3: "high.jpg",
-
+                example3: "high", transcription3: "[haɪ]", translation3: "высокий", image3: "high.jpg",
             },
-
-              {
+            {
                 soundFile: "ck.mp3",
-                alphabetButton: "ck", // Название буквы
-                transcriptionButton: "[k]", // Транскрипция
+                alphabetButton: "ck",
+                transcriptionButton: "[k]",
                 tooltip: "k",
                 example1: "black", transcription1: "[blæk]", translation1: "черный", image1: "black.jpg",
                 example2: "neck", transcription2: "[nek]", translation2: "шея", image2: "neck.jpg",
-                example3: "duck ", transcription3: "[dʌk]", translation3: "утка", image3: "duck.jpg",
+                example3: "duck", transcription3: "[dʌk]", translation3: "утка", image3: "duck.jpg",
             },
-
-            
-              {
+            {
                 soundFile: "wh.mp3",
-                alphabetButton: "wh", // Название буквы
-                transcriptionButton: "[w]", // Транскрипция
+                alphabetButton: "wh",
+                transcriptionButton: "[w]",
                 tooltip: "w",
                 example1: "white", transcription1: "[waɪt]", translation1: "белый", image1: "white.jpg",
                 example2: "wheel", transcription2: "[wiːl]", translation2: "колесо", image2: "wheel.jpg",
-                example3: "whale  ", transcription3: "[weɪl]", translation3: "кит", image3: "whale.jpg",
+                example3: "whale", transcription3: "[weɪl]", translation3: "кит", image3: "whale.jpg",
             },
-
-            
-              {
+            {
                 soundFile: "all.mp3",
-                alphabetButton: "all", // Название буквы
-                transcriptionButton: "[ɔːl]", // Транскрипция
+                alphabetButton: "all",
+                transcriptionButton: "[ɔːl]",
                 tooltip: "ɔːl",
                 example1: "small", transcription1: "[smɔːl]", translation1: "маленький", image1: "small.jpg",
                 example2: "wall", transcription2: "[wɔːl]", translation2: "стена", image2: "wall.jpg",
-                example3: "ball  ", transcription3: "[bɔːl]", translation3: "мяч", image3: "ball.jpg",
+                example3: "ball", transcription3: "[bɔːl]", translation3: "мяч", image3: "ball.jpg",
             },
-
-           
-
         ];
         let currentIndex = 0;
 
-        // Воспроизведение звука для алфавита
         function playAlphabetSound(file) {
             const audio = document.getElementById("audioPlayer");
             audio.src = file;
             audio.play().catch(error => console.error("Ошибка воспроизведения:", error));
         }
 
-        // Воспроизведение основного звука
         function playSound(file) {
             const audio = document.getElementById("audioPlayer");
             audio.src = file;
             audio.play().catch(error => console.error("Ошибка воспроизведения:", error));
         }
 
-        // Генерация текстового произношения
-
-
-
         function speak(text) {
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = "en-US"; // Устанавливаем язык текста
-            speechSynthesis.speak(utterance); // Голос берется из системных настроек по умолчанию
+            utterance.lang = "en-US";
+            speechSynthesis.speak(utterance);
         }
 
-        // Переключение на предыдущий звук
         function prevSound() {
             if (currentIndex > 0) {
                 currentIndex--;
@@ -527,7 +504,6 @@
             }
         }
 
-        // Переключение на следующий звук
         function nextSound() {
             if (currentIndex < sounds.length - 1) {
                 currentIndex++;
@@ -535,7 +511,6 @@
             }
         }
 
-        // Создание полной навигации
         function createFullNavigation() {
             const navContainer = document.getElementById("fullNav");
             navContainer.innerHTML = "";
@@ -554,80 +529,55 @@
             });
         }
 
-        // Обновление активного состояния в навигации
         function updateActiveNav() {
             const navItems = document.querySelectorAll(".nav-item");
             navItems.forEach((item, index) => {
+                item.classList.remove("active");
                 if (index === currentIndex) {
                     item.classList.add("active");
-                } else {
-                    item.classList.remove("active");
                 }
             });
         }
 
-        // Обновление контента
-
-
+        function highlightSubstring(word, substring) {
+            if (!substring) return word;
+            const regex = new RegExp(`(${substring})`, 'gi');
+            return word.replace(regex, '<span class="highlight">$1</span>');
+        }
 
         function updateContent() {
+            const current = sounds[currentIndex];
 
-
-            // Установка текста для кнопки с буквой алфавита
+            // Обновление кнопки алфавита
             document.getElementById("alphabetButton").innerHTML = `
-        <span class="alphabet-label"></span>  
-        <span class="alphabet-symbol">${sounds[currentIndex].alphabetButton}</span>`;
+    <span class="alphabet-label"></span>  
+    <span class="alphabet-symbol">${current.alphabetButton}</span>`;
 
-            // Установка текста для кнопки с транскрипцией
-            // Внутри функции updateContent()
-            // Установка текста для кнопки с транскрипцией
+            // Обновление кнопки транскрипции
             document.getElementById("transcriptionButton").innerHTML = `
-    <span class="transcription-label">звук</span> 
-    <span class="transcription-symbol">${sounds[currentIndex].transcriptionButton}</span>
-    <div class="tooltip">${sounds[currentIndex].tooltip}</div>`; // Добавляем тултип
+                <span class="transcription-label">звук</span> 
+                <span class="transcription-symbol">${current.transcriptionButton}</span>
+                <div class="tooltip">${current.tooltip}</div>`;
 
             // Примеры слов
-            document.getElementById("image1").src = sounds[currentIndex].image1;
-            document.getElementById("wordButton1").innerHTML = `
-        <span class="word">${sounds[currentIndex].example1}</span><br>
-        <span class="transcription">${sounds[currentIndex].transcription1}</span><br>
-        <span class="translation">${sounds[currentIndex].translation1}</span>`;
-            document.getElementById("image2").src = sounds[currentIndex].image2;
-            document.getElementById("wordButton2").innerHTML = `
-        <span class="word">${sounds[currentIndex].example2}</span><br>
-        <span class="transcription">${sounds[currentIndex].transcription2}</span><br>
-        <span class="translation">${sounds[currentIndex].translation2}</span>`;
-            document.getElementById("image3").src = sounds[currentIndex].image3;
-            document.getElementById("wordButton3").innerHTML = `
-        <span class="word">${sounds[currentIndex].example3}</span><br>
-        <span class="transcription">${sounds[currentIndex].transcription3}</span><br>
-        <span class="translation">${sounds[currentIndex].translation3}</span>`;
+            document.getElementById("image1").src = current.image1;
+            document.getElementById("example1Text").innerHTML = highlightSubstring(current.example1, current.alphabetButton);
+            document.getElementById("transcription1Text").textContent = current.transcription1;
+            document.getElementById("translation1Text").textContent = current.translation1;
 
-            // Обновляем активный элемент навигации
+            document.getElementById("image2").src = current.image2;
+            document.getElementById("example2Text").innerHTML = highlightSubstring(current.example2, current.alphabetButton);
+            document.getElementById("transcription2Text").textContent = current.transcription2;
+            document.getElementById("translation2Text").textContent = current.translation2;
+
+            document.getElementById("image3").src = current.image3;
+            document.getElementById("example3Text").innerHTML = highlightSubstring(current.example3, current.alphabetButton);
+            document.getElementById("transcription3Text").textContent = current.transcription3;
+            document.getElementById("translation3Text").textContent = current.translation3;
+
             updateActiveNav();
         }
 
-
-        function prevSound() {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateContent();
-            } else {
-                console.warn("Вы уже на первом элементе.");
-            }
-        }
-
-        function nextSound() {
-            if (currentIndex < sounds.length - 1) {
-                currentIndex++;
-                updateContent();
-            } else {
-                console.warn("Вы уже на последнем элементе.");
-            }
-        }
-
-
-        // Инициализация при загрузке страницы
         window.onload = function () {
             updateContent();
             createFullNavigation();
